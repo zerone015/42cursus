@@ -10,17 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memcpy(void *restrict dest, const void *restrict src, size_t size)
-{
-	size_t	i;
+void	*ft_memcpy(void *dest, const void *src, size_t size)
+{	
+	unsigned char	*dest_temp;
+	unsigned char	*src_temp;
 
-	if (!dest && !src)
-		return (0);
-	i = 0;
-	while (i < size)
-	{
-		*((unsigned char *) dest + i) = *((unsigned char *) src + i);
-		i++;
-	}
+	dest_temp = (unsigned char *) dest;
+	src_temp = (unsigned char *) src;
+	if (dest == src)
+		return (dest);
+	while (size--)
+		*(dest_temp++) = *(src_temp++);
 	return (dest);
 }
