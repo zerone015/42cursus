@@ -13,7 +13,7 @@
 void	*ft_memchr(const void *str, int value, size_t size)
 {
 	unsigned char	*temp;
-	size_t		i;
+	size_t			i;
 
 	temp = (unsigned char *) str;
 	i = 0;
