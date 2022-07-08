@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/05 20:56:18 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/08 22:21:49 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/08 17:32:40 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/08 22:05:13 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strrchr(const char *str, int value)
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*str_rear;
+	size_t	start;
+	size_t	end;
 
-	str_rear = str + ft_strlen(str);
-	while (str <= str_rear)
-	{
-		if (*str_rear == value)
-			return (str_rear);
-		str_rear--;
-	}
-	return (0);
+	if (!s1)
+		return (0);
+	start = 0;
+	end = ft_strlen(s1) - 1;
+	while (s1[start] != '\0' && ft_strchr(set, s1[start]))
+		start++;
+	if (start >= (end + 1))
+		return ((char *) ft_calloc(1, sizeof(char)));
+	while (ft_strchr(set, s1[end]))
+		end--;
+	return (ft_substr(s1, start, (end - start + 1)));
 }

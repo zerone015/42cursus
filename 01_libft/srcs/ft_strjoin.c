@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/05 20:56:18 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/08 22:21:49 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/08 16:31:32 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/08 20:06:14 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strrchr(const char *str, int value)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*str_rear;
+	char	*str;
+	size_t	str_len;
 
-	str_rear = str + ft_strlen(str);
-	while (str <= str_rear)
+	str_len = ft_strlen(s1) + ft_strlen(s2);
+	str = (char *) malloc(str_len + 1);
+	if (str == 0)
+		return (0);
+	while (*s1 != '\0')
 	{
-		if (*str_rear == value)
-			return (str_rear);
-		str_rear--;
+		*str = *s1;
+		str++;
+		s1++;
 	}
-	return (0);
+	while (*s2 != '\0')
+	{
+		*str = *s2;
+		str++;
+		s2++;
+	}
+	*str = '\0';
+	return (str - str_len);
 }
