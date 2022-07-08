@@ -6,16 +6,16 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:47:41 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/08 22:14:01 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/09 02:11:41 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void	*ft_memset(void *ptr, int value, size_t size)
 {
-	unsigned char	*temp;
+	unsigned char	*ptr_tmp;
 
-	temp = (unsigned char *) ptr;
+	ptr_tmp = (unsigned char *) ptr;
 	while (size--)
-		*(temp++) = (unsigned char)value;
+		*ptr_tmp++ = (unsigned char) value;
 	return (ptr);
 }

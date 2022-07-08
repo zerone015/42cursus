@@ -6,20 +6,20 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 16:36:18 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/05 19:45:26 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/09 01:40:53 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void	*ft_memcpy(void *dest, const void *src, size_t size)
 {	
-	unsigned char	*dest_temp;
-	unsigned char	*src_temp;
+	unsigned char	*dest_tmp;
+	unsigned char	*src_tmp;
 
-	dest_temp = (unsigned char *) dest;
-	src_temp = (unsigned char *) src;
+	dest_tmp = (unsigned char *) dest;
+	src_tmp = (unsigned char *) src;
 	if (dest == src)
 		return (dest);
 	while (size--)
-		*(dest_temp++) = *(src_temp++);
+		*dest_tmp++ = *src_tmp++;
 	return (dest);
 }

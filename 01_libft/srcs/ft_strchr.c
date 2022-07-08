@@ -6,22 +6,19 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:35:28 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/08 22:16:40 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/09 02:14:01 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 char	*ft_strchr(const char *str, int value)
 {
-	char	c;
-
-	c = (unsigned char) value;
 	while (*str != '\0')
 	{
-		if (*str == c)
-			return (str);
+		if (*str == (char) value)
+			return ((char *) str);
 		str++;
 	}
-	if (c == '\0')
-		return (str);
+	if ((char) value == '\0')
+		return ((char *) str);
 	return (0);
 }

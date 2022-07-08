@@ -6,20 +6,20 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 21:10:11 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/08 22:13:25 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/09 02:10:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memchr(const void *str, int value, size_t size)
+void	*ft_memchr(const void *ptr, int value, size_t size)
 {
-	unsigned char	*temp;
+	unsigned char	*ptr_tmp;
 
-	temp = (unsigned char *) str;
+	ptr_tmp = (unsigned char *) ptr;
 	while (size--)
 	{
-		if (*temp == (unsigned char)value)
-			return (temp);
-		temp++;
+		if (*ptr_tmp == (unsigned char) value)
+			return (ptr_tmp);
+		ptr_tmp++;
 	}
 	return (0);
 }

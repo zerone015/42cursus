@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 00:52:15 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/08 19:27:17 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/09 01:54:06 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ char	*ft_strdup(const char *src)
 	if (str == 0)
 		return (0);
 	while (*src != '\0')
-	{
-		*str = *src;
-		str++;
-		src++;
-	}
+		*str++ = *src++;
 	*str = '\0';
 	return (str - src_len);
 }

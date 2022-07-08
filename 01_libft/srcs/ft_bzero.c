@@ -6,15 +6,15 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 16:21:12 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/04 21:33:30 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/09 01:48:51 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void	ft_bzero(void *ptr, size_t size)
 {
-	unsigned char	*temp;
+	unsigned char	*ptr_tmp;
 
-	temp = (unsigned char *) ptr;
+	ptr_tmp = (unsigned char *) ptr;
 	while (size--)
-		*(temp++) = 0;
+		*ptr_tmp++ = 0;
 }
