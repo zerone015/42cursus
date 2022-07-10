@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:21:01 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 01:41:18 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/10 18:28:23 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ char	*ft_substr(char const *str, unsigned int start, size_t len)
 	while (len--)
 		*tmp++ = *str++;
 	*tmp = '\0';
-	return (temp);
+	return (tmp);
 }
