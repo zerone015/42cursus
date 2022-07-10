@@ -6,13 +6,13 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:04:52 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 15:47:55 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/10 18:19:20 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_nbrlen(int nbr)
+static int	ft_nbrlen(int nbr)
 {
 	int	len;
 

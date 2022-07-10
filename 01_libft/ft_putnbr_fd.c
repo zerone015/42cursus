@@ -6,13 +6,13 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 00:45:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 01:39:53 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/10 18:21:21 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	put_nbr(long long nbr, int fd)
+static void	put_nbr(long long nbr, int fd)
 {
 	if (!nbr)
 		return ;

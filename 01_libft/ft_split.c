@@ -6,13 +6,13 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:15:57 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 01:40:08 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/10 18:21:50 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	is_word(char c, char charset)
+static int	is_word(char c, char charset)
 {
 	if (c == charset)
 		return (0);
@@ -20,7 +20,7 @@ int	is_word(char c, char charset)
 		return (1);
 }
 
-size_t	get_size(const char *str, char charset)
+static size_t	get_size(const char *str, char charset)
 {
 	size_t	size;
 
@@ -39,7 +39,7 @@ size_t	get_size(const char *str, char charset)
 	return (size);
 }
 
-char	**free_all(char **str_array, size_t count)
+static char	**free_all(char **str_array, size_t count)
 {
 	size_t	i;
 
