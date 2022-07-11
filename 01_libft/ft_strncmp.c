@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:14:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 01:40:59 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/11 21:48:14 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
+	unsigned char	s1_c;
+	unsigned char	s2_c;
+
 	while (n--)
 	{
-		if (*s1 != *s2 || *s1 == '\0')
-			return (*s1 - *s2);
+		s1_c = *s1;
+		s2_c = *s2;
+		if (s1_c != s2_c || s1_c == '\0')
+			return (s1_c - s2_c);
 		s1++;
 		s2++;
 	}

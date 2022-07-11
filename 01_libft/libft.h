@@ -6,15 +6,15 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:35:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 18:23:38 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/11 21:44:26 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <limits.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <limits.h>
 
 typedef struct s_list
 {

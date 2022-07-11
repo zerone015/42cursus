@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 21:38:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 18:28:54 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/11 21:48:11 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	size_t	i;
 	size_t	len;
 
+	if (!s || !f)
+		return (0);
 	len = ft_strlen(s);
 	str = (char *) malloc(sizeof(char) * (len + 1));
 	if (!str)

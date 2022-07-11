@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 19:44:57 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 01:40:43 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/11 21:48:06 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,13 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
 	size_t	src_len;
 
-	src_len = 0;
-	while (src[src_len] != '\0')
-		src_len++;
-	if (size < 1)
+	src_len = ft_strlen(src);
+	if (!size)
 		return (src_len);
-	while (--size)
+	while (*src && size - 1)
 	{
-		*dest = *src;
-		if (*src != '\0')
-			src++;
-		dest++;
+		*dest++ = *src++;
+		size--;
 	}
 	*dest = '\0';
 	return (src_len);

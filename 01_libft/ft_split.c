@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:15:57 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 18:21:50 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/11 21:47:48 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,31 +53,40 @@ static char	**free_all(char **str_array, size_t count)
 	return (0);
 }
 
-char	**ft_split(char const *str, char charset)
+char	**get_str_array(char **str_array, char const *str, char charset)
 {
-	char		**str_array;
-	const char	*ptr;
+	const char	*tmp;	
 	size_t		i;
 
-	str_array = (char **) malloc(sizeof(char *) * (get_size(str, charset) + 1));
-	if (!str_array)
-		return (0);
 	i = 0;
 	while (*str)
 	{
 		if (is_word(*str, charset))
 		{
-			ptr = str;
+			tmp = str;
 			while (*str && is_word(*str, charset))
 				str++;
-			str_array[i] = (char *) malloc(sizeof(char) * (str - ptr + 1));
+			str_array[i] = (char *) malloc(sizeof(char) * (str - tmp + 1));
 			if (!str_array[i])
 				return (free_all(str_array, i));
-			ft_strlcpy(str_array[i++], ptr, str - ptr + 1);
+			ft_strlcpy(str_array[i++], tmp, str - tmp + 1);
 		}
 		else
 			str++;
 	}
 	str_array[i] = 0;
+	return (str_array);
+}
+
+char	**ft_split(char const *str, char charset)
+{
+	char		**str_array;
+
+	if (!str)
+		return (0);
+	str_array = (char **) malloc(sizeof(char *) * (get_size(str, charset) + 1));
+	if (!str_array)
+		return (0);
+	str_array = get_str_array(str_array, str, charset);
 	return (str_array);
 }
