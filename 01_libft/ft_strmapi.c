@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 21:38:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/11 21:48:11 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 21:06:17 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 		return (0);
 	i = 0;
 	while (i < len)
-		*str++ = f(i++, *s++);
-	*str = '\0';
-	return (str - len);
+	{
+		str[i] = f(i, s[i]);
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

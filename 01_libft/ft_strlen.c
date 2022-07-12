@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:36:30 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/11 21:48:09 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 21:09:06 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *str)
 	size_t	len;
 
 	len = 0;
-	while (*str++)
+	while (str[len])
 		len++;
 	return (len);
 }
