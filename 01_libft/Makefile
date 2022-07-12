@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/10 18:10:46 by yoson             #+#    #+#              #
-#    Updated: 2022/07/10 20:21:53 by yoson            ###   ########.fr        #
+#    Updated: 2022/07/12 16:58:56 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,18 +29,25 @@ SRCS = ft_memcmp.c ft_memmove.c ft_bzero.c ft_memchr.c ft_memcpy.c \
        ft_tolower.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c \
        ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c \
        ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
-OBJS = $(SRCS:.c=.o)
-BOBJS = $(BSRCS:.c=.o)
+OBJS = $(SRCS:%.c=%.o)
+BOBJS = $(BSRCS:%.c=%.o)
+ifdef WITH_BONUS
+    OBJ_FILES = $(OBJS) $(BOBJS)
+else
+    OBJ_FILES = $(OBJS)
+endif
+
 all : $(NAME)
 %.o : %.c
 	$(CC) $(FLAGS) -c $< -o $@
-$(NAME) : $(OBJS)
+$(NAME) : $(OBJ_FILES)
 	ar rcs $@ $^
-bonus: $(BOBJS)
-	ar rcs $(NAME) $^
-clean :
-	rm -f $(BOBJS) $(OBJS)
+bonus : 
+	sleep 1
+	make WITH_BONUS=1 all
+clean : 
+	rm -f $(OBJS) $(BOBJS)
 fclean : clean
 	rm -f $(NAME)
 re : fclean all
-.PHONY: all clean fclean re bonus
+.PHONY: all bonus clean fclean re

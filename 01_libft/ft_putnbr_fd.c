@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 00:45:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/11 21:47:37 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 14:36:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ void	ft_putnbr_fd(int n, int fd)
 {
 	long long	nbr;
 
+	if (!n)
+	{
+		write(fd, "0", 1);
+		return ;
+	}
 	nbr = n;
 	if (n < 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 14:40:32 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 14:51:24 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 18:15:47 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*tmp;
 
-	if (!new)
+	if (!lst || !new)
 		return ;
 	if (!*lst)
 	{

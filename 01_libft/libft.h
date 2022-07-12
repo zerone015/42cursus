@@ -6,15 +6,15 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:35:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/11 21:44:26 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 18:09:25 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
 # define LIBFT_H
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <limits.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <limits.h>
 
 typedef struct s_list
 {
@@ -53,7 +53,7 @@ void	*ft_calloc(size_t count, size_t size);
 char	**ft_split(char const *str, char charset);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_substr(char const *str, unsigned int start, size_t len);
+char	*ft_substr(char const *src, unsigned int start, size_t len);
 
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putendl_fd(char *s, int fd);
