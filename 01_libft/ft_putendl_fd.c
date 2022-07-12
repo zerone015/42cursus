@@ -6,10 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 00:42:36 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/11 21:47:34 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 21:46:38 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "libft.h"
 
 void	ft_putendl_fd(char *s, int fd)

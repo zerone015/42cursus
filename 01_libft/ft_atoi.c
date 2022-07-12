@@ -6,10 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 00:43:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 15:02:14 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 21:42:19 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include "libft.h"
 
 static int	check_over_range(unsigned long long sum, int sign)

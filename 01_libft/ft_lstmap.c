@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 15:20:42 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 19:28:32 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 22:00:59 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		if (!new_lst)
 		{
 			ft_lstclear(&tmp, del);
-			return (0);
+			return (NULL);
 		}
 		ft_lstadd_back(&tmp, new_lst);
 		lst = lst->next;

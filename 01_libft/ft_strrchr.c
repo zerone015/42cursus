@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:56:18 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 18:26:58 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 22:04:39 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ char	*ft_strrchr(const char *str, int c)
 			return (str_rear);
 		str_rear--;
 	}
-	return (0);
+	return (NULL);
 }

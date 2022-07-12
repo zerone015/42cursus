@@ -6,10 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 00:31:11 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/11 21:47:32 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 21:46:20 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "libft.h"
 
 void	ft_putchar_fd(char c, int fd)

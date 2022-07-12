@@ -6,10 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 00:52:15 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/11 21:47:53 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 22:03:00 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
 
 char	*ft_strdup(const char *src)
@@ -20,7 +21,7 @@ char	*ft_strdup(const char *src)
 	src_len = ft_strlen(src);
 	str = (char *) malloc(sizeof(char) * (src_len + 1));
 	if (!str)
-		return (0);
+		return (NULL);
 	while (*src)
 		*str++ = *src++;
 	*str = '\0';

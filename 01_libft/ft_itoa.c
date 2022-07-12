@@ -6,10 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:04:52 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/11 21:46:59 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 21:59:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
 
 static int	get_digit_len(int digit)
@@ -65,7 +66,7 @@ char	*ft_itoa(int n)
 	len = get_digit_len(n);
 	digit_str = (char *) malloc(sizeof(char) * (len + 1));
 	if (!digit_str)
-		return (0);
+		return (NULL);
 	digit_str = get_digit_str(digit_str, n, len);
 	if (n < 0)
 		digit_str[0] = '-';

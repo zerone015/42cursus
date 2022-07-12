@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:35:28 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 02:08:16 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 22:02:52 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ char	*ft_strchr(const char *str, int c)
 	}
 	if ((char) c == '\0')
 		return ((char *) str);
-	return (0);
+	return (NULL);
 }

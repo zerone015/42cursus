@@ -6,10 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:21:01 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 21:27:59 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 22:05:25 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
 
 static size_t	get_len(char const *src, unsigned int start)
@@ -29,14 +30,14 @@ char	*ft_substr(char const *src, unsigned int start, size_t len)
 	size_t	i;
 
 	if (!src)
-		return (0);
+		return (NULL);
 	if (ft_strlen(src) <= start)
 		return (ft_strdup(""));
 	if (ft_strlen(src) < len)
 		len = get_len(src, start);
 	str = (char *) malloc(sizeof(char) * (len + 1));
 	if (!str)
-		return (0);
+		return (NULL);
 	src += start;
 	i = 0;
 	while (src[i] && len--)

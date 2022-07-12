@@ -6,10 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:15:57 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/11 21:47:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 22:02:41 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
 
 static int	is_word(char c, char charset)
@@ -50,7 +51,7 @@ static char	**free_all(char **str_array, size_t count)
 		i++;
 	}
 	free(str_array);
-	return (0);
+	return (NULL);
 }
 
 char	**get_str_array(char **str_array, char const *str, char charset)
@@ -83,10 +84,10 @@ char	**ft_split(char const *str, char charset)
 	char		**str_array;
 
 	if (!str)
-		return (0);
+		return (NULL);
 	str_array = (char **) malloc(sizeof(char *) * (get_size(str, charset) + 1));
 	if (!str_array)
-		return (0);
+		return (NULL);
 	str_array = get_str_array(str_array, str, charset);
 	return (str_array);
 }

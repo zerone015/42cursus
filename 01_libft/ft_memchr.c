@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 21:10:11 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 17:41:06 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/12 22:07:25 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ void	*ft_memchr(const void *str, int c, size_t n)
 			return (str_tmp);
 		str_tmp++;
 	}
-	return (0);
+	return (NULL);
 }
