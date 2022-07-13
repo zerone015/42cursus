@@ -6,20 +6,20 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 00:43:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 21:42:19 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/13 23:13:37 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "libft.h"
 
-static int	check_over_range(unsigned long long sum, int sign)
+static int	check_over_range(unsigned long long num, int sign)
 {
-	if (sum > LLONG_MAX - 1 && sign == -1)
+	if (num > LLONG_MAX - 1 && sign == -1)
 		return (0);
-	if (sum > LLONG_MAX && sign == 1)
+	if (num > LLONG_MAX && sign == 1)
 		return (-1);
-	return (sum * sign);
+	return (num * sign);
 }
 
 int	ft_atoi(const char *str)

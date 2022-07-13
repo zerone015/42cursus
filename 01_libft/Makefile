@@ -6,12 +6,12 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/10 18:10:46 by yoson             #+#    #+#              #
-#    Updated: 2022/07/12 16:58:56 by yoson            ###   ########.fr        #
+#    Updated: 2022/07/13 23:12:56 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-CC = gcc
+CC = cc
 FLAGS = -Wall -Wextra -Werror
 BSRCS = ft_lstnew.c \
        ft_lstadd_front.c \
@@ -43,7 +43,6 @@ all : $(NAME)
 $(NAME) : $(OBJ_FILES)
 	ar rcs $@ $^
 bonus : 
-	sleep 1
 	make WITH_BONUS=1 all
 clean : 
 	rm -f $(OBJS) $(BOBJS)

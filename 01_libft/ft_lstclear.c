@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 14:58:09 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 15:15:59 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/13 23:38:29 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,4 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 		ft_lstdelone(*lst, del);
 		*lst = tmp;
 	}
-	*lst = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 14:01:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 22:01:17 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/13 23:15:56 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ t_list	*ft_lstnew(void *content)
 	if (!new)
 		return (NULL);
 	new->content = content;
-	new->next = 0;
+	new->next = NULL;
 	return (new);
 }
