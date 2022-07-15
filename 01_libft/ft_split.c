@@ -6,32 +6,32 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:15:57 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/13 21:53:00 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/15 18:40:23 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-static int	is_word(char c, char charset)
+static int	is_word(char c, char sep)
 {
-	if (c == charset)
+	if (c == sep)
 		return (0);
 	else
 		return (1);
 }
 
-static size_t	get_size(const char *str, char charset)
+static size_t	get_size(const char *str, char sep)
 {
 	size_t	size;
 
 	size = 0;
 	while (*str)
 	{
-		if (is_word(*str, charset))
+		if (is_word(*str, sep))
 		{
 			size++;
-			while (*str != '\0' && is_word(*str, charset))
+			while (*str != '\0' && is_word(*str, sep))
 				str++;
 		}
 		else
@@ -54,7 +54,7 @@ static char	**free_all(char **str_array, size_t count)
 	return (NULL);
 }
 
-char	**get_str_array(char **str_array, char const *str, char charset)
+char	**get_str_array(char **str_array, char const *str, char sep)
 {
 	const char	*tmp;	
 	size_t		i;
@@ -62,10 +62,10 @@ char	**get_str_array(char **str_array, char const *str, char charset)
 	i = 0;
 	while (*str)
 	{
-		if (is_word(*str, charset))
+		if (is_word(*str, sep))
 		{
 			tmp = str;
-			while (*str && is_word(*str, charset))
+			while (*str && is_word(*str, sep))
 				str++;
 			str_array[i] = (char *) malloc(sizeof(char) * (str - tmp + 1));
 			if (!str_array[i])
@@ -79,15 +79,15 @@ char	**get_str_array(char **str_array, char const *str, char charset)
 	return (str_array);
 }
 
-char	**ft_split(char const *str, char charset)
+char	**ft_split(char const *str, char sep)
 {
 	char		**str_array;
 
 	if (!str)
 		return (NULL);
-	str_array = (char **) malloc(sizeof(char *) * (get_size(str, charset) + 1));
+	str_array = (char **) malloc(sizeof(char *) * (get_size(str, sep) + 1));
 	if (!str_array)
 		return (NULL);
-	str_array = get_str_array(str_array, str, charset);
+	str_array = get_str_array(str_array, str, sep);
 	return (str_array);
 }

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 00:44:27 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 22:04:31 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/15 19:29:17 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strnstr(const char *str, const char *to_find, size_t len)
 	if (!to_find[0])
 		return ((char *) str);
 	i = 0;
-	while (str[i] && i < len)
+	while (i < len && str[i])
 	{
 		j = 0;
 		while (str[i] == to_find[j] && str[i] && i < len)

@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/10 18:10:46 by yoson             #+#    #+#              #
-#    Updated: 2022/07/14 17:44:35 by yoson            ###   ########.fr        #
+#    Updated: 2022/07/15 19:30:13 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ all : $(NAME)
 $(NAME) : $(OBJ_FILES)
 	ar rcs $@ $^
 bonus :
+	sleep 1
 	make WITH_BONUS=1 all
 clean : 
 	rm -f $(OBJS) $(BOBJS)
