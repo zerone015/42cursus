@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:21:01 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/15 22:05:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/16 21:51:22 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ char	*ft_substr(char const *src, unsigned int start, size_t len)
 	char	*str;
 	size_t	i;
 
-	if (!src)
-		return (NULL);
 	if (ft_strlen(src) <= start)
 		return (ft_strdup(""));
 	if (ft_strlen(src) < start + len)

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:15:57 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/15 18:40:23 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/16 21:50:00 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ char	**ft_split(char const *str, char sep)
 {
 	char		**str_array;
 
-	if (!str)
-		return (NULL);
 	str_array = (char **) malloc(sizeof(char *) * (get_size(str, sep) + 1));
 	if (!str_array)
 		return (NULL);

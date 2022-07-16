@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 17:32:40 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/14 02:19:52 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/16 21:51:08 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	start;
 	size_t	end;
 
-	if (!s1 || !set)
-		return (NULL);
 	start = 0;
 	end = ft_strlen(s1) - 1;
 	while (s1[start] != '\0' && ft_strchr(set, s1[start]))

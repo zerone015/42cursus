@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 14:53:11 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/14 17:30:56 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/16 21:49:14 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-	if (!lst)
-		return ;
 	if (del)
 		del(lst->content);
 	free(lst);
