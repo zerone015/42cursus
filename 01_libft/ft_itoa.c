@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:04:52 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 21:59:57 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/17 23:30:51 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	get_digit_len(int digit)
 	len = 0;
 	if (digit <= 0)
 		len++;
-	while (digit != 0)
+	while (digit)
 	{
 		digit /= 10;
 		len++;

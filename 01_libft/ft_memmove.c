@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 20:46:42 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 22:01:54 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/17 23:32:23 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ft_memmove(void *dest, const void *src, size_t len)
 	unsigned char	*dest_tmp;
 	unsigned char	*src_tmp;
 
-	if (dest == src || len < 1)
+	if (!len || dest == src)
 		return (dest);
 	if (dest > src)
 	{
