@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:06:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/18 19:03:58 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/18 20:06:20 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,15 @@ char	*get_next_line(int fd)
 	{
 		backup[fd] = ft_strdup("");
 		if (!backup[fd])
-		{
-			free(buffer);
-			return (NULL);
-		}
+			return (ft_free(&buffer));
 	}
 	line = read_line(fd, buffer, backup[fd]);
 	free(buffer);
 	if (!line)
+	{
+		backup[fd] = NULL;
 		return (NULL);
+	}
 	backup[fd] = substr_line(&line);
 	return (line);
 }

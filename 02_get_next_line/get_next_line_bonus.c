@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 19:06:24 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/18 19:21:32 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/18 20:06:29 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include <unistd.h>
 #include <limits.h>
 
-static	char	*ft_free(char **line)
+static	char	*ft_free(char **ptr)
 {
-	free(*line);
-	*line = NULL;
+	free(*ptr);
+	*ptr = NULL;
 	return (NULL);
 }
 
@@ -91,15 +91,15 @@ char	*get_next_line(int fd)
 	{
 		backup[fd] = ft_strdup("");
 		if (!backup[fd])
-		{
-			free(buffer);
-			return (NULL);
-		}
+			return (ft_free(&buffer));
 	}
 	line = read_line(fd, buffer, backup[fd]);
 	free(buffer);
 	if (!line)
+	{
+		backup[fd] = NULL;
 		return (NULL);
+	}
 	backup[fd] = substr_line(&line);
 	return (line);
 }
