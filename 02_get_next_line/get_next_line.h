@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:07:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/14 20:39:46 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/18 14:09:21 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 # include <stdlib.h>
 
 char	*get_next_line(int fd);
-size_t	gnl_strlen(const char *str);
-char	*gnl_strdup(const char *src);
-void	gnl_strlcpy(char *dest, const char *src, size_t len);
+size_t	ft_strlen(const char *str);
+char	*ft_strdup(const char *src);
+char	*ft_strchr(const char *str, int c);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_substr(char const *src, unsigned int start, size_t len);
 
 #endif
