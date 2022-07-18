@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 19:06:24 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/18 20:06:29 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/19 00:47:16 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ static char	*read_line(int fd, char *buffer, char *backup)
 		if (read_size == 0)
 			break ;
 		if (read_size == -1)
-		{
-			free(backup);
-			return (NULL);
-		}
+			return (ft_free(&backup));
 		buffer[read_size] = '\0';
 		temp = backup;
 		backup = ft_strjoin(backup, buffer);
@@ -51,28 +48,28 @@ static char	*read_line(int fd, char *buffer, char *backup)
 
 static	char	*substr_line(char **line)
 {
+	char	*one_line;
 	char	*backup;
-	char	*temp;
 	int		i;
 
-	if (!(**line))
+	if (*line[0] == '\0')
 		return (ft_free(line));
 	i = 0;
 	while ((*line)[i] != '\n' && (*line)[i] != '\0')
 		i++;
 	if ((*line)[i] == '\0' || (*line)[i + 1] == '\0')
 		return (NULL);
-	temp = ft_substr(*line, 0, i + 1);
-	if (!temp)
+	one_line = ft_substr(*line, 0, i + 1);
+	if (!one_line)
 		return (ft_free(line));
 	backup = ft_substr(*line, i + 1, ft_strlen(*line) - i - 1);
 	if (!backup)
 	{
-		free(temp);
+		free(one_line);
 		return (ft_free(line));
 	}
 	free(*line);
-	*line = temp;
+	*line = one_line;
 	return (backup);
 }
 
