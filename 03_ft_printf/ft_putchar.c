@@ -6,14 +6,14 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 19:04:30 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/19 19:15:08 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/20 03:30:11 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <unistd.h>
 
-size_t	ft_putchar(char c)
+int	ft_putchar(char c)
 {
 	return (write(1, &c, 1));
 }

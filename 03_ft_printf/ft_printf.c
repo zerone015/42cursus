@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:50:41 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/20 02:00:33 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/20 03:39:13 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static int	parse_type(char c, va_list ap)
 {
 	if (c == 'c')
-		return (ft_putchar((unsigned char) va_arg(ap, int)));
+		return (ft_putchar(va_arg(ap, int)));
 	else if (c == 's')
 		return (ft_putstr(va_arg(ap, char *)));
 	else if (c == 'p')
@@ -39,14 +39,22 @@ static int	parse_type(char c, va_list ap)
 static int	parse_format(const char *format, va_list ap)
 {
 	int	print_len;
+	int	temp;
 
 	print_len = 0;
 	while (*format)
 	{
 		if (*format == '%')
-			print_len += parse_type(*(++format), ap);
+		{
+			temp = parse_type(*(++format), ap);
+			if (temp == -1)
+				return (-1);
+			print_len += temp;
+		}
 		else
+		{
 			print_len += write(1, format, 1);
+		}
 		format++;
 	}
 	return (print_len);

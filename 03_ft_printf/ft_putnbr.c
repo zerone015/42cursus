@@ -6,19 +6,37 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:33:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/20 02:05:21 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/20 03:11:43 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <unistd.h>
 
-static void	put_nbr(long long nbr)
+static int	zero_print(void)
+{
+	return (write(1, "0", 1));
+}
+
+static void	print(long long nbr)
 {
 	if (!nbr)
 		return ;
-	put_nbr(nbr / 10);
+	print(nbr / 10);
 	write(1, &"0123456789"[nbr % 10], 1);
+}
+
+static int	get_nbrlen(int n)
+{
+	int	len;
+
+	len = 0;
+	while (n)
+	{
+		len++;
+		n /= 10;
+	}
+	return (len);
 }
 
 int	ft_putnbr(int n)
@@ -26,23 +44,16 @@ int	ft_putnbr(int n)
 	long long	nbr;
 	int			print_len;
 
-	print_len = 0;
 	if (!n)
-	{
-		print_len += write(1, "0", 1);
-		return (print_len);
-	}
+		return (zero_print());
+	print_len = 0;
 	nbr = n;
 	if (n < 0)
 	{
 		nbr *= -1;
 		print_len += write(1, "-", 1);
 	}
-	put_nbr(nbr);
-	while (nbr)
-	{
-		nbr /= 10;
-		print_len++;
-	}
+	print(nbr);
+	print_len += get_nbrlen(n);
 	return (print_len);
 }

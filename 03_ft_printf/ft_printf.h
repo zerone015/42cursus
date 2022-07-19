@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:52:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/20 00:57:00 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/20 03:29:53 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include <stddef.h>
 
 int		ft_printf(const char *format, ...);
-size_t	ft_putchar(char c);
-size_t	ft_putstr(char *str);
+int		ft_putchar(char c);
+int		ft_putstr(char *str);
 int		ft_putnbr(int n);
 int		ft_putunbr(unsigned int n);
 size_t	ft_strlen(char *str);
