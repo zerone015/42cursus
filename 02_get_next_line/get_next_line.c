@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:06:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/19 00:45:51 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/20 01:10:21 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ static	char	*substr_line(char **line)
 	char	*backup;
 	int		i;
 
+	if (*line == NULL)
+		return (NULL);
 	if (*line[0] == '\0')
 		return (ft_free(line));
 	i = 0;
@@ -77,26 +79,21 @@ char	*get_next_line(int fd)
 {
 	char		*buffer;
 	char		*line;
-	static char	*backup[OPEN_MAX];
+	static char	*backup;
 
 	if (fd < 0 || BUFFER_SIZE < 1 || fd > OPEN_MAX)
 		return (NULL);
 	buffer = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	if (!backup[fd])
+	if (!backup)
 	{
-		backup[fd] = ft_strdup("");
-		if (!backup[fd])
+		backup = ft_strdup("");
+		if (!backup)
 			return (ft_free(&buffer));
 	}
-	line = read_line(fd, buffer, backup[fd]);
+	line = read_line(fd, buffer, backup);
 	free(buffer);
-	if (!line)
-	{
-		backup[fd] = NULL;
-		return (NULL);
-	}
-	backup[fd] = substr_line(&line);
+	backup = substr_line(&line);
 	return (line);
 }
