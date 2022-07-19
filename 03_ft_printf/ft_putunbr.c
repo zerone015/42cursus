@@ -6,14 +6,14 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:40:54 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/19 21:31:45 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/19 22:00:39 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <unistd.h>
 
-static void	put_nbr(long long nbr)
+static void	put_nbr(unsigned int nbr)
 {
 	if (!nbr)
 		return ;
