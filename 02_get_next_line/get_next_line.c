@@ -6,13 +6,12 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:06:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/20 01:10:21 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/20 01:19:10 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <unistd.h>
-#include <limits.h>
 
 static	char	*ft_free(char **ptr)
 {
@@ -81,7 +80,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*backup;
 
-	if (fd < 0 || BUFFER_SIZE < 1 || fd > OPEN_MAX)
+	if (BUFFER_SIZE < 1)
 		return (NULL);
 	buffer = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
