@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_address_hex_print.c                             :+:      :+:    :+:   */
+/*   ft_address_hexprint.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 21:59:25 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/19 21:59:30 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/19 22:34:37 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/19 22:34:38 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	recursive_print(uintptr_t address, int len)
 	return (len);
 }
 
-int	ft_address_hex_print(uintptr_t address)
+int	ft_address_hexprint(uintptr_t address)
 {
 	int	len;
 

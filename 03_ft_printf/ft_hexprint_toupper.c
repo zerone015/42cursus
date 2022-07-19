@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hex_print_toupper.c                             :+:      :+:    :+:   */
+/*   ft_hexprint_toupper.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 21:53:24 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/19 22:08:29 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/19 22:35:21 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/19 22:35:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	recursive_print(unsigned int n, int len)
 	return (len);
 }
 
-int	ft_hex_print_toupper(unsigned int n)
+int	ft_hexprint_toupper(unsigned int n)
 {
 	int	len;
 

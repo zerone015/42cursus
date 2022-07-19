@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hex_print_tolower.c                             :+:      :+:    :+:   */
+/*   ft_hexprint_tolower.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 21:45:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/19 22:08:21 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/19 22:34:58 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/19 22:35:00 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	recursive_print(unsigned int n, int len)
 	return (len);
 }
 
-int	ft_hex_print_tolower(unsigned int n)
+int	ft_hexprint_tolower(unsigned int n)
 {
 	int	len;
 
