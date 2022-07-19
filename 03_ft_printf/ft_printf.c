@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:50:41 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/20 03:39:13 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/20 03:49:44 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	parse_type(char c, va_list ap)
 		return (0);
 }
 
-static int	parse_format(const char *format, va_list ap)
+static int	parse_format(va_list ap, const char *format)
 {
 	int	print_len;
 	int	temp;
@@ -66,7 +66,7 @@ int	ft_printf(const char *format, ...)
 	int		print_len;
 
 	va_start(ap, format);
-	print_len = parse_format(format, ap);
+	print_len = parse_format(ap, format);
 	va_end(ap);
 	return (print_len);
 }
