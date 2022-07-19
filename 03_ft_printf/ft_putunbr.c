@@ -1,26 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   ft_putunbr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/10 14:23:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/10 14:42:46 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/19 20:40:54 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/19 21:31:45 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
+#include <unistd.h>
 
-int	ft_lstsize(t_list *lst)
+static void	put_nbr(long long nbr)
 {
-	int	size;
+	if (!nbr)
+		return ;
+	put_nbr(nbr / 10);
+	write(1, &"0123456789"[nbr % 10], 1);
+}
 
-	size = 0;
-	while (lst)
+int	ft_putunbr(unsigned int n)
+{
+	int	len;
+
+	len = 0;
+	if (!n)
 	{
-		size++;
-		lst = lst->next;
+		len += write(1, "0", 1);
+		return (len);
 	}
-	return (size);
+	put_nbr(n);
+	while (n)
+	{
+		n /= 10;
+		len++;
+	}
+	return (len);
 }

@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_hex_print_tolower.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/05 19:44:57 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 22:03:38 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/19 21:45:02 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/19 21:54:48 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
+#include <unistd.h>
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+static int	recursive_print(unsigned int n, int len)
 {
-	size_t	src_len;
+	if (!n)
+		return (0);
+	len = recursive_print(n / 16, len);
+	write(1, &"0123456789abcdef"[n % 16], 1);
+	len++;
+	return (len);
+}
 
-	src_len = ft_strlen(src);
-	if (!size)
-		return (src_len);
-	while (*src && size - 1)
+int	ft_hex_print_tolower(unsigned int n)
+{
+	int	len;
+
+	if (!n)
 	{
-		*dest++ = *src++;
-		size--;
+		len += write(1, "0", 1);
+		return (len);
 	}
-	*dest = '\0';
-	return (src_len);
+	len += recursive_print(n, 0);
+	return (len);
 }

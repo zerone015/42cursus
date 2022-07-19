@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_hex_print_toupper.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/05 20:56:18 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 22:04:39 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/19 21:53:24 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/19 21:54:13 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
+#include <unistd.h>
 
-char	*ft_strrchr(const char *str, int c)
+static int	recursive_print(unsigned int n, int len)
 {
-	char	*str_rear;
+	if (!n)
+		return (0);
+	len = recursive_print(n / 16, len);
+	write(1, &"0123456789ABCDEF"[n % 16], 1);
+	len++;
+	return (len);
+}
 
-	str_rear = (char *) str + ft_strlen(str);
-	while (str <= str_rear)
+int	ft_hex_print_toupper(unsigned int n)
+{
+	int	len;
+
+	if (!n)
 	{
-		if (*str_rear == (char) c)
-			return (str_rear);
-		str_rear--;
+		len += write(1, "0", 1);
+		return (len);
 	}
-	return (NULL);
+	len += recursive_print(n, 0);
+	return (len);
 }
