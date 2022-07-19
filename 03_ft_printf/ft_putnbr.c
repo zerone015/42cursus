@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:33:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/19 21:32:03 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/20 02:05:21 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,25 @@ static void	put_nbr(long long nbr)
 int	ft_putnbr(int n)
 {
 	long long	nbr;
-	int			len;
+	int			print_len;
 
-	len = 0;
+	print_len = 0;
 	if (!n)
 	{
-		len += write(1, "0", 1);
-		return (len);
+		print_len += write(1, "0", 1);
+		return (print_len);
 	}
 	nbr = n;
 	if (n < 0)
 	{
 		nbr *= -1;
-		len += write(1, "-", 1);
+		print_len += write(1, "-", 1);
 	}
 	put_nbr(nbr);
 	while (nbr)
 	{
 		nbr /= 10;
-		len++;
+		print_len++;
 	}
-	return (len);
+	return (print_len);
 }
