@@ -6,11 +6,12 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:50:41 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/19 21:57:25 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/19 22:31:35 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdarg.h>
 #include <unistd.h>
 
 static int	print_arg(char c, va_list ap)
@@ -31,6 +32,8 @@ static int	print_arg(char c, va_list ap)
 		return (ft_hex_print_toupper(va_arg(ap, unsigned int)));
 	else if (c == '%')
 		return (write(1, "%", 1));
+	else
+		return (0);
 }
 
 static int	parse_format(const char *format, va_list ap)
@@ -55,6 +58,7 @@ int	ft_printf(const char *format, ...)
 	int		result;
 
 	va_start(ap, format);
-	result = parse_format(ap, fortmat);
+	result = parse_format(format, ap);
+	va_end(ap);
 	return (result);
 }

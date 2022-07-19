@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 21:53:24 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/19 21:54:13 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/19 22:08:29 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	ft_hex_print_toupper(unsigned int n)
 {
 	int	len;
 
+	len = 0;
 	if (!n)
 	{
 		len += write(1, "0", 1);

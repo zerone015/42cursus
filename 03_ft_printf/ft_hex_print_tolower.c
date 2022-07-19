@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 21:45:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/19 21:54:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/19 22:08:21 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	ft_hex_print_tolower(unsigned int n)
 {
 	int	len;
 
+	len = 0;
 	if (!n)
 	{
 		len += write(1, "0", 1);
