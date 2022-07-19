@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/19 22:02:26 by yoson             #+#    #+#              #
-#    Updated: 2022/07/19 22:35:43 by yoson            ###   ########.fr        #
+#    Updated: 2022/07/20 00:55:52 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = libftprintf.a
 CC = cc
 FLAGS = -Wall -Wextra -Werror
 SRCS = ft_printf.c ft_putchar.c ft_putnbr.c ft_putstr.c ft_putunbr.c ft_strlen.c \
-	   ft_address_hexprint.c ft_hexprint_tolower.c ft_hexprint_toupper.c
+	   ft_puthex_address.c ft_puthex_tolower.c ft_puthex_toupper.c
 OBJS = $(SRCS:%.c=%.o)
 
 all : $(NAME)

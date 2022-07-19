@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_address_hexprint.c                              :+:      :+:    :+:   */
+/*   ft_puthex_tolower.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 22:34:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/19 22:34:38 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/20 00:52:22 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/20 00:53:23 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <unistd.h>
 
-static int	recursive_print(uintptr_t address, int len)
+static int	print(unsigned int n, int len)
 {
-	if (!address)
+	if (!n)
 		return (0);
-	len = recursive_print(address / 16, len);
-	write(1, &"0123456789abcdef"[address % 16], 1);
+	len = print(n / 16, len);
+	write(1, &"0123456789abcdef"[n % 16], 1);
 	len++;
 	return (len);
 }
 
-int	ft_address_hexprint(uintptr_t address)
+int	ft_puthex_tolower(unsigned int n)
 {
 	int	len;
 
-	len = write(1, "0x", 2);
-	if (!address)
+	len = 0;
+	if (!n)
 	{
 		len += write(1, "0", 1);
 		return (len);
 	}
-	len += recursive_print(address, 0);
+	len += print(n, 0);
 	return (len);
 }
