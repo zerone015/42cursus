@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:50:41 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 04:14:11 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 07:18:05 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 
 static void	init(t_info info)
 {
-	info.width = DISABLE;
+	info.width = 0;
 	info.zero = DISABLE;
 	info.space = DISABLE;
 	info.plus = DISABLE;
 	info.sharp = DISABLE;
 	info.minus = DISABLE;
-	info.precision = DISABLE;
+	info.dot = DISABLE;
+	info.precision = 0;
 }
 
 static int	parse_format(va_list ap, const char *format)
