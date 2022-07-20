@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:29:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 06:21:59 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 07:01:43 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	parse_precision(t_info *info, const char **format)
 {
 	if (**format == '.')
 	{
+		info->dot = ENABLE;
 		(*format)++;
 		while (ft_isdigit(**format))
 		{

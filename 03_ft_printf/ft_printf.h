@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:52:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 06:27:33 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 07:00:48 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_info
 	int			plus;
 	int			sharp;
 	int			minus;
+	int			dot;
 	int			precision;
 }	t_info;
 
