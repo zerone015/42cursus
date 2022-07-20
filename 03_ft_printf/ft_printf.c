@@ -6,13 +6,24 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:50:41 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/20 03:49:44 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/20 22:35:32 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdarg.h>
 #include <unistd.h>
+
+static void	init_struct(t_info info)
+{
+	info.width = 0;
+	info.zero = 0;
+	info.space = 0;
+	info.plus = 0;
+	info.sharp = 0;
+	info.minus = 0;
+	info.precision = 0;
+}
 
 static int	parse_type(char c, va_list ap)
 {
@@ -38,15 +49,20 @@ static int	parse_type(char c, va_list ap)
 
 static int	parse_format(va_list ap, const char *format)
 {
-	int	print_len;
-	int	temp;
+	t_info	info;
+	int		print_len;
+	int		temp;
 
 	print_len = 0;
 	while (*format)
 	{
 		if (*format == '%')
 		{
-			temp = parse_type(*(++format), ap);
+			init_struct(&info);
+			parse_flag(&info, &(++format));
+			parse_width(&info, &format);
+			parse_precision(&info, &format);
+			temp = parse_type(*format, ap);
 			if (temp == -1)
 				return (-1);
 			print_len += temp;

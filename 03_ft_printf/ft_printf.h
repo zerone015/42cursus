@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:52:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/20 03:29:53 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/20 22:24:12 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 # define FT_PRINTF_H
 
 # include <stddef.h>
+
+typedef struct s_info
+{
+	int	width;
+	int	zero;
+	int	space;
+	int	plus;
+	int	sharp;
+	int	minus;
+	int	precision;
+}	t_info;
 
 int		ft_printf(const char *format, ...);
 int		ft_putchar(char c);
