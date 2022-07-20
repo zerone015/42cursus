@@ -1,51 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_puthex_tolower.c                                :+:      :+:    :+:   */
+/*   print_percent.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/20 00:52:22 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/20 16:48:27 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/21 02:12:54 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/21 06:28:28 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_print.h"
 #include <unistd.h>
+#include <limits.h>
 
-static int	zero_print(void)
-{
-	return (write(1, "0", 1));
-}
-
-static void	print(unsigned int n)
-{
-	if (!n)
-		return ;
-	print(n / 16);
-	write(1, &"0123456789abcdef"[n % 16], 1);
-}
-
-static int	get_hexlen(unsigned int n)
-{
-	int	len;
-
-	len = 0;
-	while (n)
-	{
-		len++;
-		n /= 16;
-	}
-	return (len);
-}
-
-int	ft_puthex_tolower(unsigned int n)
+int	print_percent(t_info *info)
 {
 	int	print_len;
 
-	if (!n)
-		return (zero_print());
-	print(n);
-	print_len = get_hexlen(n);
+	if (info->width >= INT_MAX)
+		return (ERROR);
+	print_len = 0;
+	if (info->minus == DISABLE && info->zero == DISABLE)
+		print_len += putnchar(' ', info->width - 1);
+	else if (info->minus == DISABLE && info->zero == ENABLE)
+		print_len += putnchar('0', info->width - 1);
+	print_len += write(1, "%", 1);
+	if (info->minus == ENABLE && info->width > 0)
+		print_len += putnchar(' ', info->width - 1);
 	return (print_len);
 }

@@ -1,19 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   print_char.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 19:04:30 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/20 03:30:11 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/21 01:39:41 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/21 06:19:10 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdarg.h>
 #include <unistd.h>
+#include <limits.h>
 
-int	ft_putchar(char c)
+int	print_char(va_list ap, t_info info)
 {
-	return (write(1, &c, 1));
+	char	c;
+	int		print_len;
+
+	if (info->width >= INT_MAX)
+		return (ERROR);
+	print_len = 0;
+	if (info->minus == DISABLE)
+		print_len += putnchar(' ', info->width - 1);
+	c = va_arg(ap, int);
+	print_len += write(1, &c, 1);
+	if (info->minus == ENABLE)
+		print_len += putnchar(' ', info->width - 1);
+	return (print_len);
 }

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:52:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/20 22:24:12 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 06:27:33 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,19 @@
 
 # include <stddef.h>
 
+# define ERROR -1
+# define ENABLE 1
+# define DISABLE 0
+
 typedef struct s_info
 {
-	int	width;
-	int	zero;
-	int	space;
-	int	plus;
-	int	sharp;
-	int	minus;
-	int	precision;
+	long long	width;
+	int			zero;
+	int			space;
+	int			plus;
+	int			sharp;
+	int			minus;
+	int			precision;
 }	t_info;
 
 int		ft_printf(const char *format, ...);
