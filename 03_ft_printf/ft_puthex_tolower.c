@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:52:22 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/20 03:13:58 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/20 16:48:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	zero_print(void)
 static void	print(unsigned int n)
 {
 	if (!n)
-		return (0);
+		return ;
 	print(n / 16);
 	write(1, &"0123456789abcdef"[n % 16], 1);
 }

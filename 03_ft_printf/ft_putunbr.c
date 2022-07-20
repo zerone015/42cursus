@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:40:54 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/20 03:10:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/20 16:47:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static int	get_nbrlen(unsigned int n)
 {
 	int	print_len;
 
-	len = 0;
+	print_len = 0;
 	while (n)
 	{
-		len++;
+		print_len++;
 		n /= 10;
 	}
-	return (len);
+	return (print_len);
 }
 
 int	ft_putunbr(unsigned int n)
