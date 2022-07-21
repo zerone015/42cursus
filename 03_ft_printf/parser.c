@@ -17,7 +17,9 @@ void	parse_flag(t_info *info, const char **format)
 {
 	while (is_flag(**format))
 	{
-		if (**format == ' ')
+		if (**format == '0')
+			info->zero = ENABLE;
+		else if (**format == ' ')
 			info->space = ENABLE;
 		else if (**format == '+')
 			info->plus = ENABLE;
@@ -27,6 +29,8 @@ void	parse_flag(t_info *info, const char **format)
 			info->sharp = ENABLE;
 		(*format)++;
 	}
+	if (info->plus == ENABLE && info->space == ENABLE)
+		info->space = DISABLE;
 }
 
 void	parse_width(t_info *info, const char **format)
@@ -34,12 +38,6 @@ void	parse_width(t_info *info, const char **format)
 	int	count;
 
 	count = 0;
-	if (**format == '0')
-	{
-		info->zero = ENABLE;
-		while (**format != '0')
-			(*format)++;
-	}
 	while (ft_isdigit(**format) && count < 10)
 	{
 		info->width *= 10;
@@ -55,6 +53,7 @@ void	parse_precision(t_info *info, const char **format)
 {
 	if (**format == '.')
 	{
+		info->zero = DISABLE;
 		info->dot = ENABLE;
 		(*format)++;
 		while (ft_isdigit(**format))

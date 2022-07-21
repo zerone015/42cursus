@@ -18,7 +18,7 @@ static int	get_nbrlen(unsigned int nbr, t_info *info)
 {
 	int	len;
 
-	if (info->dot == ENABLE && info->precision == 0)
+	if (info->dot == ENABLE && info->precision == 0 && nbr == 0)
 		return (0);
 	len = 0;
 	if (nbr == 0)
@@ -36,7 +36,7 @@ static int	print(char nbr_arr[], unsigned int n, int len)
 	int	print_len;
 
 	if (len == 0)
-		return (0);
+		return (0);	
 	nbr_arr[len--] = '\0';
 	if (n == 0)
 		nbr_arr[len] = '0';

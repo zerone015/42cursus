@@ -23,7 +23,7 @@ int	ft_isdigit(char c)
 
 int	is_flag(char c)
 {
-	if (c == ' ' || c == '+' || c == '#' || c == '-')
+	if (c == ' ' || c == '+' || c == '#' || c == '-' || c == '0')
 		return (1);
 	return (0);
 }

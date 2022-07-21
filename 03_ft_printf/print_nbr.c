@@ -16,29 +16,32 @@
 
 static int	print_sign(t_info *info, int nbr)
 {
-	if (nbr < 0)
-		return (write(1, "-", 1));
-	else if (info->plus == ENABLE)
-		return (write(1, "+", 1));
-	else if (info->space == ENABLE)
-		return (write(1, " ", 1));
-	else
-		return (0);
+	int	print_len;
+
+	print_len = 0;
+	if (info->plus == ENABLE && nbr >= 0)
+		print_len += write(1, "+", 1);
+	else if (info->space == ENABLE && nbr >= 0)
+		print_len += write(1, " ", 1);
+	else if (nbr < 0)
+		print_len += write(1, "-", 1);
+	return (print_len);
 }
 
 static int	sign_exists(t_info *info, int nbr)
 {
+	if (info->space == ENABLE && nbr >= 0)
+		return (1);
 	if (info->plus == ENABLE || nbr < 0)
 		return (1);
-	else
-		return (0);
+	return (0);
 }
 
 static int	get_nbrlen(int nbr, t_info *info)
 {
 	int	len;
 
-	if (info->dot == ENABLE && info->precision == 0)
+	if (info->dot == ENABLE && info->precision == 0 && nbr == 0)
 		return (0);
 	len = 0;
 	if (nbr == 0)
@@ -84,17 +87,20 @@ int	print_nbr(va_list ap, t_info *info)
 		return (ERROR);
 	nbr = va_arg(ap, int);
 	info->width -= get_max(info->precision, get_nbrlen(nbr, info)) + \
-		sign_exists(info, nbr) + (info->space - info->plus);
+		sign_exists(info, nbr);
 	print_len = 0;
-	print_len += print_sign(info, nbr);
 	if ((info->minus == DISABLE && info->zero == DISABLE) || \
 		(info->minus == DISABLE && info->dot == ENABLE))
 		print_len += putnchar(' ', info->width);
 	else if (info->minus == DISABLE && info->zero == ENABLE)
+	{
+		print_len += print_sign(info, nbr);
 		print_len += putnchar('0', info->width);
-	gap = info->precision - get_nbrlen(nbr, info);
-	if (info->plus == ENABLE)
-		gap--;
+	}
+	gap = 0;
+	gap += info->precision - get_nbrlen(nbr, info);
+	if (info->zero == DISABLE)
+		print_len += print_sign(info, nbr);
 	print_len += putnchar('0', gap);
 	print_len += print(nbr_arr, nbr, get_nbrlen(nbr, info));
 	if (info->minus == ENABLE)
