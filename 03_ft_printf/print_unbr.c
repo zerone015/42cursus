@@ -14,10 +14,12 @@
 #include <unistd.h>
 #include <limits.h>
 
-static int	get_nbrlen(unsigned int nbr)
+static int	get_nbrlen(unsigned int nbr, t_info *info)
 {
 	int	len;
 
+	if (info->dot == ENABLE && info->precision == 0)
+		return (0);
 	len = 0;
 	if (nbr == 0)
 		len++;
@@ -33,6 +35,8 @@ static int	print(char nbr_arr[], unsigned int n, int len)
 {
 	int	print_len;
 
+	if (len == 0)
+		return (0);
 	nbr_arr[len--] = '\0';
 	if (n == 0)
 		nbr_arr[len] = '0';
@@ -55,17 +59,16 @@ int	print_unbr(va_list ap, t_info *info)
 	if (info->width >= INT_MAX)
 		return (ERROR);
 	nbr = va_arg(ap, int);
-	info->width -= get_max(info->precision, get_nbrlen(nbr));
+	info->width -= get_max(info->precision, get_nbrlen(nbr, info));
 	print_len = 0;
 	if ((info->minus == DISABLE && info->zero == DISABLE) || \
 		(info->minus == DISABLE && info->dot == ENABLE))
 		print_len += putnchar(' ', info->width);
 	else if (info->minus == DISABLE && info->zero == ENABLE)
 		print_len += putnchar('0', info->width);
-	gap = info->precision - get_nbrlen(nbr);
-		gap--;
+	gap = info->precision - get_nbrlen(nbr, info);
 	print_len += putnchar('0', gap);
-	print_len += print(nbr_arr, nbr, get_nbrlen(nbr));
+	print_len += print(nbr_arr, nbr, get_nbrlen(nbr, info));
 	if (info->minus == ENABLE)
 		print_len += putnchar(' ', info->width);
 	return (print_len);

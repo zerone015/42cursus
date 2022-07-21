@@ -64,7 +64,7 @@ int	print_hex_lower(va_list ap, t_info *info)
 		print_len += putnchar('0', info->width);
 	gap = info->precision - (get_hexlen(n) + info->sharp * 2);
 	print_len += putnchar('0', gap);
-	if (info->sharp == ENABLE)
+	if (info->sharp == ENABLE && n > 0)
 		print_len += write(1, "0x", 2);
 	print_len += print(hex_arr, n, get_hexlen(n));
 	if (info->minus == ENABLE)

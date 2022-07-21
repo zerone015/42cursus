@@ -32,6 +32,8 @@ all : $(NAME)
 	$(CC) $(FLAGS) -c $< -o $@
 $(NAME) : $(OBJS)
 	ar rcs $@ $^
+bonus :
+	make all
 clean : 
 	rm -f $(OBJS) $(BOBJS)
 fclean : clean
