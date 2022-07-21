@@ -54,25 +54,24 @@ int	print_hex_lower(va_list ap, t_info *info)
 	char			hex_arr[9];
 	unsigned int	n;
 	int				print_len;
-	int				gap;
+	int				hex_len;
 
 	if (info->width >= INT_MAX)
 		return (ERROR);
 	n = va_arg(ap, unsigned int);
 	if (n == 0)
 		info->sharp = 0;
-	info->width -= get_max(info->precision, get_hexlen(n, info)) + info->sharp * 2;
+	hex_len = get_hexlen(n, info);
+	info->width -= get_max(info->precision, hex_len) + info->sharp * 2;
 	print_len = 0;
-	if ((info->minus == DISABLE && info->zero == DISABLE) || \
-		(info->minus == DISABLE && info->dot == ENABLE))
+	if (info->minus == DISABLE && info->zero == DISABLE)
 		print_len += putnchar(' ', info->width);
 	if (info->sharp == ENABLE && n > 0)
 		print_len += write(1, "0x", 2);
 	if (info->minus == DISABLE && info->zero == ENABLE && info->dot == DISABLE)
 		print_len += putnchar('0', info->width);
-	gap = info->precision - get_hexlen(n, info);
-	print_len += putnchar('0', gap);
-	print_len += print(hex_arr, n, get_hexlen(n, info));
+	print_len += putnchar('0', info->precision - hex_len);
+	print_len += print(hex_arr, n, hex_len);
 	if (info->minus == ENABLE)
 		print_len += putnchar(' ', info->width);
 	return (print_len);

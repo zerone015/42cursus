@@ -61,7 +61,7 @@ static int	print(char nbr_arr[], int n, int len)
 	if (n == -2147483648)
 		return (write(1, "2147483648", 10));
 	if (len == 0)
-		return  (0);
+		return (0);
 	if (n < 0)
 		n *= -1;
 	nbr_arr[len--] = '\0';
@@ -81,7 +81,6 @@ int	print_nbr(va_list ap, t_info *info)
 	char		nbr_arr[11];
 	int			nbr;
 	int			print_len;
-	int			gap;
 
 	if (info->width >= INT_MAX)
 		return (ERROR);
@@ -89,19 +88,16 @@ int	print_nbr(va_list ap, t_info *info)
 	info->width -= get_max(info->precision, get_nbrlen(nbr, info)) + \
 		sign_exists(info, nbr);
 	print_len = 0;
-	if ((info->minus == DISABLE && info->zero == DISABLE) || \
-		(info->minus == DISABLE && info->dot == ENABLE))
+	if (info->minus == DISABLE && info->zero == DISABLE)
 		print_len += putnchar(' ', info->width);
 	else if (info->minus == DISABLE && info->zero == ENABLE)
 	{
 		print_len += print_sign(info, nbr);
 		print_len += putnchar('0', info->width);
 	}
-	gap = 0;
-	gap += info->precision - get_nbrlen(nbr, info);
 	if (info->zero == DISABLE)
 		print_len += print_sign(info, nbr);
-	print_len += putnchar('0', gap);
+	print_len += putnchar('0', info->precision - get_nbrlen(nbr, info));
 	print_len += print(nbr_arr, nbr, get_nbrlen(nbr, info));
 	if (info->minus == ENABLE)
 		print_len += putnchar(' ', info->width);
