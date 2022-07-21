@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 05:14:55 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 15:49:46 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 17:02:43 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	print_hex_upper(va_list ap, t_info *info)
 	n = va_arg(ap, unsigned int);
 	info->width -= get_max(info->precision, get_hexlen(n)) + info->sharp * 2;
 	print_len = 0;
-	if ((info->minus == DISABLE && info->zero == DISABLE) || (info->minus == DISABLE && info->dot == ENABLE))
+	if ((info->minus == DISABLE && info->zero == DISABLE) || \
+		(info->minus == DISABLE && info->dot == ENABLE))
 		print_len += putnchar(' ', info->width);
 	else if (info->minus == DISABLE && info->zero == ENABLE)
 		print_len += putnchar('0', info->width);

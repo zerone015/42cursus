@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:29:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 16:31:28 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 16:44:16 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,33 @@ int	parse_type(t_info *info, va_list ap, char type)
 		print_len = print_percent(info);
 	else
 		print_len = 0;
+	return (print_len);
+}
+
+int	parse_format(va_list ap, const char *format)
+{
+	t_info	info;
+	int		print_len;
+	int		temp;
+
+	print_len = 0;
+	while (*format)
+	{
+		if (*format == '%')
+		{
+			init(&info);
+			format++;
+			parse_flag(&info, &format);
+			parse_width(&info, &format);
+			parse_precision(&info, &format);
+			temp = parse_type(&info, ap, *format);
+			if (temp == ERROR)
+				return (ERROR);
+			print_len += temp;
+		}
+		else
+			print_len += write(1, format, 1);
+		format++;
+	}
 	return (print_len);
 }

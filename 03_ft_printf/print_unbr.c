@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:40:54 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 16:40:24 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 16:59:16 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	print(char nbr_arr[], unsigned int n, int len)
 int	print_unbr(va_list ap, t_info *info)
 {
 	char		nbr_arr[11];
-	unsigned int		nbr;
+	unsigned int	nbr;
 	int			print_len;
 	int			gap;
 
@@ -58,7 +58,8 @@ int	print_unbr(va_list ap, t_info *info)
 	nbr = va_arg(ap, int);
 	info->width -= get_max(info->precision, get_nbrlen(nbr));
 	print_len = 0;
-	if ((info->minus == DISABLE && info->zero == DISABLE) || (info->minus == DISABLE && info->dot == ENABLE))
+	if ((info->minus == DISABLE && info->zero == DISABLE) || \
+		(info->minus == DISABLE && info->dot == ENABLE))
 		print_len += putnchar(' ', info->width);
 	else if (info->minus == DISABLE && info->zero == ENABLE)
 		print_len += putnchar('0', info->width);

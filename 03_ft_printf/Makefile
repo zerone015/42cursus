@@ -6,15 +6,25 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/19 22:02:26 by yoson             #+#    #+#              #
-#    Updated: 2022/07/20 00:55:52 by yoson            ###   ########.fr        #
+#    Updated: 2022/07/21 16:55:47 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 CC = cc
 FLAGS = -Wall -Wextra -Werror
-SRCS = ft_printf.c ft_putchar.c ft_putnbr.c ft_putstr.c ft_putunbr.c ft_strlen.c \
-	   ft_puthex_address.c ft_puthex_tolower.c ft_puthex_toupper.c
+SRCS = ft_printf.c \
+	init.c \
+	parser.c \
+	util.c \
+	print_char.c \
+	print_hex_address.c \
+	print_hex_lower.c \
+	print_hex_upper.c \
+	print_nbr.c \
+	print_percent.c \
+	print_str.c \
+	print_unbr.c
 OBJS = $(SRCS:%.c=%.o)
 
 all : $(NAME)

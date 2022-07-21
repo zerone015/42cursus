@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:33:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 16:37:21 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 17:01:39 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	print_sign(t_info *info, int nbr)
 	else if (info->space == ENABLE)
 		return (write(1, " ", 1));
 	else
-		return (0);		
+		return (0);
 }
 
 static int	sign_exists(t_info *info, int nbr)
@@ -55,7 +55,7 @@ static int	print(char nbr_arr[], int n, int len)
 	int	print_len;
 
 	if (n == "-2147483648")
-		return (write(1, "2147483648", 1));
+		return (write(1, "2147483648", 10));
 	if (n < 0)
 		n *= -1;
 	nbr_arr[len--] = '\0';
@@ -80,13 +80,15 @@ int	print_nbr(va_list ap, t_info *info)
 	if (info->width >= INT_MAX)
 		return (ERROR);
 	nbr = va_arg(ap, int);
-	info->width -= get_max(info->precision, get_nbrlen(nbr)) + sign_exists(info, nbr) + (info->space - info->plus);
+	info->width -= get_max(info->precision, get_nbrlen(nbr)) + \
+		sign_exists(info, nbr) + (info->space - info->plus);
 	print_len = 0;
-	if ((info->minus == DISABLE && info->zero == DISABLE) || (info->minus == DISABLE && info->dot == ENABLE))
+	if ((info->minus == DISABLE && info->zero == DISABLE) || \
+		(info->minus == DISABLE && info->dot == ENABLE))
 		print_len += putnchar(' ', info->width);
 	else if (info->minus == DISABLE && info->zero == ENABLE)
 		print_len += putnchar('0', info->width);
-	print_len += print_sign(info, nbr); 
+	print_len += print_sign(info, nbr);
 	gap = info->precision - get_nbrlen(nbr);
 	if (info->plus == ENABLE || nbr < 0)
 		gap--;

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:52:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 07:00:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 16:49:34 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,22 @@ typedef struct s_info
 }	t_info;
 
 int		ft_printf(const char *format, ...);
-int		ft_putchar(char c);
-int		ft_putstr(char *str);
-int		ft_putnbr(int n);
-int		ft_putunbr(unsigned int n);
-size_t	ft_strlen(char *str);
-int		ft_puthex_address(size_t address);
-int		ft_puthex_tolower(unsigned int n);
-int		ft_puthex_toupper(unsigned int n);
+
+void	struct_init(t_info info);
+
+void	parse_flag(t_info *info, const char **format);
+void	parse_width(t_info *info, const char **format);
+void	parse_precision(t_info *info, const char **format);
+int		parse_type(t_info *info, va_list ap, char type);
+int		parse_format(va_list ap, const char *format);
+
+int		print_char(va_list ap, t_info *info);
+int		print_hex_address(va_list ap, t_info *info);
+int		print_hex_lower(va_list ap, t_info *info);
+int		print_hex_upper(va_list ap, t_info *info);
+int		print_nbr(va_list ap, t_info *info);
+int		print_percent(t_info *info);
+int		print_str(va_list ap, t_info info);
+int		print_unbr(va_list ap, t_info *info);
 
 #endif
