@@ -13,18 +13,6 @@
 NAME = libftprintf.a
 CC = cc
 FLAGS = -Wall -Wextra -Werror
-BSRCS = ft_printf_bonus.c \
-       init_bonus.c \
-       parser_bonus.c \
-	   util_bonus.c \
-	   print_char_bonus.c \
-       print_hex_address_bonus.c \
-	   print_hex_lower_bonus.c \
-	   print_hex_upper_bonus.c \
-	   print_nbr_bonus.c \
-	   print_unbr_bonus.c \
-	   print_percent_bonus.c \
-	   print_str_bonus.c
 SRCS = ft_printf.c \
 	   init.c \
 	   parser.c \
@@ -38,20 +26,13 @@ SRCS = ft_printf.c \
 	   print_percent.c \
 	   print_str.c
 OBJS = $(SRCS:%.c=%.o)
-BOBJS = $(BSRCS:%.c=%.o)
-ifdef WITH_BONUS
-    OBJ_FILES = $(OBJS) $(BOBJS)
-else
-    OBJ_FILES = $(OBJS)
-endif
 
 all : $(NAME)
 %.o : %.c
 	$(CC) $(FLAGS) -c $< -o $@
-$(NAME) : $(OBJ_FILES)
+$(NAME) : $(OBJS)
 	ar rcs $@ $^
-bonus :
-	make WITH_BONUS=1 all
+bonus : $(NAME)
 clean : 
 	rm -f $(OBJS) $(BOBJS)
 fclean : clean
