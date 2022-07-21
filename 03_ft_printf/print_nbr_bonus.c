@@ -31,10 +31,10 @@ static int	print_sign(t_info *info, int nbr)
 static int	sign_exists(t_info *info, int nbr)
 {
 	if (info->space == ENABLE && nbr >= 0)
-		return (1);
+		return (TRUE);
 	if (info->plus == ENABLE || nbr < 0)
-		return (1);
-	return (0);
+		return (TRUE);
+	return (FALSE);
 }
 
 static int	get_nbrlen(int nbr, t_info *info)

@@ -16,16 +16,16 @@
 int	ft_isdigit(char c)
 {
 	if (c >= '0' && c <= '9')
-		return (1);
+		return (TRUE);
 	else
-		return (0);
+		return (FALSE);
 }
 
 int	is_flag(char c)
 {
 	if (c == ' ' || c == '+' || c == '#' || c == '-' || c == '0')
-		return (1);
-	return (0);
+		return (TRUE);
+	return (FALSE);
 }
 
 int	get_max(int a, int b)
