@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:29:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 07:01:43 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 16:31:28 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ int	parse_type(t_info *info, va_list ap, char type)
 	if (type == 'c')
 		print_len = print_char(ap, info);
 	else if (type == 's')
-		print_len = ft_putstr(ap, info);
+		print_len = print_str(ap, info);
 	else if (type == 'p')
 		print_len = print_hex_address(ap, info);
 	else if (type == 'd' || type == 'i')
-		print_len = ft_putnbr(ap, info);
+		print_len = print_nbr(ap, info);
 	else if (type == 'u')
-		print_len = ft_putunbr(ap, info);
+		print_len = print_unbr(ap, info);
 	else if (type == 'x')
 		print_len = print_hex_lower(ap, info);
 	else if (type == 'X')

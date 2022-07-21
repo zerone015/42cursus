@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_hex_lower.c                                  :+:      :+:    :+:   */
+/*   print_unbr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/21 04:23:14 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 15:51:58 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/19 20:40:54 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/21 16:40:24 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,58 +15,57 @@
 #include <unistd.h>
 #include <limits.h>
 
-static int	print(char hex_arr[], unsigned int n, int len)
-{
-	int	print_len;
-
-	hex_arr[len--] = '\0';
-	if (n == 0)
-		hex_arr[len] = '0';
-	while (n > 0)
-	{
-		hex_arr[len--] = "0123456789abcdef"[n % 16];
-		n /= 16;
-	}
-	print_len = write(1, hex_arr, ft_strlen(hex_arr));
-	return (print_len);
-}
-
-static int	get_hexlen(unsigned int n)
+static int	get_nbrlen(unsigned int nbr)
 {
 	int	len;
 
 	len = 0;
-	if (n == 0)
+	if (nbr == 0)
 		len++;
-	while (n)
+	while (nbr > 0)
 	{
 		len++;
-		n /= 16;
+		nbr /= 10;
 	}
 	return (len);
 }
 
-int	print_hex_lower(va_list ap, t_info *info)
+static int	print(char nbr_arr[], unsigned int n, int len)
 {
-	char		hex_arr[9];
-	unsigned int		n;
+	int	print_len;
+
+	nbr_arr[len--] = '\0';
+	if (n == 0)
+		nbr_arr[len] = '0';
+	while (n > 0)
+	{
+		nbr_arr[len--] = n % 10 + '0';
+		n /= 10;
+	}
+	print_len = write(1, nbr_arr, ft_strlen(nbr_arr));
+	return (print_len);
+}
+
+int	print_unbr(va_list ap, t_info *info)
+{
+	char		nbr_arr[11];
+	unsigned int		nbr;
 	int			print_len;
 	int			gap;
 
 	if (info->width >= INT_MAX)
 		return (ERROR);
-	n = va_arg(ap, unsigned int);
-	info->width -= get_max(info->precision, get_hexlen(n)) + info->sharp * 2;
+	nbr = va_arg(ap, int);
+	info->width -= get_max(info->precision, get_nbrlen(nbr));
 	print_len = 0;
 	if ((info->minus == DISABLE && info->zero == DISABLE) || (info->minus == DISABLE && info->dot == ENABLE))
 		print_len += putnchar(' ', info->width);
 	else if (info->minus == DISABLE && info->zero == ENABLE)
 		print_len += putnchar('0', info->width);
-	gap = info->precision - (get_hexlen(n) + info->sharp * 2);
+	gap = info->precision - get_nbrlen(nbr);
+		gap--;
 	print_len += putnchar('0', gap);
-	if (info->sharp == ENABLE)
-		print_len += write(1, "0x", 2);
-	print_len += print(hex_arr, n, get_hexlen(n));
+	print_len += print(nbr_arr, nbr, get_nbrlen(n));
 	if (info->minus == ENABLE)
 		print_len += putnchar(' ', info->width);
 	return (print_len);

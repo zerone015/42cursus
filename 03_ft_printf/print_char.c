@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 01:39:41 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 06:19:10 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 14:59:59 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <limits.h>
 
-int	print_char(va_list ap, t_info info)
+int	print_char(va_list ap, t_info *info)
 {
 	char	c;
 	int		print_len;
