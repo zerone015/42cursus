@@ -41,7 +41,7 @@ static int	get_nbrlen(int nbr)
 	len = 0;
 	if (nbr == 0)
 		len++;
-	while (nbr > 0)
+	while (nbr != 0)
 	{
 		len++;
 		nbr /= 10;

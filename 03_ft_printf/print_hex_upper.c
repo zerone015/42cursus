@@ -47,7 +47,7 @@ static int	get_hexlen(unsigned int n)
 
 int	print_hex_upper(va_list ap, t_info *info)
 {
-	char		hex_arr[9];
+	char			hex_arr[9];
 	unsigned int	n;
 	int				print_len;
 	int				gap;

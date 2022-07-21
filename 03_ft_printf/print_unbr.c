@@ -47,10 +47,10 @@ static int	print(char nbr_arr[], unsigned int n, int len)
 
 int	print_unbr(va_list ap, t_info *info)
 {
-	char		nbr_arr[11];
+	char			nbr_arr[11];
 	unsigned int	nbr;
-	int			print_len;
-	int			gap;
+	int				print_len;
+	int				gap;
 
 	if (info->width >= INT_MAX)
 		return (ERROR);

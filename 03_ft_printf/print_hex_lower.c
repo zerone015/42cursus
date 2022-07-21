@@ -47,10 +47,10 @@ static int	get_hexlen(unsigned int n)
 
 int	print_hex_lower(va_list ap, t_info *info)
 {
-	char		hex_arr[9];
-	unsigned int		n;
-	int			print_len;
-	int			gap;
+	char			hex_arr[9];
+	unsigned int	n;
+	int				print_len;
+	int				gap;
 
 	if (info->width >= INT_MAX)
 		return (ERROR);
