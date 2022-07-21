@@ -6,11 +6,20 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 01:00:42 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 07:11:35 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 17:18:07 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <unistd.h>
+
+int	ft_isdigit(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
+}
 
 int	is_flag(char c)
 {
@@ -27,7 +36,7 @@ int	get_max(int a, int b)
 		return (b);
 }
 
-size_t	ft_strlen(char *str)
+size_t	ft_strlen(const char *str)
 {
 	size_t	len;
 

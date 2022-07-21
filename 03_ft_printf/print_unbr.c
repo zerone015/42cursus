@@ -6,12 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:40:54 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 16:59:16 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 17:20:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdarg.h>
 #include <unistd.h>
 #include <limits.h>
 
@@ -66,7 +65,7 @@ int	print_unbr(va_list ap, t_info *info)
 	gap = info->precision - get_nbrlen(nbr);
 		gap--;
 	print_len += putnchar('0', gap);
-	print_len += print(nbr_arr, nbr, get_nbrlen(n));
+	print_len += print(nbr_arr, nbr, get_nbrlen(nbr));
 	if (info->minus == ENABLE)
 		print_len += putnchar(' ', info->width);
 	return (print_len);

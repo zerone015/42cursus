@@ -6,16 +6,15 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 19:06:59 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 07:15:33 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 17:20:42 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdarg.h>
 #include <unistd.h>
 #include <limits.h>
 
-int	print_str(va_list ap, t_info info)
+int	print_str(va_list ap, t_info *info)
 {
 	const char	*str;
 	int			print_len;
@@ -27,14 +26,14 @@ int	print_str(va_list ap, t_info info)
 	str_len = ft_strlen(str);
 	if (ft_strlen(str) >= INT_MAX)
 		return (ERROR);
-	if (info->precision < str_len && info->precision > 0)
+	if (info->precision < (int) str_len && info->precision > 0)
 		str_len = info->precision;
 	else if (info->dot == ENABLE && info->precision == 0)
 		str_len = 0;
 	print_len = 0;
 	if (info->minus == DISABLE)
 		print_len += putnchar(' ', info->width - str_len);
-	print_len += write(1, str, len);
+	print_len += write(1, str, str_len);
 	if (info->minus == ENABLE)
 		print_len += putnchar(' ', info->width - str_len);
 	return (print_len);

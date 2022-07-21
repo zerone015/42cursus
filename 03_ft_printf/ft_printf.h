@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:52:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 16:49:34 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 17:18:32 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FT_PRINTF_H
 
 # include <stddef.h>
+# include <stdarg.h>
 
 # define ERROR -1
 # define ENABLE 1
@@ -33,7 +34,7 @@ typedef struct s_info
 
 int		ft_printf(const char *format, ...);
 
-void	struct_init(t_info info);
+void	struct_init(t_info *info);
 
 void	parse_flag(t_info *info, const char **format);
 void	parse_width(t_info *info, const char **format);
@@ -47,7 +48,13 @@ int		print_hex_lower(va_list ap, t_info *info);
 int		print_hex_upper(va_list ap, t_info *info);
 int		print_nbr(va_list ap, t_info *info);
 int		print_percent(t_info *info);
-int		print_str(va_list ap, t_info info);
+int		print_str(va_list ap, t_info *info);
 int		print_unbr(va_list ap, t_info *info);
+
+int		ft_isdigit(char c);
+int		is_flag(char c);
+int		get_max(int a, int b);
+int		putnchar(char c, int n);
+size_t	ft_strlen(const char *str);
 
 #endif

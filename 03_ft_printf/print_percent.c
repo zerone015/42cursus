@@ -6,11 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 02:12:54 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 06:28:28 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 17:17:14 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_print.h"
+#include "ft_printf.h"
 #include <unistd.h>
 #include <limits.h>
 

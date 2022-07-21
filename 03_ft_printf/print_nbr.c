@@ -6,12 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:33:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 17:01:39 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/21 17:17:01 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdarg.h>
 #include <unistd.h>
 #include <limits.h>
 
@@ -54,7 +53,7 @@ static int	print(char nbr_arr[], int n, int len)
 {
 	int	print_len;
 
-	if (n == "-2147483648")
+	if (n == -2147483648)
 		return (write(1, "2147483648", 10));
 	if (n < 0)
 		n *= -1;
@@ -93,7 +92,7 @@ int	print_nbr(va_list ap, t_info *info)
 	if (info->plus == ENABLE || nbr < 0)
 		gap--;
 	print_len += putnchar('0', gap);
-	print_len += print(nbr_arr, nbr, get_nbrlen(n));
+	print_len += print(nbr_arr, nbr, get_nbrlen(nbr));
 	if (info->minus == ENABLE)
 		print_len += putnchar(' ', info->width);
 	return (print_len);
