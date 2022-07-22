@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 05:14:55 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/22 11:43:33 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/22 18:26:22 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	get_hexlen(unsigned int n, t_info *info)
 	len = 0;
 	if (n == 0)
 		len++;
-	while (n)
+	while (n > 0)
 	{
 		len++;
 		n /= 16;

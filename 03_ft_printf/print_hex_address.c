@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 01:41:00 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 17:09:35 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/22 18:24:52 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	get_hexlen(uintptr_t address)
 	len = 0;
 	if (address == 0)
 		len++;
-	while (address)
+	while (address > 0)
 	{
 		len++;
 		address /= 16;
