@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 04:23:14 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 17:09:40 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/22 11:40:32 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	print_hex_lower(va_list ap, t_info *info)
 		print_len += putnchar(' ', info->width);
 	if (info->sharp == ENABLE && n > 0)
 		print_len += write(1, "0x", 2);
-	if (info->minus == DISABLE && info->zero == ENABLE && info->dot == DISABLE)
+	if (info->minus == DISABLE && info->zero == ENABLE)
 		print_len += putnchar('0', info->width);
 	print_len += putnchar('0', info->precision - hex_len);
 	print_len += print(hex_arr, n, hex_len);

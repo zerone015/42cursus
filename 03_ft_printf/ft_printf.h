@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:52:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 17:18:32 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/22 11:41:08 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define DISABLE 0
 # define TRUE 1
 # define FALSE 0
+# define INT_MAX_LEN 10
 
 typedef struct s_info
 {
