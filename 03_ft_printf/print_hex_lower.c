@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 04:23:14 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 17:09:40 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/22 18:26:02 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	get_hexlen(unsigned int n, t_info *info)
 	len = 0;
 	if (n == 0)
 		len++;
-	while (n)
+	while (n > 0)
 	{
 		len++;
 		n /= 16;
@@ -68,7 +68,7 @@ int	print_hex_lower(va_list ap, t_info *info)
 		print_len += putnchar(' ', info->width);
 	if (info->sharp == ENABLE && n > 0)
 		print_len += write(1, "0x", 2);
-	if (info->minus == DISABLE && info->zero == ENABLE && info->dot == DISABLE)
+	if (info->minus == DISABLE && info->zero == ENABLE)
 		print_len += putnchar('0', info->width);
 	print_len += putnchar('0', info->precision - hex_len);
 	print_len += print(hex_arr, n, hex_len);

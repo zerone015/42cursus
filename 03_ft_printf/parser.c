@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:29:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 17:14:36 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/22 11:41:31 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	parse_width(t_info *info, const char **format)
 	int	count;
 
 	count = 0;
-	while (ft_isdigit(**format) && count < 10)
+	while (ft_isdigit(**format) && count < INT_MAX_LEN)
 	{
 		info->width *= 10;
 		info->width += **format - '0';
