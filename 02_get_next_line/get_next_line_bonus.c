@@ -50,9 +50,7 @@ static char	*substr_one_line(char *temp)
 	char	*line;
 	int		i;
 
-	if (temp == NULL)
-		return (NULL);
-	if (temp[0] == '\0')
+	if (temp == NULL || temp[0] == '\0')
 		return (NULL);
 	i = 0;
 	while (temp[i] != '\n' && temp[i] != '\0')
@@ -73,7 +71,7 @@ static char	*substr_backup(char *temp, char **line)
 	i = 0;
 	while (temp[i] != '\n' && temp[i] != '\0')
 		i++;
-	if (temp[i] == '\0' || temp[i + 1] == '\0')
+	if (temp[i] == '\0')
 		return (ft_free(temp));
 	backup = ft_substr(temp, i + 1, ft_strlen(temp) - i - 1);
 	if (!backup)
