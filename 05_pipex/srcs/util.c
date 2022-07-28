@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:57:08 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/29 05:46:34 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/29 06:28:38 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ char	*find_path(char *cmd, char *envp[])
 			return (ft_free(paths));
 		path = ft_strjoin(temp, cmd);
 		free(temp);
+		if (!path)
+			return (ft_free(paths));
 		if (access(path, F_OK) == 0)
 			return (path);
 		free(path);
