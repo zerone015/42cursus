@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/29 05:17:02 by yoson             #+#    #+#              #
-#    Updated: 2022/07/29 06:07:57 by yoson            ###   ########.fr        #
+#    Updated: 2022/07/29 06:31:12 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,12 @@ OBJS  = $(SRCS:%.c=%.o)
 BOBJS = $(BSRCS:%.c=%.o)
 
 all: $(NAME)
+bonus: $(BNAME)
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
 $(NAME): $(OBJS)
 	make re -C ./libft
 	$(CC) $^ -Llibft -lft -o $@
-bonus: $(BNAME)
 $(BNAME): $(BOBJS)
 	make re -C ./libft
 	$(CC) $^ -Llibft -lft -o $@
@@ -39,4 +39,3 @@ fclean: clean
 re: fclean all
 re_bonus: fclean bonus
 .PHONY: all bonus clean fclean re re_bonus
-
