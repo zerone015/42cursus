@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/29 05:17:02 by yoson             #+#    #+#              #
-#    Updated: 2022/07/29 05:52:35 by yoson            ###   ########.fr        #
+#    Updated: 2022/07/29 05:57:50 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,11 @@ all: $(NAME)
 	$(CC) $(FLAGS) -c $< -o $@
 $(NAME): $(OBJS)
 	make re -C ./libft
-	$(CC) $< -Llibft -lft -o $@
+	$(CC) $^ -Llibft -lft -o $@
 bonus: $(BNAME)
 $(BNAME): $(BOBJS)
 	make re -C ./libft
-	$(CC) $< -Llibft -lft -o $@
+	$(CC) $^ -Llibft -lft -o $@
 clean: 
 	make clean -C ./libft
 	rm -f $(OBJS) $(BOBJS)
