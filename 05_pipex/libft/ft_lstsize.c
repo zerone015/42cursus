@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/28 19:36:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/28 21:52:01 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/10 14:23:53 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/10 14:42:46 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "libft.h"
 
-int	main(int argc, char *argv[], char *envp[])
+int	ft_lstsize(t_list *lst)
 {
-	t_info	info;
+	int	size;
 
-	if (argc < 5 || parse_envp(&info, envp) || parse_argv(&info, argv))
-		return (0);
-	return (0);
+	size = 0;
+	while (lst)
+	{
+		size++;
+		lst = lst->next;
+	}
+	return (size);
 }

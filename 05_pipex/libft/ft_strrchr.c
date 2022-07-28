@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/28 18:58:31 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/28 22:09:16 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/05 20:56:18 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/12 22:04:39 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-typedef struct s_arg
+char	*ft_strrchr(const char *str, int c)
 {
-	char	*infile;
-	char	*outfile;
-	char	**cmd;
-	char	**path;
-}	t_arg;
+	char	*str_rear;
 
-# define ERROR -1
-
-int		parse_envp(t_info *info, char *envp[]);
-int		parse_argv(t_info *info, char *argv[], int argc);
-
-#endif
+	str_rear = (char *) str + ft_strlen(str);
+	while (str <= str_rear)
+	{
+		if (*str_rear == (char) c)
+			return (str_rear);
+		str_rear--;
+	}
+	return (NULL);
+}
