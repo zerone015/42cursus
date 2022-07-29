@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/30 02:43:52 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/30 04:35:26 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/30 06:12:26 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/30 06:17:15 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void	error(void)
 {

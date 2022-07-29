@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 18:58:31 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/30 04:46:52 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/30 07:47:59 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,13 @@
 
 # include "../libft/libft.h"
 
-typedef struct s_info
-{
-	char	*infile;
-	char	*outfile;
-	char	**cmds;
-	char	**paths;
-}	t_info;
-
-void	pipex(t_info *info, char **envp);
-void	child_process(t_info *info, int *fd, char **envp);
-void	parent_process(t_info *info, int *fd, char **envp);
-
-void	parse_info(t_info *info, char **argv, char **envp);
-char	**parse_cmd(char **argv);
-char	**parse_path(char **envp);
-
-char	*find_path(char **paths, char *cmd);
+void	pipex(char *argv[], char *envp[]);
+void	child_process(char *argv[], char *envp[], int fd[]);
+void	parent_process(char *argv[], char *envp[], int fd[]);
+void	execute(char *argv, char *envp[]);
+char	*slash_ignore(char *argv);
+char	**split_path(char *envp[]);
+char	*find_path(char *cmd, char *envp[]);
 void	error(void);
 void	command_not_found(char *cmd);
 
