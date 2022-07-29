@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/29 05:44:45 by yoson            ###   ########.fr       */
+/*   Updated: 2022/07/30 04:44:28 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,58 +14,54 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-void	child_process(char *argv[], char *envp[], int fd[])
+void	child_process(t_info *info, int *fd, char **envp)
 {
 	int		infile;
 	char	*path;
 	char	**cmd;
 
-	infile = open(argv[1], O_RDONLY, 0777);
+	infile = open(info->infile, O_RDONLY, 0777);
 	if (infile == -1)
 		error();
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(infile, STDIN_FILENO);
 	close(fd[0]);
-	cmd = ft_split(argv[2], ' ');
+	cmd = ft_split(info->cmds[0], ' ');
 	if (!cmd)
 		error();
-	path = find_path(argv[2], envp);
+	path = find_path(info->paths, cmd[0]);
 	if (!path)
-	{
-		ft_free(cmd);
-		error();
-	}
+		command_not_found(info->cmds[0]);
 	if (execve(path, cmd, envp) == -1)
 		error();
 }
 
-void	parent_process(char *argv[], char *envp[], int fd[])
+void	parent_process(t_info *info, int *fd, char **envp)
 {
 	int		outfile;
 	char	*path;
 	char	**cmd;
 
-	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	outfile = open(info->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (outfile == -1)
 		error();
 	dup2(fd[0], STDIN_FILENO);
 	dup2(outfile, STDOUT_FILENO);
 	close(fd[1]);
-	cmd = ft_split(argv[3], ' ');
+	cmd = ft_split(info->cmds[1], ' ');
 	if (!cmd)
 		error();
-	path = find_path(argv[3], envp);
+	path = find_path(info->paths, cmd[0]);
 	if (!path)
-	{
-		ft_free(cmd);
-		error();
-	}
+		command_not_found(info->cmds[1]);
 	if (execve(path, cmd, envp) == -1)
 		error();
 }
 
-void	pipex(char *argv[], char *envp[])
+void	pipex(t_info *info, char **envp)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -76,7 +72,7 @@ void	pipex(char *argv[], char *envp[])
 	if (pid == -1)
 		error();
 	if (pid == 0)
-		child_process(argv, envp, fd);
-	waitpid(pid, NULL, 0);
-	parent_process(argv, envp, fd);
+		child_process(info, fd, envp);
+	waitpid(pid, NULL, WNOHANG);
+	parent_process(info, fd, envp);
 }

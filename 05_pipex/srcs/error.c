@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/29 03:57:08 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/30 04:48:33 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/30 02:43:52 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/30 04:35:26 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 #include <stdlib.h>
-#include <unistd.h>
+#include <stdio.h>
 
-char	*find_path(char **paths, char *cmd)
+void	error(void)
 {
-	char	*path;
-	char	*temp;
-	int		i;
+	perror("Error");
+	exit(EXIT_FAILURE);
+}
 
-	i = 0;
-	while (paths[i])
-	{
-		temp = ft_strjoin(paths[i], "/");
-		if (!temp)
-			return (NULL);
-		path = ft_strjoin(temp, cmd);
-		free(temp);
-		if (!path)
-			return (NULL);
-		if (access(path, F_OK) == 0)
-			return (path);
-		free(path);
-		i++;
-	}
-	return (NULL);
+void	command_not_found(char *cmd)
+{
+	ft_putstr_fd("command not found: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd("\n", 2);
+	exit(127);
 }
