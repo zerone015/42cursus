@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/01 06:41:07 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/01 08:31:32 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,25 @@ void	child_process(char *argv, char *envp[])
 	}
 }
 
+void	read_and_write(char *limiter, int fd[])
+{
+	char	*line;
+
+	limiter = ft_strjoin(limiter, "\n");
+	if (!limiter)
+		error(0, 0, EXIT_FAILURE);
+	line = get_next_line(STDIN_FILENO);
+	if (!line)
+		error(0, 0, EXIT_FAILURE);
+	while (ft_strncmp(line, limiter, ft_strlen(line)) != 0)
+	{
+		write(fd[1], line, ft_strlen(line));
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
+			error(0, 0, EXIT_FAILURE);
+	}
+}
+
 void	here_doc(char *limiter, int argc)
 {
 	pid_t	pid;
@@ -64,22 +83,6 @@ void	here_doc(char *limiter, int argc)
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		wait(NULL);
-	}
-}
-
-void	read_and_write(char *limiter, int fd[])
-{
-	char	*line;
-
-	line = get_next_line(STDIN_FILENO);
-	if (!line)
-		return ;
-	while (ft_strncmp(line, limiter, ft_strlen(limiter)) != 0)
-	{
-		write(fd[1], line, ft_strlen(line));
-		line = get_next_line(STDIN_FILENO);
-		if (!line)
-			return ;
 	}
 }
 

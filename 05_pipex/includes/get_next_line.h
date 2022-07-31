@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:07:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/01 06:33:28 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/01 07:52:37 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdlib.h>
 
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 10000
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *str);
