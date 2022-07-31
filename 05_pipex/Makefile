@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/29 05:17:02 by yoson             #+#    #+#              #
-#    Updated: 2022/07/30 07:49:18 by yoson            ###   ########.fr        #
+#    Updated: 2022/08/01 06:36:23 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,14 @@ NAME  = pipex
 BNAME = pipex_bonus
 CC    = cc
 FLAGS = -Wall -Wextra -Werror
-BSRCS = 
+BSRCS  = srcs/main_bonus.c srcs/pipex_bonus.c srcs/execute_bonus.c srcs/error_bonus.c \
+		 srcs/get_next_line.c 
 SRCS  = srcs/main.c srcs/pipex.c srcs/execute.c srcs/error.c
 OBJS  = $(SRCS:%.c=%.o)
 BOBJS = $(BSRCS:%.c=%.o)
 
 all: $(NAME)
-#bonus: $(BNAME)
+bonus: $(BNAME)
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
 $(NAME): $(OBJS)
