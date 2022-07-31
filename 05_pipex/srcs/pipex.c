@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/30 07:48:30 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/01 05:07:18 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <string.h>
+#include <errno.h>
+#include <stdlib.h>
 
 void	child_process(char *argv[], char *envp[], int fd[])
 {
@@ -21,7 +24,7 @@ void	child_process(char *argv[], char *envp[], int fd[])
 
 	infile = open(argv[1], O_RDONLY, 0777);
 	if (infile == -1)
-		error();
+		error(argv[1], strerror(errno), EXIT_FAILURE);
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(infile, STDIN_FILENO);
 	close(fd[0]);
@@ -34,7 +37,7 @@ void	parent_process(char *argv[], char *envp[], int fd[])
 
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (outfile == -1)
-		error();
+		error(argv[4], strerror(errno), EXIT_FAILURE);
 	dup2(fd[0], STDIN_FILENO);
 	dup2(outfile, STDOUT_FILENO);
 	close(fd[1]);
@@ -47,10 +50,10 @@ void	pipex(char *argv[], char *envp[])
 	pid_t	pid;
 
 	if (pipe(fd) == -1)
-		error();
+		error(0, 0, EXIT_FAILURE);
 	pid = fork();
 	if (pid == -1)
-		error();
+		error(0, 0, EXIT_FAILURE);
 	if (pid == 0)
 		child_process(argv, envp, fd);
 	waitpid(pid, NULL, WNOHANG);

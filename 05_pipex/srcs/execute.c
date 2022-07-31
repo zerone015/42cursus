@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 06:21:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/30 07:50:29 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/01 05:06:19 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*slash_ignore(char *argv)
 	return (argv + head);
 }
 
-char	**split_path(char *envp[])
+char	**parse_envp(char *envp[])
 {
 	char	**paths;
 	int		i;
@@ -50,7 +50,7 @@ char	*find_path(char *cmd, char *envp[])
 	char	*temp;
 	int		i;
 
-	paths = split_path(envp);
+	paths = parse_envp(envp);
 	if (!paths)
 		return (NULL);
 	i = 0;
@@ -79,10 +79,10 @@ void	execute(char *argv, char **envp)
 	argv = slash_ignore(argv);
 	cmd = ft_split(argv, ' ');
 	if (!cmd)
-		error();
+		error(0, 0, EXIT_FAILURE);
 	path = find_path(cmd[0], envp);
 	if (!path)
-		command_not_found(argv);
+		error(cmd[0], "command not found", 127);
 	if (execve(path, cmd, envp) == -1)
-		error();
+		error(0, 0, EXIT_FAILURE);
 }
