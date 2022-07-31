@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 18:58:31 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/01 06:28:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/01 08:46:11 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PIPEX_BONUS_H
 
 # include "../libft/libft.h"
-# include "get_next_line.h"
+# include "get_next_line_bonus.h"
 
 void	pipex(int argc, char *argv[], char *envp[]);
 void	here_doc(char *limiter, int argc);

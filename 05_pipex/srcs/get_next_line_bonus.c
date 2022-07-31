@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:06:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/01 06:29:22 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/01 08:37:23 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/get_next_line.h"
+#include "../includes/get_next_line_bonus.h"
 #include <unistd.h>
 
 static	char	*ft_free(char *ptr)
