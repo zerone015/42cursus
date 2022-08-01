@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/01 20:39:09 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/02 00:43:16 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,10 @@ void	read_and_write(char *limiter, int fd[])
 	while (ft_strncmp(line, limiter, ft_strlen(line)) != 0)
 	{
 		write(fd[1], line, ft_strlen(line));
-		free(line);
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			error(0, 0, EXIT_FAILURE);
 	}
-	free(line);
 }
 
 void	here_doc(char *limiter, int argc)
