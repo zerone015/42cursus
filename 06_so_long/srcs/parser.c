@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 22:35:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/08 03:01:31 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/08 04:34:52 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	parse_map(t_map *map, char *filename)
 	if (!map->str)
 		return (ERROR);
 	map->width = ft_strlen(map->str);
-	map->height = 0;
+	map->height = 1;
 	while (42)
 	{
 		line = get_next_line(fd);
