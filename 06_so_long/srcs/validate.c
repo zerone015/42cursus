@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 22:00:06 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/08 04:35:54 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/08 04:43:28 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static int	is_walls_surrounded(t_map *map)
 		}
 		i++;
 	}
+	return (TRUE);
 }
 
 static int	p_e_c_exists(t_map *map)
