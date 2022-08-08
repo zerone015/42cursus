@@ -1,21 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/07 22:01:16 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 05:25:39 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/09 21:38:53 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/16 21:50:30 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
-#include <unistd.h>
+#include <stdlib.h>
+#include "libft.h"
 
-void	error(char *msg)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	ft_putendl_fd("error", STDERR_FILENO);
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(1);
+	char	*str;
+	size_t	i;
+	size_t	len;
+
+	len = ft_strlen(s);
+	str = (char *) malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		str[i] = f(i, s[i]);
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

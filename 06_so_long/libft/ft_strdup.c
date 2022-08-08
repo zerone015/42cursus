@@ -1,21 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/07 22:01:16 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 05:25:39 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/07 00:52:15 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/12 22:03:00 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
-#include <unistd.h>
+#include <stdlib.h>
+#include "libft.h"
 
-void	error(char *msg)
+char	*ft_strdup(const char *src)
 {
-	ft_putendl_fd("error", STDERR_FILENO);
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(1);
+	char	*str;
+	size_t	src_len;
+
+	src_len = ft_strlen(src);
+	str = (char *) malloc(sizeof(char) * (src_len + 1));
+	if (!str)
+		return (NULL);
+	while (*src)
+		*str++ = *src++;
+	*str = '\0';
+	return (str - src_len);
 }

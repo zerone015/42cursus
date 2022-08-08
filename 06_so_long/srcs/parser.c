@@ -6,13 +6,14 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 22:35:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/08 04:34:52 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/09 05:19:22 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 #include <stdlib.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 int	parse_map(t_map *map, char *filename)
 {
@@ -35,6 +36,7 @@ int	parse_map(t_map *map, char *filename)
 		map->str = ft_strjoin(map->str, line);
 		if (!map->str)
 			return (ERROR);
+		free(line);
 		free(temp);
 		(map->height)++;
 	}

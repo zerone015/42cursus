@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/07 22:01:16 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 05:25:39 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/04 16:18:23 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/15 18:43:26 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
-#include <unistd.h>
+#include "libft.h"
 
-void	error(char *msg)
+int	ft_isalpha(int c)
 {
-	ft_putendl_fd("error", STDERR_FILENO);
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(1);
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+		return (1);
+	return (0);
 }

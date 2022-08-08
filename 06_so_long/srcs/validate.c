@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 22:00:06 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/08 04:43:28 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/09 05:18:50 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	is_rectangle(t_map *map)
 
 static int	is_walls_surrounded(t_map *map)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (map->str[i] != '\0')
@@ -48,10 +48,10 @@ static int	is_walls_surrounded(t_map *map)
 
 static int	p_e_c_exists(t_map *map)
 {
-	int	i;
-	int	p_cnt;
-	int	e_cnt;
-	int	c_cnt;
+	size_t	i;
+	int		p_cnt;
+	int		e_cnt;
+	int		c_cnt;
 
 	i = map->width;
 	p_cnt = 0;
@@ -74,7 +74,7 @@ static int	p_e_c_exists(t_map *map)
 
 int	is_arguments_valid(int argc, char *filename)
 {
-	int		len;
+	size_t	len;
 
 	if (argc != 2)
 		return (FALSE);

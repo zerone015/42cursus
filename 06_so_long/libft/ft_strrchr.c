@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/07 22:01:16 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 05:25:39 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/05 20:56:18 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/12 22:04:39 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
-#include <unistd.h>
+#include "libft.h"
 
-void	error(char *msg)
+char	*ft_strrchr(const char *str, int c)
 {
-	ft_putendl_fd("error", STDERR_FILENO);
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(1);
+	char	*str_rear;
+
+	str_rear = (char *) str + ft_strlen(str);
+	while (str <= str_rear)
+	{
+		if (*str_rear == (char) c)
+			return (str_rear);
+		str_rear--;
+	}
+	return (NULL);
 }

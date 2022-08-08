@@ -1,21 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/07 22:01:16 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 05:25:39 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/07 00:44:27 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/15 19:29:17 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
-#include <unistd.h>
+#include "libft.h"
 
-void	error(char *msg)
+char	*ft_strnstr(const char *str, const char *to_find, size_t len)
 {
-	ft_putendl_fd("error", STDERR_FILENO);
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(1);
+	size_t	i;
+	size_t	j;
+
+	if (!to_find[0])
+		return ((char *) str);
+	i = 0;
+	while (i < len && str[i])
+	{
+		j = 0;
+		while (str[i] == to_find[j] && str[i] && i < len)
+		{
+			i++;
+			j++;
+		}
+		if (!to_find[j])
+			return ((char *) str + i - j);
+		i -= j;
+		i++;
+	}
+	return (NULL);
 }
