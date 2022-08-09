@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 23:59:49 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 06:47:00 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/09 10:21:48 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ t_game	*game_init(void)
 
 	game = malloc(sizeof(t_game));
 	if (!game)
-		return (NULL);
+		error("Memory allocation failed");
 	game->map = malloc(sizeof(t_map));
 	if (!game->map)
-		return (NULL);
+		error("Memory allocation failed");
 	game->img = malloc(sizeof(t_img));
 	if (!game->img)
-		return (NULL);
+		error("Memory allocation failed");
 	return (game);
 }
 

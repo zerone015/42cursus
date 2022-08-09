@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/09 03:23:54 by yoson             #+#    #+#              #
-#    Updated: 2022/08/09 07:12:58 by yoson            ###   ########.fr        #
+#    Updated: 2022/08/09 10:35:09 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ LIB_NAME	= ./libft/libft.a
 INCS		= -I includes
 MLX_FLAGS	= -L./mlx -lmlx -framework OpenGL -framework Appkit
 
-SRC			=	main.c init.c validate.c parser.c draw.c error.c get_next_line.c get_next_line_utils.c
+SRC			=	main.c init.c validate.c parser.c draw.c key.c error.c get_next_line.c
 SRC_BONUS	=
 SRCS		=	$(addprefix $(SRCS_DIR), $(SRC))
 LIBS		=	$(addprefix $(LIB_DIR), $(LIB_NAME))

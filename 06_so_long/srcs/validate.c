@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 22:00:06 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 05:18:50 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/09 10:23:18 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,26 @@ static int	is_walls_surrounded(t_map *map)
 	return (TRUE);
 }
 
-static int	p_e_c_exists(t_map *map)
+static int	is_all_char_valid(t_map *map)
 {
+	int		cnt[256];
 	size_t	i;
-	int		p_cnt;
-	int		e_cnt;
-	int		c_cnt;
 
-	i = map->width;
-	p_cnt = 0;
-	e_cnt = 0;
-	c_cnt = 0;
-	while (i < ft_strlen(map->str) - map->width)
+	i = 0;
+	while (i < 256)
+		cnt[i++] = 0;
+	i = 0;
+	while (map->str[i] != '\0')
 	{
-		if (map->str[i] == 'P')
-			p_cnt++;
-		else if (map->str[i] == 'E')
-			e_cnt++;
-		else if (map->str[i] == 'C')
-			c_cnt++;
+		cnt[(unsigned char) map->str[i]]++;
 		i++;
 	}
-	if (p_cnt != 1 || e_cnt == 0 || c_cnt == 0)
+	i = cnt['P'] + cnt['E'] + cnt['C'] + cnt['1'] + cnt['0'];
+	if (ft_strlen(map->str) != i)
 		return (FALSE);
+	if (cnt['P'] != 1 || cnt['E'] == 0 || cnt['C'] == 0)
+		return (FALSE);
+	map->coll_sum = cnt['C'];
 	return (TRUE);
 }
 
@@ -92,7 +89,7 @@ int	is_map_valid(t_map *map)
 		return (FALSE);
 	if (!is_walls_surrounded(map))
 		return (FALSE);
-	if (!p_e_c_exists(map))
+	if (!is_all_char_valid(map))
 		return (FALSE);
 	return (TRUE);
 }
