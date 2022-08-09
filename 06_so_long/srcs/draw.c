@@ -6,12 +6,12 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 03:02:07 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 10:21:18 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/09 12:59:41 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-#include <mlx.h>
+#include "../mlx/mlx.h"
 
 static void	array_init(void	*img_arr[], t_img *img)
 {

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 22:22:30 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 10:20:47 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/09 15:09:58 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 # include "get_next_line.h"
 # include <stddef.h>
 
-# define X_EVENT_KEY_PRESS		2
-# define X_EVENT_KEY_RELEASE	3
-# define X_EVENT_KEY_EXIT		17
+# define KEY_PRESS			2
+# define DESTROY_NOTIFY		17
 
 # define KEY_ESC	53
 # define KEY_W		13
@@ -64,10 +63,12 @@ int		is_arguments_valid(int argc, char *filename);
 void	parse_map(t_map *map, char *filename);
 void	draw_map(t_map *map, t_img *img, void *m, void *w);
 int		clear_game(t_game *game);
-void	move_w(t_game *g);
-void	move_a(t_game *g);
-void	move_s(t_game *g);
-void	move_d(t_game *g);
+int		exit_game(t_game *game);
+int		press_key(int key, t_game *game);
+void	move_up(t_game *g);
+void	move_left(t_game *g);
+void	move_down(t_game *g);
+void	move_right(t_game *g);
 void	error(char *msg);
 
 #endif

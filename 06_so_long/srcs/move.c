@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key.c                                              :+:      :+:    :+:   */
+/*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 08:44:22 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 11:17:49 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/09 14:46:20 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 int	clear_game(t_game *game)
 {
 	game->move_cnt++;
-	printf("%s %zu \n", "game clear!", game->move_cnt);
+	printf("%zu \n", game->move_cnt);
+	printf("game clear!\n");
 	exit(0);
 }
 
-void	move_w(t_game *g)
+void	move_up(t_game *g)
 {
 	t_map	*map;
 	size_t	i;
@@ -47,7 +48,7 @@ void	move_w(t_game *g)
 	}
 }
 
-void	move_a(t_game *g)
+void	move_left(t_game *g)
 {
 	t_map	*map;
 	size_t	i;
@@ -73,7 +74,7 @@ void	move_a(t_game *g)
 	}
 }
 
-void	move_s(t_game *g)
+void	move_down(t_game *g)
 {
 	t_map	*map;
 	size_t	i;
@@ -99,7 +100,7 @@ void	move_s(t_game *g)
 	}
 }
 
-void	move_d(t_game *g)
+void	move_right(t_game *g)
 {
 	t_map	*map;
 	size_t	i;

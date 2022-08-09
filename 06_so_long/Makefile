@@ -6,15 +6,14 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/09 03:23:54 by yoson             #+#    #+#              #
-#    Updated: 2022/08/09 10:35:09 by yoson            ###   ########.fr        #
+#    Updated: 2022/08/09 15:11:02 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= so_long
-NAME_BONUS	= so_long_bonus
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra
+FLAGS		= -Wall -Werror -Wextra
 AR			= ar rcs
 RM			= rm -f
 
@@ -23,21 +22,14 @@ SRCS_DIR	= ./srcs/
 LIB_DIR		= ./libft/
 MLX_DIR		= ./mlx/
 
-INCS_BONUS_DIR	= ./include_bonus/
-SRCS_BONUS_DIR	= ./src_bonus/
-
 LIB_NAME	= ./libft/libft.a
 INCS		= -I includes
 MLX_FLAGS	= -L./mlx -lmlx -framework OpenGL -framework Appkit
 
-SRC			=	main.c init.c validate.c parser.c draw.c key.c error.c get_next_line.c
-SRC_BONUS	=
+SRC			=	main.c init.c validate.c parser.c draw.c press.c move.c error.c get_next_line.c
 SRCS		=	$(addprefix $(SRCS_DIR), $(SRC))
 LIBS		=	$(addprefix $(LIB_DIR), $(LIB_NAME))
 OBJS		=	$(SRCS:.c=.o)
-
-SRCS_BONUS	=	$(addprefix $(SRCS_BONUS_DIR), $(SRC_BONUS))
-OBJS_BONUS	=	$(SRCS_BONUS:.c=.o)
 
 all : $(NAME)
 
@@ -47,24 +39,17 @@ $(NAME) : $(OBJS)
 	$(CC) -o $(NAME) $(OBJS) -L $(LIB_DIR) -lft -I $(INCS_DIR) -L $(MLX_DIR) -lmlx -framework OpenGL -framework Appkit
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@
 
 clean :
 	make -C $(LIB_DIR) clean
 	make -C $(MLX_DIR) clean
-	$(RM) $(OBJS) $(OBJS_BONUS)
+	$(RM) $(OBJS)
 
 fclean : clean
 	make -C $(LIB_DIR) fclean
-	$(RM) $(NAME) $(NAME_BONUS)
+	$(RM) $(NAME)
 
 re : clean all
 
-bonus : $(NAME_BONUS)
-
-$(NAME_BONUS) : $(OBJS_BONUS)
-	make -C $(LIB_DIR)
-	make -C $(MLX_DIR)
-	$(CC) -o $(NAME_BONUS) $(OBJS_BONUS) -L $(LIB_DIR) -lft -I $(INCS_BONUS_DIR) -L $(MLX_DIR) -lmlx -fsanitize=address -framework OpenGL -framework Appkit
-
-PHONY	: all clean fclean re bonus
+PHONY	: all clean fclean re

@@ -6,12 +6,12 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 23:59:49 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 10:21:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/09 12:59:49 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-#include <mlx.h>
+#include "../mlx/mlx.h"
 #include <stdlib.h>
 
 t_game	*game_init(void)
@@ -27,6 +27,8 @@ t_game	*game_init(void)
 	game->img = malloc(sizeof(t_img));
 	if (!game->img)
 		error("Memory allocation failed");
+	game->move_cnt = 0;
+	game->coll_cnt = 0;
 	return (game);
 }
 
