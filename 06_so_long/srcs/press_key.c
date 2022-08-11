@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 08:44:22 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/11 21:32:33 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/11 22:00:52 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	press_key(int keycode, t_game *game)
 		exit_game(game);
 	map = game->map;
 	i = find_player_position(map, keycode);
-	if (i == INVALID_KEYCODE)
+	if (i == 0)
 		return (0);
 	if (map->str[i] == 'C')
 		game->coll_cnt++;

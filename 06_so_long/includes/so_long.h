@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 22:22:30 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/11 21:23:10 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/11 21:59:38 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 # define KEY_PRESS			2
 # define DESTROY_NOTIFY		17
-# define INVALID_KEYCODE	0
 
 # define KEY_ESC	53
 # define KEY_W		13
@@ -30,7 +29,7 @@
 # define TRUE	1
 # define FALSE	0
 
-# define IMG_SIZE	81
+# define IMG_ARRAY_SIZE	81
 
 typedef struct s_map
 {
