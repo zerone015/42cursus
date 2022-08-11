@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 22:00:06 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 10:23:18 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/11 21:49:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,15 @@ static int	is_walls_surrounded(t_map *map)
 	return (TRUE);
 }
 
-static int	is_all_char_valid(t_map *map)
+static int	is_all_char_valid(t_map *map, int cnt[])
 {
-	int		cnt[256];
-	size_t	i;
+	size_t	sum;
 
-	i = 0;
-	while (i < 256)
-		cnt[i++] = 0;
-	i = 0;
-	while (map->str[i] != '\0')
-	{
-		cnt[(unsigned char) map->str[i]]++;
-		i++;
-	}
-	i = cnt['P'] + cnt['E'] + cnt['C'] + cnt['1'] + cnt['0'];
-	if (ft_strlen(map->str) != i)
+	sum = cnt['P'] + cnt['E'] + cnt['C'] + cnt['1'] + cnt['0'];
+	if (ft_strlen(map->str) != sum)
 		return (FALSE);
 	if (cnt['P'] != 1 || cnt['E'] == 0 || cnt['C'] == 0)
 		return (FALSE);
-	map->coll_sum = cnt['C'];
 	return (TRUE);
 }
 
@@ -85,11 +74,25 @@ int	is_arguments_valid(int argc, char *filename)
 
 int	is_map_valid(t_map *map)
 {
+	int		cnt[256];
+	size_t	i;
+
 	if (!is_rectangle(map))
 		return (FALSE);
 	if (!is_walls_surrounded(map))
 		return (FALSE);
-	if (!is_all_char_valid(map))
+	i = 0;
+	while (i < 256)
+		cnt[i++] = 0;
+	i = -1;
+	while (map->str[++i] != '\0')
+	{
+		if (map->str[i] == 'P')
+			map->p_pos = i;
+		cnt[(unsigned char) map->str[i]]++;
+	}
+	map->coll_sum = cnt['C'];
+	if (!is_all_char_valid(map, cnt))
 		return (FALSE);
 	return (TRUE);
 }

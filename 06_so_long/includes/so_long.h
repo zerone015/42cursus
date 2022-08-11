@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 22:22:30 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 15:09:58 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/11 21:23:10 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # define KEY_PRESS			2
 # define DESTROY_NOTIFY		17
+# define INVALID_KEYCODE	0
 
 # define KEY_ESC	53
 # define KEY_W		13
@@ -29,11 +30,14 @@
 # define TRUE	1
 # define FALSE	0
 
+# define IMG_SIZE	81
+
 typedef struct s_map
 {
 	size_t	width;
 	size_t	height;
 	char	*str;
+	size_t	p_pos;
 	size_t	coll_sum;
 }	t_map;
 
@@ -62,13 +66,9 @@ int		is_map_valid(t_map *map);
 int		is_arguments_valid(int argc, char *filename);
 void	parse_map(t_map *map, char *filename);
 void	draw_map(t_map *map, t_img *img, void *m, void *w);
-int		clear_game(t_game *game);
+int		press_key(int keycode, t_game *game);
 int		exit_game(t_game *game);
-int		press_key(int key, t_game *game);
-void	move_up(t_game *g);
-void	move_left(t_game *g);
-void	move_down(t_game *g);
-void	move_right(t_game *g);
+int		clear_game(t_game *game);
 void	error(char *msg);
 
 #endif

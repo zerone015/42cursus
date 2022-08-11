@@ -6,14 +6,14 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 03:02:07 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 12:59:41 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/11 20:44:42 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 #include "../mlx/mlx.h"
 
-static void	array_init(void	*img_arr[], t_img *img)
+static void	array_init(void *img_arr[], t_img *img)
 {
 	img_arr['1'] = img->wall;
 	img_arr['C'] = img->coll;
@@ -24,12 +24,11 @@ static void	array_init(void	*img_arr[], t_img *img)
 
 void	draw_map(t_map *map, t_img *img, void *m, void *w)
 {
-	void			*img_arr[256];
+	void			*img_arr[IMG_SIZE];
 	unsigned char	c;
 	size_t			hei;
 	size_t			wid;
 
-	img_init(img, m);
 	array_init(img_arr, img);
 	hei = 0;
 	while (hei < map->height)

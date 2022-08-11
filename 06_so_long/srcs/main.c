@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 17:44:28 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/09 15:10:40 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/11 21:19:07 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	main(int argc, char *argv[])
 		error("Invalid map");
 	game->mlx = mlx_init();
 	game->win = new_window(game->mlx, game->map->width, game->map->height);
+	img_init(game->img, game->mlx);
 	draw_map(game->map, game->img, game->mlx, game->win);
 	mlx_hook(game->win, KEY_PRESS, 0, press_key, game);
 	mlx_hook(game->win, DESTROY_NOTIFY, 0, exit_game, game);
