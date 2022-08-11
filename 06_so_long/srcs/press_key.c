@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 08:44:22 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/11 22:00:52 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/11 22:43:32 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	clear_game(t_game *game)
 	exit(0);
 }
 
-static size_t	find_player_position(t_map *map, int keycode)
+static size_t	find_move_position(t_map *map, int keycode)
 {
 	size_t	i;
 
@@ -54,7 +54,7 @@ int	press_key(int keycode, t_game *game)
 	if (keycode == KEY_ESC)
 		exit_game(game);
 	map = game->map;
-	i = find_player_position(map, keycode);
+	i = find_move_position(map, keycode);
 	if (i == 0)
 		return (0);
 	if (map->str[i] == 'C')
