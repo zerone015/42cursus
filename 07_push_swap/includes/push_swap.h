@@ -6,12 +6,14 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 22:08:08 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/13 04:12:39 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/13 04:17:43 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
+
+# define INT_MAX_LEN	10
 
 # define ERROR			99999999999
 # define TRUE			1
