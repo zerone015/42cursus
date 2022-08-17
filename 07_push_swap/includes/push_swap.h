@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 22:08:08 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/13 04:17:43 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/17 19:06:15 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,9 @@
 # define PUSH_SWAP_H
 
 # define INT_MAX_LEN	10
-
-# define ERROR			99999999999
 # define TRUE			1
 # define FALSE			0
 
-typedef struct s_node
-{
-	int				num;
-	struct s_node	*next;
-}	t_node;
-
-typedef struct s_list
-{
-	t_node	*head;
-	t_node	*tail;
-}	t_list;
-
-typedef struct s_stack
-{
-	t_node	*head;
-}	t_stack;
+# include "deque.h"
 
 #endif

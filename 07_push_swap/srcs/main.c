@@ -6,27 +6,27 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 22:07:17 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/13 04:05:18 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/17 19:09:13 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	struct_init(t_list *list, t_stack *stack)
+static void	struct_init(t_deque *deque_a, t_deque *deque_b)
 {
-	list_init(&list);
-	stack_init(&stack);
+	deque_init(deque_a);
+	deque_init(deque_b);
 }
 
 int	main(int argc, char *argv[])
 {
-	t_list	list;
-	t_stack	stack;
+	t_deque	deque_a;
+	t_deque	deque_b;
 
 	if (argc < 2)
 		error("Error");
-	struct_init(&list, &stack);
-	insert_numbers_to_list(&list, argc, argv);
-	sort_ascending(&stack_a, &stack_b);
+	struct_init(&deque_a, &deque_b);
+	insert_numbers_to_list(&deque_a, argc, argv);
+	sort_ascending(&deque_a, &deque_b);
 	return (0);
 }

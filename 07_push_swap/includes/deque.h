@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack.c                                            :+:      :+:    :+:   */
+/*   deque.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/13 01:18:18 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/13 03:30:13 by yoson            ###   ########.fr       */
+/*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
+/*   Updated: 2022/08/17 19:04:01 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-#include <stdlib.h>
+#ifndef DEQUE_H
+# define DEQUE_H
 
-void	stack_init(t_stack *stack)
+typedef struct s_node
 {
-	stack->head = NULL;
-}
+	int				num;
+	struct s_node	*prev;
+	struct s_node	*next;
+}	t_node;
 
-int	s_push(t_stack *stack, int result)
+typedef struct s_deque
 {
-	t_node	*new_node;
+	t_node	*head;
+	t_node	*tail;
+	int		num_cnt;
+}	t_deque;
 
-	*new_node = (t_node *) malloc(sizeof(t_node));
-	if (!node)
-		error("Error");
-	new_node->num = result;
-	new_node->next = stack->head;
-	stack->head = new_node;
-}
+void	deque_init(t_deque *deque);
+void	add_first(t_deque *deque, int num);
+void	add_last(t_deque *deque, int num);
+int		remove_first(t_deque *deque);
+int		remove_last(t_deque *deque);
+
+#endif

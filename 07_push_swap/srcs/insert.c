@@ -6,17 +6,17 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 04:03:45 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/13 04:04:34 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/17 19:11:45 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	is_number_duplicated(t_list *list, int num)
+static int	is_number_duplicated(t_deque *deque_a, int num)
 {
 	t_node	*node;
 
-	node = list->head->next;
+	node = deque_a->head->next;
 	while (node)
 	{
 		if (node->num == num)
@@ -26,7 +26,7 @@ static int	is_number_duplicated(t_list *list, int num)
 	return (FALSE);
 }
 
-void	insert_numbers_to_list(t_list *list, int argc, char *argv[])
+void	insert_numbers_to_list(t_deque *deque_a, int argc, char *argv[])
 {
 	int			i;
 	int			j;
@@ -45,11 +45,9 @@ void	insert_numbers_to_list(t_list *list, int argc, char *argv[])
 		while (numbers[j])
 		{
 			num = ft_atoi(numbers[j++]);
-			if (num == ERROR)
+			if (is_number_duplicated(deque_a, num))
 				error("Error");
-			if (is_number_duplicated(list, num))
-				error("Error");
-			l_insert(list, num);
+			add_last(deque_a, num);
 		}
 		ft_free(numbers);
 	}
