@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 04:03:45 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/17 19:11:45 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/17 19:17:06 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	insert_numbers_to_list(t_deque *deque_a, int argc, char *argv[])
 	int			i;
 	int			j;
 	char		**numbers;
-	long long	num;
+	int			num;
 
 	i = 1;
 	while (i < argc)
