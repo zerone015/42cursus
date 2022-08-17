@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 04:03:45 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/17 19:17:06 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/17 20:34:32 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	is_number_duplicated(t_deque *deque_a, int num)
 	return (FALSE);
 }
 
-void	insert_numbers_to_list(t_deque *deque_a, int argc, char *argv[])
+void	insert_numbers_to_deque(t_deque *deque_a, int argc, char *argv[])
 {
 	int			i;
 	int			j;

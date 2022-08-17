@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 22:07:17 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/17 19:09:13 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/17 20:34:20 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char *argv[])
 	if (argc < 2)
 		error("Error");
 	struct_init(&deque_a, &deque_b);
-	insert_numbers_to_list(&deque_a, argc, argv);
+	insert_numbers_to_deque(&deque_a, argc, argv);
 	sort_ascending(&deque_a, &deque_b);
 	return (0);
 }
