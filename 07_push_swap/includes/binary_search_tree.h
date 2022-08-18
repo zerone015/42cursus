@@ -1,36 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   deque.h                                            :+:      :+:    :+:   */
+/*   binary_search_tree.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/19 07:08:22 by yoson            ###   ########.fr       */
+/*   Created: 2022/08/19 05:44:42 by yoson             #+#    #+#             */
+/*   Updated: 2022/08/19 07:01:07 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEQUE_H
-# define DEQUE_H
+#ifndef BINARY_SEARCH_TREE_H
+# define BINARY_SEARCH_TREE_H
 
-typedef struct s_node
-{
-	int				data;
-	struct s_node	*prev;
-	struct s_node	*next;
-}	t_node;
+# include "binary_tree.h"
 
-typedef struct s_deque
-{
-	t_node	*head;
-	t_node	*tail;
-	int		num_cnt;
-}	t_deque;
-
-void	deque_init(t_deque *deque);
-void	add_first(t_deque *deque, int data);
-void	add_last(t_deque *deque, int data);
-int		remove_first(t_deque *deque);
-int		remove_last(t_deque *deque);
+void	bst_init(t_btree **bst);
+t_btree	*bst_insert(t_btree **bst, int data);
 
 #endif

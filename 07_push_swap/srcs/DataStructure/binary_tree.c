@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   deque.h                                            :+:      :+:    :+:   */
+/*   binary_tree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/19 07:08:22 by yoson            ###   ########.fr       */
+/*   Created: 2022/08/19 06:36:07 by yoson             #+#    #+#             */
+/*   Updated: 2022/08/19 06:44:40 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEQUE_H
-# define DEQUE_H
+#include <stdlib.h>
+#include "binary_tree.h"
 
-typedef struct s_node
+t_btree	*make_btree(void)
 {
-	int				data;
-	struct s_node	*prev;
-	struct s_node	*next;
-}	t_node;
+	t_btree	*bt;
 
-typedef struct s_deque
+	bt = (t_btree *) malloc(sizeof(t_btree));
+	if (!bt)
+		error("Error");
+	bt->left = NULL;
+	bt->right = NULL;
+	return (bt);
+}
+
+int	get_data(t_btree *bt)
 {
-	t_node	*head;
-	t_node	*tail;
-	int		num_cnt;
-}	t_deque;
+	return (bt->data);
+}
 
-void	deque_init(t_deque *deque);
-void	add_first(t_deque *deque, int data);
-void	add_last(t_deque *deque, int data);
-int		remove_first(t_deque *deque);
-int		remove_last(t_deque *deque);
-
-#endif
+void	set_data(t_btree *bt, int data)
+{
+	bt->data = data;
+}

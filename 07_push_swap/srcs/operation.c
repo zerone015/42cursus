@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 19:47:17 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/17 20:31:38 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/19 07:11:54 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ void	swap(t_deque *deque, char *str)
 {
 	int	temp;
 
-	temp = deque->head->next->num;
-	deque->head->next->num = deque->head->next->next->num;
-	deque->head->next->next->num = temp;
+	temp = deque->head->next->data;
+	deque->head->next->data = deque->head->next->next->data;
+	deque->head->next->next->data = temp;
 	ft_putendl_fd(str, 1);
 }
 
-void	push(t_deque *deque, int num, char *str)
+void	push(t_deque *deque, int data, char *str)
 {
-	add_first(deque, num);
+	add_first(deque, data);
 	ft_putendl_fd(str, 1);
 }
 

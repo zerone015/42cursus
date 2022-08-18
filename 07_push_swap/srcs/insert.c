@@ -6,33 +6,28 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 04:03:45 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/17 20:34:32 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/19 07:17:10 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	is_number_duplicated(t_deque *deque_a, int num)
+static int	is_number_duplicated(t_btree *bst, int num)
 {
-	t_node	*node;
-
-	node = deque_a->head->next;
-	while (node)
-	{
-		if (node->num == num)
-			return (TRUE);
-		node = node->next;
-	}
+	if (bst_insert(&bst, num) == NULL)
+		return (TRUE);
 	return (FALSE);
 }
 
 void	insert_numbers_to_deque(t_deque *deque_a, int argc, char *argv[])
 {
+	t_btree		*bst;
+	char		**numbers;
 	int			i;
 	int			j;
-	char		**numbers;
 	int			num;
 
+	bst_init(&bst);
 	i = 1;
 	while (i < argc)
 	{
@@ -45,7 +40,7 @@ void	insert_numbers_to_deque(t_deque *deque_a, int argc, char *argv[])
 		while (numbers[j])
 		{
 			num = ft_atoi(numbers[j++]);
-			if (is_number_duplicated(deque_a, num))
+			if (is_number_duplicated(bst, num))
 				error("Error");
 			add_last(deque_a, num);
 		}

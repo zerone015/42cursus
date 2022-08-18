@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   deque.h                                            :+:      :+:    :+:   */
+/*   binary_tree2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/19 07:08:22 by yoson            ###   ########.fr       */
+/*   Created: 2022/08/19 06:36:42 by yoson             #+#    #+#             */
+/*   Updated: 2022/08/19 06:37:03 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEQUE_H
-# define DEQUE_H
+#include "binary_tree.h"
 
-typedef struct s_node
+t_btree	*get_left_subtree(t_btree *bt)
 {
-	int				data;
-	struct s_node	*prev;
-	struct s_node	*next;
-}	t_node;
+	return (bt->left);
+}
 
-typedef struct s_deque
+t_btree	*get_right_subtree(t_btree *bt)
 {
-	t_node	*head;
-	t_node	*tail;
-	int		num_cnt;
-}	t_deque;
+	return (bt->right);
+}
 
-void	deque_init(t_deque *deque);
-void	add_first(t_deque *deque, int data);
-void	add_last(t_deque *deque, int data);
-int		remove_first(t_deque *deque);
-int		remove_last(t_deque *deque);
+void	change_left_subtree(t_btree *main, t_btree *sub)
+{
+	main->left = sub;
+}
 
-#endif
+void	change_right_subtree(t_btree *main, t_btree *sub)
+{
+	main->right = sub;
+}
