@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 06:37:47 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/19 06:48:41 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/19 08:14:00 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_btree	*get_left_subtree(t_btree *bt);
 t_btree	*get_right_subtree(t_btree *bt);
 void	change_left_subtree(t_btree *main, t_btree *sub);
 void	change_right_subtree(t_btree *main, t_btree *sub);
+void	tree_free(t_btree *bt);
 void	error(char *msg);
 
 #endif

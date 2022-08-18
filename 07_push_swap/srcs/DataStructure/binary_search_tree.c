@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 05:44:17 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/19 07:28:37 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/19 07:59:51 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	bst_init(t_btree **bst)
 	*bst = NULL;
 }
 
-t_btree	*bst_insert(t_btree **bst, int data)
+int	bst_insert(t_btree **bst, int data)
 {
 	if (*bst == NULL)
 	{
@@ -39,7 +39,7 @@ t_btree	*bst_insert(t_btree **bst, int data)
 	}
 	else
 	{
-		return (NULL);
+		return (ERROR);
 	}
-	return (*bst);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 06:36:07 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/19 06:44:40 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/19 08:13:51 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,13 @@ int	get_data(t_btree *bt)
 void	set_data(t_btree *bt, int data)
 {
 	bt->data = data;
+}
+
+void	tree_free(t_btree *bt)
+{
+	if (bt == NULL)
+		return ;
+	btree_free(bt->left);
+	btree_free(bt->right);
+	free(bt);
 }
