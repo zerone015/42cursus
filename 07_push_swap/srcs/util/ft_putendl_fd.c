@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   avl_rebalance.h                                    :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/19 06:26:15 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/19 06:45:53 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/10 00:42:36 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/16 21:49:50 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AVL_REBALANCE_H
-# define AVL_REBALANCE_H
+#include <unistd.h>
+#include "libft.h"
 
-# include "binary_tree.h"
-
-int		get_height(t_btree *bst);
-int		get_height_diff(t_btree *bst);
-t_btree	*rebalance(t_btree **bst);
-t_btree	*rotate_ll(t_btree *bst);
-t_btree	*rotate_rr(t_btree *bst);
-t_btree	*rotate_rl(t_btree *bst);
-t_btree	*rotate_lr(t_btree *bst);
-
-#endif
+void	ft_putendl_fd(char *s, int fd)
+{
+	write(fd, s, ft_strlen(s));
+	write(fd, "\n", 1);
+}
