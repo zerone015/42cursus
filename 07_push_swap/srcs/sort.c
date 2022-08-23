@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:25:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 01:14:42 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/24 02:36:08 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ static void	b_to_a(t_deque *deque_a, t_deque *deque_b, int pb_cnt)
 	b_to_a(deque_a, deque_b, pb_cnt);
 }
 
-void	sort_ascending(t_deque *deque_a)
+void	sort_by_ascending(t_deque *deque_a)
 {
 	t_deque	deque_b;
 

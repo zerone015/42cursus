@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:04:11 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 00:02:21 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/24 02:35:31 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ static void	insert_numbers_to_temp(int temp[], t_deque *deque_a)
 	}
 }
 
-static int	duplicate_number_exists(int temp[], t_deque *deque_a)
+static int	duplicate_number_exists(int temp[], int len)
 {
 	int	i;
 
 	i = 0;
-	while (i < deque_a->num_cnt - 1)
+	while (i < len - 1)
 	{
 		if (temp[i] == temp[i + 1])
 			return (TRUE);
@@ -68,7 +68,7 @@ void	preprocess(t_deque *deque_a)
 		error("Error");
 	insert_numbers_to_temp(temp, deque_a);
 	quick_sort(temp, 0, deque_a->num_cnt - 1);
-	if (duplicate_number_exists(temp, deque_a) == TRUE)
+	if (duplicate_number_exists(temp, deque_a->num_cnt) == TRUE)
 		error("Error");
 	renumbering(temp, deque_a);
 	free(temp);

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 22:07:17 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 01:04:16 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/24 02:35:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ int	main(int argc, char *argv[])
 	deque_init(&deque_a);
 	insert_numbers_to_deque(&deque_a, argc, argv);
 	preprocess(&deque_a);
-	sort_ascending(&deque_a);
+	sort_by_ascending(&deque_a);
 	return (0);
 }
