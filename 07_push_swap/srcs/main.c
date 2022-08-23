@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 22:07:17 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/23 22:05:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/24 01:04:16 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	main(int argc, char *argv[])
 {
 	t_deque	deque_a;
 
+	if (argc < 2)
+		return (0);
 	deque_init(&deque_a);
 	insert_numbers_to_deque(&deque_a, argc, argv);
 	preprocess(&deque_a);

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:04:11 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/23 22:05:55 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/24 00:02:21 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,18 @@ static int	duplicate_number_exists(int temp[], t_deque *deque_a)
 
 static void	renumbering(int temp[], t_deque *deque_a)
 {
-	int		node_cnt;
+	int		i;
+	int		num_cnt;
 	t_node	*node;
 
 	node = deque_a->head->next;
-	node_cnt = deque_a->num_cnt;
-	while (node_cnt--)
+	num_cnt = deque_a->num_cnt;
+	i = 0;
+	while (i < num_cnt)
 	{
-		node->data = binary_search(temp, node->data);
+		node->data = interpolation_search(temp, 0, num_cnt, node->data);
 		node = node->next;
+		i++;
 	}
 }
 
@@ -61,9 +64,12 @@ void	preprocess(t_deque *deque_a)
 	int		*temp;
 
 	temp = (int *) malloc(sizeof(int) * deque_a->num_cnt);
+	if (!temp)
+		error("Error");
 	insert_numbers_to_temp(temp, deque_a);
 	quick_sort(temp, 0, deque_a->num_cnt - 1);
 	if (duplicate_number_exists(temp, deque_a) == TRUE)
 		error("Error");
 	renumbering(temp, deque_a);
+	free(temp);
 }
