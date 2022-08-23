@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:36:56 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/23 22:59:38 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/24 01:21:36 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 int	interpolation_search(int arr[], int first, int last, int target)
 {
-	int	mid;
+	int	idx;
 
 	if (arr[first] > target || arr[last] < target)
 		return (-1);
-	mid = ((double)(target - arr[first]) / (arr[last] - arr[first]) * \
+	idx = ((double)(target - arr[first]) / (arr[last] - arr[first]) * \
 			(last - first)) + first;
-	if (arr[mid] == target)
-		return (mid);
-	else if (target < arr[mid])
-		return (interpolation_search(arr, first, mid - 1, target));
+	if (arr[idx] == target)
+		return (idx);
+	else if (target < arr[idx])
+		return (interpolation_search(arr, first, idx - 1, target));
 	else
-		return (interpolation_search(arr, mid + 1, last, target));
+		return (interpolation_search(arr, idx + 1, last, target));
 }
