@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.h                                             :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:08:15 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/08 16:31:32 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/16 21:50:12 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_H
-# define LIST_H
+#include <stdlib.h>
+#include "libft.h"
 
-typedef struct s_node
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int				data;
-	struct s_node	*prev;
-	struct s_node	*next;
-}	t_node;
+	char	*str;
+	size_t	str_len;
 
-typedef struct s_list
-{
-	t_node	*head;
-	t_node	*tail;
-	int		num_cnt;
-}	t_list;
-
-void	list_init(t_list *list);
-void	add_first(t_list *list, int data);
-void	add_last(t_list *list, int data);
-int		remove_first(t_list *list);
-int		remove_last(t_list *list);
-void	error(char *msg);
-
-#endif
+	str_len = ft_strlen(s1) + ft_strlen(s2);
+	str = (char *) malloc(str_len + 1);
+	if (!str)
+		return (NULL);
+	while (*s1 != '\0')
+		*str++ = *s1++;
+	while (*s2 != '\0')
+		*str++ = *s2++;
+	*str = '\0';
+	return (str - str_len);
+}

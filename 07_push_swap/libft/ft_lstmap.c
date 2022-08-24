@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.h                                             :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:08:15 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/10 15:20:42 by yoson             #+#    #+#             */
+/*   Updated: 2022/08/24 18:04:29 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_H
-# define LIST_H
+#include "libft.h"
 
-typedef struct s_node
+t_lst	*ft_lstmap(t_lst *lst, void *(*f)(void *), void (*del)(void *))
 {
-	int				data;
-	struct s_node	*prev;
-	struct s_node	*next;
-}	t_node;
+	t_lst	*tmp;
+	t_lst	*new_lst;
 
-typedef struct s_list
-{
-	t_node	*head;
-	t_node	*tail;
-	int		num_cnt;
-}	t_list;
-
-void	list_init(t_list *list);
-void	add_first(t_list *list, int data);
-void	add_last(t_list *list, int data);
-int		remove_first(t_list *list);
-int		remove_last(t_list *list);
-void	error(char *msg);
-
-#endif
+	tmp = NULL;
+	while (lst)
+	{
+		new_lst = ft_lstnew(f(lst->content));
+		if (!new_lst)
+		{
+			ft_lstclear(&tmp, del);
+			return (NULL);
+		}
+		ft_lstadd_back(&tmp, new_lst);
+		lst = lst->next;
+	}
+	return (tmp);
+}

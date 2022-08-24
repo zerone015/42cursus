@@ -1,37 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.h                                             :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:08:15 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/10 00:45:33 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/12 21:46:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_H
-# define LIST_H
+#include <unistd.h>
+#include "libft.h"
 
-typedef struct s_node
+static void	put_nbr(long long nbr, int fd)
 {
-	int				data;
-	struct s_node	*prev;
-	struct s_node	*next;
-}	t_node;
+	if (!nbr)
+		return ;
+	put_nbr(nbr / 10, fd);
+	write(fd, &"0123456789"[nbr % 10], 1);
+}
 
-typedef struct s_list
+void	ft_putnbr_fd(int n, int fd)
 {
-	t_node	*head;
-	t_node	*tail;
-	int		num_cnt;
-}	t_list;
+	long long	nbr;
 
-void	list_init(t_list *list);
-void	add_first(t_list *list, int data);
-void	add_last(t_list *list, int data);
-int		remove_first(t_list *list);
-int		remove_last(t_list *list);
-void	error(char *msg);
-
-#endif
+	if (!n)
+	{
+		write(fd, "0", 1);
+		return ;
+	}
+	nbr = n;
+	if (n < 0)
+	{
+		nbr *= -1;
+		write(fd, "-", 1);
+	}
+	put_nbr(nbr, fd);
+}

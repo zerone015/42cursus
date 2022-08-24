@@ -1,20 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/13 01:31:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:07:51 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/08 16:21:01 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/16 21:51:22 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
 #include <stdlib.h>
+#include "libft.h"
 
-void	error(char *msg)
+char	*ft_substr(char const *src, unsigned int start, size_t len)
 {
-	ft_putendl_fd(msg, 2);
-	exit(1);
+	char	*str;
+	size_t	i;
+
+	if (ft_strlen(src) <= start)
+		return (ft_strdup(""));
+	if (ft_strlen(src) < start + len)
+		len = ft_strlen(src) - start;
+	str = (char *) malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	src += start;
+	i = 0;
+	while (src[i] && len--)
+	{
+		str[i] = src[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

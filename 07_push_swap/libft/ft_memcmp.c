@@ -1,37 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.h                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:08:15 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/05 21:49:42 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/12 22:01:37 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_H
-# define LIST_H
+#include "libft.h"
 
-typedef struct s_node
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	int				data;
-	struct s_node	*prev;
-	struct s_node	*next;
-}	t_node;
+	unsigned char	*s1_tmp;
+	unsigned char	*s2_tmp;
 
-typedef struct s_list
-{
-	t_node	*head;
-	t_node	*tail;
-	int		num_cnt;
-}	t_list;
-
-void	list_init(t_list *list);
-void	add_first(t_list *list, int data);
-void	add_last(t_list *list, int data);
-int		remove_first(t_list *list);
-int		remove_last(t_list *list);
-void	error(char *msg);
-
-#endif
+	s1_tmp = (unsigned char *) s1;
+	s2_tmp = (unsigned char *) s2;
+	while (n--)
+	{
+		if (*s1_tmp != *s2_tmp)
+			return (*s1_tmp - *s2_tmp);
+		s1_tmp++;
+		s2_tmp++;
+	}
+	return (0);
+}

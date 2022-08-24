@@ -6,9 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:25:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 17:13:53 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/24 17:48:10 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "push_swap.h"
 
 static int	is_already_sorted(t_list *list_a)
 {
@@ -40,7 +42,7 @@ static int	find_median(t_list *list)
 	return (node->data);
 }
 
-static void	a_to_b(t_list *list_a, t_list *list_b, int ra_cnt)
+void	a_to_b(t_list *list_a, t_list *list_b, int ra_cnt)
 {
 	int		i;
 	int		pivot;
@@ -76,7 +78,7 @@ static void	a_to_b(t_list *list_a, t_list *list_b, int ra_cnt)
 	b_to_a(list_a, list_b, pb_cnt);
 }
 
-static void	b_to_a(t_list *list_a, t_list *list_b, int pb_cnt)
+void	b_to_a(t_list *list_a, t_list *list_b, int pb_cnt)
 {
 	int		i;
 	int		pivot;
@@ -124,5 +126,5 @@ void	sort_by_ascending(t_list *list_a)
 	if (is_already_sorted(list_a) == TRUE)
 		return ;
 	list_init(&list_b);
-	a_to_b(list_a, &list_b, 0, 0);
+	a_to_b(list_a, &list_b, 0);
 }

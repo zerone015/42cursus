@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.h                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:08:15 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/05 20:56:18 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/12 22:04:39 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_H
-# define LIST_H
+#include "libft.h"
 
-typedef struct s_node
+char	*ft_strrchr(const char *str, int c)
 {
-	int				data;
-	struct s_node	*prev;
-	struct s_node	*next;
-}	t_node;
+	char	*str_rear;
 
-typedef struct s_list
-{
-	t_node	*head;
-	t_node	*tail;
-	int		num_cnt;
-}	t_list;
-
-void	list_init(t_list *list);
-void	add_first(t_list *list, int data);
-void	add_last(t_list *list, int data);
-int		remove_first(t_list *list);
-int		remove_last(t_list *list);
-void	error(char *msg);
-
-#endif
+	str_rear = (char *) str + ft_strlen(str);
+	while (str <= str_rear)
+	{
+		if (*str_rear == (char) c)
+			return (str_rear);
+		str_rear--;
+	}
+	return (NULL);
+}

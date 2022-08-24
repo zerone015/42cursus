@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.h                                             :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:08:15 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/08 17:32:40 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/16 21:51:08 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_H
-# define LIST_H
+#include "libft.h"
 
-typedef struct s_node
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	int				data;
-	struct s_node	*prev;
-	struct s_node	*next;
-}	t_node;
+	size_t	start;
+	size_t	end;
 
-typedef struct s_list
-{
-	t_node	*head;
-	t_node	*tail;
-	int		num_cnt;
-}	t_list;
-
-void	list_init(t_list *list);
-void	add_first(t_list *list, int data);
-void	add_last(t_list *list, int data);
-int		remove_first(t_list *list);
-int		remove_last(t_list *list);
-void	error(char *msg);
-
-#endif
+	start = 0;
+	end = ft_strlen(s1) - 1;
+	while (s1[start] != '\0' && ft_strchr(set, s1[start]))
+		start++;
+	if (start >= (end + 1))
+		return ((char *) ft_calloc(1, sizeof(char)));
+	while (ft_strchr(set, s1[end]))
+		end--;
+	return (ft_substr(s1, start, (end - start + 1)));
+}

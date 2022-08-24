@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/13 01:31:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:07:51 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/04 16:36:18 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/12 22:01:45 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-#include <stdlib.h>
+#include "libft.h"
 
-void	error(char *msg)
-{
-	ft_putendl_fd(msg, 2);
-	exit(1);
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{	
+	unsigned char	*dest_tmp;
+	unsigned char	*src_tmp;
+
+	dest_tmp = (unsigned char *) dest;
+	src_tmp = (unsigned char *) src;
+	if (dest == src)
+		return (dest);
+	while (n--)
+		*dest_tmp++ = *src_tmp++;
+	return (dest);
 }

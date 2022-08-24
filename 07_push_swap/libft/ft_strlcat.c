@@ -1,37 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.h                                             :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:08:15 by yoson            ###   ########.fr       */
+/*   Created: 2022/07/05 20:09:22 by yoson             #+#    #+#             */
+/*   Updated: 2022/07/12 22:03:31 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_H
-# define LIST_H
+#include "libft.h"
 
-typedef struct s_node
+size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
-	int				data;
-	struct s_node	*prev;
-	struct s_node	*next;
-}	t_node;
+	size_t	src_len;
+	size_t	i;
+	size_t	j;
 
-typedef struct s_list
-{
-	t_node	*head;
-	t_node	*tail;
-	int		num_cnt;
-}	t_list;
-
-void	list_init(t_list *list);
-void	add_first(t_list *list, int data);
-void	add_last(t_list *list, int data);
-int		remove_first(t_list *list);
-int		remove_last(t_list *list);
-void	error(char *msg);
-
-#endif
+	i = 0;
+	j = 0;
+	while (dest[i] != '\0' && i < size)
+		i++;
+	while (src[j] != '\0' && (i + j + 1) < size)
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	if (i < size)
+		dest[i + j] = '\0';
+	src_len = 0;
+	while (src[src_len] != '\0')
+		src_len++;
+	return (i + src_len);
+}

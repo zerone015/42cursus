@@ -6,11 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 03:38:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/17 19:14:41 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/24 17:54:02 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 #include <limits.h>
 
 static int	check_over_range(long long num)
