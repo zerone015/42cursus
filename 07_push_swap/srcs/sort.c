@@ -6,13 +6,12 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:25:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/25 00:17:14 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/25 04:20:50 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
-#include <unistd.h>
+
 static int	is_already_sorted(t_list *list_a)
 {
 	t_node	*node;
@@ -49,30 +48,6 @@ static int	find_median(t_list *list, int size)
 	return (sum / size);
 }
 
-
-void	show_list(t_list *a, t_list *b)
-{
-	t_node *node;
-
-	ft_putstr_fd("\na: ", 1);
-	node = a->head->next;
-	while (node->next)
-	{
-		ft_putnbr_fd(node->data, 1);
-		write(1, " ", 1);
-		node = node->next;
-	}
-	node = b->head->next;
-	ft_putstr_fd("\nb: ", 1);
-	while (node->next)
-	{
-		ft_putnbr_fd(node->data, 1);
-		write(1, " ", 1);
-		node = node->next;
-	}
-	write(1, "\n\n", 2);
-}
-
 void	a_to_b(t_list *list_a, t_list *list_b, int size)
 {
 	int		i;
@@ -82,6 +57,11 @@ void	a_to_b(t_list *list_a, t_list *list_b, int size)
 
 	if (size == 1)
 		return ;
+	if (size == 2 && list_a->head->next->data > list_a->head->next->next->data)
+	{
+		swap(list_a, "sa");
+		return ;
+	}
 	pivot = find_median(list_a, size);
 	if (pivot == -1)
 		return ;
@@ -92,15 +72,11 @@ void	a_to_b(t_list *list_a, t_list *list_b, int size)
 	{
 		if (list_a->head->next->data > pivot)
 		{
-			ft_putnbr_fd(list_a->head->next->data, 1);
-			write(1, " = ", 3);
 			rotate(list_a, "ra");
 			ra_cnt++;
 		}
 		else
 		{
-			ft_putnbr_fd(list_a->head->next->data, 1);
-			write(1, " = ", 3);
 			push(list_b, remove_first(list_a), "pb");
 			pb_cnt++;
 		}
@@ -109,12 +85,9 @@ void	a_to_b(t_list *list_a, t_list *list_b, int size)
 	i = 0;
 	while (i < ra_cnt)
 	{
-		ft_putnbr_fd(list_a->tail->prev->data, 1);
-		write(1, " = ", 3);
 		reverse_rotate(list_a, "rra");
 		i++;
 	}
-	show_list(list_a, list_b);
 	a_to_b(list_a, list_b, ra_cnt);
 	b_to_a(list_a, list_b, pb_cnt);
 }
@@ -128,10 +101,18 @@ void	b_to_a(t_list *list_a, t_list *list_b, int size)
 
 	if (size == 1)
 	{
-		ft_putnbr_fd(list_b->head->next->data, 1);
-		write(1, " = ", 3);
 		push(list_a, remove_first(list_b), "pa");
 		return ;
+	}
+	if (size == 2)
+	{
+		if (list_b->head->next->data < list_b->head->next->next->data)
+		{
+			swap(list_b, "sb");
+			push(list_a, remove_first(list_b), "pa");
+			push(list_a, remove_first(list_b), "pa");
+			return ;
+		}
 	}
 	pivot = find_median(list_b, size);
 	if (pivot == -1)
@@ -141,17 +122,13 @@ void	b_to_a(t_list *list_a, t_list *list_b, int size)
 	i = 0;
 	while (i < size)
 	{
-		if (list_b->head->next->data <= pivot)
+		if (list_b->head->next->data < pivot)
 		{
-			ft_putnbr_fd(list_b->head->next->data, 1);
-			write(1, " = ", 3);
 			rotate(list_b, "rb");
 			rb_cnt++;
 		}
 		else
 		{
-			ft_putnbr_fd(list_b->head->next->data, 1);
-			write(1, " = ", 3);
 			push(list_a, remove_first(list_b), "pa");
 			pa_cnt++;
 		}
@@ -160,12 +137,9 @@ void	b_to_a(t_list *list_a, t_list *list_b, int size)
 	i = 0;
 	while (i < rb_cnt)
 	{
-		ft_putnbr_fd(list_b->tail->prev->data, 1);
-		write(1, " = ", 3);
 		reverse_rotate(list_b, "rrb");
 		i++;
 	}
-	show_list(list_a, list_b);
 	a_to_b(list_a, list_b, pa_cnt);
 	b_to_a(list_a, list_b, list_b->num_cnt);
 }
@@ -178,5 +152,4 @@ void	sort_by_ascending(t_list *list_a)
 		return ;
 	list_init(&list_b);
 	a_to_b(list_a, &list_b, list_a->num_cnt);
-	show_list(list_a, &list_b);
 }
