@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   list.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/12 22:07:17 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 16:23:28 by yoson            ###   ########.fr       */
+/*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
+/*   Updated: 2022/08/24 16:52:02 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#ifndef LIST_H
+# define LIST_H
 
-int	main(int argc, char *argv[])
+typedef struct s_node
 {
-	t_list	list_a;
+	int				data;
+	struct s_node	*prev;
+	struct s_node	*next;
+}	t_node;
 
-	if (argc < 2)
-		return (0);
-	list_init(&list_a);
-	insert_numbers_to_list(&list_a, argc, argv);
-	preprocess(&list_a);
-	sort_by_ascending(&list_a);
-	return (0);
-}
+typedef struct s_list
+{
+	t_node	*head;
+	t_node	*tail;
+	int		num_cnt;
+}	t_list;
+
+void	list_init(t_list *list);
+void	add_first(t_list *list, int data);
+void	add_last(t_list *list, int data);
+int		remove_first(t_list *list);
+int		remove_last(t_list *list);
+
+#endif

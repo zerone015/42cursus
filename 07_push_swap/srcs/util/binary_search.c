@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   deque.h                                            :+:      :+:    :+:   */
+/*   binary_search.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 00:35:16 by yoson            ###   ########.fr       */
+/*   Created: 2022/08/23 22:36:56 by yoson             #+#    #+#             */
+/*   Updated: 2022/08/24 17:19:35 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEQUE_H
-# define DEQUE_H
+#include "push_swap.h"
 
-typedef struct s_node
+int	binary_search(int arr[], int len, int target)
 {
-	int				data;
-	struct s_node	*prev;
-	struct s_node	*next;
-}	t_node;
+	int	first;
+	int	last;
+	int	mid;
 
-typedef struct s_deque
-{
-	t_node	*head;
-	t_node	*tail;
-	int		num_cnt;
-}	t_deque;
-
-void	deque_init(t_deque *deque);
-void	add_first(t_deque *deque, int data);
-void	add_last(t_deque *deque, int data);
-int		remove_first(t_deque *deque);
-int		remove_last(t_deque *deque);
-
-#endif
+	first = 0;
+	last = len - 1;
+	while (first <= last)
+	{
+		mid = (first + last) / 2;
+		if (target == arr[mid])
+		{
+			return (mid);
+		}
+		else
+		{
+			if (target < arr[mid])
+				last = mid - 1;
+			else
+				first = mid + 1;
+		}
+	}
+	return (-1);
+}

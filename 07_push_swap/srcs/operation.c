@@ -6,46 +6,46 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 19:47:17 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/19 07:11:54 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/24 16:49:19 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap(t_deque *deque, char *str)
+void	swap(t_list *list, char *str)
 {
 	int	temp;
 
-	temp = deque->head->next->data;
-	deque->head->next->data = deque->head->next->next->data;
-	deque->head->next->next->data = temp;
+	temp = list->head->next->data;
+	list->head->next->data = list->head->next->next->data;
+	list->head->next->next->data = temp;
 	ft_putendl_fd(str, 1);
 }
 
-void	push(t_deque *deque, int data, char *str)
+void	push(t_list *list, int data, char *str)
 {
-	add_first(deque, data);
+	add_first(list, data);
 	ft_putendl_fd(str, 1);
 }
 
-void	rotate(t_deque *deque, char *str)
+void	rotate(t_list *list, char *str)
 {
-	deque->tail->prev->next = deque->head->next;
-	deque->head->next = deque->head->next->next;
-	deque->head->next->prev = deque->head;
-	deque->tail->prev->next->prev = deque->tail->prev;
-	deque->tail->prev->next->next = deque->tail;
-	deque->tail->prev = deque->tail->prev->next;
+	list->tail->prev->next = list->head->next;
+	list->head->next = list->head->next->next;
+	list->head->next->prev = list->head;
+	list->tail->prev->next->prev = list->tail->prev;
+	list->tail->prev->next->next = list->tail;
+	list->tail->prev = list->tail->prev->next;
 	ft_putendl_fd(str, 1);
 }
 
-void	reverse_rotate(t_deque *deque, char *str)
+void	reverse_rotate(t_list *list, char *str)
 {
-	deque->head->next->prev = deque->tail->prev;
-	deque->tail->prev = deque->tail->prev->prev;
-	deque->tail->prev->next = deque->tail;
-	deque->head->next->prev->next = deque->head->next;
-	deque->head->next->prev->prev = deque->head;
-	deque->head->next = deque->head->next->prev;
+	list->head->next->prev = list->tail->prev;
+	list->tail->prev = list->tail->prev->prev;
+	list->tail->prev->next = list->tail;
+	list->head->next->prev->next = list->head->next;
+	list->head->next->prev->prev = list->head;
+	list->head->next = list->head->next->prev;
 	ft_putendl_fd(str, 1);
 }

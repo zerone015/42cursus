@@ -6,16 +6,16 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:25:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 02:36:08 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/24 17:13:53 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static int	is_already_sorted(t_deque *deque_a)
+static int	is_already_sorted(t_list *list_a)
 {
 	t_node	*node;
 
-	node = deque_a->head->next;
-	while (node->next)
+	node = list_a->head->next;
+	while (node->next->next)
 	{
 		if (node->data > node->next->data)
 			return (FALSE);
@@ -24,14 +24,14 @@ static int	is_already_sorted(t_deque *deque_a)
 	return (TRUE);
 }
 
-static int	find_median(t_deque *deque)
+static int	find_median(t_list *list)
 {
 	int		mid;
 	t_node	*node;
 
-	node = deque->head->next;
-	mid = deque->num_cnt / 2;
-	while (node)
+	node = list->head->next;
+	mid = list->num_cnt / 2;
+	while (node->next)
 	{
 		if (node->data == mid)
 			break ;
@@ -40,43 +40,43 @@ static int	find_median(t_deque *deque)
 	return (node->data);
 }
 
-static void	a_to_b(t_deque *deque_a, t_deque *deque_b, int ra_cnt)
+static void	a_to_b(t_list *list_a, t_list *list_b, int ra_cnt)
 {
 	int		i;
 	int		pivot;
 	int		pb_cnt;
 	t_node	*node;
 
-	if (deque_a->num_cnt == 1)
+	if (list_a->num_cnt == 1)
 		return ;
-	pivot = find_median(deque_a);
-	node = deque_a->head->next;
+	pivot = find_median(list_a);
+	node = list_a->head->next;
 	pb_cnt = 0;
 	i = 0;
-	while (i < deque_a->num_cnt)
+	while (i < list_a->num_cnt)
 	{
 		if (node->data > pivot)
 		{
-			rotate(deque_a, "ra");
+			rotate(list_a, "ra");
 			ra_cnt++;
 		}
 		else
 		{
-			push(deque_b, remove_first(deque_a), "pb");
+			push(list_b, remove_first(list_a), "pb");
 			pb_cnt++;
 		}
 	}
 	i = 0;
 	while (i < ra_cnt)
 	{
-		reverse_rotate(deque_a, "rra");
+		reverse_rotate(list_a, "rra");
 		i++;
 	}
-	a_to_b(deque_a, deque_b, ra_cnt);
-	b_to_a(deque_a, deque_b, pb_cnt);
+	a_to_b(list_a, list_b, ra_cnt);
+	b_to_a(list_a, list_b, pb_cnt);
 }
 
-static void	b_to_a(t_deque *deque_a, t_deque *deque_b, int pb_cnt)
+static void	b_to_a(t_list *list_a, t_list *list_b, int pb_cnt)
 {
 	int		i;
 	int		pivot;
@@ -84,45 +84,45 @@ static void	b_to_a(t_deque *deque_a, t_deque *deque_b, int pb_cnt)
 	int		pa_cnt;
 	t_node	*node;
 
-	if (deque_b->num_cnt == 1)
+	if (list_b->num_cnt == 1)
 	{
-		push(deque_a, remove_first(deque_b), "pa");
+		push(list_a, remove_first(list_b), "pa");
 		return ;
 	}
-	pivot = find_median(deque_b);
-	node = deque_b->head->next;
+	pivot = find_median(list_b);
+	node = list_b->head->next;
 	rb_cnt = 0;
 	pa_cnt = 0;
 	i = 0;
-	while (i < deque_b->num_cnt)
+	while (i < list_b->num_cnt)
 	{
 		if (node->data > pivot)
 		{
-			rotate(deque_b, "rb");
+			rotate(list_b, "rb");
 			rb_cnt++;
 		}
 		else
 		{
-			push(deque_a, remove_first(deque_b), "pa");
+			push(list_a, remove_first(list_b), "pa");
 			pa_cnt++;
 		}
 	}
 	i = 0;
 	while (i < rb_cnt)
 	{
-		reverse_rotate(deque_b, "rrb");
+		reverse_rotate(list_b, "rrb");
 		i++;
 	}
-	a_to_b(deque_a, deque_b, pa_cnt);
-	b_to_a(deque_a, deque_b, pb_cnt);
+	a_to_b(list_a, list_b, pa_cnt);
+	b_to_a(list_a, list_b, pb_cnt);
 }
 
-void	sort_by_ascending(t_deque *deque_a)
+void	sort_by_ascending(t_list *list_a)
 {
-	t_deque	deque_b;
+	t_list	list_b;
 
-	if (is_already_sorted(deque_a) == TRUE)
+	if (is_already_sorted(list_a) == TRUE)
 		return ;
-	deque_init(&deque_b);
-	a_to_b(deque_a, &deque_b, 0, 0);
+	list_init(&list_b);
+	a_to_b(list_a, &list_b, 0, 0);
 }

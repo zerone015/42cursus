@@ -6,13 +6,13 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 04:03:45 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/23 21:16:37 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/24 16:24:37 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	insert_numbers_to_deque(t_deque *deque_a, int argc, char *argv[])
+void	insert_numbers_to_list(t_list *list_a, int argc, char *argv[])
 {
 	int			i;
 	char		**numbers;
@@ -29,7 +29,7 @@ void	insert_numbers_to_deque(t_deque *deque_a, int argc, char *argv[])
 		while (numbers[i])
 		{
 			num = ft_atoi(numbers[i]);
-			add_last(deque_a, num);
+			add_last(list_a, num);
 			i++;
 		}
 		ft_free(numbers);

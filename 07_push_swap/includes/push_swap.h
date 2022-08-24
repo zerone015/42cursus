@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 22:08:08 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/23 20:17:39 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/24 16:50:22 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,6 @@
 # define TRUE		1
 # define FALSE		0
 
-# include "deque.h"
+# include "list.h"
 
 #endif
