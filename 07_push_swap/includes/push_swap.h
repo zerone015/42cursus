@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 22:08:08 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:08:55 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/24 20:33:40 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 void	insert_numbers_to_list(t_list *list_a, int argc, char *argv[]);
 void	preprocess(t_list *list_a);
 void	sort_by_ascending(t_list *list_a);
-void	a_to_b(t_list *list_a, t_list *list_b, int ra_cnt);
-void	b_to_a(t_list *list_a, t_list *list_b, int pb_cnt);
+void	a_to_b(t_list *list_a, t_list *list_b, int size);
+void	b_to_a(t_list *list_a, t_list *list_b, int size);
 void	swap(t_list *list, char *str);
 void	push(t_list *list, int data, char *str);
 void	rotate(t_list *list, char *str);
