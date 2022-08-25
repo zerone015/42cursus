@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/12 22:07:17 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/26 01:05:19 by yoson            ###   ########.fr       */
+/*   Created: 2022/08/13 01:31:58 by yoson             #+#    #+#             */
+/*   Updated: 2022/08/26 01:12:54 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
+#include <stdlib.h>
 
-int	main(int argc, char *argv[])
+void	error(char *msg)
 {
-	t_list	list_a;
-	t_list	list_b;
-
-	if (argc < 2)
-		return (1);
-	list_init(&list_a);
-	insert_numbers_to_list(&list_a, argc, argv);
-	preprocess(&list_a);
-	list_init(&list_b);
-	sort_by_ascending(&list_a, &list_b);
-	return (0);
+	ft_putendl_fd(msg, 2);
+	exit(1);
 }

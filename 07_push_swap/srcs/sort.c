@@ -6,13 +6,12 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:25:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/25 00:17:14 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/26 01:36:05 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
-#include <unistd.h>
+
 static int	is_already_sorted(t_list *list_a)
 {
 	t_node	*node;
@@ -27,156 +26,78 @@ static int	is_already_sorted(t_list *list_a)
 	return (TRUE);
 }
 
-static int	find_median(t_list *list, int size)
+static void	num_init(int num[], t_list *list)
 {
-	int		i;
-	int		sum;
-	t_node	*node;
-
-	if (size == 0)
-		return (-1);
-	node = list->head->next;
-	sum = 0;
-	i = 0;
-	while (i < size)
-	{
-		if (!node)
-			return (-1);
-		sum += node->data;
-		node = node->next;
-		i++;
-	}
-	return (sum / size);
+	num[0] = list->head->next->data;
+	num[1] = list->head->next->next->data;
+	num[2] = list->head->next->next->next->data;
+	if (num[0] > num[1])
+		ft_swap(num, 0, 1);
+	if (num[1] > num[2])
+		ft_swap(num, 1, 2);
+	if (num[0] > num[1])
+		ft_swap(num, 0, 1);
 }
 
-
-void	show_list(t_list *a, t_list *b)
+static void	sort_three(t_list *list)
 {
-	t_node *node;
+	int	n[3];
 
-	ft_putstr_fd("\na: ", 1);
-	node = a->head->next;
-	while (node->next)
+	num_init(n, list);
+	if (list->head->next->data == n[0] && list->head->next->next->data == n[2])
 	{
-		ft_putnbr_fd(node->data, 1);
-		write(1, " ", 1);
-		node = node->next;
+		reverse_rotate(list, "rra");
+		swap(list, "sa");
 	}
-	node = b->head->next;
-	ft_putstr_fd("\nb: ", 1);
-	while (node->next)
+	else if (list->head->next->data == n[1])
 	{
-		ft_putnbr_fd(node->data, 1);
-		write(1, " ", 1);
-		node = node->next;
+		if (list->head->next->next->data == n[0])
+			swap(list, "sa");
+		else
+			reverse_rotate(list, "rra");
 	}
-	write(1, "\n\n", 2);
-}
-
-void	a_to_b(t_list *list_a, t_list *list_b, int size)
-{
-	int		i;
-	int		pivot;
-	int		ra_cnt;
-	int		pb_cnt;
-
-	if (size == 1)
-		return ;
-	pivot = find_median(list_a, size);
-	if (pivot == -1)
-		return ;
-	ra_cnt = 0;
-	pb_cnt = 0;
-	i = 0;
-	while (i < size)
+	else if (list->head->next->data == n[2])
 	{
-		if (list_a->head->next->data > pivot)
-		{
-			ft_putnbr_fd(list_a->head->next->data, 1);
-			write(1, " = ", 3);
-			rotate(list_a, "ra");
-			ra_cnt++;
-		}
+		if (list->head->next->next->data == n[0])
+			rotate(list, "ra");
 		else
 		{
-			ft_putnbr_fd(list_a->head->next->data, 1);
-			write(1, " = ", 3);
+			swap(list, "sa");
+			reverse_rotate(list, "rra");
+		}
+	}
+}
+
+static void	a_to_b(t_list *list_a, t_list *list_b, int size)
+{
+	while (list_a->num_cnt > size / 3 + size % 3)
+	{
+		if (size / 3 > list_a->head->next->data)
+		{
 			push(list_b, remove_first(list_a), "pb");
-			pb_cnt++;
-		}
-		i++;
-	}
-	i = 0;
-	while (i < ra_cnt)
-	{
-		ft_putnbr_fd(list_a->tail->prev->data, 1);
-		write(1, " = ", 3);
-		reverse_rotate(list_a, "rra");
-		i++;
-	}
-	show_list(list_a, list_b);
-	a_to_b(list_a, list_b, ra_cnt);
-	b_to_a(list_a, list_b, pb_cnt);
-}
-
-void	b_to_a(t_list *list_a, t_list *list_b, int size)
-{
-	int		i;
-	int		pivot;
-	int		rb_cnt;
-	int		pa_cnt;
-
-	if (size == 1)
-	{
-		ft_putnbr_fd(list_b->head->next->data, 1);
-		write(1, " = ", 3);
-		push(list_a, remove_first(list_b), "pa");
-		return ;
-	}
-	pivot = find_median(list_b, size);
-	if (pivot == -1)
-		return ;
-	rb_cnt = 0;
-	pa_cnt = 0;
-	i = 0;
-	while (i < size)
-	{
-		if (list_b->head->next->data <= pivot)
-		{
-			ft_putnbr_fd(list_b->head->next->data, 1);
-			write(1, " = ", 3);
 			rotate(list_b, "rb");
-			rb_cnt++;
 		}
+		else if (size / 3 * 2 + size % 3 <= list_a->head->next->data)
+			push(list_b, remove_first(list_a), "pb");
 		else
-		{
-			ft_putnbr_fd(list_b->head->next->data, 1);
-			write(1, " = ", 3);
-			push(list_a, remove_first(list_b), "pa");
-			pa_cnt++;
-		}
-		i++;
+			rotate(list_a, "ra");
 	}
-	i = 0;
-	while (i < rb_cnt)
+	while (list_a->num_cnt > 3)
+		push(list_b, remove_first(list_a), "pb");
+	if (list_a->num_cnt == 2)
 	{
-		ft_putnbr_fd(list_b->tail->prev->data, 1);
-		write(1, " = ", 3);
-		reverse_rotate(list_b, "rrb");
-		i++;
+		if (list_a->head->next->data > list_a->head->next->next->data)
+			swap(list_a, "sa");
 	}
-	show_list(list_a, list_b);
-	a_to_b(list_a, list_b, pa_cnt);
-	b_to_a(list_a, list_b, list_b->num_cnt);
+	else
+		sort_three(list_a);
 }
 
-void	sort_by_ascending(t_list *list_a)
+void	sort_by_ascending(t_list *list_a, t_list *list_b)
 {
-	t_list	list_b;
-
 	if (is_already_sorted(list_a) == TRUE)
 		return ;
-	list_init(&list_b);
-	a_to_b(list_a, &list_b, list_a->num_cnt);
-	show_list(list_a, &list_b);
+	a_to_b(list_a, list_b, list_a->num_cnt);
+	while (list_b->num_cnt)
+		b_to_a(list_a, list_b, find_best_case(list_a, list_b));
 }

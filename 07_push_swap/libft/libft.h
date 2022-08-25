@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:35:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:09:43 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/26 01:19:26 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
@@ -73,6 +73,8 @@ void	ft_lstclear(t_lst **lst, void (*del)(void *));
 void	ft_lstiter(t_lst *lst, void (*f)(void *));
 t_lst	*ft_lstmap(t_lst *lst, void *(*f)(void *), void (*del)(void *));
 
+void	ft_swap(int arr[], int idx1, int idx2);
+void	ft_free(char *strs[]);
 void	error(char *msg);
 
 #endif

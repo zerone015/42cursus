@@ -6,20 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:58:19 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 17:49:51 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/26 01:12:31 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-static void	ft_swap(int arr[], int idx1, int idx2)
-{
-	int	temp;
-
-	temp = arr[idx1];
-	arr[idx1] = arr[idx2];
-	arr[idx2] = temp;
-}
 
 static int	median_of_three(int arr[], int left, int right)
 {

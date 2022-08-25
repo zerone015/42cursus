@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/13 01:31:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:07:51 by yoson            ###   ########.fr       */
+/*   Created: 2022/08/13 01:37:00 by yoson             #+#    #+#             */
+/*   Updated: 2022/08/26 01:13:33 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 #include <stdlib.h>
 
-void	error(char *msg)
+void	ft_free(char *strs[])
 {
-	ft_putendl_fd(msg, 2);
-	exit(1);
+	int	i;
+
+	i = 0;
+	while (strs[i])
+		free(strs[i++]);
+	free(strs);
 }

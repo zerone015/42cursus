@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/13 01:37:00 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/13 01:38:48 by yoson            ###   ########.fr       */
+/*   Created: 2022/08/26 01:14:43 by yoson             #+#    #+#             */
+/*   Updated: 2022/08/26 01:19:17 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-#include <stdlib.h>
+#include "libft.h"
 
-void	ft_free(char *strs[])
+void	ft_swap(int arr[], int idx1, int idx2)
 {
-	int	i;
+	int	temp;
 
-	i = 0;
-	while (strs[i])
-		free(strs[i++]);
-	free(strs);
+	temp = arr[idx1];
+	arr[idx1] = arr[idx2];
+	arr[idx2] = temp;
 }
