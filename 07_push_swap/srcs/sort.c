@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:25:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/26 01:36:05 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/27 03:51:23 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,131 @@ static void	a_to_b(t_list *list_a, t_list *list_b, int size)
 		sort_three(list_a);
 }
 
+void	target_to_top(t_list *list, int idx, char *name)
+{
+	if (list->num_cnt / 2 < idx)
+	{
+		idx = list->num_cnt - idx;
+		while (idx-- > 0)
+			reverse_rotate(list, ft_strjoin("rr", name));
+	}
+	else
+	{
+		while (idx-- > 0)
+			rotate(list, ft_strjoin("r", name));
+	}
+}
+
+int	is_find(t_node *a, t_node *b, t_node *a_last)
+{
+	if (!a->prev->prev)
+	{
+		if ((a->data > a_last->data && b->data > a_last->data && \
+			b->data < a->data) 									 \
+		|| (a->data < a_last->data && b->data > a_last->data)  	 \
+		|| (a->data < a_last->data && b->data < a->data))
+			return (TRUE);
+	}
+	else
+	{
+		if (a->prev->data < b->data && a->data > b->data)
+			return (TRUE);
+		if (a->data < a->prev->data)
+		{
+			if (b->data > a->prev->data || b->data < a->data)
+				return (TRUE);
+		}
+		if (!a->next->next)
+			return (TRUE);
+	}
+	return (FALSE);
+}
+
+void	target_to_a(t_list *list_a, t_list *list_b)
+{
+	int		idx;
+	t_node	*cur;
+
+	cur = list_a->head->next;
+	idx = 0;
+	while (cur->next)
+	{
+		if (is_find(cur, list_b->head->next, list_a->tail->prev) == TRUE)
+			break;
+		cur = cur->next;
+		idx++;
+	}
+	target_to_top(list_a, idx, "a");
+	push(list_a, remove_first(list_b), "pa");
+	if (list_a->num_cnt / 2 < idx)
+	{
+		idx = list_a->num_cnt - idx;
+		while (idx-- > 0)
+			rotate(list_a, "ra");
+	}
+	else
+	{
+		while (idx-- > 0)
+			reverse_rotate(list_a, "rra");
+	}
+}
+
+int	get_inst_cnt(int a_idx, int b_idx, int a_size, int b_size)
+{
+	if (a_size / 2 < a_idx)
+		a_idx = a_size - a_idx;
+	if (b_size / 2 < b_idx)
+		b_idx = b_size - b_idx;
+	return (a_idx + b_idx);
+}
+/*
+3	6
+4	7
+5	8
+	9
+	0
+	1
+	2
+*/
+int	find_best_target(t_node *a, t_node *b, t_list *la, t_list *lb)
+{
+	int	a_idx;
+	int	b_idx;
+	int	min_inst;
+	int	min_idx;
+
+	b_idx = -1;
+	while (++b_idx < lb->num_cnt)
+	{
+		a_idx = -1;
+		while (++a_idx < la->num_cnt)
+		{
+			if (is_find(a, b, la->tail->prev) == TRUE)
+				break ;
+			a = a->next;
+		}
+		if (b_idx == 0 || min_inst > get_inst_cnt(a_idx, b_idx, la->num_cnt, lb->num_cnt))
+		{
+			min_inst = get_inst_cnt(a_idx, b_idx, la->num_cnt, lb->num_cnt);
+			min_idx = b_idx;
+		}
+		a = la->head->next;
+	}
+	return (min_idx);
+}
+
 void	sort_by_ascending(t_list *list_a, t_list *list_b)
 {
+	int	idx;
+
 	if (is_already_sorted(list_a) == TRUE)
 		return ;
 	a_to_b(list_a, list_b, list_a->num_cnt);
 	while (list_b->num_cnt)
-		b_to_a(list_a, list_b, find_best_case(list_a, list_b));
+	{
+		idx = find_best_target(list_a->head->next, list_b->head->next, list_a, list_b);
+		ft_putnbr_fd(idx, 1);
+		target_to_top(list_b, idx, "b");
+		target_to_a(list_a, list_b);
+	}
 }
