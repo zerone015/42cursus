@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:25:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/27 03:51:23 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/27 05:52:45 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,21 +112,15 @@ int	is_find(t_node *a, t_node *b, t_node *a_last)
 {
 	if (!a->prev->prev)
 	{
-		if ((a->data > a_last->data && b->data > a_last->data && \
-			b->data < a->data) 									 \
-		|| (a->data < a_last->data && b->data > a_last->data)  	 \
-		|| (a->data < a_last->data && b->data < a->data))
+		if (b->data > a_last->data || b->data < a->data)
+			return (TRUE);
+		if (b->data > a->data && b->data < a->next->data)
 			return (TRUE);
 	}
 	else
 	{
 		if (a->prev->data < b->data && a->data > b->data)
 			return (TRUE);
-		if (a->data < a->prev->data)
-		{
-			if (b->data > a->prev->data || b->data < a->data)
-				return (TRUE);
-		}
 		if (!a->next->next)
 			return (TRUE);
 	}
@@ -149,6 +143,10 @@ void	target_to_a(t_list *list_a, t_list *list_b)
 	}
 	target_to_top(list_a, idx, "a");
 	push(list_a, remove_first(list_b), "pa");
+	if (idx == 0 && list_a->head->next->data > list_a->tail->prev->data)
+		rotate(list_a, "ra");
+	else if (idx == 0 && list_a->head->next->data > list_a->head->next->next->data)
+		swap(list_a, "sa");
 	if (list_a->num_cnt / 2 < idx)
 	{
 		idx = list_a->num_cnt - idx;
@@ -202,6 +200,7 @@ int	find_best_target(t_node *a, t_node *b, t_list *la, t_list *lb)
 			min_idx = b_idx;
 		}
 		a = la->head->next;
+		b = b->next;
 	}
 	return (min_idx);
 }
@@ -216,7 +215,6 @@ void	sort_by_ascending(t_list *list_a, t_list *list_b)
 	while (list_b->num_cnt)
 	{
 		idx = find_best_target(list_a->head->next, list_b->head->next, list_a, list_b);
-		ft_putnbr_fd(idx, 1);
 		target_to_top(list_b, idx, "b");
 		target_to_a(list_a, list_b);
 	}
