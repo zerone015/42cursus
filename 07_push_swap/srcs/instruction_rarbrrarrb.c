@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   binary_search.c                                    :+:      :+:    :+:   */
+/*   instruction_rarbrrarrb.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/23 22:36:56 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 17:19:35 by yoson            ###   ########.fr       */
+/*   Created: 2022/08/27 17:09:19 by yoson             #+#    #+#             */
+/*   Updated: 2022/08/27 17:09:43 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	binary_search(int arr[], int len, int target)
+void	ra(t_list *list)
 {
-	int	first;
-	int	last;
-	int	mid;
+	add_last(list, remove_first(list));
+	ft_putendl_fd("ra", 1);
+}
 
-	first = 0;
-	last = len - 1;
-	while (first <= last)
-	{
-		mid = (first + last) / 2;
-		if (target == arr[mid])
-		{
-			return (mid);
-		}
-		else
-		{
-			if (target < arr[mid])
-				last = mid - 1;
-			else
-				first = mid + 1;
-		}
-	}
-	return (-1);
+void	rb(t_list *list)
+{
+	add_last(list, remove_first(list));
+	ft_putendl_fd("rb", 1);
+}
+
+void	rra(t_list *list)
+{
+	add_first(list, remove_last(list));
+	ft_putendl_fd("rra", 1);
+}
+
+void	rrb(t_list *list)
+{
+	add_first(list, remove_last(list));
+	ft_putendl_fd("rrb", 1);
 }

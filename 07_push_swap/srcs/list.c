@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 03:26:08 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:30:58 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/27 17:31:08 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	list_init(t_list *list)
 	list->head->next = list->tail;
 	list->tail->next = NULL;
 	list->tail->prev = list->head;
-	list->num_cnt = 0;
+	list->size = 0;
 }
 
 void	add_first(t_list *list, int data)
@@ -38,7 +38,7 @@ void	add_first(t_list *list, int data)
 	new_node->next = list->head->next;
 	list->head->next->prev = new_node;
 	list->head->next = new_node;
-	(list->num_cnt)++;
+	(list->size)++;
 }
 
 void	add_last(t_list *list, int data)
@@ -53,7 +53,7 @@ void	add_last(t_list *list, int data)
 	new_node->next = list->tail;
 	list->tail->prev->next = new_node;
 	list->tail->prev = new_node;
-	(list->num_cnt)++;
+	(list->size)++;
 }
 
 int	remove_first(t_list *list)
@@ -68,7 +68,7 @@ int	remove_first(t_list *list)
 	list->head->next = list->head->next->next;
 	free(r_node);
 	list->head->next->prev = list->head;
-	(list->num_cnt)--;
+	(list->size)--;
 	return (r_data);
 }
 
@@ -84,6 +84,6 @@ int	remove_last(t_list *list)
 	list->tail->prev = list->tail->prev->prev;
 	free(r_node);
 	list->tail->prev->next = list->tail;
-	(list->num_cnt)--;
+	(list->size)--;
 	return (r_data);
 }

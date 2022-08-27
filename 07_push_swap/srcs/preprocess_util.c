@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quick_sort.c                                       :+:      :+:    :+:   */
+/*   preprocess_util.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:58:19 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/26 01:12:31 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/27 16:59:56 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,30 @@ void	quick_sort(int arr[], int left, int right)
 		quick_sort(arr, left, pivot - 1);
 		quick_sort(arr, pivot + 1, right);
 	}
+}
+
+int	binary_search(int arr[], int len, int target)
+{
+	int	first;
+	int	last;
+	int	mid;
+
+	first = 0;
+	last = len - 1;
+	while (first <= last)
+	{
+		mid = (first + last) / 2;
+		if (target == arr[mid])
+		{
+			return (mid);
+		}
+		else
+		{
+			if (target < arr[mid])
+				last = mid - 1;
+			else
+				first = mid + 1;
+		}
+	}
+	return (-1);
 }

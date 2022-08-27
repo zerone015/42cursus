@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:04:11 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 20:51:50 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/27 17:41:28 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	indexing(int temp[], t_list *list_a)
 	node = list_a->head->next;
 	while (node->next)
 	{
-		node->data = binary_search(temp, list_a->num_cnt, node->data);
+		node->data = binary_search(temp, list_a->size, node->data);
 		node = node->next;
 	}
 }
@@ -56,12 +56,12 @@ void	preprocess(t_list *list_a)
 {
 	int		*temp;
 
-	temp = (int *) malloc(sizeof(int) * list_a->num_cnt);
+	temp = (int *) malloc(sizeof(int) * list_a->size);
 	if (!temp)
 		error("Error");
 	insert_numbers_to_temp(temp, list_a);
-	quick_sort(temp, 0, list_a->num_cnt - 1);
-	if (duplicate_number_exists(temp, list_a->num_cnt) == TRUE)
+	quick_sort(temp, 0, list_a->size - 1);
+	if (duplicate_number_exists(temp, list_a->size) == TRUE)
 		error("Error");
 	indexing(temp, list_a);
 	free(temp);
