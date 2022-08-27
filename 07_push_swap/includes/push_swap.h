@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 22:08:08 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 00:23:21 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 08:00:23 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	rrb(t_list *list);
 void	rr(t_list *list_a, t_list *list_b);
 void	rrr(t_list *list_a, t_list *list_b);
 void	sort_by_ascending(t_list *list_a);
+int		is_already_sorted(t_list *list_a);
 int		find_location(t_list *list_a, int num);
 void	b_to_a(t_list *list_a, t_list *list_b, t_node *node_b);
 void	division(t_list *list_a, t_list *list_b);

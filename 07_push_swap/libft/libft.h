@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:35:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 00:31:24 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 08:37:33 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
@@ -15,6 +15,7 @@
 # define INT_MAX_LEN 10
 
 # include <stddef.h>
+# include "get_next_line.h"
 
 typedef struct s_lst
 {

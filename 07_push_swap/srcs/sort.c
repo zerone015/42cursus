@@ -6,13 +6,13 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:25:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 06:50:57 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 08:00:00 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	is_already_sorted(t_list *list_a)
+int	is_already_sorted(t_list *list_a)
 {
 	t_node	*node;
 

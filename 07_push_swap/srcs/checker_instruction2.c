@@ -1,43 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   instruction_sprrrrr.c                              :+:      :+:    :+:   */
+/*   checker_instruction2.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:47:17 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 06:29:30 by yoson            ###   ########.fr       */
+/*   Created: 2022/08/28 08:27:48 by yoson             #+#    #+#             */
+/*   Updated: 2022/08/28 08:54:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "checker.h"
 
-void	sa(t_list *list)
+void	c_sb(t_list *list)
 {
 	int	temp;
 
 	temp = list->head->next->data;
 	list->head->next->data = list->head->next->next->data;
 	list->head->next->next->data = temp;
-	ft_putendl_fd("sa", 1);
 }
 
-void	pa(t_list *list, int data)
+void	c_pa(t_list *list, int data)
 {
-	add_first(list, data);
-	ft_putendl_fd("pa", 1);
+	if (data != -1)
+		add_first(list, data);
 }
 
-void	pb(t_list *list, int data)
+void	c_pb(t_list *list, int data)
 {
-	add_first(list, data);
-	ft_putendl_fd("pb", 1);
+	if (data != -1)
+		add_first(list, data);
 }
 
-void	rr(t_list *list_a, t_list *list_b)
-{	
+void	c_rr(t_list *list_a, t_list *list_b)
+{
 	t_node	*temp;
 
+	if (list_a->size == 0 || list_b->size == 0)
+		return ;
 	temp = list_a->head->next;
 	list_a->head->next = list_a->head->next->next;
 	list_a->head->next->prev = list_a->head;
@@ -55,10 +56,12 @@ void	rr(t_list *list_a, t_list *list_b)
 	ft_putendl_fd("rr", 1);
 }
 
-void	rrr(t_list *list_a, t_list *list_b)
-{	
+void	c_rrr(t_list *list_a, t_list *list_b)
+{
 	t_node	*temp;
 
+	if (list_a->size == 0 || list_b->size == 0)
+		return ;
 	temp = list_a->tail->prev;
 	list_a->tail->prev = list_a->tail->prev->prev;
 	list_a->tail->prev->next = list_a->tail;
