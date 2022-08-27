@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:25:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/27 22:33:40 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/27 23:04:05 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,6 @@ void	sort_by_ascending(t_list *list_a)
 	division(list_a, list_b);
 	while (list_b->size > 0)
 		b_to_a(list_a, list_b, list_b->head->next);
+	last_sort(list_a);
 	ft_lstclear(&list_b.head);
 }

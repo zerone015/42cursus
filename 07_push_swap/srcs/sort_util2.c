@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_find.c                                        :+:      :+:    :+:   */
+/*   sort_util2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 22:29:35 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/27 22:31:21 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/27 23:04:18 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,25 @@ int	find_location(t_list *list_a, int num)
 	else
 		ret = find_location_mid(list_a, num);
 	return (ret);
+}
+
+void	last_sort(t_list *list_a)
+{
+	int		idx;
+	t_node	*node;
+
+	idx = find_location_min(list_a);
+	while (idx)
+	{
+		if (idx > 0)
+		{
+			ra(list_a);
+			idx--;
+		}
+		else
+		{
+			rra(list_a);
+			idx++;
+		}
+	}
 }
