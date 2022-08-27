@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 22:07:17 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/27 16:57:52 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 06:51:25 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ void	insert_numbers_to_list(t_list *list_a, int argc, char *argv[])
 
 int	main(int argc, char *argv[])
 {
-	t_list	list_a;
+	t_list	*list_a;
 
 	if (argc < 2)
 		return (1);
 	list_init(&list_a);
-	insert_numbers_to_list(&list_a, argc, argv);
-	preprocess(&list_a);
-	sort_by_ascending(&list_a);
+	insert_numbers_to_list(list_a, argc, argv);
+	preprocess(list_a);
+	sort_by_ascending(list_a);
 	return (0);
 }

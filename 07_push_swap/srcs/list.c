@@ -6,24 +6,27 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 03:26:08 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 00:41:03 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 06:44:41 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "list.h"
 #include <stdlib.h>
 
-void	list_init(t_list *list)
+void	list_init(t_list **list)
 {
-	list->head = (t_node *) malloc(sizeof(t_node));
-	list->tail = (t_node *) malloc(sizeof(t_node));
-	if (!list->head || !list->tail)
+	*list = (t_list *) malloc(sizeof(t_list));
+	if (!*list)
 		error("Error");
-	list->head->prev = NULL;
-	list->head->next = list->tail;
-	list->tail->next = NULL;
-	list->tail->prev = list->head;
-	list->size = 0;
+	(*list)->head = (t_node *) malloc(sizeof(t_node));
+	(*list)->tail = (t_node *) malloc(sizeof(t_node));
+	if (!(*list)->head || !(*list)->tail)
+		error("Error");
+	(*list)->head->prev = NULL;
+	(*list)->head->next = (*list)->tail;
+	(*list)->tail->next = NULL;
+	(*list)->tail->prev = (*list)->head;
+	(*list)->size = 0;
 }
 
 void	add_first(t_list *list, int data)
@@ -72,18 +75,15 @@ int	remove_first(t_list *list)
 	return (r_data);
 }
 
-int	remove_last(t_list *list)
+void	list_free(t_list *list)
 {
-	t_node	*r_node;
-	int		r_data;
+	t_node	*temp;
 
-	if (list->size == 0)
-		error("Error");
-	r_node = list->tail->prev;
-	r_data = list->tail->prev->data;
-	list->tail->prev = list->tail->prev->prev;
-	free(r_node);
-	list->tail->prev->next = list->tail;
-	(list->size)--;
-	return (r_data);
+	while (list->head)
+	{
+		temp = list->head->next;
+		free(list->head);
+		list->head = temp;
+	}
+	free(list);
 }

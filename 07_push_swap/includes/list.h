@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 19:02:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/27 17:32:38 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 06:45:10 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ typedef struct s_list
 	int		size;
 }	t_list;
 
-void	list_init(t_list *list);
+void	list_init(t_list **list);
 void	add_first(t_list *list, int data);
 void	add_last(t_list *list, int data);
 int		remove_first(t_list *list);
-int		remove_last(t_list *list);
+void	list_free(t_list *list);
 void	error(char *msg);
 
 #endif

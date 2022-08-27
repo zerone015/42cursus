@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:25:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 01:37:20 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 06:50:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,26 @@ void	sort_three(t_list *list)
 {
 	int	top;
 	int	mid;
-	int	bot;
+	int	btm;
 
 	top = list->head->next->data;
 	mid = list->head->next->next->data;
-	bot = list->head->next->next->next->data;
-	if (mid > top && mid > bot && bot > top)
+	btm = list->head->next->next->next->data;
+	if (mid > top && mid > btm && btm > top)
 	{
 		sa(list);
 		ra(list);
 	}
-	else if (top > mid && mid > bot && top > bot)
+	else if (top > mid && mid > btm && top > btm)
 	{
 		sa(list);
 		rra(list);
 	}
-	else if (top > mid && bot > mid && bot > top)
+	else if (top > mid && btm > mid && btm > top)
 		sa(list);
-	else if (mid > top && mid > bot && top > bot)
+	else if (mid > top && mid > btm && top > btm)
 		rra(list);
-	else if (top > mid && bot > mid && top > bot)
+	else if (top > mid && btm > mid && top > btm)
 		ra(list);
 }
 
@@ -99,16 +99,16 @@ void	b_to_a(t_list *list_a, t_list *list_b, t_node *node_b)
 
 void	sort_by_ascending(t_list *list_a)
 {
-	t_list	list_b;
+	t_list	*list_b;
 
 	if (list_a->size == 3)
 		sort_three(list_a);
 	if (is_already_sorted(list_a) == TRUE)
 		return ;
 	list_init(&list_b);
-	division(list_a, &list_b);
-	while (list_b.size > 0)
-		b_to_a(list_a, &list_b, list_b.head->next);
+	division(list_a, list_b);
+	while (list_b->size > 0)
+		b_to_a(list_a, list_b, list_b->head->next);
 	last_sort(list_a);
-	//ft_lstclear(&list_b.head);
+	list_free(list_b);
 }
