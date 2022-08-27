@@ -1,16 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_util2.c                                       :+:      :+:    :+:   */
+/*   sort_find_util.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 22:29:35 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/27 23:04:18 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 00:56:34 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	get_min(t_node *node)
+{
+	int	ret;
+
+	ret = node->data;
+	while (node->next)
+	{
+		if (ret > node->data)
+			ret = node->data;
+		node = node->next;
+	}
+	return (ret);
+}
+
+int	get_max(t_node *node)
+{
+	int	ret;
+
+	ret = node->data;
+	while (node->next)
+	{
+		if (ret < node->data)
+			ret = node->data;
+		node = node->next;
+	}
+	return (ret);
+}
 
 int	find_location_min(t_list *list_a)
 {
@@ -19,7 +47,7 @@ int	find_location_min(t_list *list_a)
 	t_node	*node;
 
 	node = list_a->head->next;
-	idx = get_list_min(node);
+	idx = get_min(node);
 	ret = 0;
 	while (node->next)
 	{
@@ -59,7 +87,7 @@ int	find_location_max(t_list *list_a)
 	t_node	*node;
 
 	node = list_a->head->next;
-	idx = get_list_max(node);
+	idx = get_max(node);
 	ret = 1;
 	while (node->next)
 	{
@@ -71,38 +99,4 @@ int	find_location_max(t_list *list_a)
 	if (ret >= (list_a->size + 1) / 2)
 		ret = (list_a->size - ret) * -1;
 	return (ret);
-}
-
-int	find_location(t_list *list_a, int num)
-{
-	int	ret;
-
-	if (num < get_min(node))
-		ret = find_location_min(list_a);
-	else if (num > get_max(node))
-		ret = find_location_max(list_a);
-	else
-		ret = find_location_mid(list_a, num);
-	return (ret);
-}
-
-void	last_sort(t_list *list_a)
-{
-	int		idx;
-	t_node	*node;
-
-	idx = find_location_min(list_a);
-	while (idx)
-	{
-		if (idx > 0)
-		{
-			ra(list_a);
-			idx--;
-		}
-		else
-		{
-			rra(list_a);
-			idx++;
-		}
-	}
 }

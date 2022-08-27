@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/24 17:22:49 by yoson             #+#    #+#              #
-#    Updated: 2022/08/26 01:12:09 by yoson            ###   ########.fr        #
+#    Updated: 2022/08/28 00:40:18 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,8 @@ SRCS_DIR	= ./srcs/
 LIB_DIR		= ./libft/
 LIB_NAME	= ./libft/libft.a
 
-SRC			=	main.c list.c insert.c preprocess.c operation.c sort.c \
-				quick_sort.c binary_search.c 
+SRC		=	main.c preprocess.c preprocess_util.c instruction_rarbrrarrb.c instruction_sprrrrr.c \
+			list.c sort.c sort_util.c sort_find_util.c 
 SRCS		=	$(addprefix $(SRCS_DIR), $(SRC))
 LIBS		=	$(addprefix $(LIB_DIR), $(LIB_NAME))
 OBJS		=	$(SRCS:.c=.o)

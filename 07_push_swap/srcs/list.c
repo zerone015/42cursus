@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 03:26:08 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/27 17:31:08 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 00:41:03 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	remove_first(t_list *list)
 	t_node	*r_node;
 	int		r_data;
 
-	if (list->num_cnt == 0)
+	if (list->size == 0)
 		error("Error");
 	r_node = list->head->next;
 	r_data = list->head->next->data;
@@ -77,7 +77,7 @@ int	remove_last(t_list *list)
 	t_node	*r_node;
 	int		r_data;
 
-	if (list->num_cnt == 0)
+	if (list->size == 0)
 		error("Error");
 	r_node = list->tail->prev;
 	r_data = list->tail->prev->data;

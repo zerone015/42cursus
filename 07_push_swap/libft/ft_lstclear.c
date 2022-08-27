@@ -6,15 +6,15 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 14:58:09 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 18:03:50 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 00:28:49 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_lst **lst, void (*del)(void *))
+void	ft_lstclear(t_node **lst, void (*del)(void *))
 {
-	t_lst	*tmp;
+	t_node	*tmp;
 
 	while (*lst)
 	{
