@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:25:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 08:00:00 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 21:50:09 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,26 @@ void	sort_three(t_list *list)
 		ra(list);
 }
 
-void	division(t_list *list_a, t_list *list_b)
+void	three_division(t_list *list_a, t_list *list_b, int size)
 {
-	t_node	*top_a;
+	int		top_idx;
+	int		group_size;
 
-	three_division(list_a, list_b, list_a->size);
-	while (list_a->size > 3)
-		pb(list_b, remove_first(list_a));
-	if (list_a->size == 2)
+	top_idx = list_a->head->next->data;
+	group_size = size / 3;
+	while (list_a->size > group_size + size % 3)
 	{
-		top_a = list_a->head->next;
-		if (top_a->data > top_a->next->data)
-			sa(list_a);
+		if (group_size > top_idx)
+		{
+			pb(list_b, remove_first(list_a));
+			rb(list_b);
+		}
+		else if (group_size <= top_idx && group_size * 2 > top_idx)
+			pb(list_b, remove_first(list_a));
+		else
+			ra(list_a);
+		top_idx = list_a->head->next->data;
 	}
-	if (list_a->size == 3)
-		sort_three(list_a);
 }
 
 void	b_to_a(t_list *list_a, t_list *list_b, t_node *node_b)
@@ -97,7 +102,7 @@ void	b_to_a(t_list *list_a, t_list *list_b, t_node *node_b)
 	pa(list_a, remove_first(list_b));
 }
 
-void	sort_by_ascending(t_list *list_a)
+void	sort(t_list *list_a)
 {
 	t_list	*list_b;
 
@@ -106,7 +111,18 @@ void	sort_by_ascending(t_list *list_a)
 	if (is_already_sorted(list_a) == TRUE)
 		return ;
 	list_init(&list_b);
-	division(list_a, list_b);
+	three_division(list_a, list_b, list_a->size);
+	while (list_a->size > 3)
+		pb(list_b, remove_first(list_a));
+	if (list_a->size == 2)
+	{
+		if (list_a->head->next->data > list_a->head->next->next->data)
+			sa(list_a);
+	}
+	if (list_a->size == 3)
+		sort_three(list_a);
+	list_a->min = list_a->head->next->data;
+	list_a->max = list_a->tail->prev->data;
 	while (list_b->size > 0)
 		b_to_a(list_a, list_b, list_b->head->next);
 	last_sort(list_a);

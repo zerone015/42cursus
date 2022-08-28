@@ -6,13 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:35:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 21:12:55 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 22:04:41 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
 # define LIBFT_H
-
-# define INT_MAX_LEN 10
 
 # include <stddef.h>
 # include "get_next_line.h"

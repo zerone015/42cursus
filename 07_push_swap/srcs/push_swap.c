@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 22:07:17 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 09:28:53 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 21:50:19 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ int	main(int argc, char *argv[])
 	list_init(&list_a);
 	insert_numbers_to_list(list_a, argc, argv);
 	preprocess(list_a);
-	sort_by_ascending(list_a);
+	sort(list_a);
 	return (0);
 }
