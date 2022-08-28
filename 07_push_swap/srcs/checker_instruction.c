@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 08:17:45 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 09:56:26 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 10:16:23 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	c_ra(t_list *list)
 {
 	t_node	*temp;
 
-	if (list->size == 0)
+	if (list->size < 1)
 		return ;
 	temp = list->head->next;
 	list->head->next = list->head->next->next;
@@ -42,7 +42,7 @@ void	c_rb(t_list *list)
 {
 	t_node	*temp;
 
-	if (list->size == 0)
+	if (list->size < 1)
 		return ;
 	temp = list->head->next;
 	list->head->next = list->head->next->next;
@@ -57,7 +57,7 @@ void	c_rra(t_list *list)
 {
 	t_node	*temp;
 
-	if (list->size == 0)
+	if (list->size < 1)
 		return ;
 	temp = list->tail->prev;
 	list->tail->prev = list->tail->prev->prev;
@@ -72,7 +72,7 @@ void	c_rrb(t_list *list)
 {
 	t_node	*temp;
 
-	if (list->size == 0)
+	if (list->size < 1)
 		return ;
 	temp = list->tail->prev;
 	list->tail->prev = list->tail->prev->prev;
