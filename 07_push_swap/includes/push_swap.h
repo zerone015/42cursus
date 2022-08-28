@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 22:08:08 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 22:04:11 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 22:45:42 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int		find_location_min(t_list *list_a);
 int		find_location_mid(t_list *list_a, int num);
 int		find_location_max(t_list *list_a);
 void	rotate(t_list *list_a, t_list *list_b, int idx_a, int idx_b);
+void	update_min_max(t_list *list_a);
 void	last_sort(t_list *list_a);
 int		abs_sum(int num1, int num2);
 void	quick_sort(int arr[], int left, int right);

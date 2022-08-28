@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:25:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 21:50:09 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 22:48:32 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	b_to_a(t_list *list_a, t_list *list_b, t_node *node_b)
 	}
 	rotate(list_a, list_b, min_a, min_b);
 	pa(list_a, remove_first(list_b));
+	update_min_max(list_a);
 }
 
 void	sort(t_list *list_a)
@@ -116,7 +117,7 @@ void	sort(t_list *list_a)
 		pb(list_b, remove_first(list_a));
 	if (list_a->size == 2)
 	{
-		if (list_a->head->next->data > list_a->head->next->next->data)
+		if (list_a->head->next->data > list_a->tail->prev->data)
 			sa(list_a);
 	}
 	if (list_a->size == 3)

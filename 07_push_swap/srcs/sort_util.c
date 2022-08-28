@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 22:21:36 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 21:55:40 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 22:49:16 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,17 @@ int	abs_sum(int num1, int num2)
 	if (num2 < 0)
 		num2 *= -1;
 	return (num1 + num2);
+}
+
+void	update_min_max(t_list *list_a)
+{
+	int	num;
+
+	num = list_a->head->next->data;
+	if (list_a->min > num)
+		list_a->min = num;
+	else if (list_a->max < num)
+		list_a->max = num;
 }
 
 void	rotate(t_list *list_a, t_list *list_b, int idx_a, int idx_b)

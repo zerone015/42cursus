@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 22:29:35 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 21:58:03 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 22:32:34 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,9 @@ int	find_location(t_list *list_a, int num)
 	int	ret;
 
 	if (num < list_a->min)
-	{
 		ret = find_location_min(list_a);
-		list_a->min = num;
-	}
 	else if (num > list_a->max)
-	{
 		ret = find_location_max(list_a);
-		list_a->max = num;
-	}
 	else
 		ret = find_location_mid(list_a, num);
 	return (ret);
