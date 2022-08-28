@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/24 17:22:49 by yoson             #+#    #+#              #
-#    Updated: 2022/08/28 08:55:01 by yoson            ###   ########.fr        #
+#    Updated: 2022/08/28 09:31:53 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,14 @@ LIB_NAME	= ./libft/libft.a
 
 SRC			=	push_swap.c preprocess.c preprocess_util.c instruction.c instruction2.c \
 				list.c sort.c sort_util.c sort_find_util.c 
-BSRC		=	checker.c checker_instruction.c checker_instruction2.c	
+BSRC		=	checker.c checker_instruction.c checker_instruction2.c preprocess.c \
+				preprocess_util.c instruction.c instruction2.c list.c sort.c \
+				sort_util.c sort_find_util.c
 SRCS		=	$(addprefix $(SRCS_DIR), $(SRC))
 BSRCS		=	$(addprefix $(SRCS_DIR), $(BSRC))
 LIBS		=	$(addprefix $(LIB_DIR), $(LIB_NAME))
 OBJS		=	$(SRCS:.c=.o)
+BOBJS		=	$(BSRCS:.c=.o)
 
 all	: $(NAME)
 
@@ -39,7 +42,7 @@ $(NAME) : $(OBJS)
 	make -C $(LIB_DIR)
 	$(CC) -o $(NAME) $(OBJS) -L $(LIB_DIR) -lft -I $(INCS_DIR)
 
-$(BONUS) : $(BOBJS) $(OBJS)
+$(BONUS) : $(BOBJS)
 	make -C $(LIB_DIR)
 	$(CC) -o $(BONUS) $^ -L $(LIB_DIR) -lft -I $(INCS_DIR)
 
@@ -56,4 +59,6 @@ fclean : clean
 
 re : clean all
 
-PHONY	: all clean fclean re bonus
+re_bonus : fclean bonus
+
+PHONY	: all clean fclean re bonus re_bonus
