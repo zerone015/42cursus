@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 08:27:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 08:54:27 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 09:57:12 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	c_sb(t_list *list)
 {
 	int	temp;
 
+	if (list->size < 2)
+		return ;
 	temp = list->head->next->data;
 	list->head->next->data = list->head->next->next->data;
 	list->head->next->next->data = temp;
@@ -53,7 +55,6 @@ void	c_rr(t_list *list_a, t_list *list_b)
 	temp->next = list_b->tail;
 	list_b->tail->prev->next = temp;
 	list_b->tail->prev = temp;
-	ft_putendl_fd("rr", 1);
 }
 
 void	c_rrr(t_list *list_a, t_list *list_b)
@@ -76,5 +77,4 @@ void	c_rrr(t_list *list_a, t_list *list_b)
 	temp->next = list_b->head->next;
 	list_b->head->next->prev = temp;
 	list_b->head->next = temp;
-	ft_putendl_fd("rrr", 1);
 }

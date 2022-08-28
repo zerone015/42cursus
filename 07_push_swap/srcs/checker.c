@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 07:42:40 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 09:32:52 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 09:59:54 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	main(int argc, char *argv[])
 		if (execute_instruction(line, list_a, list_b) == -1)
 			error("Error");
 	}
-	if (is_already_sorted(list_a))
+	if (is_already_sorted(list_a) && list_b->size == 0)
 		ft_putendl_fd("OK", 1);
 	else
 		ft_putendl_fd("KO", 1);

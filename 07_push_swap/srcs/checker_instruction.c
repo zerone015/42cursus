@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 08:17:45 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 08:54:12 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 09:56:26 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	c_sa(t_list *list)
 {
 	int	temp;
 
+	if (list->size < 2)
+		return ;
 	temp = list->head->next->data;
 	list->head->next->data = list->head->next->next->data;
 	list->head->next->next->data = temp;
