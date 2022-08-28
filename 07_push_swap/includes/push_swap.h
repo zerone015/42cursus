@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 22:08:08 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 08:00:23 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 21:13:55 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int		find_location_mid(t_list *list_a, int num);
 int		find_location_max(t_list *list_a);
 void	quick_sort(int arr[], int left, int right);
 int		binary_search(int arr[], int len, int target);
+int		ft_atoi(const char *str);
 
 #endif

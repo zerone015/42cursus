@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/10 18:10:46 by yoson             #+#    #+#              #
-#    Updated: 2022/08/28 08:38:20 by yoson            ###   ########.fr        #
+#    Updated: 2022/08/28 21:13:08 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ BSRCS = ft_lstnew.c \
        ft_lstmap.c
 SRCS = ft_memcmp.c ft_memmove.c ft_bzero.c ft_memchr.c ft_memcpy.c \
        ft_memset.c ft_strlen.c ft_strlcpy.c ft_strlcat.c ft_strchr.c \
-       ft_strrchr.c ft_strnstr.c ft_strncmp.c ft_atoi.c ft_isalpha.c \
+       ft_strrchr.c ft_strnstr.c ft_strncmp.c ft_isalpha.c \
        ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_toupper.c \
        ft_tolower.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c \
        ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c \

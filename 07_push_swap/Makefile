@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/24 17:22:49 by yoson             #+#    #+#              #
-#    Updated: 2022/08/28 09:38:35 by yoson            ###   ########.fr        #
+#    Updated: 2022/08/28 21:14:15 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,10 +24,10 @@ LIB_DIR		= ./libft/
 LIB_NAME	= ./libft/libft.a
 
 SRC			=	push_swap.c preprocess.c preprocess_util.c instruction.c instruction2.c \
-				list.c sort.c sort_util.c sort_find_util.c 
+				list.c sort.c sort_util.c sort_find_util.c ft_atoi.c
 BSRC		=	checker.c checker_instruction.c checker_instruction2.c preprocess.c \
 				preprocess_util.c instruction.c instruction2.c list.c sort.c \
-				sort_util.c sort_find_util.c
+				sort_util.c sort_find_util.c ft_atoi.c
 SRCS		=	$(addprefix $(SRCS_DIR), $(SRC))
 BSRCS		=	$(addprefix $(SRCS_DIR), $(BSRC))
 LIBS		=	$(addprefix $(LIB_DIR), $(LIB_NAME))

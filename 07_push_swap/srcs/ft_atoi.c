@@ -6,11 +6,11 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 03:38:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/24 17:54:02 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 21:16:32 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 #include <limits.h>
 
 static int	check_over_range(long long num)
@@ -32,9 +32,10 @@ int	ft_atoi(const char *str)
 		str++;
 	if (*str == '-' || *str == '+')
 	{
-		if (*str == '-')
+		if (*str++ == '-')
 			sign *= -1;
-		str++;
+		if (!ft_isdigit(*str))
+			error("Error");
 	}
 	while (*str == '0')
 		str++;
@@ -43,8 +44,7 @@ int	ft_atoi(const char *str)
 	{
 		if (!ft_isdigit(str[i]))
 			error("Error");
-		num *= 10;
-		num += str[i] - '0';
+		num = num * 10 + str[i] - '0';
 	}
 	return (check_over_range(num * sign));
 }

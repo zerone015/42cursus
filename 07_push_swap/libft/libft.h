@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:35:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 08:37:33 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/28 21:12:55 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
@@ -31,7 +31,6 @@ int		ft_isprint(int c);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 
-int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
 
 size_t	ft_strlen(const char *str);
