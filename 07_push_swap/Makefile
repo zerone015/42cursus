@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/24 17:22:49 by yoson             #+#    #+#              #
-#    Updated: 2022/08/28 09:31:53 by yoson            ###   ########.fr        #
+#    Updated: 2022/08/28 09:38:35 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ LIBS		=	$(addprefix $(LIB_DIR), $(LIB_NAME))
 OBJS		=	$(SRCS:.c=.o)
 BOBJS		=	$(BSRCS:.c=.o)
 
-all	: $(NAME)
+all : $(NAME)
 
 bonus : $(BONUS)
 
@@ -57,7 +57,7 @@ fclean : clean
 	make -C $(LIB_DIR) fclean
 	$(RM) $(NAME) $(BONUS)
 
-re : clean all
+re : fclean all
 
 re_bonus : fclean bonus
 
