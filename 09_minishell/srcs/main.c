@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/30 16:55:56 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/30 21:50:49 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "minishell.h"
@@ -23,7 +24,7 @@ void	update_pwd(t_list *env)
 {
 	t_node	*pwd;
 
-	pwd = find_key(env, "PWD"); //unset 가능한지 확인
+	pwd = find_key(env, "PWD"); //유저가 unset 가능한지 확인
 	free(pwd->val);
 	pwd->val = getcwd(NULL, 0);
 	if (!pwd->val)
@@ -41,7 +42,6 @@ char	*get_prompt(t_list *env)
 	update_pwd(env);
 	pwd = find_key(env, "PWD")->val;
 	home = find_key(env, "HOME")->val;
-	// home = ft_strjoin("/Users/", find_key(env, "USER")->value);
 	if (!ft_strcmp(pwd, home))
 		pwd = "~";
 	else if (ft_strlen(pwd) == 1)
@@ -51,10 +51,9 @@ char	*get_prompt(t_list *env)
 	return (ft_strjoin(pwd, " $ "));
 }
 
-static t_list	*init_env(char *envp[])
+t_list	*init_env(char *envp[])
 {
 	t_list	*env;
-	size_t	i;
 
 	env = init_list();
 	while (*envp)
@@ -66,22 +65,68 @@ static t_list	*init_env(char *envp[])
 	return (env);
 }
 
+enum e_type
+{
+	NUL,
+	WORD,
+	PIPE,
+	REDIRECT,
+	S_QUOTES,
+	D_QUOTES
+};
+
+char	**analyze_syntax(char *input)
+{
+
+}
+
+void	tokenize(char *input)
+{
+	size_t	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '\"')
+		{
+			while (input[i] && input[i] != '\"')
+			{
+				if (input[i] == '$')
+				
+				i++;
+			}
+		}
+		else if (input[i] == '\'')
+		{
+			while (input[i] && input[i] != '\'')
+				i++;
+		}
+		i++;
+	}
+}
+
+void	execute_command(char *input, t_list *env)
+{
+	char	**cmd;
+
+	cmd = analyze_syntax(input);
+	execute(cmd, env);
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_list	*env;
 	char	*input;
 
-	(void)argc;
-	(void)argv;
 	env = init_env(envp);
-	// signal();
-	while (42)
+	receive_signal();
+	while (argc || argv)
 	{
 		input = readline(get_prompt(env));
 		if (input)
 		{
 			add_history(input);
-			// parse_input(input);
+			execute_command(input);
 			free(input);
 		}
 	}
