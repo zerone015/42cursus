@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:04:52 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/17 23:30:51 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/30 15:10:43 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ char	*ft_itoa(int n)
 	int			len;
 
 	len = get_digit_len(n);
-	digit_str = (char *) malloc(sizeof(char) * (len + 1));
-	if (!digit_str)
-		return (NULL);
+	digit_str = safe_malloc(sizeof(char) * (len + 1));
 	digit_str = get_digit_str(digit_str, n, len);
 	if (n < 0)
 		digit_str[0] = '-';

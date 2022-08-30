@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 21:38:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/16 21:50:30 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/30 15:09:40 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	size_t	len;
 
 	len = ft_strlen(s);
-	str = (char *) malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
+	str = safe_malloc(sizeof(char) * (len + 1));
 	i = 0;
 	while (i < len)
 	{

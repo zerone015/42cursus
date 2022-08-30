@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:03:38 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 21:59:02 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/30 15:09:20 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ void	*ft_calloc(size_t count, size_t size)
 {
 	void	*tmp;
 
-	tmp = malloc(count * size);
-	if (!tmp)
-		return (NULL);
+	tmp = safe_malloc(count * size);
 	ft_memset(tmp, 0, count * size);
 	return (tmp);
 }
