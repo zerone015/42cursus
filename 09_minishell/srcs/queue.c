@@ -6,12 +6,12 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 18:57:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/31 19:38:49 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/31 22:43:06 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "queue.h"
+#include "minishell.h"
 
 t_queue	*init_queue(void)
 {

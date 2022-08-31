@@ -28,6 +28,6 @@ typedef struct s_list
 
 t_list	*init_list(void);
 t_lnode	*find_key(t_list *env, char *key);
-void	add_env(t_list *env, char *key, char *val);
+void	add_last(t_list *env, char *key, char *val);
 
 #endif

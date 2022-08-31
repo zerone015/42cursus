@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:35:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/31 20:42:57 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/31 22:44:56 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	*safe_malloc(size_t size);
 char	**ft_split(char const *str, char charset);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_substr(char const *src, unsigned int start, size_t len);
+char	*ft_substr(char const *src, int start, int len);
 
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putendl_fd(char *s, int fd);
