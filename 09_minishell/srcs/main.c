@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/30 21:50:49 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/31 03:13:26 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,39 @@ void	tokenize(char *input)
 	}
 }
 
+t_token	*tokenize(char *input)
+{
+	int		i;
+	t_queue	*token;
+
+	token = init_token();
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '"' && ft_strchr(input + i + 1, '"'))
+		{
+			enqueue(token, D_QUOTES, ft_substr(input, 1, ft_strchr(input + i, '"') - input - 1));
+			i += ft_strchr(input + i, '"') - input;
+		}
+		else if (input[i] == ''' && ft_strchr(input + i + 1, '''))
+		{
+			enqueue(token, S_QUOTES, ft_substr(input, 1, ft_strchr(input + i, ''') - input - 1));
+			i += ft_strchr(input + i, ''') - input;
+		}
+		else if (input[i] == '|')
+		{
+			
+		}
+		i++;	
+	}
+	return (token);
+}
+
 void	execute_command(char *input, t_list *env)
 {
-	char	**cmd;
+	t_queue	*token;
 
-	cmd = analyze_syntax(input);
-	execute(cmd, env);
+	token = tokenize(input);
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -126,7 +153,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (input)
 		{
 			add_history(input);
-			execute_command(input);
+			execute_command(input, env);
 			free(input);
 		}
 	}
