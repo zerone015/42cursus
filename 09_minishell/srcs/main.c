@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/31 03:13:26 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/31 14:31:44 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "minishell.h"
+#include "list.h"
 
 void	update_pwd(t_list *env)
 {
@@ -29,7 +30,7 @@ void	update_pwd(t_list *env)
 	pwd->val = getcwd(NULL, 0);
 	if (!pwd->val)
 	{
-		printf("%s \n", strerror(errno));
+		printf("%s\n", strerror(errno));
 		exit(1);
 	}
 }
@@ -54,26 +55,18 @@ char	*get_prompt(t_list *env)
 t_list	*init_env(char *envp[])
 {
 	t_list	*env;
+	int		i;
 
 	env = init_list();
 	while (*envp)
 	{
- 		i = ft_strchr(*envp, '=') - *envp;
-		add_last(env, ft_substr(*envp, 0, i), ft_substr(*envp, i + 1, ft_strlen(*envp)));
+		i = ft_strchr(*envp, '=') - *envp;
+		add_last(env, ft_substr(*envp, 0, i), \
+						ft_substr(*envp, i + 1, ft_strlen(*envp)));
 		envp++;
 	}
 	return (env);
 }
-
-enum e_type
-{
-	NUL,
-	WORD,
-	PIPE,
-	REDIRECT,
-	S_QUOTES,
-	D_QUOTES
-};
 
 char	**analyze_syntax(char *input)
 {
@@ -119,16 +112,16 @@ t_token	*tokenize(char *input)
 			enqueue(token, D_QUOTES, ft_substr(input, 1, ft_strchr(input + i, '"') - input - 1));
 			i += ft_strchr(input + i, '"') - input;
 		}
-		else if (input[i] == ''' && ft_strchr(input + i + 1, '''))
+		else if (input[i] == '\'' && ft_strchr(input + i + 1, '\''))
 		{
-			enqueue(token, S_QUOTES, ft_substr(input, 1, ft_strchr(input + i, ''') - input - 1));
-			i += ft_strchr(input + i, ''') - input;
+			enqueue(token, S_QUOTES, ft_substr(input, 1, ft_strchr(input + i, '\'') - input - 1));
+			i += ft_strchr(input + i, '\'') - input;
 		}
 		else if (input[i] == '|')
 		{
 			
 		}
-		i++;	
+		i++;
 	}
 	return (token);
 }

@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   safe_malloc.c                                        :+:      :+:    :+:   */
+/*   safe_malloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/30 14:43:30 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/30 14:46:44 by yoson            ###   ########.fr       */
+/*   Created: 2022/08/31 14:24:55 by kijsong           #+#    #+#             */
+/*   Updated: 2022/08/31 14:45:13 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
-#include <errno.h>
+#include "libft.h"
 
-void    *safe_malloc(size_t size)
+void	*safe_malloc(size_t size)
 {
-    void    *p;
-    
-    p = malloc(size);
-    if (!p)
-    {
-        printf("%s \n", strerror(errno));
-        exit(1);
-    }
-    return (p);
+	void	*p;
+
+	p = malloc(size);
+	if (!p)
+		ft_perror(NULL);
+	return (p);
 }

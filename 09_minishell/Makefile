@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
+#    By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/30 16:11:41 by kijsong           #+#    #+#              #
-#    Updated: 2022/08/30 16:41:46 by yoson            ###   ########.fr        #
+#    Updated: 2022/08/31 14:08:41 by kijsong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,10 @@ NAME		= minishell
 
 CC			= cc
 FLAGS		= -Wall -Wextra -Werror
-# RFLAGS 		= -lreadline -L${HOME}/.brew/opt/readline/lib
-# RHFLAGS 	= -I${HOME}/.brew/opt/readline/include
-RFLAGS 		= -lreadline -L/goinfre/yoson/brew/opt/readline/lib
-RHFLAGS 	= -I/goinfre/yoson/brew/opt/readline/include
+RFLAGS 		= -lreadline -L${HOME}/.brew/opt/readline/lib
+RHFLAGS 	= -I${HOME}/.brew/opt/readline/include
+# RFLAGS 		= -lreadline -L/goinfre/yoson/brew/opt/readline/lib
+# RHFLAGS 	= -I/goinfre/yoson/brew/opt/readline/include
 AR			= ar rcs
 RM			= rm -f
 
@@ -26,10 +26,11 @@ SRCS_DIR	= ./srcs/
 LIB_DIR		= ./libft/
 LIB_NAME	= ./libft/libft.a
 
-SRC			=	main.c list.c
-BSRC		=	$(wildcard *.c)
-SRCS		=	$(addprefix $(SRCS_DIR), $(SRC))
-BSRCS		=	$(addprefix $(SRCS_DIR), $(BSRC))
+SRC			=	
+BSRC		=	
+# SRCS		=	$(addprefix $(SRCS_DIR), $(SRC))
+# BSRCS		=	$(addprefix $(SRCS_DIR), $(BSRC))
+SRCS		=	$(wildcard srcs/*.c)
 LIBS		=	$(addprefix $(LIB_DIR), $(LIB_NAME))
 OBJS		=	$(SRCS:.c=.o)
 BOBJS		=	$(BSRCS:.c=.o)
