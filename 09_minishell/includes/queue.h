@@ -1,33 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.h                                             :+:      :+:    :+:   */
+/*   queue.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/30 15:12:43 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/31 18:47:22 by yoson            ###   ########.fr       */
+/*   Created: 2022/08/31 18:39:07 by yoson             #+#    #+#             */
+/*   Updated: 2022/08/31 19:38:46 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef env_H
-# define env_H
+#ifndef QUEUE_H
+# define QUEUE_H
 
-typedef struct s_lnode
+# define TRUE	1
+# define FALSE	0
+
+typedef struct s_qnode
 {
-	char			*key;
-	char			*val;
-	struct s_lnode	*next;
-}	t_lnode;
+	int				type;
+	char			*str;
+	struct s_qnode	*next;
+}	t_qnode;
 
-typedef struct s_list
+typedef struct s_queue
 {
-	t_lnode	*head;
-	t_lnode	*tail;
-}	t_list;
+	t_qnode	*front;
+	t_qnode	*rear;
+}	t_queue;
 
-t_list	*init_list(void);
-t_lnode	*find_key(t_list *env, char *key);
-void	add_env(t_list *env, char *key, char *val);
+t_queue	*init_queue(void);
+int		queue_is_empty(t_queue *queue);
+void	enqueue(t_queue *queue, int type, char *str);
+char	*dequeue(t_queue *queue);
+int		peek(t_queue *queue);
 
 #endif

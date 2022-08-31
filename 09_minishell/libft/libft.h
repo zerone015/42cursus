@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:35:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/31 14:40:20 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/08/31 20:42:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ int		ft_isalpha(int c);
 int		ft_isascii(int c);
 int		ft_isdigit(int c);
 int		ft_isprint(int c);
+int		ft_isblank(int c);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 
 int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
 
-size_t	ft_strlen(const char *str);
+int		ft_strlen(const char *str);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strrchr(const char *str, int c);
 int		ft_strcmp(const char *s1, const char *s2);

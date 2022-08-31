@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:36:30 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 22:03:41 by yoson            ###   ########.fr       */
+/*   Updated: 2022/08/31 20:10:50 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_strlen(const char *str)
 {
-	size_t	len;
+	int	len;
 
 	len = 0;
 	while (str[len])

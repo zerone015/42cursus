@@ -3,36 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/31 14:31:44 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/08/31 22:27:04 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-#include <signal.h>
+#include <stdio.h>
+#include <unistd.h> //getcwd
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "minishell.h"
-#include "list.h"
+
+int	g_exit_code;
 
 void	update_pwd(t_list *env)
 {
-	t_node	*pwd;
+	t_lnode	*pwd;
 
 	pwd = find_key(env, "PWD"); //유저가 unset 가능한지 확인
 	free(pwd->val);
 	pwd->val = getcwd(NULL, 0);
 	if (!pwd->val)
-	{
-		printf("%s\n", strerror(errno));
-		exit(1);
-	}
+		ft_perror(NULL);
 }
 
 char	*get_prompt(t_list *env)
@@ -43,16 +38,16 @@ char	*get_prompt(t_list *env)
 	update_pwd(env);
 	pwd = find_key(env, "PWD")->val;
 	home = find_key(env, "HOME")->val;
-	if (!ft_strcmp(pwd, home))
-		pwd = "~";
-	else if (ft_strlen(pwd) == 1)
+	// if (ft_strcmp(pwd, home) == 0)
+	// 	pwd = "~";
+	if (ft_strlen(pwd) == 1)
 		pwd = "/";
 	else
 		pwd = ft_strrchr(pwd, '/') + 1;
 	return (ft_strjoin(pwd, " $ "));
 }
 
-t_list	*init_env(char *envp[])
+t_list	*init_lnode(char *envp[])
 {
 	t_list	*env;
 	int		i;
@@ -68,60 +63,136 @@ t_list	*init_env(char *envp[])
 	return (env);
 }
 
-char	**analyze_syntax(char *input)
+int	ft_isredirect(char *input)
 {
-
+	if (ft_strncmp(input, "<<", 2) == 0)
+		return (2);
+	else if (ft_strncmp(input, ">>", 2) == 0)
+		return (-2);
+	else if (*input == '<')
+		return (1);
+	else if (*input == '>')
+		return (-1);
+	return (0);
 }
 
-void	tokenize(char *input)
+int	tokenize_dquotes(char *input, t_queue *token, t_list *env)
 {
-	size_t	i;
+	char	*word[2];
+	char	*envp;
+	char	*start;
+
+	word[0] = ft_substr(input, 0, ft_strchr(input, '"') - input);
+	start = 0;
+	envp = ft_strchr(word[start], '$');
+	while (envp)
+	{
+		if (envp - word[0] - start > 0)
+		{
+			word[1] = ft_substr(word[0], start, envp - word[0] - start);
+			enqueue(token, WORD, word[1]);
+			start += ft_strlen(word[1]);
+		}
+		start += tokenize_envp(envp + 1, token, env) + 1;
+		envp = ft_strchr(word[start], '$');
+	}
+	enqueue(token, WORD, ft_substr(word[0], start, ft_strlen(word[0])));
+	return (ft_strlen(word[0]) + 1);
+}
+
+int	tokenize_squotes(char *input, t_queue *token)
+{
+	char	*word;
+
+	word = ft_substr(input, 0, ft_strchr(input, '\'') - input);
+	enqueue(token, WORD, word);
+	return (ft_strlen(word) + 1);
+}
+
+int	tokenize_space(char *input, t_queue *token)
+{
+	int	i;
 
 	i = 0;
-	while (input[i])
-	{
-		if (input[i] == '\"')
-		{
-			while (input[i] && input[i] != '\"')
-			{
-				if (input[i] == '$')
-				
-				i++;
-			}
-		}
-		else if (input[i] == '\'')
-		{
-			while (input[i] && input[i] != '\'')
-				i++;
-		}
+	while (ft_isblank(input[i]))
 		i++;
-	}
+	enqueue(token, BLANK, ft_strdup(" "));
+	return (i);
 }
 
-t_token	*tokenize(char *input)
+int	tokenize_redirect(char *input, t_queue *token)
+{
+	int	i;
+
+	i = ft_isredirect(input);
+	i *= (i > 0) - (i < 0);
+	enqueue(token, REDIRECT, ft_substr(input, 0, i));
+	return (i - 1);
+}
+
+int	tokenize_envp(char *input, t_queue *token, t_list *env)
 {
 	int		i;
+	char	*key;
+	t_lnode	*node;
+
+	i = 0;
+	if (!ft_isalpha(input[i]) && input[i] != '_')
+	{
+		if (!ft_isdigit(input[i]) && !input[i] != '?')
+		{
+			enqueue(token, WORD, ft_strdup("$"));
+			return (0);
+		}
+		if (input[i] == '?')
+			enqueue(token, WORD, ft_itoa(g_exit_code));
+		return (1);
+	}
+	while (ft_isalpha(input[i]) || ft_isdigit(input[i]) || input[i] == '_')
+		i++;
+	key = ft_substr(input, 0, i);
+	node = find_key(env, key);
+	if (node)
+		enqueue(token, WORD, ft_strdup(node->val));
+	free(key);
+	return (i);
+}
+
+int	tokenize_normal(char *input, t_queue *token)
+{
+	int	i;
+
+	i = 0;
+	while (input[i] && is_normal(input[i]))
+		i++;
+	enqueue(token, WORD, ft_substr(input, 0, i));
+	return (i - 1);
+}
+
+t_queue	*tokenize(char *input, t_list *env)
+{
+	int		i;
+	int		start;
 	t_queue	*token;
 
-	token = init_token();
-	i = 0;
-	while (input[i])
+	token = init_queue();
+	i = -1;
+	while (input[++i])
 	{
 		if (input[i] == '"' && ft_strchr(input + i + 1, '"'))
-		{
-			enqueue(token, D_QUOTES, ft_substr(input, 1, ft_strchr(input + i, '"') - input - 1));
-			i += ft_strchr(input + i, '"') - input;
-		}
+			i += tokenize_dquotes(input + i + 1, token, env);
 		else if (input[i] == '\'' && ft_strchr(input + i + 1, '\''))
-		{
-			enqueue(token, S_QUOTES, ft_substr(input, 1, ft_strchr(input + i, '\'') - input - 1));
-			i += ft_strchr(input + i, '\'') - input;
-		}
+			i += tokenize_squotes(input + i + 1, token);
+		else if (ft_isblank(input[i]))
+			i += tokenize_space(input + i + 1, token);
+		else if (ft_isredirect(input[i]))
+			i += tokenize_redirect(input + i, token);
+		else if (input[i] == '$')
+			i += tokenize_envp(input + i + 1, token, env);
 		else if (input[i] == '|')
-		{
-			
-		}
-		i++;
+			enqueue(token, PIPE, ft_strdup("|"));
+		else
+			i += tokenize_normal(input + i, token);
 	}
 	return (token);
 }
@@ -129,8 +200,15 @@ t_token	*tokenize(char *input)
 void	execute_command(char *input, t_list *env)
 {
 	t_queue	*token;
+	t_qnode	*node;
 
-	token = tokenize(input);
+	token = tokenize(input, env);
+	node = dequeue(token);
+	while (node)
+	{
+		printf("%s \n", node->str);
+		node = dequeue(token);
+	}
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -138,7 +216,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_list	*env;
 	char	*input;
 
-	env = init_env(envp);
+	env = init_lnode(envp);
 	receive_signal();
 	while (argc || argv)
 	{

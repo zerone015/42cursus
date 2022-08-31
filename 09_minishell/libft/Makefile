@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+         #
+#    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/10 18:10:46 by yoson             #+#    #+#              #
-#    Updated: 2022/08/31 14:44:32 by kijsong          ###   ########.fr        #
+#    Updated: 2022/08/31 20:43:09 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ BSRCS = ft_lstnew.c \
 SRCS = ft_memcmp.c ft_memmove.c ft_bzero.c ft_memchr.c ft_memcpy.c \
        ft_memset.c ft_strlen.c ft_strlcpy.c ft_strlcat.c ft_strchr.c \
        ft_strrchr.c ft_strnstr.c ft_strcmp.c ft_strncmp.c ft_atoi.c ft_isalpha.c \
-       ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_toupper.c \
+       ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_isblank.c ft_toupper.c \
        ft_tolower.c safe_malloc.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c \
        ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c \
        ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_perror.c

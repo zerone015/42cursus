@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.c                                             :+:      :+:    :+:   */
+/*   env.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:11:19 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/31 14:31:26 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/08/31 19:04:28 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ t_list	*init_list(void)
 	t_list	*env;
 
 	env = safe_malloc(sizeof(t_list));
-	env->head = safe_malloc(sizeof(t_node));
+	env->head = safe_malloc(sizeof(t_lnode));
 	env->tail = env->head;
 	return (env);
 }
 
 void	add_last(t_list *env, char *key, char *val)
 {
-	t_node	*new;
+	t_lnode	*new;
 
-	new = safe_malloc(sizeof(t_node));
+	new = safe_malloc(sizeof(t_lnode));
 	new->key = key;
 	new->val = val;
 	new->next = NULL;
@@ -34,9 +34,9 @@ void	add_last(t_list *env, char *key, char *val)
 	env->tail = new;
 }
 
-t_node	*find_key(t_list *env, char *key)
+t_lnode	*find_key(t_list *env, char *key)
 {
-	t_node	*node;
+	t_lnode	*node;
 
 	node = env->head->next;
 	while (node)

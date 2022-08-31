@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+         #
+#    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/30 16:11:41 by kijsong           #+#    #+#              #
-#    Updated: 2022/08/31 14:08:41 by kijsong          ###   ########.fr        #
+#    Updated: 2022/08/31 15:03:06 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,14 +41,14 @@ bonus : $(BONUS)
 
 $(NAME) : $(OBJS)
 	make -C $(LIB_DIR)
-	$(CC) -o $(NAME) $(OBJS) -L $(LIB_DIR) -lft $(RFLAGS) $(RHFLAGS)
+	$(CC) -o $(NAME) $(OBJS) -L$(LIB_DIR) -lft $(RFLAGS) $(RHFLAGS)
 
 $(BONUS) : $(BOBJS)
 	make -C $(LIB_DIR)
-	$(CC) -o $(BONUS) $^ -L $(LIB_DIR) -lft 
+	$(CC) -o $(BONUS) $^ -L$(LIB_DIR) -lft 
 
 %.o : %.c
-	$(CC) $(FLAGS) -c $< -o $@ -I $(INCS_DIR)
+	$(CC) $(FLAGS) -c $< -o $@ -I$(INCS_DIR)
 
 clean :
 	make -C $(LIB_DIR) clean
