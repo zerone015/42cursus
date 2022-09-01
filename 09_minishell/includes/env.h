@@ -13,21 +13,22 @@
 #ifndef env_H
 # define env_H
 
-typedef struct s_lnode
+typedef struct s_enode
 {
 	char			*key;
 	char			*val;
-	struct s_lnode	*next;
-}	t_lnode;
+	struct s_enode	*next;
+}	t_enode;
 
-typedef struct s_list
+typedef struct s_env
 {
-	t_lnode	*head;
-	t_lnode	*tail;
-}	t_list;
+	t_enode	*head;
+	t_enode	*tail;
+}	t_env;
 
-t_list	*init_list(void);
-t_lnode	*find_key(t_list *env, char *key);
-void	add_last(t_list *env, char *key, char *val);
+t_env	*init_env(void);
+t_enode	*find_key(t_env *env, char *key);
+void	add_enode(t_env *env, char *key, char *val);
+void	delete_enode(t_enode *node);
 
 #endif

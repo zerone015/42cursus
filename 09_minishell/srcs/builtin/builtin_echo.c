@@ -1,4 +1,4 @@
-void	echo(int argc, char *argv[])
+void	builtin_echo(int argc, char *argv[])
 {
 	int	i;
 	int	n_flag;

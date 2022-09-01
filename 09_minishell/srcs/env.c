@@ -12,21 +12,21 @@
 
 #include "minishell.h"
 
-t_list	*init_list(void)
+t_env	*init_env(void)
 {
-	t_list	*env;
+	t_env	*env;
 
-	env = safe_malloc(sizeof(t_list));
-	env->head = safe_malloc(sizeof(t_lnode));
+	env = safe_malloc(sizeof(t_env));
+	env->head = safe_malloc(sizeof(t_enode));
 	env->tail = env->head;
 	return (env);
 }
 
-void	add_last(t_list *env, char *key, char *val)
+void	add_enode(t_env *env, char *key, char *val)
 {
-	t_lnode	*new;
+	t_enode	*new;
 
-	new = safe_malloc(sizeof(t_lnode));
+	new = safe_malloc(sizeof(t_enode));
 	new->key = key;
 	new->val = val;
 	new->next = NULL;
@@ -34,9 +34,9 @@ void	add_last(t_list *env, char *key, char *val)
 	env->tail = new;
 }
 
-t_lnode	*find_key(t_list *env, char *key)
+t_enode	*find_key(t_env *env, char *key)
 {
-	t_lnode	*node;
+	t_enode	*node;
 
 	node = env->head->next;
 	while (node)
@@ -46,4 +46,11 @@ t_lnode	*find_key(t_list *env, char *key)
 		node = node->next;
 	}
 	return (NULL);
+}
+
+void	delete_enode(t_enode *node)
+{
+	free(node->key);
+	free(node->val);
+	free(node);
 }

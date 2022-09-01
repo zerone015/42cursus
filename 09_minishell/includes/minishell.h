@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/08/31 22:39:12 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/01 21:44:05 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 # define TRUE	1
 # define FALSE	0
+# define ERROR	-1
 
-# include "list.h"
-# include "queue.h"
+# include "env.h"
+# include "token.h"
 # include "../libft/libft.h"
 
 enum e_type
@@ -28,7 +29,9 @@ enum e_type
 	REDIRECT
 };
 
-void	update_pwd(t_list *env);
-char	*get_prompt(t_list *env);
+void	update_pwd(t_env *env);
+char	*get_prompt(t_env *env);
+
+void	receive_signal(void); //signal.h 분리?
 
 #endif

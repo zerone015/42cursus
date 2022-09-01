@@ -1,38 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   queue.h                                            :+:      :+:    :+:   */
+/*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 18:39:07 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/31 19:38:46 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/01 21:09:22 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef QUEUE_H
-# define QUEUE_H
+#ifndef TOKEN_H
+# define TOKEN_H
 
 # define TRUE	1
 # define FALSE	0
 
-typedef struct s_qnode
+typedef struct s_tnode
 {
 	int				type;
 	char			*str;
-	struct s_qnode	*next;
-}	t_qnode;
+	struct s_tnode	*next;
+}	t_tnode;
 
-typedef struct s_queue
+typedef struct s_token
 {
-	t_qnode	*front;
-	t_qnode	*rear;
-}	t_queue;
+	t_tnode	*head;
+	t_tnode	*tail;
+}	t_token;
 
-t_queue	*init_queue(void);
-int		queue_is_empty(t_queue *queue);
-void	enqueue(t_queue *queue, int type, char *str);
-char	*dequeue(t_queue *queue);
-int		peek(t_queue *queue);
+t_token	*init_token(void);
+void	add_last(t_token *token, int type, char *str);
+char	*remove_first(t_token *token);
+int		get_first_type(t_token *token);
+void	redirect_to_last(t_token *token);
+void	rotate(t_token *token);
 
 #endif
