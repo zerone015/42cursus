@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/01 21:57:38 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/01 22:27:44 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_env	*init_envp(char *envp[])
 	t_env	*env;
 	int		i;
 
-	env = init_list();
+	env = init_env();
 	while (*envp)
 	{
 		i = ft_strchr(*envp, '=') - *envp;
@@ -215,28 +215,6 @@ t_token	*tokenize(char *input, t_env *env)
 	return (token);
 }
 
-char	**asdf(t_token *token)
-{
-	char	*str;
-	char	*join;
-	char	*temp;
-	int		i;
-
-	i = 0;
-	join = ft_strdup("");
-	while (get_first_type(token) != ERROR)
-	{
-		if (get_first_type(token) == PIPE)
-		{
-			
-		}
-		str = remove_first(token);
-		temp = join;
-		join = ft_strjoin(temp, str);
-		free(temp);
-	}
-}
-
 int	is_builtin(t_token *token)
 {
 	t_tnode		*node;
@@ -267,7 +245,7 @@ t_token	*merge_token(t_token *tokens)
 
 	token = init_token();
 	if (get_first_type(tokens) == PIPE)
-		add_last(token, type, remove_first(tokens));
+		add_last(token, PIPE, remove_first(tokens));
 	if (get_first_type(tokens) == BLANK)
 		remove_first(tokens);
 	type = get_first_type(tokens);
@@ -296,19 +274,16 @@ int	is_first_pipe(t_token *tokens)
 	return (TRUE);
 }
 
-int	syntax_check(t_token *token)
-{
-	if (!token->head->next)
-		return (syntax_error(token, ""));
-	return (0);
-}
-
 int	syntax_error(t_token *token, char *err_msg)
 {
 	t_tnode	*node;
 	t_tnode	*temp;
 
-	ft_putendl_fd(err_msg, 2);
+	if (*err_msg != '\0')
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putendl_fd(err_msg, 2);
+	}
 	node = token->head;
 	while (node)
 	{
@@ -321,6 +296,13 @@ int	syntax_error(t_token *token, char *err_msg)
 	return (ERROR);
 }
 
+int	syntax_check(t_token *token)
+{
+	if (!token->head->next)
+		return (syntax_error(token, ""));
+	return (0);
+}
+
 void	execute_command(char *input, t_env *env)
 {
 	t_token	*tokens;
@@ -329,16 +311,17 @@ void	execute_command(char *input, t_env *env)
 	tokens = tokenize(input, env);
 	if (!is_first_pipe(tokens))
 	{
-		systax_error(tokens, "syntax error near unexpected token '|'\n");
+		syntax_error(tokens, "syntax error near unexpected token '|'");
 		return ;
 	}
 	while (get_first_type(tokens) != ERROR)
 	{
 		token = merge_token(tokens);
-		if (systax_check(token) == ERROR)
+		if (syntax_check(token) == ERROR)
 			return ;
 		while (get_first_type(token) != ERROR)
-			ft_putendl_fd(remove_first(token), 1);
+			ft_putstr_fd(remove_first(token), 1);
+		ft_putchar_fd('\n', 1);
 		// if (is_builtin(token))
 		// 	builtin_process(token, env);
 		// else

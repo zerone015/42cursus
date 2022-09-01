@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 18:57:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/01 21:52:24 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/01 22:32:19 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,15 @@ void	redirect_to_last(t_token *token)
 	{
 		pipe = 1;
 		remove_first(token);
-		if (token->head->next->type == BLANK)
+		if (token->head->next && token->head->next->type == BLANK)
 			remove_first(token);
 	}
-	if (token->head->next->type == REDIRECT)
+	if (token->head->next && token->head->next->type == REDIRECT)
 	{
 		rotate(token);
 		if (token->head->next->type == BLANK)
 			remove_first(token);
-		while (token->head->next->type == WORD)
+		while (token->head->next && token->head->next->type == WORD)
 			rotate(token);
 	}
 	if (pipe)
