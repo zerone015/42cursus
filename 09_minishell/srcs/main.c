@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/01 22:27:44 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/02 04:43:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,7 +260,7 @@ t_token	*merge_token(t_token *tokens)
 	return (token);
 }
 
-int	is_first_pipe(t_token *tokens)
+int	pipe_process_exists(t_token *tokens)
 {
 	t_tnode	*node;
 
@@ -274,16 +274,11 @@ int	is_first_pipe(t_token *tokens)
 	return (TRUE);
 }
 
-int	syntax_error(t_token *token, char *err_msg)
+void	clear_token(t_token *token)
 {
 	t_tnode	*node;
 	t_tnode	*temp;
-
-	if (*err_msg != '\0')
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putendl_fd(err_msg, 2);
-	}
+	
 	node = token->head;
 	while (node)
 	{
@@ -293,13 +288,90 @@ int	syntax_error(t_token *token, char *err_msg)
 		node = temp;
 	}
 	free(token);
+}
+
+int	syntax_error(char *err_msg)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putendl_fd(err_msg, 2);
+	g_exit_code = 258;
 	return (ERROR);
 }
 
-int	syntax_check(t_token *token)
+int	is_input_blank(char *input)
 {
-	if (!token->head->next)
-		return (syntax_error(token, ""));
+	while (ft_isblank(*input))
+		input++;
+	if (*input == '\0')
+		return (TRUE);
+	else
+		return (FALSE);
+}
+
+int	get_abs(int num)
+{
+	if (num < 0)
+		num *= -1;
+	return (num);
+}
+
+int	redirect_file_exists(char *input)
+{
+	int	result;
+
+	while (*input)
+	{
+		result = ft_isredirect(input);
+		if (result)
+		{
+			input += get_abs(result);
+			while (ft_isblank(*input))
+				input++;
+			if (*input == '\0')
+				return (FALSE);
+			else if (ft_isredirect(input))
+				return (FALSE);
+		}
+		else
+			input++;	
+	}
+	return (TRUE);
+}
+
+int	pipe_process_exists(char *input)
+{
+	int	i;
+	int	j;
+	
+	i = -1;
+	while (input[++i])
+	{
+		if (input[i] == '|')
+		{
+			j = i - 1;
+			while (j >= 0 && ft_isblank(input[j]))
+				j--;
+			if (j == -1)
+				return (FALSE);
+			else if (input[j] == '|')
+				return (FALSE);
+			else if (ft_is_redirect(input + j))
+				return (FALSE);
+			else if (j != 0 && get_abs(ft_is_redirect(input + j - 1) == 2))
+				return (FALSE);
+		}
+	}
+	return (TRUE);	
+}
+
+int	syntax_check(char *input)
+{
+	if (*input == '\0' || is_input_blank(input))
+		return (ERROR);
+	if (!redirect_file_exist(input))
+		return (syntax_error("syntax error near unexpected token"));
+	if (!pipe_process_exists(input))
+		return (syntax_error("syntax error near unexpected token"));
 	return (0);
 }
 
@@ -308,20 +380,12 @@ void	execute_command(char *input, t_env *env)
 	t_token	*tokens;
 	t_token	*token;
 
-	tokens = tokenize(input, env);
-	if (!is_first_pipe(tokens))
-	{
-		syntax_error(tokens, "syntax error near unexpected token '|'");
+	if (syntax_check(input) == ERROR)
 		return ;
-	}
+	tokens = tokenize(input, env);
 	while (get_first_type(tokens) != ERROR)
 	{
 		token = merge_token(tokens);
-		if (syntax_check(token) == ERROR)
-			return ;
-		while (get_first_type(token) != ERROR)
-			ft_putstr_fd(remove_first(token), 1);
-		ft_putchar_fd('\n', 1);
 		// if (is_builtin(token))
 		// 	builtin_process(token, env);
 		// else
