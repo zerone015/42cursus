@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/02 23:22:24 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/03 02:47:49 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -435,14 +435,16 @@ int	syntax_check(char **input, t_env *env)
 	return (0);
 }
 
-char	*slash_ignore(char *argv)
+char	*parse_cmd(char *argv)
 {
 	int	head;
 	int	i;
 
+	if (argv[ft_strlen(argv) - 1] == '/')
+		return (argv);
 	head = -1;
 	i = 0;
-	while (argv[i] && argv[i] != ' ')
+	while (argv[i])
 	{
 		if (argv[i] == '/')
 			head = i;
@@ -470,36 +472,47 @@ char	*find_path(char *cmd, char *envp[])
 	char	*path;
 	char	*temp;
 	int		i;
+	int		fd;
 
 	paths = parse_envp(envp);
-	if (!paths)
-		return (NULL);
-	i = 0;
-	while (paths[i])
+	i = -1;
+	while (paths[++i])
 	{
 		temp = ft_strjoin(paths[i], "/");
-		if (!temp)
-			return (NULL);
 		path = ft_strjoin(temp, cmd);
 		free(temp);
-		if (!path)
-			return (NULL);
-		if (access(path, F_OK) == 0)
+		fd = open(path, O_RDONLY);
+		if (fd != ERROR)
+		{
+			close(fd);
 			return (path);
+		}
 		free(path);
-		i++;
 	}
 	return (NULL);
 }
 
-void	execute(char **argv, char **envp, t_env *env)
+void	child_error(char *err_msg, char *cmd, int status)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(err_msg, 2);
+	exit(status);
+}
+
+void	execute(char **argv, char **envp)
 {
 	char	*path;
+	char	*cmd;
 
-	argv[0] = slash_ignore(argv[0]);
+	cmd = argv[0];
+	argv[0] = parse_cmd(argv[0]);
 	path = find_path(argv[0], envp);
+	if (!path)
+		child_error("command not found", cmd, 127);
 	if (execve(path, argv, envp) == -1)
-		error(env, "command not found", 127);
+		child_error(strerror(errno), cmd, 1);
 }
 
 char	*preprocess(t_token *token, int fd[])
@@ -538,10 +551,10 @@ int	parent_process(t_token *token, int fd[], pid_t pid, int oldfd)
 		dup2(fd[0], STDIN_FILENO);
 	else
 		dup2(oldfd, STDIN_FILENO);
-	return (status >> 24);
+	return (status >> 8);
 }
 
-void	child_process(t_token *token, int fd[], t_env *env, char *envp[])
+void	child_process(t_token *token, int fd[], char *envp[])
 {
 	char	*join;
 	char	**argv;
@@ -551,7 +564,7 @@ void	child_process(t_token *token, int fd[], t_env *env, char *envp[])
 	join = preprocess(token, fd);
 	argv = ft_split(join, ' ');
 	free(join);
-	execute(argv, envp, env);
+	execute(argv, envp);
 }
 
 char	**convert_env(t_env *env)
@@ -600,10 +613,10 @@ void	external_process(t_token *token, t_env *env, int oldfd)
 	if (pid == ERROR)
 		error(env, strerror(errno), 1);
 	if (pid == 0)
-		child_process(token, fd, env, envp);
+		child_process(token, fd, envp);
 	else
 	 	env->exit_code = parent_process(token, fd, pid, oldfd);
-	//clear_token(token); 이놈 문제 고쳐야함 ㅡㅡ
+	clear_token(token);
 	ft_free(envp);
 }
 
