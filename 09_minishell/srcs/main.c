@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/02 21:38:54 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/02 21:59:29 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,6 +331,8 @@ int	is_stdin(char *input)
 
 	input = ft_strtrim(input, " \t");
 	i = ft_strlen(input) - 1;
+	if (i == -1)
+		return (TRUE);
 	c = input[i];
 	free(input);
 	if (i && c == '|')
