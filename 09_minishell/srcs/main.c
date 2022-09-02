@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/03 02:47:49 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/03 03:22:31 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -515,7 +515,7 @@ void	execute(char **argv, char **envp)
 		child_error(strerror(errno), cmd, 1);
 }
 
-char	*preprocess(t_token *token, int fd[])
+char	*child_preprocess(t_token *token, int fd[])
 {
 	char	*str;
 	char	*join;
@@ -561,7 +561,7 @@ void	child_process(t_token *token, int fd[], char *envp[])
 
 	if (first_type(token) == PIPE)
 		remove_first(token);
-	join = preprocess(token, fd);
+	join = child_preprocess(token, fd);
 	argv = ft_split(join, ' ');
 	free(join);
 	execute(argv, envp);
