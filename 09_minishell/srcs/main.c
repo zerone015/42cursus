@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/02 21:00:56 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/02 21:38:54 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -489,17 +489,13 @@ char	*find_path(char *cmd, char *envp[])
 
 void	execute(char **argv, char **envp, t_env *env)
 {
-	char	**cmd;
 	char	*path;
-	char	*temp;
 
-	temp = argv[0];
 	argv[0] = slash_ignore(argv[0]);
-	free(temp);
 	path = find_path(argv[0], envp);
 	if (!path)
 		error(env, "command not found", 127);
-	if (execve(path, cmd, envp) == -1)
+	if (execve(path, argv, envp) == -1)
 		error(env, NULL, 1);
 }
 
@@ -575,6 +571,7 @@ char	**convert_env(t_env *env)
 		temp = ft_strjoin(node->key, "=");
 		envp[i] = ft_strjoin(temp, node->val);
 		free(temp);
+		node = node->next;
 	}
 	envp[i] = NULL;
 	return (envp);
