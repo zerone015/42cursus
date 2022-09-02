@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 18:57:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/02 16:58:09 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/02 20:59:16 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,13 @@ int	first_type(t_token *token)
 	if (!token->head->next)
 		return (ERROR);
 	return (token->head->next->type);
+}
+
+int	last_type(t_token *token)
+{
+	if (!token->tail)
+		return (ERROR);
+	return (token->tail->type);
 }
 
 void	redirect_to_last(t_token *token)

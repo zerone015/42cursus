@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 18:39:07 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/02 16:58:34 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/02 20:59:25 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_token	*init_token(void);
 void	add_last(t_token *token, int type, char *str);
 char	*remove_first(t_token *token);
 int		first_type(t_token *token);
+int		last_type(t_token *token);
 void	redirect_to_last(t_token *token);
 void	rotate(t_token *token);
 

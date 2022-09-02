@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/02 20:55:59 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/02 21:00:56 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <string.h> //strerror
 #include <unistd.h> //getcwd
 #include <fcntl.h>
 #include <errno.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "minishell.h"
-
-int	g_exit_code;
 
 void	update_pwd(t_env *env)
 {
@@ -488,7 +487,7 @@ char	*find_path(char *cmd, char *envp[])
 	return (NULL);
 }
 
-void	execute(char *argv, char **envp, t_env *env)
+void	execute(char **argv, char **envp, t_env *env)
 {
 	char	**cmd;
 	char	*path;
@@ -601,13 +600,12 @@ void	execute_command(char *input, t_env *env)
 	while (first_type(tokens) != ERROR)
 	{
 		token = parse_token(tokens);
-		if (is_builtin(token))
-			builtin_process(token, env);
-		else
-			external_process(token, env, oldfd);
+		// if (is_builtin(token))
+		// 	builtin_process(token, env);
+		// else
+		external_process(token, env, oldfd);
 	}
 }
-
 
 int	main(int argc, char *argv[], char *envp[])
 {
