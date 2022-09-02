@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 18:57:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/01 22:32:19 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/02 16:58:09 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*remove_first(t_token *token)
 	return (ret);
 }
 
-int	get_first_type(t_token *token)
+int	first_type(t_token *token)
 {
 	if (!token->head->next)
 		return (ERROR);

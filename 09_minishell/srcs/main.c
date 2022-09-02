@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/02 16:55:12 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/02 20:55:59 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h> //getcwd
+#include <fcntl.h>
+#include <errno.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "minishell.h"
@@ -22,12 +23,14 @@ int	g_exit_code;
 void	update_pwd(t_env *env)
 {
 	t_enode	*pwd;
+	t_enode	*old_pwd;
 
-	pwd = find_key(env, "PWD"); //유저가 unset 가능한지 확인
-	free(pwd->val);
+	pwd = find_key(env, "PWD");
+	old_pwd = find_key(env, "OLDPWD");
+	old_pwd->val = pwd->val;
 	pwd->val = getcwd(NULL, 0);
 	if (!pwd->val)
-		ft_perror(NULL);
+		error(env, strerror(errno), 1);
 }
 
 char	*get_prompt(t_env *env)
@@ -38,8 +41,6 @@ char	*get_prompt(t_env *env)
 	update_pwd(env);
 	pwd = find_key(env, "PWD")->val;
 	home = find_key(env, "HOME")->val;
-	// if (ft_strcmp(pwd, home) == 0)
-	// 	pwd = "~";
 	if (ft_strlen(pwd) == 1)
 		pwd = "/";
 	else
@@ -91,7 +92,7 @@ int	tokenize_envp(char *input, t_token *token, t_env *env)
 			return (0);
 		}
 		if (input[i] == '?')
-			add_last(token, WORD, ft_itoa(g_exit_code));
+			add_last(token, WORD, ft_itoa(env->exit_code));
 		return (1);
 	}
 	while (ft_isalpha(input[i]) || ft_isdigit(input[i]) || input[i] == '_')
@@ -244,15 +245,15 @@ t_token	*parse_token(t_token *tokens)
 	int		type;
 
 	token = init_token();
-	if (get_first_type(tokens) == PIPE)
+	if (first_type(tokens) == PIPE)
 		add_last(token, PIPE, remove_first(tokens));
-	if (get_first_type(tokens) == BLANK)
+	if (first_type(tokens) == BLANK)
 		remove_first(tokens);
-	type = get_first_type(tokens);
+	type = first_type(tokens);
 	while (type != PIPE && type != ERROR)
 	{
 		add_last(token, type, remove_first(tokens));
-		type = get_first_type(tokens);
+		type = first_type(tokens);
 	}
 	redirect_to_last(token);
 	if (type == PIPE)
@@ -260,25 +261,11 @@ t_token	*parse_token(t_token *tokens)
 	return (token);
 }
 
-// int	pipe_process_exists(t_token *tokens)
-// {
-// 	t_tnode	*node;
-
-// 	node = tokens->head->next;
-// 	if (!node)
-// 		return (TRUE);
-// 	if (node->type == BLANK)
-// 		node = node->next;
-// 	if (node && node->type == PIPE)
-// 		return (FALSE);
-// 	return (TRUE);
-// }
-
 void	clear_token(t_token *token)
 {
 	t_tnode	*node;
 	t_tnode	*temp;
-	
+
 	node = token->head;
 	while (node)
 	{
@@ -290,11 +277,11 @@ void	clear_token(t_token *token)
 	free(token);
 }
 
-int	syntax_error(char *err_msg)
+int	error(t_env *env, char *err_msg, int status)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putendl_fd(err_msg, 2);
-	g_exit_code = 258;
+	env->exit_code = status;
 	return (ERROR);
 }
 
@@ -351,20 +338,6 @@ int	is_stdin(char *input)
 		return (TRUE);
 	return (FALSE);
 }
-
-// int	stop_stdin(char *line)
-// {
-// 	// while (*line)
-// 	// {
-// 	// 	if (!ft_isblank(*line))
-// 	// 		break ;
-// 	// 	line++;
-// 	// }
-// 	// if (*line == '\0')
-// 	// 	return (FALSE);
-// 	return (is_stdin(line);
-// 	return (TRUE);
-// }
 
 char	*read_line(int *eof, char *line)
 {
@@ -445,37 +418,196 @@ int	pipe_check(char **input)
 	return (0);
 }
 
-int	syntax_check(char **input)
+int	syntax_check(char **input, t_env *env)
 {
 	if (**input == '\0' || is_input_blank(*input))
 		return (ERROR);
 	if (last_pipe_check(input) == ERROR)
-		return (syntax_error("syntax error: unexpected end of file"));
+		return (error(env, "syntax error: unexpected end of file", 258));
 	if (redirect_check(*input) == ERROR)
-		return (syntax_error("syntax error near unexpected token"));
+		return (error(env, "syntax error near unexpected token", 258));
 	if (pipe_check(input) == ERROR)
-		return (syntax_error("syntax error near unexpected token"));
+		return (error(env, "syntax error near unexpected token", 258));
 	return (0);
+}
+
+char	*slash_ignore(char *argv)
+{
+	int	head;
+	int	i;
+
+	head = -1;
+	i = 0;
+	while (argv[i] && argv[i] != ' ')
+	{
+		if (argv[i] == '/')
+			head = i;
+		i++;
+	}
+	head++;
+	return (argv + head);
+}
+
+char	**parse_envp(char *envp[])
+{
+	char	**paths;
+	int		i;
+
+	i = 0;
+	while (ft_strnstr(envp[i], "PATH", 4) == NULL)
+		i++;
+	paths = ft_split(envp[i] + 5, ':');
+	return (paths);
+}
+
+char	*find_path(char *cmd, char *envp[])
+{
+	char	**paths;
+	char	*path;
+	char	*temp;
+	int		i;
+
+	paths = parse_envp(envp);
+	if (!paths)
+		return (NULL);
+	i = 0;
+	while (paths[i])
+	{
+		temp = ft_strjoin(paths[i], "/");
+		if (!temp)
+			return (NULL);
+		path = ft_strjoin(temp, cmd);
+		free(temp);
+		if (!path)
+			return (NULL);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free(path);
+		i++;
+	}
+	return (NULL);
+}
+
+void	execute(char *argv, char **envp, t_env *env)
+{
+	char	**cmd;
+	char	*path;
+	char	*temp;
+
+	temp = argv[0];
+	argv[0] = slash_ignore(argv[0]);
+	free(temp);
+	path = find_path(argv[0], envp);
+	if (!path)
+		error(env, "command not found", 127);
+	if (execve(path, cmd, envp) == -1)
+		error(env, NULL, 1);
+}
+
+char	**preprocess(t_token *token, int fd[])
+{
+	char	*str;
+	char	*join;
+	char	*temp;
+
+	join = ft_strdup("");
+	while (first_type(token) != ERROR && first_type(token) != PIPE)
+	{
+		// if (first_type(token) == REDIRECT)
+		// {
+		// 	redirection(token);
+		// 	continue ;
+		// }	
+		str = remove_first(token);
+		temp = join;
+		join = ft_strjoin(join, str);
+		free(str);
+		free(temp);
+	}
+	close(fd[0]);
+	if (first_type(token) == PIPE)
+		dup2(fd[1], STDOUT_FILENO);
+	return (ft_split(join, ' '));
+}
+
+void	child_process(t_token *token, t_env *env, char *envp[], int oldfd)
+{
+	int		fd[2];
+	int		status;
+	pid_t	pid;
+	char	**argv;
+
+	if (pipe(fd) == -1)
+		error(env, strerror(errno), 1);
+	pid = fork();
+	if (pid == ERROR)
+		error(env, strerror(errno), 1);
+	if (pid == 0)
+	{
+		argv = preprocess(token, fd);
+		execute(argv, envp, env);
+	}
+	else
+	{	
+		waitpid(pid, &status, 0);
+		close(fd[1]);
+		if (last_type(token) == PIPE)
+			dup2(fd[0], STDIN_FILENO);
+		else
+			dup2(oldfd, STDIN_FILENO);
+		env->exit_code = status >> 24;
+	}
+}
+
+char	**convert_env(t_env *env)
+{
+	char	**envp;
+	t_enode	*node;
+	int		size;
+	int		i;
+	char	*temp;
+
+	size = count_env(env);
+	envp = malloc(sizeof(char *) * (size + 1));
+	node = env->head->next;
+	i = -1;
+	while (++i < size)
+	{
+		temp = ft_strjoin(node->key, "=");
+		envp[i] = ft_strjoin(temp, node->val);
+		free(temp);
+	}
+	envp[i] = NULL;
+	return (envp);
+}
+
+void	external_process(t_token *token, t_env *env, int oldfd)
+{
+	char	**envp;
+
+	envp = convert_env(env);
+	child_process(token, env, envp, oldfd);
+	clear_token(token);
 }
 
 void	execute_command(char *input, t_env *env)
 {
 	t_token	*tokens;
 	t_token	*token;
+	int		oldfd;
 
+	oldfd = dup(STDIN_FILENO);
 	tokens = tokenize(input, env);
-	while (get_first_type(tokens) != ERROR)
+	while (first_type(tokens) != ERROR)
 	{
 		token = parse_token(tokens);
-		// while (get_first_type(token) != -1)
-		// 	ft_putstr_fd(remove_first(token), 1);
-		// ft_putchar_fd('\n', 1);
-		// if (is_builtin(token))
-		// 	builtin_process(token, env);
-		// else
-		// 	external_process(token, env);
+		if (is_builtin(token))
+			builtin_process(token, env);
+		else
+			external_process(token, env, oldfd);
 	}
 }
+
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -490,7 +622,7 @@ int	main(int argc, char *argv[], char *envp[])
 		input = readline(get_prompt(env));
 		if (input)
 		{
-			is_error = syntax_check(&input);
+			is_error = syntax_check(&input, env);
 			add_history(input);
 			if (!is_error)
 				execute_command(input, env);

@@ -20,6 +20,7 @@ t_env	*init_env(void)
 	env = safe_malloc(sizeof(t_env));
 	env->head = safe_malloc(sizeof(t_enode));
 	env->tail = env->head;
+	env->exit_code = 0;
 	return (env);
 }
 
@@ -54,4 +55,19 @@ void	delete_enode(t_enode *node)
 	free(node->key);
 	free(node->val);
 	free(node);
+}
+
+int		count_env(t_env *env)
+{
+	int		size;
+	t_enode	*node;
+
+	size = 0;
+	node = env->head->next;
+	while (node)
+	{
+		size++;
+		node = node->next;
+	}
+	return (size);
 }
