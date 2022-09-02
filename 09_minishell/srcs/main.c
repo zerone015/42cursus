@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/02 21:59:29 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/02 23:22:24 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,7 +332,10 @@ int	is_stdin(char *input)
 	input = ft_strtrim(input, " \t");
 	i = ft_strlen(input) - 1;
 	if (i == -1)
+	{
+		free(input);
 		return (TRUE);
+	}
 	c = input[i];
 	free(input);
 	if (i && c == '|')
@@ -495,13 +498,11 @@ void	execute(char **argv, char **envp, t_env *env)
 
 	argv[0] = slash_ignore(argv[0]);
 	path = find_path(argv[0], envp);
-	if (!path)
-		error(env, "command not found", 127);
 	if (execve(path, argv, envp) == -1)
-		error(env, NULL, 1);
+		error(env, "command not found", 127);
 }
 
-char	**preprocess(t_token *token, int fd[])
+char	*preprocess(t_token *token, int fd[])
 {
 	char	*str;
 	char	*join;
@@ -524,36 +525,33 @@ char	**preprocess(t_token *token, int fd[])
 	close(fd[0]);
 	if (first_type(token) == PIPE)
 		dup2(fd[1], STDOUT_FILENO);
-	return (ft_split(join, ' '));
+	return (join);
 }
 
-void	child_process(t_token *token, t_env *env, char *envp[], int oldfd)
+int	parent_process(t_token *token, int fd[], pid_t pid, int oldfd)
 {
-	int		fd[2];
 	int		status;
-	pid_t	pid;
+
+	waitpid(pid, &status, 0);
+	close(fd[1]);
+	if (last_type(token) == PIPE)
+		dup2(fd[0], STDIN_FILENO);
+	else
+		dup2(oldfd, STDIN_FILENO);
+	return (status >> 24);
+}
+
+void	child_process(t_token *token, int fd[], t_env *env, char *envp[])
+{
+	char	*join;
 	char	**argv;
 
-	if (pipe(fd) == -1)
-		error(env, strerror(errno), 1);
-	pid = fork();
-	if (pid == ERROR)
-		error(env, strerror(errno), 1);
-	if (pid == 0)
-	{
-		argv = preprocess(token, fd);
-		execute(argv, envp, env);
-	}
-	else
-	{	
-		waitpid(pid, &status, 0);
-		close(fd[1]);
-		if (last_type(token) == PIPE)
-			dup2(fd[0], STDIN_FILENO);
-		else
-			dup2(oldfd, STDIN_FILENO);
-		env->exit_code = status >> 24;
-	}
+	if (first_type(token) == PIPE)
+		remove_first(token);
+	join = preprocess(token, fd);
+	argv = ft_split(join, ' ');
+	free(join);
+	execute(argv, envp, env);
 }
 
 char	**convert_env(t_env *env)
@@ -579,13 +577,34 @@ char	**convert_env(t_env *env)
 	return (envp);
 }
 
+void	ft_free(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+		free(envp[i++]);
+	free(envp);
+}
+
 void	external_process(t_token *token, t_env *env, int oldfd)
 {
+	int		fd[2];
+	pid_t	pid;
 	char	**envp;
 
+	if (pipe(fd) == -1)
+		error(env, strerror(errno), 1);
 	envp = convert_env(env);
-	child_process(token, env, envp, oldfd);
-	clear_token(token);
+	pid = fork();
+	if (pid == ERROR)
+		error(env, strerror(errno), 1);
+	if (pid == 0)
+		child_process(token, fd, env, envp);
+	else
+	 	env->exit_code = parent_process(token, fd, pid, oldfd);
+	//clear_token(token); 이놈 문제 고쳐야함 ㅡㅡ
+	ft_free(envp);
 }
 
 void	execute_command(char *input, t_env *env)
