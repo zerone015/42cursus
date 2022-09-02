@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/02 04:43:27 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/02 16:55:12 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ int	is_builtin(t_token *token)
 	return (TRUE);
 }
 
-t_token	*merge_token(t_token *tokens)
+t_token	*parse_token(t_token *tokens)
 {
 	t_token	*token;
 	int		type;
@@ -260,19 +260,19 @@ t_token	*merge_token(t_token *tokens)
 	return (token);
 }
 
-int	pipe_process_exists(t_token *tokens)
-{
-	t_tnode	*node;
+// int	pipe_process_exists(t_token *tokens)
+// {
+// 	t_tnode	*node;
 
-	node = tokens->head->next;
-	if (!node)
-		return (TRUE);
-	if (node->type == BLANK)
-		node = node->next;
-	if (node && node->type == PIPE)
-		return (FALSE);
-	return (TRUE);
-}
+// 	node = tokens->head->next;
+// 	if (!node)
+// 		return (TRUE);
+// 	if (node->type == BLANK)
+// 		node = node->next;
+// 	if (node && node->type == PIPE)
+// 		return (FALSE);
+// 	return (TRUE);
+// }
 
 void	clear_token(t_token *token)
 {
@@ -315,7 +315,7 @@ int	get_abs(int num)
 	return (num);
 }
 
-int	redirect_file_exists(char *input)
+int	redirect_check(char *input)
 {
 	int	result;
 
@@ -328,49 +328,132 @@ int	redirect_file_exists(char *input)
 			while (ft_isblank(*input))
 				input++;
 			if (*input == '\0')
-				return (FALSE);
+				return (ERROR);
 			else if (ft_isredirect(input))
-				return (FALSE);
+				return (ERROR);
 		}
 		else
 			input++;	
 	}
-	return (TRUE);
+	return (0);
 }
 
-int	pipe_process_exists(char *input)
+int	is_stdin(char *input)
+{
+	int		i;
+	char	c;
+
+	input = ft_strtrim(input, " \t");
+	i = ft_strlen(input) - 1;
+	c = input[i];
+	free(input);
+	if (i && c == '|')
+		return (TRUE);
+	return (FALSE);
+}
+
+// int	stop_stdin(char *line)
+// {
+// 	// while (*line)
+// 	// {
+// 	// 	if (!ft_isblank(*line))
+// 	// 		break ;
+// 	// 	line++;
+// 	// }
+// 	// if (*line == '\0')
+// 	// 	return (FALSE);
+// 	return (is_stdin(line);
+// 	return (TRUE);
+// }
+
+char	*read_line(int *eof, char *line)
+{
+	char	*temp;
+	char	*join;
+
+	join = ft_strdup("");
+	while (line)
+	{
+		ft_putstr_fd("> ", 1);
+		line = get_next_line(0);
+		if (!line)
+		{
+			*eof = TRUE;
+			break ;
+		}
+		temp = join;
+		join = ft_strjoin(join, line);
+		free(temp);
+		if (!is_stdin(line))
+		{
+			free(line);
+			break ;
+		}
+		free(line);
+	}
+	return (join);
+}
+int	pipe_check(char **input);
+
+int	last_pipe_check(char **input)
+{
+	int		eof;
+	char	*join;
+	char	*temp;
+
+	if (pipe_check(input) == ERROR)
+		return (0);
+	if (!is_stdin(*input))
+		return (0);
+	eof = FALSE;
+	join = read_line(&eof, (char *)1);
+	if (eof == TRUE)
+	{
+		free(join);
+		return (ERROR);
+	}
+	temp = *input;
+	*input = ft_strjoin(*input, join);
+	free(join);
+	free(temp);
+	return (0);
+}
+
+int	pipe_check(char **input)
 {
 	int	i;
 	int	j;
-	
+
 	i = -1;
-	while (input[++i])
+	while ((*input)[++i])
 	{
-		if (input[i] == '|')
+		if ((*input)[i] == '|')
 		{
 			j = i - 1;
-			while (j >= 0 && ft_isblank(input[j]))
+			while (j >= 0 && ft_isblank((*input)[j]))
 				j--;
 			if (j == -1)
-				return (FALSE);
-			else if (input[j] == '|')
-				return (FALSE);
-			else if (ft_is_redirect(input + j))
-				return (FALSE);
-			else if (j != 0 && get_abs(ft_is_redirect(input + j - 1) == 2))
-				return (FALSE);
+				return (ERROR);
+			else if ((*input)[j] == '|')
+				return (ERROR);
+			else if (ft_isredirect(*input + j))
+				return (ERROR);
+			else if (j != 0 && get_abs(ft_isredirect(*input + j - 1) == 2))
+				return (ERROR);
 		}
 	}
-	return (TRUE);	
+	return (0);
 }
 
-int	syntax_check(char *input)
+int	syntax_check(char **input)
 {
-	if (*input == '\0' || is_input_blank(input))
+	if (**input == '\0' || is_input_blank(*input))
 		return (ERROR);
-	if (!redirect_file_exist(input))
+	if (last_pipe_check(input) == ERROR)
+		return (syntax_error("syntax error: unexpected end of file"));
+	if (redirect_check(*input) == ERROR)
 		return (syntax_error("syntax error near unexpected token"));
-	if (!pipe_process_exists(input))
+	if (pipe_check(input) == ERROR)
 		return (syntax_error("syntax error near unexpected token"));
 	return (0);
 }
@@ -380,12 +463,13 @@ void	execute_command(char *input, t_env *env)
 	t_token	*tokens;
 	t_token	*token;
 
-	if (syntax_check(input) == ERROR)
-		return ;
 	tokens = tokenize(input, env);
 	while (get_first_type(tokens) != ERROR)
 	{
-		token = merge_token(tokens);
+		token = parse_token(tokens);
+		// while (get_first_type(token) != -1)
+		// 	ft_putstr_fd(remove_first(token), 1);
+		// ft_putchar_fd('\n', 1);
 		// if (is_builtin(token))
 		// 	builtin_process(token, env);
 		// else
@@ -397,6 +481,7 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	t_env	*env;
 	char	*input;
+	int		is_error;
 
 	env = init_envp(envp);
 	// receive_signal();
@@ -405,8 +490,10 @@ int	main(int argc, char *argv[], char *envp[])
 		input = readline(get_prompt(env));
 		if (input)
 		{
+			is_error = syntax_check(&input);
 			add_history(input);
-			execute_command(input, env);
+			if (!is_error)
+				execute_command(input, env);
 			free(input);
 		}
 	}

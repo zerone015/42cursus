@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/02 15:44:22 by kijsong          ###   ########.fr       */
+/*   Created: 2022/07/11 01:07:10 by yoson             #+#    #+#             */
+/*   Updated: 2022/09/02 15:44:50 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-# define TRUE	1
-# define FALSE	0
-# define ERROR	-1
+# include <stdlib.h>
 
-# include "env.h"
-# include "token.h"
-# include "get_next_line.h"
-# include "../libft/libft.h"
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 4096
+# endif
 
-enum e_type
-{
-	WORD,
-	BLANK,
-	PIPE,
-	REDIRECT
-};
-
-void	update_pwd(t_env *env);
-char	*get_prompt(t_env *env);
-
-void	receive_signal(void); //signal.h 분리?
+char	*get_next_line(int fd);
+int		ft_strlen(const char *str);
+char	*ft_strdup(const char *src);
+char	*ft_strchr(const char *str, int c);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_substr(char const *src, int start, int len);
 
 #endif
