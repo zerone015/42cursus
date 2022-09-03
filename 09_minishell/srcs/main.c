@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/03 23:36:23 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/04 01:58:48 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,7 +356,7 @@ char	*read_line(int *eof, char *line)
 	while (line)
 	{
 		ft_putstr_fd("> ", 1);
-		line = get_next_line(0);
+		line = get_next_line(STDIN_FILENO);
 		if (!line)
 		{
 			*eof = TRUE;
@@ -546,6 +546,8 @@ void	execute(char **argv, char **envp)
 		else
 			child_error("command not found", cmd, 127);
 	}
+	if (ft_strchr(cmd, '/') && !is_executable(cmd))
+		child_error("No such file or directory", cmd, 127);
 	if (execve(path, argv, envp) == -1)
 		child_error(strerror(errno), cmd, 1);
 }
@@ -591,7 +593,7 @@ void	append_input(char *limiter)
 	while (1)
 	{
 		ft_putstr_fd("> ", 2);
-		line = get_next_line(0);
+		line = get_next_line(STDIN_FILENO);
 		if (line == NULL || ft_strcmp(line, limiter) == 0)
 		{
 			free(line);
@@ -709,31 +711,22 @@ char	**convert_env(t_env *env)
 	return (envp);
 }
 
-void	ft_free(char **envp)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i])
-		free(envp[i++]);
-	free(envp);
-}
-
 void	external_process(t_token *token, t_env *env, int fd[], int oldfd)
 {
 	pid_t	pid;
 	char	**envp;
 
-	envp = convert_env(env);
 	pid = fork();
 	if (pid == ERROR)
 		error(env, NULL, 1);
 	if (pid == 0)
+	{
+		envp = convert_env(env);
 		child_process(token, fd, envp);
+	}
 	else
-	 	env->exit_code = parent_process(token, fd, pid, oldfd);
+		env->exit_code = parent_process(token, fd, pid, oldfd);
 	clear_token(token);
-	ft_free(envp);
 }
 
 void	execute_command(char *input, t_env *env)
