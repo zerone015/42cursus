@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
+#    By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/30 16:11:41 by kijsong           #+#    #+#              #
-#    Updated: 2022/09/03 00:59:17 by yoson            ###   ########.fr        #
+#    Updated: 2022/09/03 14:33:30 by kijsong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,12 @@ NAME		= minishell
 
 CC			= cc
 FLAGS		= -Wall -Wextra -Werror
-# RFLAGS 		= -lreadline -L${HOME}/.brew/opt/readline/lib
-# RHFLAGS 	= -I${HOME}/.brew/opt/readline/include
+RFLAGS 		= -lreadline -L$(HOME)/.brew/opt/readline/lib
+RHFLAGS 	= -I$(HOME)/.brew/opt/readline/include
 # RFLAGS 		= -lreadline -L/goinfre/yoson/brew/opt/readline/lib
 # RHFLAGS 	= -I/goinfre/yoson/brew/opt/readline/include
-RFLAGS 		= -lreadline -L/opt/homebrew/opt/readline/lib
-RHFLAGS 	= -I/opt/homebrew/opt/readline/include
+# RFLAGS 		= -lreadline -L/opt/homebrew/opt/readline/lib
+# RHFLAGS 	= -I/opt/homebrew/opt/readline/include
 AR			= ar rcs
 RM			= rm -f
 

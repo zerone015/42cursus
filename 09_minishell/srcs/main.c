@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/03 03:22:31 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/03 14:41:57 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <errno.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	update_pwd(t_env *env)
 {

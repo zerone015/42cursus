@@ -6,12 +6,12 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 18:57:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/02 20:59:16 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/03 14:47:07 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 t_token	*init_token(void)
 {
@@ -102,7 +102,7 @@ void	redirect_to_last(t_token *token)
 			rotate(token);
 	}
 	if (pipe)
-		add_first(token, PIPE, "|");
+		add_first(token, PIPE, ft_strdup("|"));
 }
 
 void	rotate(t_token *token)
