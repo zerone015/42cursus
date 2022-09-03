@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/03 14:41:57 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/03 16:34:54 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -515,24 +515,104 @@ void	execute(char **argv, char **envp)
 		child_error(strerror(errno), cmd, 1);
 }
 
+void	overwrite_output(char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 00644);
+	if (fd == -1)
+		child_error(strerror(errno), filename, 1);
+	dup2(fd, STDOUT_FILENO);
+}
+
+void	append_output(char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 00644);
+	if (fd == -1)
+		child_error(strerror(errno), filename, 1);
+	dup2(fd, STDOUT_FILENO);
+}
+
+void	overwrite_input(char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		child_error("No such file or directory", filename, 1);
+	dup2(fd, STDIN_FILENO);
+}
+
+void	append_input(char *limiter)
+{
+	char	*line;
+	int		fd;
+
+	fd = open("./.heredoc", O_WRONLY | O_CREAT | O_TRUNC);
+	if (fd == -1)
+		child_error(strerror(errno), ".heredoc", 1);
+	while (1)
+	{
+		ft_putstr_fd("> ", 2);
+		line = get_next_line(0);
+		if (line == NULL || ft_strcmp(line, limiter) == 0)
+		{
+			free(line);
+			free(limiter);
+			break ;
+		}
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+	dup2(fd, STDIN_FILENO);
+}
+
+void	redirection(t_token *token)
+{
+	char	*redirection;	
+	char	*filename;
+	char	*temp;
+
+	redirection = remove_first(token);
+	while (first_type(token) != ERROR && first_type(token) == BLANK)
+		remove_first(token);
+	filename = ft_strdup("");
+	while (first_type(token) != ERROR && first_type(token) != BLANK)
+	{
+		temp = filename;
+		filename = ft_strjoin(filename, remove_first(token));
+		free(temp);
+	}
+	if (ft_strcmp(redirection, ">") == 0)
+		overwrite_output(filename);
+	else if (ft_strcmp(redirection, ">>") == 0)
+		append_output(filename);
+	else if (ft_strcmp(redirection, "<") == 0)
+		overwrite_input(filename);
+	else if (ft_strcmp(redirection, "<<") == 0)
+		append_input(filename);
+	free(redirection);
+	free(filename);
+}
+
 char	*child_preprocess(t_token *token, int fd[])
 {
-	char	*str;
 	char	*join;
 	char	*temp;
 
 	join = ft_strdup("");
 	while (first_type(token) != ERROR && first_type(token) != PIPE)
 	{
-		// if (first_type(token) == REDIRECT)
-		// {
-		// 	redirection(token);
-		// 	continue ;
-		// }	
-		str = remove_first(token);
+		if (first_type(token) == REDIRECT)
+		{
+			redirection(token);
+			continue ;
+		}	
 		temp = join;
-		join = ft_strjoin(join, str);
-		free(str);
+		join = ft_strjoin(join, remove_first(token));
 		free(temp);
 	}
 	close(fd[0]);
@@ -546,6 +626,7 @@ int	parent_process(t_token *token, int fd[], pid_t pid, int oldfd)
 	int		status;
 
 	waitpid(pid, &status, 0);
+	unlink("./.here_doc");
 	close(fd[1]);
 	if (last_type(token) == PIPE)
 		dup2(fd[0], STDIN_FILENO);
@@ -652,7 +733,8 @@ int	main(int argc, char *argv[], char *envp[])
 		if (input)
 		{
 			is_error = syntax_check(&input, env);
-			add_history(input);
+			if (*input)
+				add_history(input);
 			if (!is_error)
 				execute_command(input, env);
 			free(input);
