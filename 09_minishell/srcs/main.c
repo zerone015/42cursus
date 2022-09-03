@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/03 16:34:54 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/03 18:07:37 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <unistd.h> //getcwd
 #include <fcntl.h>
 #include <errno.h>
+#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../includes/minishell.h"
@@ -519,7 +520,7 @@ void	overwrite_output(char *filename)
 {
 	int	fd;
 
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 00644);
+	fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 00644);
 	if (fd == -1)
 		child_error(strerror(errno), filename, 1);
 	dup2(fd, STDOUT_FILENO);
@@ -529,7 +530,7 @@ void	append_output(char *filename)
 {
 	int	fd;
 
-	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 00644);
+	fd = open(filename, O_RDWR | O_CREAT | O_APPEND, 00644);
 	if (fd == -1)
 		child_error(strerror(errno), filename, 1);
 	dup2(fd, STDOUT_FILENO);
@@ -550,7 +551,7 @@ void	append_input(char *limiter)
 	char	*line;
 	int		fd;
 
-	fd = open("./.heredoc", O_WRONLY | O_CREAT | O_TRUNC);
+	fd = open("./.heredoc", O_WRONLY | O_CREAT | O_TRUNC, 00644);
 	if (fd == -1)
 		child_error(strerror(errno), ".heredoc", 1);
 	while (1)
@@ -560,13 +561,13 @@ void	append_input(char *limiter)
 		if (line == NULL || ft_strcmp(line, limiter) == 0)
 		{
 			free(line);
-			free(limiter);
 			break ;
 		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
+		ft_putendl_fd(line, fd);
 		free(line);
 	}
+	close(fd);
+	fd = open("./.heredoc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 }
 
@@ -577,10 +578,10 @@ void	redirection(t_token *token)
 	char	*temp;
 
 	redirection = remove_first(token);
-	while (first_type(token) != ERROR && first_type(token) == BLANK)
+	while (first_type(token) == BLANK)
 		remove_first(token);
 	filename = ft_strdup("");
-	while (first_type(token) != ERROR && first_type(token) != BLANK)
+	while (first_type(token) == WORD)
 	{
 		temp = filename;
 		filename = ft_strjoin(filename, remove_first(token));
@@ -610,7 +611,7 @@ char	*child_preprocess(t_token *token, int fd[])
 		{
 			redirection(token);
 			continue ;
-		}	
+		}
 		temp = join;
 		join = ft_strjoin(join, remove_first(token));
 		free(temp);
@@ -626,7 +627,7 @@ int	parent_process(t_token *token, int fd[], pid_t pid, int oldfd)
 	int		status;
 
 	waitpid(pid, &status, 0);
-	unlink("./.here_doc");
+	unlink("./.heredoc");
 	close(fd[1]);
 	if (last_type(token) == PIPE)
 		dup2(fd[0], STDIN_FILENO);
@@ -726,7 +727,7 @@ int	main(int argc, char *argv[], char *envp[])
 	int		is_error;
 
 	env = init_envp(envp);
-	// receive_signal();
+	receive_signal();
 	while (argc || argv)
 	{
 		input = readline(get_prompt(env));
