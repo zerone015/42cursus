@@ -6,17 +6,18 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:47:54 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/03 14:47:55 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/03 21:53:55 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	builtin_env(int argc, char *argv[], t_env *env)
 {
 	t_enode	*node;
 
-	(void)env;
+	(void)argc;
+	(void)argv;
 	node = env->head->next;
 	while (node)
 	{

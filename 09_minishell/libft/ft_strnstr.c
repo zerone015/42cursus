@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 00:44:27 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/15 19:29:17 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/03 23:35:16 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,18 @@
 char	*ft_strnstr(const char *str, const char *to_find, size_t len)
 {
 	size_t	i;
-	size_t	j;
 
-	if (!to_find[0])
-		return ((char *) str);
-	i = 0;
-	while (i < len && str[i])
+	while (*to_find && len--)
 	{
-		j = 0;
-		while (str[i] == to_find[j] && str[i] && i < len)
+		i = 0;
+		while ((const unsigned char)str[i] == (const unsigned char)to_find[i])
 		{
-			i++;
-			j++;
+			if (*(str - 1))
+				break ;
+			if (!to_find[i++])
+				return ((char *)str);
 		}
-		if (!to_find[j])
-			return ((char *) str + i - j);
-		i -= j;
-		i++;
+		str++;
 	}
 	return (NULL);
 }

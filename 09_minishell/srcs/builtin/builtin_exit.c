@@ -6,11 +6,11 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:47:56 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/03 14:47:56 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/03 21:54:16 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 int	is_number(char *str)
 {
@@ -24,9 +24,6 @@ int	is_number(char *str)
 
 void	builtin_exit(int argc, char *argv[], t_env *env)
 {
-	t_enode	*node;
-	t_enode	*next;
-
 	if (argc > 2)
 	{
 		error(env, "exit: too many arguments", 1);

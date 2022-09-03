@@ -6,16 +6,17 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/03 18:07:37 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/03 23:36:23 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <string.h> //strerror
-#include <unistd.h> //getcwd
+#include <unistd.h> //getcwd, pipe
 #include <fcntl.h>
 #include <errno.h>
 #include <stdio.h>
+#include <dirent.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../includes/minishell.h"
@@ -223,12 +224,12 @@ int	is_builtin(t_token *token)
 	char		*temp;
 	const char	*builtin = "cd\0echo\0env\0exit\0export\0pwd\0unset";
 
-	node = token->head;
+	node = token->head->next;
 	cmd = ft_strdup("");
-	while (node->type == WORD)
+	while (node && node->type == WORD)
 	{
 		temp = cmd;
-		cmd = ft_strjoin(temp, node->str);
+		cmd = ft_strjoin(cmd, node->str);
 		free(temp);
 		node = node->next;
 	}
@@ -280,6 +281,8 @@ void	clear_token(t_token *token)
 int	error(t_env *env, char *err_msg, int status)
 {
 	ft_putstr_fd("minishell: ", 2);
+	if (!err_msg)
+		err_msg = strerror(errno);
 	ft_putendl_fd(err_msg, 2);
 	env->exit_code = status;
 	return (ERROR);
@@ -461,7 +464,7 @@ char	**parse_envp(char *envp[])
 	int		i;
 
 	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == NULL)
+	while (ft_strncmp(envp[i], "PATH", 4))
 		i++;
 	paths = ft_split(envp[i] + 5, ':');
 	return (paths);
@@ -502,6 +505,28 @@ void	child_error(char *err_msg, char *cmd, int status)
 	exit(status);
 }
 
+int	is_executable(char *cmd)
+{
+	int	fd;
+
+	fd = open(cmd, O_RDONLY);
+	if (fd == -1)
+		return (FALSE);
+	close(fd);
+	return (TRUE);
+}
+
+int	is_directory(char *cmd)
+{
+	DIR	*result;
+
+	result = opendir(cmd);
+	if (!result)
+		return (FALSE);
+	closedir(result);
+	return (TRUE);
+}
+
 void	execute(char **argv, char **envp)
 {
 	char	*path;
@@ -510,8 +535,17 @@ void	execute(char **argv, char **envp)
 	cmd = argv[0];
 	argv[0] = parse_cmd(argv[0]);
 	path = find_path(argv[0], envp);
+	if (is_directory(cmd))
+		child_error("is a directory", cmd, 126);
 	if (!path)
-		child_error("command not found", cmd, 127);
+	{
+		if (is_executable(cmd))
+			path = cmd;
+		else if (ft_strchr(cmd, '/'))
+			child_error("No such file or directory", cmd, 127);
+		else
+			child_error("command not found", cmd, 127);
+	}
 	if (execve(path, argv, envp) == -1)
 		child_error(strerror(errno), cmd, 1);
 }
@@ -542,7 +576,7 @@ void	overwrite_input(char *filename)
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		child_error("No such file or directory", filename, 1);
+		child_error("No such file or directory", filename, 127);
 	dup2(fd, STDIN_FILENO);
 }
 
@@ -601,14 +635,17 @@ void	redirection(t_token *token)
 
 char	*child_preprocess(t_token *token, int fd[])
 {
+	int		is_redirect;
 	char	*join;
 	char	*temp;
 
+	is_redirect = 0;
 	join = ft_strdup("");
 	while (first_type(token) != ERROR && first_type(token) != PIPE)
 	{
 		if (first_type(token) == REDIRECT)
 		{
+			is_redirect = 1;
 			redirection(token);
 			continue ;
 		}
@@ -617,7 +654,7 @@ char	*child_preprocess(t_token *token, int fd[])
 		free(temp);
 	}
 	close(fd[0]);
-	if (first_type(token) == PIPE)
+	if (!is_redirect && first_type(token) == PIPE)
 		dup2(fd[1], STDOUT_FILENO);
 	return (join);
 }
@@ -682,18 +719,15 @@ void	ft_free(char **envp)
 	free(envp);
 }
 
-void	external_process(t_token *token, t_env *env, int oldfd)
+void	external_process(t_token *token, t_env *env, int fd[], int oldfd)
 {
-	int		fd[2];
 	pid_t	pid;
 	char	**envp;
 
-	if (pipe(fd) == -1)
-		error(env, strerror(errno), 1);
 	envp = convert_env(env);
 	pid = fork();
 	if (pid == ERROR)
-		error(env, strerror(errno), 1);
+		error(env, NULL, 1);
 	if (pid == 0)
 		child_process(token, fd, envp);
 	else
@@ -706,6 +740,7 @@ void	execute_command(char *input, t_env *env)
 {
 	t_token	*tokens;
 	t_token	*token;
+	int		fd[2];
 	int		oldfd;
 
 	oldfd = dup(STDIN_FILENO);
@@ -713,10 +748,15 @@ void	execute_command(char *input, t_env *env)
 	while (first_type(tokens) != ERROR)
 	{
 		token = parse_token(tokens);
-		// if (is_builtin(token))
-		// 	builtin_process(token, env);
-		// else
-		external_process(token, env, oldfd);
+		if (pipe(fd) == -1)
+		{
+			error(env, NULL, 1);
+			exit(1);
+		}
+		if (is_builtin(token))
+			builtin_process(token, env, fd, oldfd);
+		else
+			external_process(token, env, fd, oldfd);
 	}
 }
 

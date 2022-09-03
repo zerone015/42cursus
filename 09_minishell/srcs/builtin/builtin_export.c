@@ -6,12 +6,13 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:47:58 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/03 14:47:58 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/03 21:54:39 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
 #include "../../libft/libft.h"
+#include "../../includes/env.h"
+#include "../../includes/minishell.h"
 
 char	*get_key(char *str, int size)
 {
@@ -26,7 +27,7 @@ char	*get_key(char *str, int size)
 		str++;
 	}
 	key = safe_malloc(size + 1);
-	key[size] = '\0';	
+	key[size] = '\0';
 	while (size)
 	{
 		str--;
@@ -49,7 +50,6 @@ void	update_export(char *key, char *val, t_env *env)
 
 void	add_export(char *str, t_env *env)
 {
-	t_enode	*node;
 	char	*equal;
 	char	*key;
 	char	*val;
@@ -94,12 +94,9 @@ void	print_export(t_env *env)
 
 void	builtin_export(int argc, char *argv[], t_env *env)
 {
-	int		equal;
-	int		i;
-
 	if (argc == 1)
 	{
-		print_export();
+		print_export(env);
 		return ;
 	}
 	while (--argc)

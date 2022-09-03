@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
+#    By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/30 16:11:41 by kijsong           #+#    #+#              #
-#    Updated: 2022/09/03 15:51:18 by yoson            ###   ########.fr        #
+#    Updated: 2022/09/03 23:37:28 by kijsong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRC			=
 BSRC		=	
 # SRCS		=	$(addprefix $(SRCS_DIR), $(SRC))
 # BSRCS		=	$(addprefix $(SRCS_DIR), $(BSRC))
-SRCS		=	$(wildcard srcs/*.c)
+SRCS		=	$(wildcard srcs/*.c)  $(wildcard srcs/builtin/*.c)
 LIBS		=	$(addprefix $(LIB_DIR), $(LIB_NAME))
 OBJS		=	$(SRCS:.c=.o)
 BOBJS		=	$(BSRCS:.c=.o)

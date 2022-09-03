@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 14:31:54 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/03 17:33:41 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/03 20:48:10 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <term.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
 #include <readline/readline.h>
 #include "../libft/libft.h"
+#include "minishell.h"
 
 void	handler(int signum)
 {
@@ -45,10 +49,10 @@ void	receive_signal(void)
 	// safe_signal(SIGQUIT, handler);
 }
 
-// void	echoctl(void)
+// int	echoctl(t_env *env)
 // {
 // 	struct termios	term;
-// 	int				fd;
 
-// 	fd = tcgetattr(int, struct termios *)
+// 	if (tcgetattr(STDOUT_FILENO, &term) == -1)
+// 		return (error(env, NULL, 1));
 // }

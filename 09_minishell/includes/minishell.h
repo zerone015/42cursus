@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/02 19:50:25 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/03 23:05:02 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # include "env.h"
 # include "token.h"
+# include "builtin.h"
 # include "get_next_line.h"
 # include "../libft/libft.h"
 
@@ -33,6 +34,9 @@ enum e_type
 void	update_pwd(t_env *env);
 char	*get_prompt(t_env *env);
 int		error(t_env *env, char *err_msg, int status);
+
+char	*child_preprocess(t_token *token, int fd[]);
+int		parent_process(t_token *token, int fd[], pid_t pid, int oldfd);
 
 void	receive_signal(void); //signal.h 분리?
 

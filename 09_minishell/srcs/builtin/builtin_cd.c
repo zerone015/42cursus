@@ -6,12 +6,12 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:47:50 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/03 14:47:51 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/03 21:46:51 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#include "minishell.h"
+#include <unistd.h>
+#include "../../includes/minishell.h"
 
 char	*get_path(int argc, char *argv[], t_env *env)
 {
@@ -34,7 +34,7 @@ void	builtin_cd(int argc, char *argv[], t_env *env)
 	path = get_path(argc, argv, env);
 	if (chdir(path) == ERROR)
 	{
-		error(env, strerror(errno), 1);
+		error(env, NULL, 1);
 		return ;
 	}
 	if (ft_strcmp(path, "-") == 0)
