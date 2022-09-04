@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/09 03:23:54 by yoson             #+#    #+#              #
-#    Updated: 2022/08/11 21:28:09 by yoson            ###   ########.fr        #
+#    Updated: 2022/09/05 01:46:35 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,6 @@ fclean : clean
 	make -C $(LIB_DIR) fclean
 	$(RM) $(NAME)
 
-re : clean all
+re : fclean all
 
 PHONY	: all clean fclean re
