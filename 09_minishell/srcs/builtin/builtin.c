@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:04 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 00:13:56 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 03:56:44 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	parent_builtin(t_token *token, int fd[], pid_t pid, int oldfd)
 		dup2(fd[0], STDIN_FILENO);
 	else
 		dup2(oldfd, STDIN_FILENO);
+	close(fd[0]);
 	return (status >> 8);
 }
 

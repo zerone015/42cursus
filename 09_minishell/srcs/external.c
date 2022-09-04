@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 00:11:27 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 03:56:14 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	parent_process(t_token *token, int fd[], pid_t pid, int oldfd)
 		dup2(fd[0], STDIN_FILENO);
 	else
 		dup2(oldfd, STDIN_FILENO);
+	close(fd[0]);
 	return (status >> 8);
 }
 
