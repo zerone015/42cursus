@@ -6,13 +6,12 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:06:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/02 16:38:47 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/04 15:16:01 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/get_next_line.h"
 #include "../libft/libft.h"
-#include <unistd.h>
 
 static	char	*ft_free(char *ptr)
 {

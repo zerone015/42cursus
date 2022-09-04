@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:47:58 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/03 21:54:39 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/04 18:37:29 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ void	update_export(char *key, char *val, t_env *env)
 
 	node = find_key(env, key);
 	if (node)
+	{
+		if (node->val)
+			free(node->val);
 		node->val = val;
+	}
 	else
 		add_enode(env, key, val);
 }
@@ -55,11 +59,13 @@ void	add_export(char *str, t_env *env)
 	char	*val;
 	int		size;
 
+	if (is_essential(str))
+		return ;
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 	{
-		ft_putstr_fd("export: '", 2);
-		ft_putstr_fd(str, 2);
-		ft_putendl_fd("': not a valid identifier", 2);
+		ft_putstr_fd("minishell: export: '", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
+		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 		return ;
 	}
 	val = NULL;
@@ -82,23 +88,25 @@ void	print_export(t_env *env)
 	node = env->head->next;
 	while (node)
 	{
-		ft_putstr_fd(node->key, 1);
+		ft_putstr_fd(node->key, STDOUT_FILENO);
 		if (node->key)
 		{
-			ft_putchar_fd('=', 1);
-			ft_putstr_fd(node->val, 1);
+			ft_putchar_fd('=', STDOUT_FILENO);
+			ft_putstr_fd(node->val, STDOUT_FILENO);
 		}
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		node = node->next;
 	}
 }
 
-void	builtin_export(int argc, char *argv[], t_env *env)
+int	builtin_export(int argc, char *argv[], t_env *env)
 {
 	if (argc == 1)
 	{
 		print_export(env);
-		return ;
+		return (0);
 	}
 	while (--argc)
 		add_export(*++argv, env);
+	return (0);
 }

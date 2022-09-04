@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 14:31:54 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 13:17:38 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/04 23:03:23 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <term.h>
-#include <unistd.h>
-#include <errno.h>
-#include <string.h>
 #include <readline/readline.h>
+#include <unistd.h>
 #include "../libft/libft.h"
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		ft_putchar_fd('\n', 2);
-		rl_replace_line("", 0);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_replace_line("", 1);
 		if (rl_on_new_line() == -1)
-			exit(1);
+			ft_perror(NULL);
 		rl_redisplay();
 	}
-	// else if (signum == SIGQUIT)
-	// {
-
-	// }
 }
 
 void	safe_signal(int signum, void (*handler)(int))
@@ -43,16 +37,31 @@ void	safe_signal(int signum, void (*handler)(int))
 		ft_perror(NULL);
 }
 
-void	receive_signal(void)
+void	set_signal(int status)
 {
-	safe_signal(SIGINT, handler);
-	// safe_signal(SIGQUIT, handler);
+	if (status == CHILD)
+	{
+		safe_signal(SIGINT, SIG_DFL);
+		safe_signal(SIGQUIT, SIG_DFL);
+	}
+	else if (status == PARENT)
+	{
+		echoctl(FALSE);
+		safe_signal(SIGINT, handler);
+		safe_signal(SIGQUIT, SIG_IGN);
+	}
 }
 
-// int	echoctl(t_env *env)
-// {
-// 	struct termios	term;
+void	echoctl(int flag)
+{
+	struct termios	term;
 
-// 	if (tcgetattr(STDOUT_FILENO, &term) == -1)
-// 		return (error(env, NULL, 1));
-// }
+	if (tcgetattr(STDOUT_FILENO, &term) == -1)
+		ft_perror(NULL);
+	if (flag)
+		term.c_lflag |= ECHOCTL;
+	else
+		term.c_lflag &= ~(ECHOCTL);
+	if (tcsetattr(STDOUT_FILENO, TCSANOW, &term) == -1)
+		ft_perror(NULL);
+}

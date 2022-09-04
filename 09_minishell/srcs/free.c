@@ -1,38 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/03 14:47:52 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 13:39:47 by kijsong          ###   ########.fr       */
+/*   Created: 2022/09/04 23:22:04 by kijsong           #+#    #+#             */
+/*   Updated: 2022/09/04 23:22:43 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-int	builtin_echo(int argc, char *argv[], t_env *env)
+void	ft_free(char **argv)
 {
 	int	i;
-	int	n_flag;
 
-	(void)env;
 	i = 0;
-	n_flag = 0;
-	if (argc > 1 && ft_strcmp(argv[1], "-n") == 0)
+	while (argv[i])
+		free(argv[i++]);
+	free(argv);
+}
+
+void	clear_token(t_token *token)
+{
+	t_tnode	*node;
+	t_tnode	*temp;
+
+	node = token->head;
+	while (node)
 	{
-		n_flag = 1;
-		i++;
+		temp = node->next;
+		free(node->str);
+		free(node);
+		node = temp;
 	}
-	while (++i < argc - 1)
-	{
-		ft_putstr_fd(argv[i], STDOUT_FILENO);
-		ft_putchar_fd(' ', STDOUT_FILENO);
-	}
-	if (i == argc - 1)
-		ft_putstr_fd(argv[i], STDOUT_FILENO);
-	if (!n_flag)
-		ft_putchar_fd('\n', STDOUT_FILENO);
-	return (0);
+	free(token);
 }

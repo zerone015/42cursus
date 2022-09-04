@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 21:42:39 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/03 22:04:44 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/04 18:36:25 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,26 @@
 
 enum e_builtin
 {
-	_CD = 0,
-	_ECHO = 3,
-	_ENV = 8,
-	_EXIT = 12,
-	_EXPORT = 17,
-	_PWD = 24,
-	_UNSET = 28
+	_CD = 1,
+	_ECHO = 4,
+	_ENV = 9,
+	_EXIT = 13,
+	_EXPORT = 18,
+	_PWD = 25,
+	_UNSET = 29
 };
 
+int		is_essential(char *arg);
+int		builtin_error(t_env *env, char *cmd, char *arg, char *err_msg);
 void	builtin_process(t_token *token, t_env *env, int fd[], int oldfd);
+void	add_export(char *str, t_env *env);
 
-void	builtin_cd(int argc, char *argv[], t_env *env);
-void	builtin_echo(int argc, char *argv[], t_env *env);
-void	builtin_env(int argc, char *argv[], t_env *env);
-void	builtin_exit(int argc, char *argv[], t_env *env);
-void	builtin_export(int argc, char *argv[], t_env *env);
-void	builtin_pwd(int argc, char *argv[], t_env *env);
-void	builtin_unset(int argc, char *argv[], t_env *env);
+int		builtin_cd(int argc, char *argv[], t_env *env);
+int		builtin_echo(int argc, char *argv[], t_env *env);
+int		builtin_env(int argc, char *argv[], t_env *env);
+int		builtin_exit(int argc, char *argv[], t_env *env);
+int		builtin_export(int argc, char *argv[], t_env *env);
+int		builtin_pwd(int argc, char *argv[], t_env *env);
+int		builtin_unset(int argc, char *argv[], t_env *env);
 
 #endif

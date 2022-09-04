@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 t_env	*init_env(void)
 {

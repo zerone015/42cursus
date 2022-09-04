@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/03 14:47:52 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 13:39:47 by kijsong          ###   ########.fr       */
+/*   Created: 2022/09/04 23:09:40 by kijsong           #+#    #+#             */
+/*   Updated: 2022/09/04 23:11:26 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	builtin_echo(int argc, char *argv[], t_env *env)
+int	is_pipe(t_token *token)
 {
-	int	i;
-	int	n_flag;
+	t_tnode	*node;
 
-	(void)env;
-	i = 0;
-	n_flag = 0;
-	if (argc > 1 && ft_strcmp(argv[1], "-n") == 0)
+	node = token->head->next;
+	while (node)
 	{
-		n_flag = 1;
-		i++;
+		if (node->type == PIPE)
+			return (TRUE);
+		node = node->next;
 	}
-	while (++i < argc - 1)
-	{
-		ft_putstr_fd(argv[i], STDOUT_FILENO);
-		ft_putchar_fd(' ', STDOUT_FILENO);
-	}
-	if (i == argc - 1)
-		ft_putstr_fd(argv[i], STDOUT_FILENO);
-	if (!n_flag)
-		ft_putchar_fd('\n', STDOUT_FILENO);
-	return (0);
+	return (FALSE);
 }

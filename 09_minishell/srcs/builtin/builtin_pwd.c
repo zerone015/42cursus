@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:00 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/03 21:53:31 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/04 13:40:04 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 #include <unistd.h>
 #include "../../includes/minishell.h"
 
-void	builtin_pwd(int argc, char *argv[], t_env *env)
+int	builtin_pwd(int argc, char *argv[], t_env *env)
 {
 	char	buf[PATH_MAX];
 
 	(void)argc;
 	(void)argv;
 	if (getcwd(buf, sizeof(buf)))
-		ft_putendl_fd(buf, 1);
+		ft_putendl_fd(buf, STDOUT_FILENO);
 	else
-		error(env, NULL, 1);
+		return (error(env, NULL, 1));
+	return (0);
 }

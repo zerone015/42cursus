@@ -6,14 +6,14 @@
 #    By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/30 16:11:41 by kijsong           #+#    #+#              #
-#    Updated: 2022/09/04 00:22:55 by kijsong          ###   ########.fr        #
+#    Updated: 2022/09/04 22:45:52 by kijsong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= minishell
 
 CC			= cc
-FLAGS		= -Wall -Wextra -Werror
+# FLAGS		= -Wall -Wextra -Werror
 RFLAGS 		= -lreadline -L$(HOME)/.brew/opt/readline/lib
 RHFLAGS 	= -I$(HOME)/.brew/opt/readline/include
 # RFLAGS 		= -lreadline -L/goinfre/yoson/brew/opt/readline/lib

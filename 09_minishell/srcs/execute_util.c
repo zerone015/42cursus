@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/03 14:47:54 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 14:16:02 by kijsong          ###   ########.fr       */
+/*   Created: 2022/09/04 23:20:26 by kijsong           #+#    #+#             */
+/*   Updated: 2022/09/04 23:21:08 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-int	builtin_env(int argc, char *argv[], t_env *env)
+int	is_executable(char *cmd)
 {
-	t_enode	*node;
+	int	fd;
 
-	(void)argc;
-	(void)argv;
-	node = env->head->next;
-	while (node)
-	{
-		if (node->val)
-		{
-			ft_putstr_fd(node->key, STDOUT_FILENO);
-			ft_putchar_fd('=', STDOUT_FILENO);
-			ft_putendl_fd(node->val, STDOUT_FILENO);
-		}
-		node = node->next;
-	}
-	return (0);
+	fd = open(cmd, O_RDONLY);
+	if (fd == -1)
+		return (FALSE);
+	close(fd);
+	return (TRUE);
+}
+
+int	is_directory(char *cmd)
+{
+	DIR	*result;
+
+	result = opendir(cmd);
+	if (!result)
+		return (FALSE);
+	closedir(result);
+	return (TRUE);
 }

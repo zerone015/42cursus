@@ -6,10 +6,13 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:04 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 13:13:08 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/04 23:11:30 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <string.h>
+#include <errno.h>
+#include <term.h>
 #include <unistd.h>
 #include "../../includes/minishell.h"
 
@@ -24,34 +27,33 @@ void	init_table(void *f[])
 	f[_UNSET] = builtin_unset;
 }
 
-void	execute_builtin(char **argv, t_env *env)
+void	execute_builtin(char **argv, t_env *env, int is_child)
 {
 	int			argc;
 	void		*f[30];
-	void		(*func)(int, char **, t_env *);
-	const char	*builtin = "cd\0echo\0env\0exit\0export\0pwd\0unset";
+	int			(*func)(int, char **, t_env *);
+	const char	*builtin = "\0cd\0echo\0env\0exit\0export\0pwd\0unset";
 
 	argc = 0;
 	while (argv[argc])
 		argc++;
 	ft_memset(f, 0, sizeof(f));
 	init_table(f);
-	func = f[ft_strnstr(builtin, argv[0], 34) - builtin];
-	func(argc, argv, env);
-	exit(0);
+	func = f[ft_strnstr(builtin, argv[0], 35) - builtin];
+	argc = -func(argc, argv, env);
+	ft_free(argv);
+	if (is_child)
+		exit(argc);
 }
 
 void	child_builtin(t_token *token, int fd[], t_env *env)
 {
-	char	*join;
 	char	**argv;
 
 	if (first_type(token) == PIPE)
-		remove_first(token);
-	join = child_preprocess(token, fd);
-	argv = ft_split(join, ' ');
-	free(join);
-	execute_builtin(argv, env);
+		free(remove_first(token));
+	argv = preprocess(token, fd);
+	execute_builtin(argv, env, TRUE);
 }
 
 int	parent_builtin(t_token *token, int fd[], pid_t pid, int oldfd)
@@ -68,22 +70,37 @@ int	parent_builtin(t_token *token, int fd[], pid_t pid, int oldfd)
 	return (status >> 8);
 }
 
-int	is_heredoc(t_token *token);
-
 void	builtin_process(t_token *token, t_env *env, int fd[], int oldfd)
 {
 	pid_t	pid;
 
-	pid = fork();
-	if (pid == ERROR)
-		error(env, NULL, 1);
-	if (pid == 0)
+	if (is_pipe(token))
 	{
-		if (is_heredoc(token))
-			dup2(oldfd, STDIN_FILENO);
-		child_builtin(token, fd, env);
+		pid = fork();
+		if (pid == ERROR)
+			error(env, NULL, 1);
+		if (pid == 0)
+			child_builtin(token, fd, env);
+		else
+			env->exit_code = parent_builtin(token, fd, pid, oldfd);
 	}
 	else
-		env->exit_code = parent_builtin(token, fd, pid, oldfd);
-	clear_token(token);
+		execute_builtin(preprocess(token, fd), env, FALSE);
+}
+
+int	builtin_error(t_env *env, char *cmd, char *arg, char *err_msg)
+{
+	if (!err_msg)
+		err_msg = strerror(errno);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	if (arg)
+	{
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+	}
+	ft_putendl_fd(err_msg, STDERR_FILENO);
+	env->exit_code = 1;
+	return (ERROR);
 }
