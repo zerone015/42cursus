@@ -6,13 +6,14 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:14:09 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 00:01:02 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 02:39:02 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <errno.h>
 #include "../includes/minishell.h"
 
 void	overwrite_output(char *filename, int *flag)
@@ -43,7 +44,12 @@ void	overwrite_input(char *filename)
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		child_error("No such file or directory", filename, 127);
+	{
+		if (errno == 2)
+			child_error(NULL, filename, 127);
+		else
+			child_error(NULL, filename, 1);
+	}
 	dup2(fd, STDIN_FILENO);
 }
 
