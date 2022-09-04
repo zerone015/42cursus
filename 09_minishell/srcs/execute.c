@@ -6,11 +6,14 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:57 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 23:20:10 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 00:15:07 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include "../includes/minishell.h"
 
 char	*parse_cmd(char *argv)
 {

@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 14:31:54 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 23:03:23 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/04 23:58:11 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,20 @@ void	safe_signal(int signum, void (*handler)(int))
 		ft_perror(NULL);
 }
 
+void	echoctl(int flag)
+{
+	struct termios	term;
+
+	if (tcgetattr(STDOUT_FILENO, &term) == -1)
+		ft_perror(NULL);
+	if (flag)
+		term.c_lflag |= ECHOCTL;
+	else
+		term.c_lflag &= ~(ECHOCTL);
+	if (tcsetattr(STDOUT_FILENO, TCSANOW, &term) == -1)
+		ft_perror(NULL);
+}
+
 void	set_signal(int status)
 {
 	if (status == CHILD)
@@ -50,18 +64,4 @@ void	set_signal(int status)
 		safe_signal(SIGINT, handler);
 		safe_signal(SIGQUIT, SIG_IGN);
 	}
-}
-
-void	echoctl(int flag)
-{
-	struct termios	term;
-
-	if (tcgetattr(STDOUT_FILENO, &term) == -1)
-		ft_perror(NULL);
-	if (flag)
-		term.c_lflag |= ECHOCTL;
-	else
-		term.c_lflag &= ~(ECHOCTL);
-	if (tcsetattr(STDOUT_FILENO, TCSANOW, &term) == -1)
-		ft_perror(NULL);
 }

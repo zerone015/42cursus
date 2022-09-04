@@ -6,11 +6,14 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 23:18:24 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 00:11:27 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include "../includes/minishell.h"
 
 int	is_heredoc(t_token *token)
 {
@@ -48,6 +51,29 @@ int	parent_process(t_token *token, int fd[], pid_t pid, int oldfd)
 	else
 		dup2(oldfd, STDIN_FILENO);
 	return (status >> 8);
+}
+
+char	**convert_env(t_env *env)
+{
+	char	**envp;
+	t_enode	*node;
+	int		size;
+	int		i;
+	char	*temp;
+
+	size = count_env(env);
+	envp = safe_malloc(sizeof(char *) * (size + 1));
+	node = env->head->next;
+	i = -1;
+	while (++i < size)
+	{
+		temp = ft_strjoin(node->key, "=");
+		envp[i] = ft_strjoin(temp, node->val);
+		free(temp);
+		node = node->next;
+	}
+	envp[i] = NULL;
+	return (envp);
 }
 
 void	external_process(t_token *token, t_env *env, int fd[], int oldfd)

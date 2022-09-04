@@ -57,7 +57,7 @@ void	delete_enode(t_enode *node)
 	free(node);
 }
 
-int		count_env(t_env *env)
+int	count_env(t_env *env)
 {
 	int		size;
 	t_enode	*node;

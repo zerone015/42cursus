@@ -6,11 +6,22 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:23:51 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 23:29:58 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 00:07:27 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include "../includes/minishell.h"
+
+void	ft_free(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+		free(argv[i++]);
+	free(argv);
+}
 
 int	is_input_blank(char *input)
 {
@@ -27,6 +38,24 @@ int	get_abs(int num)
 	if (num < 0)
 		num *= -1;
 	return (num);
+}
+
+char	*merge_word(t_token *token)
+{
+	char	*word;
+	char	*temp;
+	char	*first;
+
+	word = ft_strdup("");
+	while (first_type(token) == WORD)
+	{
+		temp = word;
+		first = remove_first(token);
+		word = ft_strjoin(word, first);
+		free(temp);
+		free(first);
+	}
+	return (word);
 }
 
 int	is_stdin(char *input)
@@ -46,27 +75,4 @@ int	is_stdin(char *input)
 	if (i && c == '|')
 		return (TRUE);
 	return (FALSE);
-}
-
-char	**convert_env(t_env *env)
-{
-	char	**envp;
-	t_enode	*node;
-	int		size;
-	int		i;
-	char	*temp;
-
-	size = count_env(env);
-	envp = safe_malloc(sizeof(char *) * (size + 1));
-	node = env->head->next;
-	i = -1;
-	while (++i < size)
-	{
-		temp = ft_strjoin(node->key, "=");
-		envp[i] = ft_strjoin(temp, node->val);
-		free(temp);
-		node = node->next;
-	}
-	envp[i] = NULL;
-	return (envp);
 }

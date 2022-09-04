@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:04 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 23:11:30 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 00:13:56 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,21 +86,4 @@ void	builtin_process(t_token *token, t_env *env, int fd[], int oldfd)
 	}
 	else
 		execute_builtin(preprocess(token, fd), env, FALSE);
-}
-
-int	builtin_error(t_env *env, char *cmd, char *arg, char *err_msg)
-{
-	if (!err_msg)
-		err_msg = strerror(errno);
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(cmd, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	if (arg)
-	{
-		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-	}
-	ft_putendl_fd(err_msg, STDERR_FILENO);
-	env->exit_code = 1;
-	return (ERROR);
 }

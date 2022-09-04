@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 23:25:26 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 00:18:27 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,33 @@ enum e_signal
 	PARENT
 };
 
-void	update_pwd(t_env *env);
 char	*get_prompt(t_env *env);
-int		error(t_env *env, char *err_msg, int status);
-
+int		syntax_check(char **input, t_env *env);
+t_token	*tokenize(char *input, t_env *env);
+void	external_process(t_token *token, t_env *env, int fd[], int oldfd);
 char	**preprocess(t_token *token, int fd[]);
-int		parent_process(t_token *token, int fd[], pid_t pid, int oldfd);
+void	execute(char **argv, char **envp);
+t_token	*parse_token(t_token *tokens);
+int		is_builtin(t_token *token);
+int		is_directory(char *cmd);
+int		is_executable(char *cmd);
+void	set_signal(int status);
+void	safe_signal(int signum, void (*handler)(int));
+void	echoctl(int flag);
+void	redirection(t_token *token, int *flag);
+
+char	*merge_word(t_token *token);
+int		is_input_blank(char *input);
+int		get_abs(int num);
+int		is_stdin(char *input);
 void	ft_free(char **argv);
 
-void	safe_signal(int signum, void (*handler)(int));
-void	set_signal(int status);
-void	echoctl(int flag);
+int		ft_isredirect(char *input);
+int		tokenize_redirect(char *input, t_token *token);
+int		is_normal(char c);
+int		tokenize_normal(char *input, t_token *token);
+
+int		error(t_env *env, char *err_msg, int status);
+void	child_error(char *err_msg, char *cmd, int status);
 
 #endif

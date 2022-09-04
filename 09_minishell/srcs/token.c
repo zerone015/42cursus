@@ -6,10 +6,11 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 18:57:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/04 23:29:39 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/04 23:55:20 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "../includes/minishell.h"
 
 t_token	*init_token(void)
@@ -60,4 +61,20 @@ void	redirect_to_last(t_token *token)
 	}
 	if (pipe)
 		add_first(token, PIPE, ft_strdup("|"));
+}
+
+void	clear_token(t_token *token)
+{
+	t_tnode	*node;
+	t_tnode	*temp;
+
+	node = token->head;
+	while (node)
+	{
+		temp = node->next;
+		free(node->str);
+		free(node);
+		node = temp;
+	}
+	free(token);
 }

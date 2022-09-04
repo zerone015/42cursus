@@ -6,11 +6,14 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:14:09 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 23:14:36 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 00:01:02 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include "../includes/minishell.h"
 
 void	overwrite_output(char *filename, int *flag)
 {

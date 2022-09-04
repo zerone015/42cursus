@@ -6,11 +6,13 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:11:32 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 23:13:27 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 00:25:04 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include <unistd.h>
+#include "../includes/minishell.h"
 
 int	find_argv_size(t_token *token)
 {
@@ -39,24 +41,6 @@ int	find_argv_size(t_token *token)
 			node = node->next;
 	}
 	return (size);
-}
-
-char	*merge_word(t_token *token)
-{
-	char	*word;
-	char	*temp;
-	char	*first;
-
-	word = ft_strdup("");
-	while (first_type(token) == WORD)
-	{
-		temp = word;
-		first = remove_first(token);
-		word = ft_strjoin(word, first);
-		free(temp);
-		free(first);
-	}
-	return (word);
 }
 
 char	**make_argv(t_token *token, int size, int *flag)

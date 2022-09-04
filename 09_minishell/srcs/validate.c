@@ -6,11 +6,12 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:25:06 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 23:29:26 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 00:24:28 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include "../includes/minishell.h"
 
 int	redirect_check(char *input)
 {
@@ -30,7 +31,7 @@ int	redirect_check(char *input)
 				return (ERROR);
 		}
 		else
-			input++;	
+			input++;
 	}
 	return (0);
 }

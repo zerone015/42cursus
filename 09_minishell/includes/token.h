@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 18:39:07 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/04 23:30:36 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/04 23:55:49 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,5 @@ t_token	*init_token(void);
 void	rotate(t_token *token);
 void	redirect_to_last(t_token *token);
 void	clear_token(t_token *token);
-
-int		ft_isredirect(char *input);
-int		tokenize_redirect(char *input, t_token *token);
-int		tokenize_normal(char *input, t_token *token);
-t_token	*tokenize(char *input, t_env *env);
 
 #endif

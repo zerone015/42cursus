@@ -6,10 +6,11 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:13:56 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 23:27:23 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/04 23:50:04 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "../libft/libft.h"
 #include "../includes/minishell.h"
 

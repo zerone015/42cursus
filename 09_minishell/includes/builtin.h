@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 21:42:39 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 18:36:25 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 00:14:15 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ enum e_builtin
 	_UNSET = 29
 };
 
+int		is_pipe(t_token *token);
 int		is_essential(char *arg);
 int		builtin_error(t_env *env, char *cmd, char *arg, char *err_msg);
 void	builtin_process(t_token *token, t_env *env, int fd[], int oldfd);
