@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/04 01:58:48 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/04 13:07:21 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -552,7 +552,7 @@ void	execute(char **argv, char **envp)
 		child_error(strerror(errno), cmd, 1);
 }
 
-void	overwrite_output(char *filename)
+void	overwrite_output(char *filename, int *flag)
 {
 	int	fd;
 
@@ -560,9 +560,10 @@ void	overwrite_output(char *filename)
 	if (fd == -1)
 		child_error(strerror(errno), filename, 1);
 	dup2(fd, STDOUT_FILENO);
+	*flag = 1;
 }
 
-void	append_output(char *filename)
+void	append_output(char *filename, int *flag)
 {
 	int	fd;
 
@@ -570,6 +571,7 @@ void	append_output(char *filename)
 	if (fd == -1)
 		child_error(strerror(errno), filename, 1);
 	dup2(fd, STDOUT_FILENO);
+	*flag = 1;
 }
 
 void	overwrite_input(char *filename)
@@ -607,7 +609,7 @@ void	append_input(char *limiter)
 	dup2(fd, STDIN_FILENO);
 }
 
-void	redirection(t_token *token)
+void	redirection(t_token *token, int *flag)
 {
 	char	*redirection;	
 	char	*filename;
@@ -624,9 +626,9 @@ void	redirection(t_token *token)
 		free(temp);
 	}
 	if (ft_strcmp(redirection, ">") == 0)
-		overwrite_output(filename);
+		overwrite_output(filename, flag);
 	else if (ft_strcmp(redirection, ">>") == 0)
-		append_output(filename);
+		append_output(filename, flag);
 	else if (ft_strcmp(redirection, "<") == 0)
 		overwrite_input(filename);
 	else if (ft_strcmp(redirection, "<<") == 0)
@@ -637,18 +639,17 @@ void	redirection(t_token *token)
 
 char	*child_preprocess(t_token *token, int fd[])
 {
-	int		is_redirect;
+	int		out_redirection;
 	char	*join;
 	char	*temp;
 
-	is_redirect = 0;
+	out_redirection = 0;
 	join = ft_strdup("");
 	while (first_type(token) != ERROR && first_type(token) != PIPE)
 	{
 		if (first_type(token) == REDIRECT)
 		{
-			is_redirect = 1;
-			redirection(token);
+			redirection(token, &out_redirection);
 			continue ;
 		}
 		temp = join;
@@ -656,7 +657,7 @@ char	*child_preprocess(t_token *token, int fd[])
 		free(temp);
 	}
 	close(fd[0]);
-	if (!is_redirect && first_type(token) == PIPE)
+	if (!out_redirection && first_type(token) == PIPE)
 		dup2(fd[1], STDOUT_FILENO);
 	return (join);
 }
@@ -711,6 +712,20 @@ char	**convert_env(t_env *env)
 	return (envp);
 }
 
+int	is_heredoc(t_token *token)
+{
+	t_tnode	*node;
+
+	node = token->head->next;
+	while (node)
+	{
+		if (node->type == REDIRECT && ft_strcmp(node->str, "<<") == 0)
+				return (TRUE);
+		node = node->next;
+	}
+	return (FALSE);
+}
+
 void	external_process(t_token *token, t_env *env, int fd[], int oldfd)
 {
 	pid_t	pid;
@@ -722,6 +737,8 @@ void	external_process(t_token *token, t_env *env, int fd[], int oldfd)
 	if (pid == 0)
 	{
 		envp = convert_env(env);
+		if (is_heredoc(token))
+			dup2(oldfd, STDIN_FILENO);
 		child_process(token, fd, envp);
 	}
 	else
