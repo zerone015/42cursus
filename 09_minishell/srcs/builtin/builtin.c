@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:04 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 03:56:44 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/05 12:31:51 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	parent_builtin(t_token *token, int fd[], pid_t pid, int oldfd)
 	return (status >> 8);
 }
 
-void	builtin_process(t_token *token, t_env *env, int fd[], int oldfd)
+void	builtin_process(t_token *token, t_env *env, int fd[], int oldfd[])
 {
 	pid_t	pid;
 
@@ -83,8 +83,11 @@ void	builtin_process(t_token *token, t_env *env, int fd[], int oldfd)
 		if (pid == 0)
 			child_builtin(token, fd, env);
 		else
-			env->exit_code = parent_builtin(token, fd, pid, oldfd);
+			env->exit_code = parent_builtin(token, fd, pid, oldfd[0]);
 	}
 	else
+	{
 		execute_builtin(preprocess(token, fd), env, FALSE);
+		dup2(oldfd[1], STDOUT_FILENO);
+	}
 }

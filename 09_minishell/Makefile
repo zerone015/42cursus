@@ -6,7 +6,7 @@
 #    By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/30 16:11:41 by kijsong           #+#    #+#              #
-#    Updated: 2022/09/05 02:51:58 by yoson            ###   ########.fr        #
+#    Updated: 2022/09/05 12:46:45 by kijsong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,54 +14,48 @@ NAME		= minishell
 
 CC			= cc
 FLAGS		= -Wall -Wextra -Werror
-# RFLAGS 		= -lreadline -L$(HOME)/.brew/opt/readline/lib
-# RHFLAGS 	= -I$(HOME)/.brew/opt/readline/include
-# RFLAGS 		= -lreadline -L/goinfre/yoson/brew/opt/readline/lib
-# RHFLAGS 	= -I/goinfre/yoson/brew/opt/readline/include
-RFLAGS 		= -lreadline -L/opt/homebrew/opt/readline/lib
-RHFLAGS 	= -I/opt/homebrew/opt/readline/include
+RFLAGS 		= -lreadline -L$(HOME)/.brew/opt/readline/lib
+RHFLAGS 	= -I$(HOME)/.brew/opt/readline/include
 AR			= ar rcs
 RM			= rm -f
 
-INCS_DIR	= ./includes/
-SRCS_DIR	= ./srcs/
+INC_DIR		= ./includes/
+SRC_DIR		= ./srcs/
+BUILTIN_DIR	= ./srcs/builtin/
 LIB_DIR		= ./libft/
 LIB_NAME	= ./libft/libft.a
 
-SRC			=	
-BSRC		=	
-# SRCS		=	$(addprefix $(SRCS_DIR), $(SRC))
-# BSRCS		=	$(addprefix $(SRCS_DIR), $(BSRC))
-SRCS		=	$(wildcard srcs/*.c)  $(wildcard srcs/builtin/*.c)
+SRC			=	env.c error.c execute_util.c execute.c external.c get_next_line.c \
+				main.c preprocess.c prompt.c redirection.c signal.c token_util.c \
+				token.c tokenize_util.c tokenize.c util.c validate.c
+BUILTIN		=	builtin.c builtin_cd.c builtin_echo.c builtin_env.c builtin_exit.c \
+				builtin_export.c builtin_pwd.c builtin_unset.c builtin_util.c
+SRCS		=	$(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILTIN_DIR), $(BUILTIN))
 LIBS		=	$(addprefix $(LIB_DIR), $(LIB_NAME))
 OBJS		=	$(SRCS:.c=.o)
 BOBJS		=	$(BSRCS:.c=.o)
 
-all : $(NAME)
+all: $(NAME)
 
-bonus : $(BONUS)
+bonus: $(BONUS)
 
-$(NAME) : $(OBJS)
+$(NAME): $(OBJS)
 	make -C $(LIB_DIR)
 	$(CC) -o $(NAME) $^ -L$(LIB_DIR) -lft $(RFLAGS)
 
-$(BONUS) : $(BOBJS)
-	make -C $(LIB_DIR)
-	$(CC) -o $(BONUS) $^ -L$(LIB_DIR) -lft $(RFLAGS)
+%.o: %.c
+	$(CC) $(FLAGS) -c $< -o $@ -I$(INC_DIR) $(RHFLAGS)
 
-%.o : %.c
-	$(CC) $(FLAGS) -c $< -o $@ -I$(INCS_DIR) $(RHFLAGS)
-
-clean :
+clean:
 	make -C $(LIB_DIR) clean
 	$(RM) $(OBJS) $(BOBJS)
 
-fclean : clean
+fclean: clean
 	make -C $(LIB_DIR) fclean
 	$(RM) $(NAME) $(BONUS)
 
-re : fclean all
+re:
+	make fclean
+	make all
 
-re_bonus : fclean bonus
-
-PHONY	: all clean fclean re bonus re_bonus
+PHONY: all clean fclean re

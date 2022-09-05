@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 03:56:14 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/05 12:33:42 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	**convert_env(t_env *env)
 	return (envp);
 }
 
-void	external_process(t_token *token, t_env *env, int fd[], int oldfd)
+void	external_process(t_token *token, t_env *env, int fd[], int oldfd[])
 {
 	pid_t	pid;
 	char	**envp;
@@ -90,9 +90,9 @@ void	external_process(t_token *token, t_env *env, int fd[], int oldfd)
 		set_signal(CHILD);
 		envp = convert_env(env);
 		if (is_heredoc(token))
-			dup2(oldfd, STDIN_FILENO);
+			dup2(oldfd[0], STDIN_FILENO);
 		child_process(token, fd, envp);
 	}
 	else
-		env->exit_code = parent_process(token, fd, pid, oldfd);
+		env->exit_code = parent_process(token, fd, pid, oldfd[0]);
 }

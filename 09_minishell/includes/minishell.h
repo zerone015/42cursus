@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 00:18:27 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 12:33:05 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ enum e_signal
 char	*get_prompt(t_env *env);
 int		syntax_check(char **input, t_env *env);
 t_token	*tokenize(char *input, t_env *env);
-void	external_process(t_token *token, t_env *env, int fd[], int oldfd);
+void	external_process(t_token *token, t_env *env, int fd[], int oldfd[]);
 char	**preprocess(t_token *token, int fd[]);
 void	execute(char **argv, char **envp);
 t_token	*parse_token(t_token *tokens);

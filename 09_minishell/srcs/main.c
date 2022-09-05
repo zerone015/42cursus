@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/05 00:24:55 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 12:46:17 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,11 @@ void	execute_command(char *input, t_env *env)
 	t_token	*tokens;
 	t_token	*token;
 	int		fd[2];
-	int		oldfd;
+	int		oldfd[2];
 
 	safe_signal(SIGINT, SIG_IGN);
-	oldfd = dup(STDIN_FILENO);
+	oldfd[0] = dup(STDIN_FILENO);
+	oldfd[1] = dup(STDOUT_FILENO);
 	tokens = tokenize(input, env);
 	while (first_type(tokens) != ERROR)
 	{
