@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:37:45 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 12:45:53 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 20:15:41 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,21 @@ void	update_pwd(t_env *env)
 {
 	t_enode	*pwd;
 	t_enode	*old_pwd;
-	char	buf[PATH_MAX];
+	char	*cwd;
 
 	pwd = find_key(env, "PWD");
 	old_pwd = find_key(env, "OLDPWD");
-	if (!getcwd(buf, sizeof(buf)))
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
 		error(env, NULL, 1);
-	if (ft_strcmp(buf, pwd->val) == 0)
+	if (ft_strcmp(cwd, pwd->val) == 0)
+	{
+		free(cwd);
 		return ;
+	}
 	free(old_pwd->val);
 	old_pwd->val = pwd->val;
-	pwd->val = buf;
+	pwd->val = cwd;
 }
 
 char	*get_prompt(t_env *env)

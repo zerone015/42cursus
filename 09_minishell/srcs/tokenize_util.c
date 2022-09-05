@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:52 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 17:03:24 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 20:01:07 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	tokenize_normal(char *input, t_token *token)
 int	free_dquotes(char *word)
 {
 	int	ret;
-	
+
 	ret = ft_strlen(word) + 1;
 	free(word);
 	return (ret);
