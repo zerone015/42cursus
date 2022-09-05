@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 18:39:07 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/04 23:55:49 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 17:15:20 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ t_token	*init_token(void);
 void	rotate(t_token *token);
 void	redirect_to_last(t_token *token);
 void	clear_token(t_token *token);
+int		free_dquotes(char *word);
 
 #endif

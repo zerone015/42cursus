@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:13:56 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 23:50:04 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/05 17:01:41 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	tokenize_dquotes(char *input, t_token *token, t_env *env)
 		envp = ft_strchr(&word[0][start], '$');
 	}
 	add_last(token, WORD, ft_substr(word[0], start, ft_strlen(word[0])));
-	return (ft_strlen(word[0]) + 1);
+	return (free_dquotes(word[0]));
 }
 
 int	tokenize_squotes(char *input, t_token *token)
