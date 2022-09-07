@@ -6,7 +6,7 @@
 #    By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/30 16:11:41 by kijsong           #+#    #+#              #
-#    Updated: 2022/09/05 12:46:45 by kijsong          ###   ########.fr        #
+#    Updated: 2022/09/07 18:07:00 by kijsong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +33,8 @@ BUILTIN		=	builtin.c builtin_cd.c builtin_echo.c builtin_env.c builtin_exit.c \
 SRCS		=	$(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILTIN_DIR), $(BUILTIN))
 LIBS		=	$(addprefix $(LIB_DIR), $(LIB_NAME))
 OBJS		=	$(SRCS:.c=.o)
-BOBJS		=	$(BSRCS:.c=.o)
 
 all: $(NAME)
-
-bonus: $(BONUS)
 
 $(NAME): $(OBJS)
 	make -C $(LIB_DIR)
@@ -48,11 +45,11 @@ $(NAME): $(OBJS)
 
 clean:
 	make -C $(LIB_DIR) clean
-	$(RM) $(OBJS) $(BOBJS)
+	$(RM) $(OBJS)
 
 fclean: clean
 	make -C $(LIB_DIR) fclean
-	$(RM) $(NAME) $(BONUS)
+	$(RM) $(NAME)
 
 re:
 	make fclean
