@@ -1,9 +1,0 @@
-{
-	"files.associations": {
-		"__mutex_base": "c",
-		"_pthread_types.h": "c",
-		"time.h": "c",
-		"__threading_support": "c",
-		"__locale": "c"
-	}
-}

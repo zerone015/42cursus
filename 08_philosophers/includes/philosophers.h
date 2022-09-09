@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/09 21:44:57 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/09 22:59:11 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ void	ft_putendl_fd(char *s, int fd);
 void	error(char *err_msg);
 
 size_t	timestamp_in_ms(size_t start_time);
-t_info	*init_info(char *argv[]);
+void	init_info(t_info *info, char *argv[]);
 
 #endif
