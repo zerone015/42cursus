@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/09 13:30:32 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/09 16:09:11 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ typedef struct s_info
 	int				id;
 	int				*fork;
 	int				num_of_phil;
-	int				time_to_die;
+	size_t			time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				min_eat;
+	size_t			start_time;
 }	t_info;
 
 int		ft_atoi(const char *str);
