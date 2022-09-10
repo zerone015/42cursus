@@ -6,13 +6,13 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 12:38:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/09 12:45:46 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/10 15:02:55 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
-#include "philosophers.h"
+#include "philo.h"
 
 void	*ft_memset(void *mem, int c, size_t len)
 {

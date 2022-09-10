@@ -6,12 +6,12 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 12:28:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/09 12:41:54 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/10 15:02:51 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "philosophers.h"
+#include "philo.h"
 
 int	ft_atoi(const char *str)
 {
