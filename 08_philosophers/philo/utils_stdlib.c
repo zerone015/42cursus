@@ -6,34 +6,34 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 12:28:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/10 15:02:51 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/10 20:43:00 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "philo.h"
+#include <limits.h>
 
 int	ft_atoi(const char *str)
 {
-	int	sign;
-	int	num;
+	int		i;
+	int		sign;
+	size_t	num;
 
 	sign = 1;
 	num = 0;
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
 		str++;
-	if (*str == '-' || *str == '+')
+	i = -1;
+	while (str[++i] && i < 11)
 	{
-		if (*str == '-')
-			sign *= -1;
-		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-	{
+		if (str[i] < '0' || str[i] > '9')
+			return (-1);
 		num *= 10;
-		num += *str - '0';
-		str++;
-	}	
+		num += str[i] - '0';
+	}
+	if (num > INT_MAX)
+		return (-1);
 	return (num);
 }
 
@@ -43,7 +43,7 @@ void	*safe_malloc(size_t size)
 
 	p = malloc(size);
 	if (!p)
-		error("Malloc failed");
+		return ((void *)print_err("Malloc failed"));
 	return (p);
 }
 
@@ -52,5 +52,7 @@ void	*ft_calloc(size_t count, size_t size)
 	void	*p;
 
 	p = safe_malloc(count * size);
+	if (!p)
+		return (NULL);
 	return (ft_memset(p, 0, count * size));
 }

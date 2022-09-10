@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/10 15:40:00 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/10 20:40:17 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILOSOPHERS_H
 
 # include <stddef.h>
+# include <stdio.h> //test
 # include <pthread.h>
 
 typedef struct s_philo
@@ -53,9 +54,9 @@ void	*ft_memset(void *mem, int c, size_t len);
 size_t	ft_strlen(const char *str);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
-void	error(char *err_msg);
+void	*print_err(char *err_msg);
 
 size_t	timestamp_in_ms(size_t start_time);
-void	init_info(t_info *info, char *argv[]);
+int		init_info(t_info *info, char *argv[]);
 
 #endif
