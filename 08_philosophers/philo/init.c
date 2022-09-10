@@ -6,12 +6,12 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 21:01:12 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/10 14:57:34 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/10 15:02:37 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/time.h>
-#include "philosophers.h"
+#include "philo.h"
 
 static void	init_philo(t_info *info)
 {
