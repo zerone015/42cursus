@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/10 15:02:31 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/10 19:04:42 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ void	dead(t_info *info, t_philo *philo, size_t time_to_act)
 	size_t			before_act;
 
 	before_act = timestamp_in_ms(info->start_time);
-	if (before_act - philo->last_time + time_to_act >= info->time_to_die)
+	if (before_act - philo->last_time + time_to_act > info->time_to_die)
 	{
 		info->dead = 1;
 		info->dead_philo = philo->id;
 		info->dead_time = philo->last_time + info->time_to_die;
-		return ;
 	}
 	usleep(time_to_act * 1000);
 }
@@ -45,49 +44,62 @@ int	dead_check(t_info *info, t_philo *philo, char *msg)
 {
 	size_t	timestamp;
 
+	pthread_mutex_lock(&info->print);
 	timestamp = timestamp_in_ms(info->start_time);
-	if (timestamp > info->dead_time)
+	if (info->dead_time && timestamp > info->dead_time)
 	{
-		printf("%zu %d died\n", info->dead_time, philo->id);
+		if (info->dead == 1)
+		{
+			printf("%zu %d died\n", info->dead_time, philo->id);
+			info->dead++;
+		}
+		pthread_mutex_unlock(&info->print);
 		pthread_mutex_unlock(&info->fork[philo->left_fork]);
 		pthread_mutex_unlock(&info->fork[philo->right_fork]);
 		return (1);
 	}
-	printf(msg, timestamp, philo->id);
+	if (!info->dead)
+		printf(msg, timestamp, philo->id);
+	pthread_mutex_unlock(&info->print);
 	return (0);
 }
 
-void	eating(t_philo *philo)
+int	eating(t_philo *philo)
 {
 	t_info	*info;
 
 	info = philo->info;
 	pthread_mutex_lock(&info->fork[philo->left_fork]);
-	printf("%zu %d has taken a fork\n", timestamp_in_ms(info->start_time), philo->id);
 	pthread_mutex_lock(&info->fork[philo->right_fork]);
-	printf("%zu %d has taken a fork\n", timestamp_in_ms(info->start_time), philo->id);
-	// if (dead_check(info, philo, "%zu %d has taken a fork\n") == 1)
-	// 	return ;
-	// if (dead_check(info, philo, "%zu %d has taken a fork\n") == 1)
-	// 	return ;
-	pthread_mutex_lock(&info->print);
-	printf("%zu %d is eating\n", timestamp_in_ms(info->start_time), philo->id);
-	pthread_mutex_unlock(&info->print);
-	usleep(info->time_to_eat * 1000);
-	// dead(info, philo, info->time_to_eat);
+	if (dead_check(info, philo, "%zu %d has taken a fork\n"))
+		return (1);
+	// printf("%zu %d has taken a fork\n", timestamp_in_ms(info->start_time), philo->id);
+	// printf("%zu %d has taken a fork\n", timestamp_in_ms(info->start_time), philo->id);
+	if (dead_check(info, philo, "%zu %d is eating\n"))
+		return (1);
+	// pthread_mutex_lock(&info->print);
+	// printf("%zu %d is eating\n", timestamp_in_ms(info->start_time), philo->id);
+	// pthread_mutex_unlock(&info->print);
+	// usleep(info->time_to_eat * 1000);
+	dead(info, philo, info->time_to_eat);
 	philo->last_time = timestamp_in_ms(info->start_time);
 	(philo->eat_cnt)++;
 	pthread_mutex_unlock(&info->fork[philo->left_fork]);
 	pthread_mutex_unlock(&info->fork[philo->right_fork]);
+	return (0);
 }
 
-void	sleeping(t_philo *philo)
+int	sleeping(t_philo *philo)
 {
 	t_info	*info;
 
 	info = philo->info;
-	printf("%zu %d is sleeping\n", timestamp_in_ms(info->start_time), philo->id);
-	usleep(info->time_to_sleep * 1000);
+	if (dead_check(info, philo, "%zu %d is sleeping\n"))
+		return (1);
+	// printf("%zu %d is sleeping\n", timestamp_in_ms(info->start_time), philo->id);
+	dead(info, philo, info->time_to_sleep);
+	// usleep(info->time_to_sleep * 1000);
+	return (0);
 }
 
 void	routine(t_philo *philo)
@@ -97,50 +109,38 @@ void	routine(t_philo *philo)
 	info = philo->info;
 	if (philo->id % 2)
 		usleep(15000);
-	while (!info->dead)
+	while (!info->all_eat && !info->dead)
 	{
-		if (info->all_eat)
+		if (eating(philo))
 			return ;
-		eating(philo);
-		sleeping(philo);
-		printf("%zu %d is thinking\n", timestamp_in_ms(info->start_time), philo->id);
+		if (sleeping(philo))
+			return ;
+		if (dead_check(info, philo, "%zu %d is thinking\n"))
+			return ;
+		// printf("%zu %d is thinking\n", timestamp_in_ms(info->start_time), philo->id);
 	}
 }
 
 void	monitor(t_info *info)
 {
 	int	i;
+	int	flag;
 
-	while (info->must_eat)
+	while (info->dead < 1 && info->must_eat)
 	{
+		flag = 1;
 		i = -1;
-		while (++i < info->num_of_philo && info->philo[i].eat_cnt >= info->must_eat)
-			;
-		if (i == info->num_of_philo)
+		while (++i < info->num_of_philo)
+		{
+			if (info->philo[i].eat_cnt < info->must_eat)
+				flag = 0;
+		}
+		if (flag)
 		{
 			info->all_eat = 1;
 			break ;
 		}
 	}
-	while (1)
-	{
-		if (info->dead)
-			exit(0);
-	}
-	// {
-	// 	i = -1;
-	// 	while (!info->dead && ++i < info->num_of_philo)
-	// 	{
-	// 		pthread_mutex_lock(&info->print);
-	// 		if (timestamp_in_ms(info->start_time) - info->philo[i].last_time < info->time_to_die)
-	// 		{
-	// 			info->dead = 1;
-	// 			printf("%zu %d died\n", timestamp_in_ms(info->start_time), info->philo[i].id);
-	// 		}
-	// 		pthread_mutex_unlock(&info->print);
-	// 		usleep(100);
-	// 	}
-	// }
 }
 
 void	philosophers(t_info *info)
@@ -148,6 +148,13 @@ void	philosophers(t_info *info)
 	t_philo	*philo;
 	int		i;
 
+	if (info->num_of_philo == 1)
+	{
+		printf("%zu 1 has taken a fork\n", timestamp_in_ms(info->start_time));
+		usleep(info->time_to_die * 1000);
+		printf("%zu 1 died\n", timestamp_in_ms(info->start_time));
+		return ;
+	}
 	i = -1;
 	while (++i < info->num_of_philo)
 	{

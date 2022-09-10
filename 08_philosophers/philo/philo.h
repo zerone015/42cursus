@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/10 14:52:17 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/10 15:40:00 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_info
 	t_philo			*philo;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print;
+	pthread_mutex_t	die;
 }	t_info;
 
 int		ft_atoi(const char *str);
