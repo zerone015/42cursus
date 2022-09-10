@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_stdlib.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 12:28:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/10 20:43:00 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/10 22:30:51 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "philo.h"
 #include <limits.h>
+#include "philo.h"
 
 int	ft_atoi(const char *str)
 {

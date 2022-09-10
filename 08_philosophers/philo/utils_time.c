@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   utils_time.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/18 10:54:05 by kijsong           #+#    #+#             */
-/*   Updated: 2022/08/26 23:15:06 by kijsong          ###   ########.fr       */
+/*   Created: 2022/09/10 22:28:44 by kijsong           #+#    #+#             */
+/*   Updated: 2022/09/10 22:29:53 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include <unistd.h>
+#include <sys/time.h>
 
-# include <unistd.h>
-# include <stdlib.h>
+size_t	timestamp_in_ms(size_t start_time)
+{
+	struct timeval	now;
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4096
-# endif
+	gettimeofday(&now, NULL);
+	return (now.tv_sec * 1000 + now.tv_usec / 1000 - start_time);
+}
 
-size_t	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strdup(const char *s1);
-char	*ft_substr(const char *s, size_t start, size_t len);
-char	*ft_strjoin(const char *s1, const char *s2);
+void	msleep(size_t time)
+{
+	size_t	start;
 
-char	*get_next_line(int fd);
-
-#endif
+	start = timestamp_in_ms(0);
+	while (timestamp_in_ms(0) < start + time)
+		usleep(10);
+}

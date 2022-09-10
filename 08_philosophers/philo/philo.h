@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/10 21:56:34 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/10 22:36:47 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PHILO_H
 
 # include <stddef.h>
-# include <stdio.h> //test
 # include <pthread.h>
 
 typedef struct s_philo
@@ -57,6 +56,9 @@ void	ft_putendl_fd(char *s, int fd);
 void	*print_err(char *err_msg);
 
 size_t	timestamp_in_ms(size_t start_time);
+void	msleep(size_t time);
+
 int		init_info(t_info *info, char *argv[]);
+void	action(t_philo *philo);
 
 #endif
