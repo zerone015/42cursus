@@ -6,12 +6,12 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/10 20:40:17 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/10 21:56:34 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H
+#ifndef PHILO_H
+# define PHILO_H
 
 # include <stddef.h>
 # include <stdio.h> //test
@@ -31,7 +31,7 @@ typedef struct s_philo
 typedef struct s_info
 {
 	int				num_of_philo;
-	size_t			time_to_die;
+	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat;
