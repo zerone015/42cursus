@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/10 22:04:37 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/10 22:10:52 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 #include <stdlib.h>
 #include "philo.h"
 
-void	ft_usleep(size_t time)
+void	minisleep(size_t time)
 {
-	struct timeval	now;
 	size_t			start;
 
-	start = timestamp_in_ms(time);
-	while (get_time() < start + time)
+	start = timestamp_in_ms(0);
+	while (timestamp_in_ms(0) < start + time)
 		usleep(10);
 }
 
@@ -48,7 +47,7 @@ void	ft_usleep(t_info *info, t_philo *philo, size_t time_to_act)
 		info->dead_time = philo->last_time + info->time_to_die;
 	}
 	pthread_mutex_unlock(&info->die);
-	usleep(time_to_act * 1000);
+	minisleep(time_to_act * 1000);
 }
 
 int	dead_check(t_info *info, t_philo *philo, char *msg)
@@ -111,7 +110,7 @@ void	action(t_philo *philo)
 
 	info = philo->info;
 	if (philo->id % 2)
-		usleep(15000);
+		minisleep(15000);
 	while (!info->all_eat)
 	{
 		if (eating(philo) || sleeping(philo))
@@ -151,7 +150,7 @@ void	philosophers(t_info *info)
 	if (info->num_of_philo == 1)
 	{
 		printf("%zu 1 has taken a fork\n", timestamp_in_ms(info->start_time));
-		usleep(info->time_to_die * 1000);
+		minisleep(info->time_to_die * 1000);
 		printf("%zu 1 died\n", timestamp_in_ms(info->start_time));
 		return ;
 	}
