@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:27:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/10 22:37:11 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/11 14:23:14 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static int	dead_check(t_info *info, t_philo *philo, char *msg)
 {
-	size_t	timestamp;
+	time_t	timestamp;
 
 	pthread_mutex_lock(&info->print);
 	timestamp = timestamp_in_ms(info->start_time);
@@ -38,22 +38,22 @@ static int	dead_check(t_info *info, t_philo *philo, char *msg)
 	return (0);
 }
 
-static void	ft_usleep(t_info *info, t_philo *philo, size_t time_to_act)
+static void	ft_usleep(t_info *info, t_philo *philo, time_t time_to_act)
 {
-	size_t	before_act;
-	size_t	action_time;
+	time_t	before_act;
+	time_t	after_act;
 
 	before_act = timestamp_in_ms(info->start_time);
-	action_time = before_act - philo->last_time + time_to_act;
+	after_act = before_act - philo->last_time + time_to_act;
 	pthread_mutex_lock(&info->die);
-	if (!info->dead && action_time > info->time_to_die)
+	if (!info->dead && after_act > info->time_to_die)
 	{
 		info->dead = 1;
 		info->dead_philo = philo->id;
 		info->dead_time = philo->last_time + info->time_to_die;
 	}
 	pthread_mutex_unlock(&info->die);
-	msleep(time_to_act);
+	smart_sleep(time_to_act);
 }
 
 static int	eating(t_philo *philo)
@@ -92,7 +92,7 @@ void	action(t_philo *philo)
 
 	info = philo->info;
 	if (philo->id % 2)
-		msleep(15);
+		smart_sleep(15);
 	while (!info->all_eat)
 	{
 		if (eating(philo) || sleeping(philo))

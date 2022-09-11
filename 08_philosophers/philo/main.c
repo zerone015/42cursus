@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/10 22:37:31 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/11 14:23:17 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,16 @@
 void	monitor(t_info *info)
 {
 	int	i;
-	int	flag;
 
 	while (info->dead < 1 && info->must_eat)
 	{
-		flag = 1;
 		i = -1;
 		while (++i < info->num_of_philo)
 		{
 			if (info->philo[i].eat_cnt < info->must_eat)
-				flag = 0;
+				break ;
 		}
-		if (flag)
+		if (i == info->num_of_philo)
 		{
 			info->all_eat = 1;
 			break ;
@@ -43,7 +41,7 @@ void	philosophers(t_info *info)
 	if (info->num_of_philo == 1)
 	{
 		printf("%zu 1 has taken a fork\n", timestamp_in_ms(info->start_time));
-		msleep(info->time_to_die);
+		smart_sleep(info->time_to_die);
 		printf("%zu 1 died\n", timestamp_in_ms(info->start_time));
 		return ;
 	}

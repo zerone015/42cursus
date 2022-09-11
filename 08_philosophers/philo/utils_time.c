@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils_time.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:28:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/10 22:29:53 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/09/11 14:23:25 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <sys/time.h>
 
-size_t	timestamp_in_ms(size_t start_time)
+time_t	timestamp_in_ms(time_t start_time)
 {
 	struct timeval	now;
 
@@ -21,11 +21,11 @@ size_t	timestamp_in_ms(size_t start_time)
 	return (now.tv_sec * 1000 + now.tv_usec / 1000 - start_time);
 }
 
-void	msleep(size_t time)
+void	smart_sleep(time_t time)
 {
-	size_t	start;
+	time_t	start;
 
 	start = timestamp_in_ms(0);
 	while (timestamp_in_ms(0) < start + time)
-		usleep(10);
+		usleep(100);
 }
