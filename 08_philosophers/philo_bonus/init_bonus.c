@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 21:01:12 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/11 21:00:30 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/12 20:23:42 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void	init_philo(t_info *info)
 		info->philo[i].id = i + 1;
 		info->philo[i].eat_cnt = 0;
 		info->philo[i].last_time = 0;
+		info->philo[i].dead_time = 0;
+		info->philo[i].dead = 0;
 		info->philo[i].info = info;
 	}
 }
@@ -59,8 +61,6 @@ void	init_info(t_info *info, char *argv[])
 	info->must_eat = 0;
 	if (argv[5])
 		info->must_eat = ft_atoi(argv[5]);
-	info->dead = 0;
-	info->dead_time = 0;
 	info->shared_var = 0;
 	info->shared_flag = 1;
 	info->philo = safe_malloc(sizeof(t_philo) * info->num_of_philo);

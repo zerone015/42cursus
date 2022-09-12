@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/11 21:59:49 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/12 21:55:23 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,37 +26,15 @@ void	philo_kill(t_info *info)
 		kill(info->pid[i], SIGTERM);
 }
 
-void	monitor(t_info *info)
-{
-	int	temp;
-
-	temp = info->shared_var;
-	while (1)
-	{
-		if (waitpid(-1, NULL, WNOHANG) > 0 || info->shared_var == temp)
-		{
-			if (waitpid(-1, NULL, WNOHANG) <= 0 && info->shared_var == temp)
-			{
-				usleep(100);
-				if (info->shared_var != temp)
-					continue ;
-			}
-			philo_kill(info);
-			info->shared_flag = 0;
-			break ;
-		}
-	}
-}
-
-void	avoid_orphan(t_info *info, int count)
+void	avoid_orphan_kill(t_info *info, int size, char *msg)
 {
 	int	i;
 
 	i = -1;
-	while (++i < count)
+	while (++i < size)
 		waitpid(info->pid[i], NULL, 0);
 	philo_kill(info);
-	error("Thread create failed");
+	error(msg);
 }
 
 void	outsider(t_info *info)
@@ -67,7 +45,7 @@ void	outsider(t_info *info)
 	exit(0);
 }
 
-void	monitor_all_eat(t_info *info)
+void	macro_all_eat(t_info *info)
 {
 	while (info->shared_flag)
 	{
@@ -77,26 +55,64 @@ void	monitor_all_eat(t_info *info)
 	}
 }
 
-void	philosophers(t_info *info)
+void	monitor_dead(t_info *info)
+{
+	while (1)
+	{
+		if (waitpid(-1, NULL, WNOHANG) > 0)
+		{
+			philo_kill(info);
+			info->shared_flag = 0;
+			break ;
+		}
+	}
+}
+
+void	monitor_all_eat(t_info *info)
+{
+	int	temp;
+
+	while (1)
+	{
+		temp = info->shared_var;
+		smart_sleep(40);
+		if (info->shared_var == temp)
+		{
+			philo_kill(info);
+			info->shared_flag = 0;
+			break ;
+		}
+	}
+}
+
+void	monitor(t_info *info)
 {
 	pthread_t	tid;
+
+	if (pthread_create(&tid, NULL, (void *)macro_all_eat, info) != 0)
+		avoid_orphan_kill(info, info->num_of_philo, "Thread create failed");
+	pthread_detach(tid);
+	if (pthread_create(&tid, NULL, (void *)monitor_all_eat, info) != 0)
+		avoid_orphan_kill(info, info->num_of_philo, "Thread create failed");
+	pthread_detach(tid);
+	monitor_dead(info);
+}
+
+void	philosophers(t_info *info)
+{
 	int			i;
 
 	if (info->num_of_philo == 1)
 		outsider(info);
-	info->pid[0] = 1;
 	i = -1;
 	while (++i < info->num_of_philo)
 	{
 		info->pid[i] = fork();
 		if (info->pid[i] == -1)
-			avoid_orphan(info, i);
+			avoid_orphan_kill(info, i, "fork() failed");
 		if (info->pid[i] == 0)
 			action(&info->philo[i]);
 	}
-	if (pthread_create(&tid, NULL, (void *)monitor_all_eat, info) != 0)
-		avoid_orphan(info, i);
-	pthread_detach(tid);
 	monitor(info);
 }
 
