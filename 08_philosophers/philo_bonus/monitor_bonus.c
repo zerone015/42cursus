@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 23:53:32 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 00:07:52 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 00:23:17 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	monitor_all_eat(t_info *info)
 		{
 			philo_kill(info);
 			info->shared_flag = 0;
-			sem_post(info->all_eat);
 		}
 	}
+	sem_post(info->all_eat);
 }
 
 void	monitor(t_info *info)
