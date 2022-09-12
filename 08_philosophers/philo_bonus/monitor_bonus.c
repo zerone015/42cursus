@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 23:53:32 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 00:23:17 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 00:40:36 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,22 @@ void	monitor(t_info *info)
 	int			i;
 	pthread_t	tid[3];
 
-	if (pthread_create(&tid[0], NULL, (void *)macro_all_eat, info) != 0)
-		avoid_orphan_kill(info, info->num_of_philo, "Thread create failed");
-	if (pthread_create(&tid[1], NULL, (void *)monitor_all_eat, info) != 0)
-		avoid_orphan_kill(info, info->num_of_philo, "Thread create failed");
-	if (pthread_create(&tid[2], NULL, (void *)monitor_dead, info) != 0)
-		avoid_orphan_kill(info, info->num_of_philo, "Thread create failed");
-	i = -1;
-	while (++i < 3)
-		pthread_join(tid[i], NULL);
+	if (info->must_eat > 0)
+	{
+		if (pthread_create(&tid[0], NULL, (void *)macro_all_eat, info) != 0)
+			avoid_orphan_kill(info, info->num_of_philo, "Thread create failed");
+		if (pthread_create(&tid[1], NULL, (void *)monitor_all_eat, info) != 0)
+			avoid_orphan_kill(info, info->num_of_philo, "Thread create failed");
+		if (pthread_create(&tid[2], NULL, (void *)monitor_dead, info) != 0)
+			avoid_orphan_kill(info, info->num_of_philo, "Thread create failed");
+		i = -1;
+		while (++i < 3)
+			pthread_join(tid[i], NULL);
+	}
+	else
+	{
+		if (pthread_create(&tid[0], NULL, (void *)monitor_dead, info) != 0)
+			avoid_orphan_kill(info, info->num_of_philo, "Thread create failed");
+		pthread_join(tid[0], NULL);
+	}
 }
