@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 01:20:47 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 03:02:48 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,5 @@ int	main(int argc, char *argv[])
 		error("Invalid arguments");
 	init_info(&info, argv);
 	philosophers(&info);
-	unlink_sem();
 	return (0);
 }

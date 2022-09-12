@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:27:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/13 02:02:19 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 03:03:37 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static void	dead_check(t_info *info, t_philo *philo, char *msg)
 {
 	time_t	timestamp;
 
-	sem_wait(info->die);
+	sem_wait(info->dead_sem);
 	if (philo->dead == 1)
 	{
 		printf("%zu %d died\n", philo->dead_time, philo->id);
 		exit(0);
 	}
-	sem_post(info->die);
+	sem_post(info->dead_sem);
 	sem_wait(info->print);
 	timestamp = timestamp_in_ms(info->start_time);
 	printf(msg, timestamp, philo->id);
@@ -80,7 +80,6 @@ void	action(t_philo *philo)
 	t_info	*info;
 
 	info = philo->info;
-	unlink_sem();
 	if (philo->id % 2)
 		smart_sleep(40);
 	while (1)

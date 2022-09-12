@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 00:07:53 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 03:01:35 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_info
 	pid_t	*pid;
 	sem_t	*fork;
 	sem_t	*print;
-	sem_t	*die;
+	sem_t	*dead_sem;
 	sem_t	*all_eat;
 	int		shared_var;
 	int		shared_flag;
@@ -58,7 +58,6 @@ time_t	timestamp_in_ms(time_t start_time);
 void	smart_sleep(time_t time);
 
 void	init_info(t_info *info, char *argv[]);
-void	unlink_sem(void);
 void	monitor(t_info *info);
 void	avoid_orphan_kill(t_info *info, int size, char *msg);
 void	philo_kill(t_info *info);
