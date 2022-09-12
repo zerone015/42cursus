@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 00:02:51 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 01:20:47 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,27 @@ void	outsider(t_info *info)
 	exit(0);
 }
 
+void	create_outsider(t_info *info)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		return ;
+	if (pid == 0)
+		outsider(info);
+	waitpid(pid, NULL, 0);
+}
+
 void	philosophers(t_info *info)
 {
 	int			i;
 
 	if (info->num_of_philo == 1)
-		outsider(info);
+	{
+		create_outsider(info);
+		return ;
+	}
 	i = -1;
 	while (++i < info->num_of_philo)
 	{

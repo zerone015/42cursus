@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/11 14:23:17 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 01:12:32 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,23 @@ void	monitor(t_info *info)
 	}
 }
 
+void	outsider(t_philo *philo)
+{
+	printf("%zu 1 has taken a fork\n", timestamp_in_ms(philo->info->start_time));
+	smart_sleep(philo->info->time_to_die);
+	printf("%zu 1 died\n", timestamp_in_ms(philo->info->start_time));
+}
+
+void	create_outsider(t_info *info)
+{
+	t_philo	*philo;
+
+	philo = &info->philo[0];
+	if (pthread_create(&philo->tid, NULL, (void *)outsider, philo) != 0)
+		return ;
+	pthread_join(info->philo[0].tid, NULL);
+}
+
 void	philosophers(t_info *info)
 {
 	t_philo	*philo;
@@ -40,9 +57,7 @@ void	philosophers(t_info *info)
 
 	if (info->num_of_philo == 1)
 	{
-		printf("%zu 1 has taken a fork\n", timestamp_in_ms(info->start_time));
-		smart_sleep(info->time_to_die);
-		printf("%zu 1 died\n", timestamp_in_ms(info->start_time));
+		create_outsider(info);
 		return ;
 	}
 	i = -1;
