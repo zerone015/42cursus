@@ -6,11 +6,10 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:27:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/12 22:00:08 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 00:07:46 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "philo_bonus.h"
@@ -20,14 +19,14 @@ static void	dead_check(t_info *info, t_philo *philo, char *msg)
 	time_t	timestamp;
 
 	sem_wait(info->die);
-	timestamp = timestamp_in_ms(info->start_time);
 	if (philo->dead == 1)
 	{
 		printf("%zu %d died\n", philo->dead_time, philo->id);
-		exit(1);
+		exit(0);
 	}
 	sem_post(info->die);
 	sem_wait(info->print);
+	timestamp = timestamp_in_ms(info->start_time);
 	printf(msg, timestamp, philo->id);
 	sem_post(info->print);
 }
@@ -45,7 +44,7 @@ static void	ft_usleep(t_info *info, t_philo *philo, time_t time_to_act)
 		philo->dead_time = philo->last_time + info->time_to_die;
 		if (philo->eat_cnt == 0)
 		{
-			smart_sleep(philo->dead_time - info->time_to_die);
+			smart_sleep(philo->dead_time - before_act);
 			sem_wait(info->print);
 		}
 	}

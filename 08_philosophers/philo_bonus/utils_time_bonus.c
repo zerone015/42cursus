@@ -6,12 +6,13 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:28:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/12 19:03:15 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 00:07:55 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <sys/time.h>
+#include "philo_bonus.h"
 
 time_t	timestamp_in_ms(time_t start_time)
 {

@@ -1,45 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_string_bonus.c                               :+:      :+:    :+:   */
+/*   kill_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/09 12:38:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 00:07:55 by yoson            ###   ########.fr       */
+/*   Created: 2022/09/12 23:51:50 by yoson             #+#    #+#             */
+/*   Updated: 2022/09/13 00:02:14 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <sys/wait.h>
+#include <signal.h>
 #include "philo_bonus.h"
 
-void	*ft_memset(void *mem, int c, size_t len)
+void	philo_kill(t_info *info)
 {
-	unsigned char	*p;
+	int	i;
 
-	p = (unsigned char *)mem;
-	while (len--)
-		*p++ = (unsigned char)c;
-	return (mem);
+	i = -1;
+	while (++i < info->num_of_philo && info->pid[i] > 0)
+		kill(info->pid[i], SIGTERM);
 }
 
-size_t	ft_strlen(const char *str)
+void	avoid_orphan_kill(t_info *info, int size, char *msg)
 {
-	size_t	len;
+	int	i;
 
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
-}
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	write(fd, s, ft_strlen(s));
-}
-
-void	ft_putendl_fd(char *s, int fd)
-{
-	write(fd, s, ft_strlen(s));
-	write(fd, "\n", 1);
+	i = -1;
+	while (++i < size)
+		waitpid(info->pid[i], NULL, 0);
+	philo_kill(info);
+	error(msg);
 }

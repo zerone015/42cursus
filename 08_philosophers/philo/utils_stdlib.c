@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 12:28:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/11 14:23:22 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 00:08:30 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,4 @@ void	*safe_malloc(size_t size)
 	if (!p)
 		return ((void *)print_err("Malloc failed"));
 	return (p);
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*p;
-
-	p = safe_malloc(count * size);
-	if (!p)
-		return (NULL);
-	return (ft_memset(p, 0, count * size));
 }

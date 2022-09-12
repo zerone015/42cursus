@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/11 14:23:21 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 00:08:50 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_info
 
 int		ft_atoi(const char *str);
 void	*safe_malloc(size_t size);
-void	*ft_calloc(size_t count, size_t size);
 
 void	*ft_memset(void *mem, int c, size_t len);
 size_t	ft_strlen(const char *str);

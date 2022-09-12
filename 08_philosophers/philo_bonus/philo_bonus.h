@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/12 20:27:25 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 00:07:53 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PHILO_BONUS_H
 
 # include <unistd.h>
-# include <pthread.h>
 # include <semaphore.h>
 
 typedef struct s_philo
@@ -60,6 +59,9 @@ void	smart_sleep(time_t time);
 
 void	init_info(t_info *info, char *argv[]);
 void	unlink_sem(void);
+void	monitor(t_info *info);
+void	avoid_orphan_kill(t_info *info, int size, char *msg);
+void	philo_kill(t_info *info);
 void	action(t_philo *philo);
 
 #endif
