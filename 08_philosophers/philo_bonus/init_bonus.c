@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 21:01:12 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 12:23:57 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 14:21:30 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 #include <sys/time.h>
 #include "philo_bonus.h"
 
-static void	init_philo(t_info *info)
+static void	init_philo(t_info *info, t_monitor *monitor)
 {
 	int	i;
 
 	i = -1;
-	while (++i < info->num_of_philo)
+	while (++i < monitor->num_of_philo)
 	{
-		info->philo[i].id = i + 1;
-		info->philo[i].eat_cnt = 0;
-		info->philo[i].last_time = 0;
-		info->philo[i].dead_time = 0;
-		info->philo[i].dead = 0;
-		info->philo[i].info = info;
+		monitor->philo[i].id = i + 1;
+		monitor->philo[i].eat_cnt = 0;
+		monitor->philo[i].last_time = 0;
+		monitor->philo[i].dead_time = 0;
+		monitor->philo[i].dead = 0;
+		monitor->philo[i].info = info;
 	}
 }
 
-static int	open_sem(t_info *info)
+static int	open_sem(t_info *info, t_monitor *monitor)
 {
 	sem_unlink("fork");
 	sem_unlink("print");
@@ -39,14 +39,15 @@ static int	open_sem(t_info *info)
 	info->fork = sem_open("fork", O_CREAT, S_IRWXU, info->num_of_philo);
 	info->print = sem_open("print", O_CREAT, S_IRWXU, 1);
 	info->all_eat = sem_open("aeat", O_CREAT, S_IRWXU, 0);
-	info->kill = sem_open("kill", O_CREAT, S_IRWXU, 1);
+	monitor->all_eat = info->all_eat;
+	monitor->kill = sem_open("kill", O_CREAT, S_IRWXU, 1);
 	if (info->fork == SEM_FAILED || info->print == SEM_FAILED || \
-		info->all_eat == SEM_FAILED || info->kill == SEM_FAILED)
+		info->all_eat == SEM_FAILED || monitor->kill == SEM_FAILED)
 		return (-1);
 	return (0);
 }
 
-void	init_info(t_info *info, char *argv[])
+void	init_struct(t_info *info, t_monitor *monitor, char *argv[])
 {
 	struct timeval	start;
 
@@ -57,12 +58,13 @@ void	init_info(t_info *info, char *argv[])
 	info->must_eat = 0;
 	if (argv[5])
 		info->must_eat = ft_atoi(argv[5]);
-	info->monitor_switch = 1;
-	info->is_already_killed = 0;
-	info->philo = safe_malloc(sizeof(t_philo) * info->num_of_philo);
-	init_philo(info);
-	info->pid = ft_calloc(info->num_of_philo, sizeof(pid_t));
-	if (open_sem(info) == -1)
+	monitor->num_of_philo = info->num_of_philo;
+	monitor->monitor_switch = 1;
+	monitor->is_already_killed = 0;
+	monitor->philo = safe_malloc(sizeof(t_philo) * info->num_of_philo);
+	init_philo(info, monitor);
+	monitor->pid = ft_calloc(info->num_of_philo, sizeof(pid_t));
+	if (open_sem(info, monitor) == -1)
 		error("sem_open() failed");
 	gettimeofday(&start, NULL);
 	info->start_time = start.tv_sec * 1000 + start.tv_usec / 1000;

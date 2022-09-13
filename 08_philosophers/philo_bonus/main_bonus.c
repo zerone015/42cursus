@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 03:02:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 14:24:50 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	create_outsider(t_info *info)
 	waitpid(pid, NULL, 0);
 }
 
-void	philosophers(t_info *info)
+void	philosophers(t_info *info, t_monitor *mon)
 {
 	int			i;
 
@@ -47,22 +47,24 @@ void	philosophers(t_info *info)
 	i = -1;
 	while (++i < info->num_of_philo)
 	{
-		info->pid[i] = fork();
-		if (info->pid[i] == -1)
-			avoid_orphan_kill(info, i, "fork() failed");
-		if (info->pid[i] == 0)
-			action(&info->philo[i]);
+		mon->pid[i] = fork();
+		if (mon->pid[i] == -1)
+			avoid_orphan_kill(mon, i, "fork() failed");
+		if (mon->pid[i] == 0)
+			action(&mon->philo[i]);
 	}
-	monitor(info);
+	monitor(mon, info->must_eat);
 }
 
 int	main(int argc, char *argv[])
 {
-	t_info	info;
+	t_info		info;
+	t_monitor	monitor;
 
 	if (argc < 5 || argc > 6)
 		error("Invalid arguments");
-	init_info(&info, argv);
-	philosophers(&info);
+	init_struct(&info, &monitor, argv);
+	philosophers(&info, &monitor);
+	system("leaks philo_bonus");
 	return (0);
 }

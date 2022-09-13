@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 23:51:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 12:01:34 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 14:15:35 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 #include <signal.h>
 #include "philo_bonus.h"
 
-void	philo_kill(t_info *info, pid_t dead)
+void	philo_kill(t_monitor *monitor, pid_t dead)
 {
 	int	i;
 
 	i = -1;
-	while (++i < info->num_of_philo && info->pid[i] > 0)
+	while (++i < monitor->num_of_philo && monitor->pid[i] > 0)
 	{
-		if (info->pid[i] == dead)
+		if (monitor->pid[i] == dead)
 			continue ;
-		kill(info->pid[i], SIGTERM);
+		kill(monitor->pid[i], SIGTERM);
 	}
 }
 
-void	avoid_orphan_kill(t_info *info, int size, char *msg)
+void	avoid_orphan_kill(t_monitor *monitor, int size, char *msg)
 {
 	int	i;
 
 	i = -1;
 	while (++i < size)
-		waitpid(info->pid[i], NULL, 0);
-	philo_kill(info, 0);
+		waitpid(monitor->pid[i], NULL, 0);
+	philo_kill(monitor, 0);
 	error(msg);
 }
