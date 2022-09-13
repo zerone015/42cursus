@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 12:16:30 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 12:23:45 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_info
 	sem_t	*all_eat;
 	sem_t	*kill;
 	int		monitor_switch;
-	int		already_killed;
+	int		is_already_killed;
 }	t_info;
 
 int		ft_atoi(const char *str);

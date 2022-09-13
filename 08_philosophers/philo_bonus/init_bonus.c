@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 21:01:12 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 12:16:47 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 12:23:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	init_info(t_info *info, char *argv[])
 	if (argv[5])
 		info->must_eat = ft_atoi(argv[5]);
 	info->monitor_switch = 1;
-	info->already_killed = 0;
+	info->is_already_killed = 0;
 	info->philo = safe_malloc(sizeof(t_philo) * info->num_of_philo);
 	init_philo(info);
 	info->pid = ft_calloc(info->num_of_philo, sizeof(pid_t));
