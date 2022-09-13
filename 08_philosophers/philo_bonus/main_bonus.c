@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 14:24:50 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 14:32:10 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,5 @@ int	main(int argc, char *argv[])
 		error("Invalid arguments");
 	init_struct(&info, &monitor, argv);
 	philosophers(&info, &monitor);
-	system("leaks philo_bonus");
 	return (0);
 }
