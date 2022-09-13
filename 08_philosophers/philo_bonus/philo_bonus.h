@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 14:20:46 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 20:04:20 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_monitor
 	int		num_of_philo;
 	pid_t	*pid;
 	t_philo	*philo;
+	sem_t	*print;
 	sem_t	*all_eat;
 	sem_t	*kill;
 	int		monitor_switch;

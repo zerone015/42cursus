@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 21:01:12 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 18:24:47 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 20:04:41 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static int	open_sem(t_info *info, t_monitor *monitor)
 	info->print = sem_open("print", O_CREAT, S_IRWXU, 1);
 	info->all_eat = sem_open("aeat", O_CREAT, S_IRWXU, 0);
 	monitor->all_eat = info->all_eat;
+	monitor->print = info->print;
 	monitor->kill = sem_open("kill", O_CREAT, S_IRWXU, 1);
 	if (info->fork == SEM_FAILED || info->print == SEM_FAILED || \
 		info->all_eat == SEM_FAILED || monitor->kill == SEM_FAILED)

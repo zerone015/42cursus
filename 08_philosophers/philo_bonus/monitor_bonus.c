@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 23:53:32 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 18:18:28 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 20:47:29 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ void	monitor_all_eat(t_monitor *monitor)
 	if (!monitor->is_already_killed)
 	{
 		monitor->is_already_killed = 1;
-		sem_post(monitor->kill);
+		sem_wait(monitor->print);
 		philo_kill(monitor, 0);
+		sem_post(monitor->print);
+		sem_post(monitor->kill);
 	}
 }
 
