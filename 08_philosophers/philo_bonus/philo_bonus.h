@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 11:16:26 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 11:30:32 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_info
 	sem_t	*fork;
 	sem_t	*print;
 	sem_t	*all_eat;
-	int		shared_flag;
+	int		monitor_switch;
 }	t_info;
 
 int		ft_atoi(const char *str);
