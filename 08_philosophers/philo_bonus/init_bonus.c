@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 21:01:12 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 11:00:51 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 11:16:38 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	open_sem(t_info *info)
 	sem_unlink("aeat");
 	info->fork = sem_open("fork", O_CREAT, S_IRWXU, info->num_of_philo);
 	info->print = sem_open("print", O_CREAT, S_IRWXU, 1);
-	info->all_eat = sem_open("aeat", O_CREAT, S_IRWXU, info->num_of_philo + 1);
+	info->all_eat = sem_open("aeat", O_CREAT, S_IRWXU, 0);
 	if (info->fork == SEM_FAILED || info->print == SEM_FAILED || \
 		info->all_eat == SEM_FAILED)
 		return (-1);
@@ -55,7 +55,6 @@ void	init_info(t_info *info, char *argv[])
 	info->must_eat = 0;
 	if (argv[5])
 		info->must_eat = ft_atoi(argv[5]);
-	info->shared_var = 0;
 	info->shared_flag = 1;
 	info->philo = safe_malloc(sizeof(t_philo) * info->num_of_philo);
 	init_philo(info);

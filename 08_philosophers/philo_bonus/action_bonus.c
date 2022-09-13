@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:27:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/13 11:00:23 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 11:05:33 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	eating(t_philo *philo)
 	philo->last_time = timestamp_in_ms(info->start_time);
 	(philo->eat_cnt)++;
 	if (philo->eat_cnt == info->must_eat)
-		sem_wait(info->all_eat);
+		sem_post(info->all_eat);
 	sem_post(info->fork);
 	sem_post(info->fork);
 }
