@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:27:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/13 02:57:56 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 14:55:33 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,10 @@ static void	ft_usleep(t_info *info, t_philo *philo, time_t time_to_act)
 	pthread_mutex_lock(&info->dead_mutex);
 	if (!info->dead && after_act > info->time_to_die)
 	{
+		info->dead_time = philo->last_time + info->time_to_die;
+		smart_sleep(info->dead_time - before_act);
 		info->dead = 1;
 		info->dead_philo = philo->id;
-		info->dead_time = philo->last_time + info->time_to_die;
 	}
 	pthread_mutex_unlock(&info->dead_mutex);
 	smart_sleep(time_to_act);
@@ -63,6 +64,8 @@ static int	eating(t_philo *philo)
 	info = philo->info;
 	pthread_mutex_lock(&info->fork[philo->left_fork]);
 	pthread_mutex_lock(&info->fork[philo->right_fork]);
+	if (dead_check(info, philo, "%zu %d has taken a fork\n"))
+		return (1);
 	if (dead_check(info, philo, "%zu %d has taken a fork\n"))
 		return (1);
 	if (dead_check(info, philo, "%zu %d is eating\n"))

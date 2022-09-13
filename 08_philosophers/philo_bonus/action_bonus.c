@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:27:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/13 11:05:33 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 14:43:13 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	eating(t_philo *philo)
 	info = philo->info;
 	sem_wait(info->fork);
 	sem_wait(info->fork);
+	dead_check(info, philo, "%zu %d has taken a fork\n");
 	dead_check(info, philo, "%zu %d has taken a fork\n");
 	dead_check(info, philo, "%zu %d is eating\n");
 	ft_usleep(info, philo, info->time_to_eat);
