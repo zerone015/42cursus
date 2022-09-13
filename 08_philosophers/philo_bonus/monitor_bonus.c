@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 23:53:32 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 12:11:44 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 12:17:23 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	monitor_dead(t_info *info)
 		if (pid > 0)
 		{
 			sem_wait(info->kill);
-			if (!info->is_allkill)
+			if (!info->already_killed)
 			{
-				info->is_allkill = 1;
+				info->already_killed = 1;
 				sem_post(info->kill);
 				philo_kill(info, pid);
 			}
@@ -45,9 +45,9 @@ void	monitor_all_eat(t_info *info)
 		sem_wait(info->all_eat);
 	info->monitor_switch = 0;
 	sem_wait(info->kill);
-	if (!info->is_allkill)
+	if (!info->already_killed)
 	{
-		info->is_allkill = 1;
+		info->already_killed = 1;
 		sem_post(info->kill);
 		philo_kill(info, 0);
 	}
