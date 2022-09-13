@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 03:01:35 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 11:00:04 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct s_info
 	pid_t	*pid;
 	sem_t	*fork;
 	sem_t	*print;
-	sem_t	*dead_sem;
 	sem_t	*all_eat;
 	int		shared_var;
 	int		shared_flag;
