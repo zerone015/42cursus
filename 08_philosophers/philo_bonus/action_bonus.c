@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:27:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/13 10:21:23 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 10:41:40 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	ft_usleep(t_info *info, t_philo *philo, time_t time_to_act)
 
 	before_act = timestamp_in_ms(info->start_time);
 	after_act = before_act - philo->last_time + time_to_act;
-	if (!philo->dead && after_act > info->time_to_die)
+	if (after_act > info->time_to_die)
 	{
 		philo->dead = 1;
 		philo->dead_time = philo->last_time + info->time_to_die;
