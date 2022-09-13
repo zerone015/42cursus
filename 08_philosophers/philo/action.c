@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:27:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/13 18:06:15 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/14 00:47:56 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static void	ft_usleep(t_info *info, t_philo *philo, time_t time_to_act)
 		info->dead_philo = philo->id;
 	}
 	pthread_mutex_unlock(&info->dead_mutex);
-	smart_sleep(time_to_act);
+	if (info->dead_philo != philo->id)
+		smart_sleep(time_to_act);
 }
 
 static int	eating(t_philo *philo)
