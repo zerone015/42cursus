@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 21:01:12 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/14 00:49:18 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/14 01:45:22 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	init_info(t_info *info, char *argv[])
 		return (-1);
 	info->dead = 0;
 	info->dead_time = 0;
-	info->dead_philo = 0;
 	info->all_eat = 0;
 	info->fork = safe_malloc(sizeof(pthread_mutex_t) * info->num_of_philo);
 	info->philo = safe_malloc(sizeof(t_philo) * info->num_of_philo);

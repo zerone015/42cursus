@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:27:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/14 00:47:56 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/14 02:26:14 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ static int	dead_check(t_info *info, t_philo *philo, char *msg)
 	time_t	timestamp;
 
 	pthread_mutex_lock(&info->print);
-	timestamp = timestamp_in_ms(info->start_time);
-	if ((info->dead_time && timestamp > info->dead_time) || info->all_eat)
+	if (info->dead || info->all_eat)
 	{
 		if (info->dead == 1)
 		{
@@ -32,6 +31,7 @@ static int	dead_check(t_info *info, t_philo *philo, char *msg)
 		pthread_mutex_unlock(&info->print);
 		return (1);
 	}
+	timestamp = timestamp_in_ms(info->start_time);
 	if (!info->dead && !info->all_eat)
 		printf(msg, timestamp, philo->id);
 	pthread_mutex_unlock(&info->print);
@@ -54,7 +54,7 @@ static void	ft_usleep(t_info *info, t_philo *philo, time_t time_to_act)
 		info->dead_philo = philo->id;
 	}
 	pthread_mutex_unlock(&info->dead_mutex);
-	if (info->dead_philo != philo->id)
+	if (!info->dead)
 		smart_sleep(time_to_act);
 }
 
