@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 11:30:32 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 12:10:09 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ typedef struct s_info
 	sem_t	*fork;
 	sem_t	*print;
 	sem_t	*all_eat;
+	sem_t	*kill;
 	int		monitor_switch;
+	int		is_allkill;
 }	t_info;
 
 int		ft_atoi(const char *str);
@@ -58,7 +60,7 @@ void	smart_sleep(time_t time);
 void	init_info(t_info *info, char *argv[]);
 void	monitor(t_info *info);
 void	avoid_orphan_kill(t_info *info, int size, char *msg);
-void	philo_kill(t_info *info);
+void	philo_kill(t_info *info, pid_t dead);
 void	action(t_philo *philo);
 
 #endif

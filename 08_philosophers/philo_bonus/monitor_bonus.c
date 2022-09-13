@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 23:53:32 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 11:30:19 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 12:11:44 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,20 @@
 
 void	monitor_dead(t_info *info)
 {
+	pid_t	pid;
+
 	while (info->monitor_switch)
 	{
-		if (waitpid(-1, NULL, WNOHANG) > 0)
+		pid = waitpid(-1, NULL, WNOHANG);
+		if (pid > 0)
 		{
-			philo_kill(info);
+			sem_wait(info->kill);
+			if (!info->is_allkill)
+			{
+				info->is_allkill = 1;
+				sem_post(info->kill);
+				philo_kill(info, pid);
+			}
 			info->monitor_switch = 0;
 			sem_post(info->all_eat);
 		}
@@ -35,7 +44,13 @@ void	monitor_all_eat(t_info *info)
 	while (++i < info->num_of_philo && info->monitor_switch)
 		sem_wait(info->all_eat);
 	info->monitor_switch = 0;
-	philo_kill(info);
+	sem_wait(info->kill);
+	if (!info->is_allkill)
+	{
+		info->is_allkill = 1;
+		sem_post(info->kill);
+		philo_kill(info, 0);
+	}
 }
 
 void	monitor(t_info *info)
