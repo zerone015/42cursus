@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 12:28:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 00:08:30 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 18:21:38 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_atoi(const char *str)
 		num *= 10;
 		num += str[i] - '0';
 	}
-	if (num > INT_MAX)
+	if (num > INT_MAX || !num)
 		return (-1);
 	return (num);
 }

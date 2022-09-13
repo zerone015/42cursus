@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:27:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/13 14:55:33 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 18:06:15 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	dead_check(t_info *info, t_philo *philo, char *msg)
 
 	pthread_mutex_lock(&info->print);
 	timestamp = timestamp_in_ms(info->start_time);
-	if (info->dead_time && timestamp > info->dead_time)
+	if ((info->dead_time && timestamp > info->dead_time) || info->all_eat)
 	{
 		if (info->dead == 1)
 		{
@@ -32,7 +32,7 @@ static int	dead_check(t_info *info, t_philo *philo, char *msg)
 		pthread_mutex_unlock(&info->print);
 		return (1);
 	}
-	if (!info->dead)
+	if (!info->dead && !info->all_eat)
 		printf(msg, timestamp, philo->id);
 	pthread_mutex_unlock(&info->print);
 	return (0);

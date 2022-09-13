@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 12:28:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 00:07:54 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 18:24:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	ft_atoi(const char *str)
 	}
 	if (num > INT_MAX)
 		error("Value too large for defined data type");
+	if (!num)
+		error("Invalid arguments");
 	return (num);
 }
 

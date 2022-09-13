@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 14:26:28 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 18:26:53 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	if (init_info(&info, argv) == -1)
+	{
+		print_err("error");
 		return (1);
+	}
 	philosophers(&info);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 12:38:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 00:08:03 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/13 18:27:12 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_putendl_fd(char *s, int fd)
 
 void	*print_err(char *err_msg)
 {
-	ft_putstr_fd("print_err: ", 2);
+	ft_putstr_fd("Error: ", 2);
 	ft_putendl_fd(err_msg, 2);
 	return (NULL);
 }
