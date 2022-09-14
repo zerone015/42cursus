@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 21:01:12 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 20:04:41 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/14 18:16:56 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,12 @@ static int	open_sem(t_info *info, t_monitor *monitor)
 	sem_unlink("fork");
 	sem_unlink("print");
 	sem_unlink("aeat");
-	sem_unlink("kill");
 	info->fork = sem_open("fork", O_CREAT, S_IRWXU, info->num_of_philo);
 	info->print = sem_open("print", O_CREAT, S_IRWXU, 1);
 	info->all_eat = sem_open("aeat", O_CREAT, S_IRWXU, 0);
 	monitor->all_eat = info->all_eat;
-	monitor->print = info->print;
-	monitor->kill = sem_open("kill", O_CREAT, S_IRWXU, 1);
 	if (info->fork == SEM_FAILED || info->print == SEM_FAILED || \
-		info->all_eat == SEM_FAILED || monitor->kill == SEM_FAILED)
+		info->all_eat == SEM_FAILED)
 		return (-1);
 	return (0);
 }

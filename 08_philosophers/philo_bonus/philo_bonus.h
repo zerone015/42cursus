@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 20:04:20 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/14 18:17:49 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ typedef struct s_monitor
 	int		num_of_philo;
 	pid_t	*pid;
 	t_philo	*philo;
-	sem_t	*print;
 	sem_t	*all_eat;
-	sem_t	*kill;
 	int		monitor_switch;
 	int		is_already_killed;
 }	t_monitor;
@@ -67,7 +65,7 @@ void	smart_sleep(time_t time);
 void	init_struct(t_info *info, t_monitor *monitor, char *argv[]);
 void	monitor(t_monitor *mon, int must_eat);
 void	avoid_orphan_kill(t_monitor *monitor, int size, char *msg);
-void	philo_kill(t_monitor *monitor, pid_t dead);
+void	philo_kill(t_monitor *monitor);
 void	action(t_philo *philo);
 
 #endif

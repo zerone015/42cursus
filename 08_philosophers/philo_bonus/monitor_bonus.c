@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 23:53:32 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 20:47:29 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/14 18:19:07 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,14 @@
 
 void	monitor_dead(t_monitor *monitor)
 {
-	pid_t	pid;
-
 	while (monitor->monitor_switch)
 	{
-		pid = waitpid(-1, NULL, WNOHANG);
-		if (pid > 0)
+		if (waitpid(-1, NULL, WNOHANG) > 0)
 		{
-			sem_wait(monitor->kill);
 			if (!monitor->is_already_killed)
 			{
 				monitor->is_already_killed = 1;
-				sem_post(monitor->kill);
-				philo_kill(monitor, pid);
+				philo_kill(monitor);
 			}
 			monitor->monitor_switch = 0;
 			sem_post(monitor->all_eat);
@@ -44,14 +39,10 @@ void	monitor_all_eat(t_monitor *monitor)
 	while (++i < monitor->num_of_philo && monitor->monitor_switch)
 		sem_wait(monitor->all_eat);
 	monitor->monitor_switch = 0;
-	sem_wait(monitor->kill);
 	if (!monitor->is_already_killed)
 	{
 		monitor->is_already_killed = 1;
-		sem_wait(monitor->print);
-		philo_kill(monitor, 0);
-		sem_post(monitor->print);
-		sem_post(monitor->kill);
+		philo_kill(monitor);
 	}
 }
 
