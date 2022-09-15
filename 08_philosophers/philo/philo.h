@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/15 20:36:44 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/15 23:04:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,10 @@ typedef struct s_info
 	int				must_eat;
 	int				eat_cnt;
 	int				dead;
-	int				dead_philo;
-	time_t			dead_time;
 	time_t			start_time;
 	t_philo			*philo;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print;
-	pthread_mutex_t	dead_mutex;
-	pthread_mutex_t	eat_mutex;
 }	t_info;
 
 int		ft_atoi(const char *str);
@@ -62,7 +58,6 @@ int		init_info(t_info *info, char *argv[]);
 void	action(t_philo *philo);
 int		dead_exists(t_info *info);
 int		is_all_eat(t_info *info);
-int		set_dead(time_t dead_time, t_philo *philo, t_info *info, time_t delay);
 void	set_global_eat_cnt(t_info *info, t_philo *philo);
 
 #endif

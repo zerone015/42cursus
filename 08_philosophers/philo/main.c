@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/15 16:07:34 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/15 23:33:40 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,35 @@ void	create_outsider(t_info *info)
 	pthread_join(info->philo[0].tid, NULL);
 }
 
+void	monitor(t_info *info)
+{
+	int		i;
+	time_t	dead_time;
+
+	while (1)
+	{
+		i = -1;
+		while (++i < info->num_of_philo)
+		{
+			pthread_mutex_lock(&info->print);
+			if (info->must_eat && (info->eat_cnt == info->num_of_philo))
+			{
+				pthread_mutex_unlock(&info->print);
+				return ;
+			}
+			dead_time = info->philo[i].last_time + info->time_to_die;
+			if (timestamp_in_ms(info->start_time) > dead_time)
+			{
+				printf("%zu %d died\n", dead_time, info->philo[i].id);
+				info->dead = 1;
+				pthread_mutex_unlock(&info->print);
+				return ;
+			}
+			pthread_mutex_unlock(&info->print);
+		}
+	}
+}
+
 void	philosophers(t_info *info)
 {
 	t_philo	*philo;
@@ -47,6 +76,7 @@ void	philosophers(t_info *info)
 		if (pthread_create(&philo->tid, NULL, (void *)action, philo) != 0)
 			return ;
 	}
+	monitor(info);
 	i = -1;
 	while (++i < info->num_of_philo)
 		pthread_join(info->philo[i].tid, NULL);

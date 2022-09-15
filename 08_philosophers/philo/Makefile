@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/30 16:11:41 by kijsong           #+#    #+#              #
-#    Updated: 2022/09/15 16:47:42 by yoson            ###   ########.fr        #
+#    Updated: 2022/09/15 23:02:10 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,13 +19,13 @@ RM		= rm -f
 SRC_DIR	= ./philo/
 LIBS	= -lpthread
 
-SRCS	= main.c action.c action_utils.c init.c utils_stdlib.c utils_string.c utils_time.c
+SRCS	= main.c action.c init.c utils_stdlib.c utils_string.c utils_time.c
 OBJS	= $(SRCS:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -o $(NAME) $^ ${LIBS}
+	$(CC) $(FLAGS) -o $(NAME) $^ $(LIBS)
 
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@

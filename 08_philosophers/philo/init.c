@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 21:01:12 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/15 16:07:33 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/15 23:04:39 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,6 @@ static void	*init_mutex(t_info *info)
 	}
 	if (pthread_mutex_init(&info->print, NULL) != 0)
 		return (print_err("Mutex initialization failed"));
-	if (pthread_mutex_init(&info->dead_mutex, NULL) != 0)
-		return (print_err("Mutex initialization failed"));
-	if (pthread_mutex_init(&info->eat_mutex, NULL) != 0)
-		return (print_err("Mutex initialization failed"));
 	return ((void *)1);
 }
 
@@ -64,7 +60,6 @@ int	init_info(t_info *info, char *argv[])
 		info->must_eat == -1)
 		return (-1);
 	info->dead = 0;
-	info->dead_time = 0;
 	info->eat_cnt = 0;
 	info->fork = safe_malloc(sizeof(pthread_mutex_t) * info->num_of_philo);
 	info->philo = safe_malloc(sizeof(t_philo) * info->num_of_philo);
