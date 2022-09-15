@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/13 17:50:11 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/15 16:41:35 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_info
 	time_t			time_to_eat;
 	time_t			time_to_sleep;
 	int				must_eat;
-	int				all_eat;
+	int				eat_cnt;
 	int				dead;
 	int				dead_philo;
 	time_t			dead_time;
@@ -43,6 +43,7 @@ typedef struct s_info
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print;
 	pthread_mutex_t	dead_mutex;
+	pthread_mutex_t	eat_mutex;
 }	t_info;
 
 int		ft_atoi(const char *str);
@@ -59,5 +60,9 @@ void	smart_sleep(time_t time);
 
 int		init_info(t_info *info, char *argv[]);
 void	action(t_philo *philo);
+int		is_dead(t_info *info);
+int		is_all_eat(t_info *info);
+int		set_dead(time_t dead_time, t_philo *philo, t_info *info, time_t delay);
+void	set_global_eat_cnt(t_info *info, t_philo *philo);
 
 #endif

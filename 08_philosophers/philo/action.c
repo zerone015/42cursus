@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:27:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/14 02:26:14 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/15 16:48:24 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,66 +14,44 @@
 #include <stdio.h>
 #include "philo.h"
 
-static int	dead_check(t_info *info, t_philo *philo, char *msg)
+static int	print_action(t_info *info, t_philo *philo, char *msg)
 {
 	time_t	timestamp;
 
-	pthread_mutex_lock(&info->print);
-	if (info->dead || info->all_eat)
+	if (is_dead(info) || is_all_eat(info))
 	{
-		if (info->dead == 1)
-		{
-			printf("%zu %d died\n", info->dead_time, info->dead_philo);
-			info->dead++;
-		}
 		pthread_mutex_unlock(&info->fork[philo->left_fork]);
 		pthread_mutex_unlock(&info->fork[philo->right_fork]);
-		pthread_mutex_unlock(&info->print);
 		return (1);
 	}
+	pthread_mutex_lock(&info->print);
 	timestamp = timestamp_in_ms(info->start_time);
-	if (!info->dead && !info->all_eat)
-		printf(msg, timestamp, philo->id);
+	printf(msg, timestamp, philo->id);
 	pthread_mutex_unlock(&info->print);
 	return (0);
-}
-
-static void	ft_usleep(t_info *info, t_philo *philo, time_t time_to_act)
-{
-	time_t	before_act;
-	time_t	after_act;
-
-	before_act = timestamp_in_ms(info->start_time);
-	after_act = before_act - philo->last_time + time_to_act;
-	pthread_mutex_lock(&info->dead_mutex);
-	if (!info->dead && after_act > info->time_to_die)
-	{
-		info->dead_time = philo->last_time + info->time_to_die;
-		smart_sleep(info->dead_time - before_act);
-		info->dead = 1;
-		info->dead_philo = philo->id;
-	}
-	pthread_mutex_unlock(&info->dead_mutex);
-	if (!info->dead)
-		smart_sleep(time_to_act);
 }
 
 static int	eating(t_philo *philo)
 {
 	t_info	*info;
+	time_t	now_time;
 
 	info = philo->info;
 	pthread_mutex_lock(&info->fork[philo->left_fork]);
+	if (print_action(info, philo, "%zu %d has taken a fork\n"))
+		return (1);
 	pthread_mutex_lock(&info->fork[philo->right_fork]);
-	if (dead_check(info, philo, "%zu %d has taken a fork\n"))
+	if (print_action(info, philo, "%zu %d has taken a fork\n"))
 		return (1);
-	if (dead_check(info, philo, "%zu %d has taken a fork\n"))
+	now_time = timestamp_in_ms(info->start_time);
+	philo->last_time = now_time;
+	if (now_time - philo->last_time > info->time_to_die)
+		return (set_dead(philo->last_time + info->time_to_die, philo, info, 0));
+	if (print_action(info, philo, "%zu %d is eating\n"))
 		return (1);
-	if (dead_check(info, philo, "%zu %d is eating\n"))
-		return (1);
-	ft_usleep(info, philo, info->time_to_eat);
-	philo->last_time = timestamp_in_ms(info->start_time);
+	smart_sleep(info->time_to_eat);
 	(philo->eat_cnt)++;
+	set_global_eat_cnt(info, philo);
 	pthread_mutex_unlock(&info->fork[philo->left_fork]);
 	pthread_mutex_unlock(&info->fork[philo->right_fork]);
 	return (0);
@@ -82,11 +60,19 @@ static int	eating(t_philo *philo)
 static int	sleeping(t_philo *philo)
 {
 	t_info	*info;
+	time_t	now_time;
+	time_t	dead_time;
 
 	info = philo->info;
-	if (dead_check(info, philo, "%zu %d is sleeping\n"))
+	if (print_action(info, philo, "%zu %d is sleeping\n"))
 		return (1);
-	ft_usleep(info, philo, info->time_to_sleep);
+	now_time = timestamp_in_ms(info->start_time);
+	if (now_time - philo->last_time + info->time_to_sleep > info->time_to_die)
+	{
+		dead_time = philo->last_time + info->time_to_die;
+		return (set_dead(dead_time, philo, info, dead_time - now_time));
+	}
+	smart_sleep(info->time_to_sleep);
 	return (0);
 }
 
@@ -97,11 +83,11 @@ void	action(t_philo *philo)
 	info = philo->info;
 	if (philo->id % 2)
 		smart_sleep(15);
-	while (!info->all_eat)
+	while (1)
 	{
 		if (eating(philo) || sleeping(philo))
 			return ;
-		if (dead_check(info, philo, "%zu %d is thinking\n"))
+		if (print_action(info, philo, "%zu %d is thinking\n"))
 			return ;
 	}
 }
