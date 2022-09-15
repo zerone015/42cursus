@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/15 16:41:35 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/15 20:36:44 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	smart_sleep(time_t time);
 
 int		init_info(t_info *info, char *argv[]);
 void	action(t_philo *philo);
-int		is_dead(t_info *info);
+int		dead_exists(t_info *info);
 int		is_all_eat(t_info *info);
 int		set_dead(time_t dead_time, t_philo *philo, t_info *info, time_t delay);
 void	set_global_eat_cnt(t_info *info, t_philo *philo);
