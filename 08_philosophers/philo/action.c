@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:27:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/15 16:48:24 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/15 17:07:58 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,14 @@ static int	eating(t_philo *philo)
 	if (print_action(info, philo, "%zu %d has taken a fork\n"))
 		return (1);
 	now_time = timestamp_in_ms(info->start_time);
-	philo->last_time = now_time;
 	if (now_time - philo->last_time > info->time_to_die)
 		return (set_dead(philo->last_time + info->time_to_die, philo, info, 0));
+	if ((now_time + info->time_to_eat + info->time_to_sleep) - (now_time + info->time_to_eat) > info->time_to_die)
+	{
+		dead_time = now_time + info->time_to_eat//여기서부터해야함
+		return (set_dead(dead_time, philo, info, dead_time - now_time));
+	}
+	philo->last_time = now_time;
 	if (print_action(info, philo, "%zu %d is eating\n"))
 		return (1);
 	smart_sleep(info->time_to_eat);
@@ -60,18 +65,10 @@ static int	eating(t_philo *philo)
 static int	sleeping(t_philo *philo)
 {
 	t_info	*info;
-	time_t	now_time;
-	time_t	dead_time;
 
 	info = philo->info;
 	if (print_action(info, philo, "%zu %d is sleeping\n"))
 		return (1);
-	now_time = timestamp_in_ms(info->start_time);
-	if (now_time - philo->last_time + info->time_to_sleep > info->time_to_die)
-	{
-		dead_time = philo->last_time + info->time_to_die;
-		return (set_dead(dead_time, philo, info, dead_time - now_time));
-	}
 	smart_sleep(info->time_to_sleep);
 	return (0);
 }
