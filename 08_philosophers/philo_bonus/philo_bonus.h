@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/14 18:17:49 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/16 16:28:28 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ typedef struct s_philo
 	int				id;
 	int				eat_cnt;
 	time_t			last_time;
-	int				dead;
-	time_t			dead_time;
 	struct s_info	*info;
 }	t_philo;
 
@@ -45,8 +43,8 @@ typedef struct s_monitor
 	pid_t	*pid;
 	t_philo	*philo;
 	sem_t	*all_eat;
-	int		monitor_switch;
-	int		is_already_killed;
+	sem_t	*monitor_sem;
+	int		is_exit;
 }	t_monitor;
 
 int		ft_atoi(const char *str);

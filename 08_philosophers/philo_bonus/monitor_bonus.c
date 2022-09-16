@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 23:53:32 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/14 18:19:07 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/16 16:39:29 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,57 +14,59 @@
 #include <pthread.h>
 #include "philo_bonus.h"
 
-void	monitor_dead(t_monitor *monitor)
+static void	monitor_dead(t_monitor *monitor)
 {
-	while (monitor->monitor_switch)
+	while (1)
 	{
+		sem_wait(monitor->monitor_sem);
+		if (monitor->is_exit)
+		{
+			sem_post(monitor->monitor_sem);
+			return ;
+		}
+		sem_post(monitor->monitor_sem);
 		if (waitpid(-1, NULL, WNOHANG) > 0)
 		{
-			if (!monitor->is_already_killed)
-			{
-				monitor->is_already_killed = 1;
-				philo_kill(monitor);
-			}
-			monitor->monitor_switch = 0;
+			philo_kill(monitor);
+			sem_wait(monitor->monitor_sem);
+			monitor->is_exit = 1;
 			sem_post(monitor->all_eat);
+			sem_post(monitor->monitor_sem);
 		}
 	}
 }
 
-void	monitor_all_eat(t_monitor *monitor)
+static void	monitor_all_eat(t_monitor *monitor)
 {
 	int	i;
 
 	i = -1;
-	while (++i < monitor->num_of_philo && monitor->monitor_switch)
-		sem_wait(monitor->all_eat);
-	monitor->monitor_switch = 0;
-	if (!monitor->is_already_killed)
+	while (++i < monitor->num_of_philo)
 	{
-		monitor->is_already_killed = 1;
-		philo_kill(monitor);
+		sem_wait(monitor->monitor_sem);
+		if (monitor->is_exit)
+		{
+			sem_post(monitor->monitor_sem);
+			return ;
+		}
+		sem_post(monitor->monitor_sem);
+		sem_wait(monitor->all_eat);
 	}
+	sem_wait(monitor->monitor_sem);
+	monitor->is_exit = 1;
+	sem_post(monitor->monitor_sem);
+	philo_kill(monitor);
 }
 
 void	monitor(t_monitor *mon, int must_eat)
 {
-	int			i;
-	pthread_t	tid[2];
+	pthread_t	tid;
 
-	if (must_eat > 0)
+	if (must_eat)
 	{
-		if (pthread_create(&tid[0], NULL, (void *)monitor_all_eat, mon) != 0)
-			avoid_orphan_kill(mon, mon->num_of_philo, "Thread create failed");
-		if (pthread_create(&tid[1], NULL, (void *)monitor_dead, mon) != 0)
-			avoid_orphan_kill(mon, mon->num_of_philo, "Thread create failed");
-		i = -1;
-		while (++i < 2)
-			pthread_join(tid[i], NULL);
+		if (pthread_create(&tid, NULL, (void *)monitor_all_eat, mon) != 0)
+			avoid_orphan_kill(mon, mon->num_of_philo, "pthread_create failed");
+		pthread_detach(tid);
 	}
-	else
-	{
-		if (pthread_create(&tid[0], NULL, (void *)monitor_dead, mon) != 0)
-			avoid_orphan_kill(mon, mon->num_of_philo, "Thread create failed");
-		pthread_join(tid[0], NULL);
-	}
+	monitor_dead(mon);
 }

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 21:01:12 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/14 18:16:56 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/16 16:28:59 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ static void	init_philo(t_info *info, t_monitor *monitor)
 		monitor->philo[i].id = i + 1;
 		monitor->philo[i].eat_cnt = 0;
 		monitor->philo[i].last_time = 0;
-		monitor->philo[i].dead_time = 0;
-		monitor->philo[i].dead = 0;
 		monitor->philo[i].info = info;
 	}
 }
@@ -35,9 +33,11 @@ static int	open_sem(t_info *info, t_monitor *monitor)
 	sem_unlink("fork");
 	sem_unlink("print");
 	sem_unlink("aeat");
+	sem_unlink("monitor");
 	info->fork = sem_open("fork", O_CREAT, S_IRWXU, info->num_of_philo);
 	info->print = sem_open("print", O_CREAT, S_IRWXU, 1);
 	info->all_eat = sem_open("aeat", O_CREAT, S_IRWXU, 0);
+	monitor->monitor_sem = sem_open("monitor", O_CREAT, S_IRWXU, 1);
 	monitor->all_eat = info->all_eat;
 	if (info->fork == SEM_FAILED || info->print == SEM_FAILED || \
 		info->all_eat == SEM_FAILED)
@@ -57,8 +57,7 @@ void	init_struct(t_info *info, t_monitor *monitor, char *argv[])
 	if (argv[5])
 		info->must_eat = ft_atoi(argv[5]);
 	monitor->num_of_philo = info->num_of_philo;
-	monitor->monitor_switch = 1;
-	monitor->is_already_killed = 0;
+	monitor->is_exit = 0;
 	monitor->philo = safe_malloc(sizeof(t_philo) * info->num_of_philo);
 	init_philo(info, monitor);
 	monitor->pid = ft_calloc(info->num_of_philo, sizeof(pid_t));
