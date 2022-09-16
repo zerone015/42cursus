@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 22:27:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/16 16:24:02 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/16 21:31:37 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ static void	eating(t_philo *philo)
 	sem_wait(info->fork);
 	print_action(info, philo, "%zu %d has taken a fork\n");
 	print_action(info, philo, "%zu %d is eating\n");
+	sem_wait(info->print);
 	philo->last_time = timestamp_in_ms(info->start_time);
+	sem_post(info->print);
 	smart_sleep(info->time_to_eat);
 	(philo->eat_cnt)++;
 	if (philo->eat_cnt == info->must_eat)
@@ -56,16 +58,16 @@ static void	sleeping(t_philo *philo)
 static void	monitor_dead(t_philo *philo)
 {
 	t_info	*info;
-	time_t	dead_time;
+	time_t	now_time;
 
 	info = philo->info;
 	while (1)
 	{
 		sem_wait(info->print);
-		dead_time = philo->last_time + info->time_to_die;
-		if (timestamp_in_ms(info->start_time) > dead_time)
+		now_time = timestamp_in_ms(info->start_time);
+		if (now_time > philo->last_time + info->time_to_die)
 		{
-			printf("%zu %d died\n", dead_time, philo->id);
+			printf("%zu %d died\n", now_time, philo->id);
 			exit(1);
 		}
 		sem_post(info->print);

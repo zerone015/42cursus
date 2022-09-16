@@ -6,18 +6,17 @@
 #    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/30 16:11:41 by kijsong           #+#    #+#              #
-#    Updated: 2022/09/13 00:29:00 by yoson            ###   ########.fr        #
+#    Updated: 2022/09/16 21:18:49 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= philo_bonus
 
 CC		= cc
-FLAGS	= -Wall -Wextra -Werror
+FLAGS	= -Wall -Wextra -Werror -pthread
 RM		= rm -f
 
 SRC_DIR	= ./philo_bonus/
-LIBS	= -lpthread
 
 SRCS	= action_bonus.c init_bonus.c kill_bonus.c main_bonus.c monitor_bonus.c \
 		  utils_stdlib_bonus.c utils_string_bonus.c utils_time_bonus.c
@@ -26,7 +25,7 @@ OBJS	= $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -o $(NAME) $^ $(LIBS)
+	$(CC) $(FLAGS) -o $(NAME) $^
 
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@

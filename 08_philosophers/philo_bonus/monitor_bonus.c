@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 23:53:32 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/16 16:39:29 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/16 21:18:35 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ static void	monitor_all_eat(t_monitor *monitor)
 		sem_post(monitor->monitor_sem);
 		sem_wait(monitor->all_eat);
 	}
+	philo_kill(monitor);
 	sem_wait(monitor->monitor_sem);
 	monitor->is_exit = 1;
 	sem_post(monitor->monitor_sem);
-	philo_kill(monitor);
 }
 
 void	monitor(t_monitor *mon, int must_eat)

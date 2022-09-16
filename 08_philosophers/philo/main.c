@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/16 16:04:01 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/16 21:36:53 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	create_outsider(t_info *info)
 void	monitor(t_info *info)
 {
 	int		i;
-	time_t	dead_time;
+	time_t	now_time;
 
 	while (1)
 	{
@@ -46,10 +46,10 @@ void	monitor(t_info *info)
 				pthread_mutex_unlock(&info->mutex);
 				return ;
 			}
-			dead_time = info->philo[i].last_time + info->time_to_die;
-			if (timestamp_in_ms(info->start_time) > dead_time)
+			now_time = timestamp_in_ms(info->start_time);
+			if (now_time > info->philo[i].last_time + info->time_to_die)
 			{
-				printf("%zu %d died\n", dead_time, info->philo[i].id);
+				printf("%zu %d died\n", now_time, info->philo[i].id);
 				info->dead = 1;
 				pthread_mutex_unlock(&info->mutex);
 				return ;
