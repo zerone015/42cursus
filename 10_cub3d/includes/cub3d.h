@@ -6,12 +6,16 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 17:05:57 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/19 20:33:38 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/19 22:02:19 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+# define TRUE	1
+# define FALSE	0
+# define ERROR	-1
 
 enum e_direction
 {
