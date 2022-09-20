@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 20:34:38 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/19 22:28:58 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/20 20:41:55 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	parse_cubfile(t_info *info, const char *filename)
 		error("Invalid file extension");
 	fd = open(filename, O_RDONLY);
 	if (fd == ERROR)
-		error(NULL);
+		ft_perror(filename);
 	while (1)
 	{
 		line = get_next_line(fd);

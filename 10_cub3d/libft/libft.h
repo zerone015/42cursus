@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:35:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/19 20:33:18 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/20 20:41:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ t_lst	*ft_lstmap(t_lst *lst, void *(*f)(void *), void (*del)(void *));
 
 void	*safe_malloc(size_t size);
 void	error(char *err_msg);
+void	ft_perror(char *str);
 
 #endif
