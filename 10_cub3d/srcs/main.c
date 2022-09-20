@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 20:34:38 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/20 20:41:55 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/20 21:19:51 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <fcntl.h>
 #include "cub3d.h"
 
-int	is_file_extension_valid(const char *filename)
+int	is_cub_file(const char *filename)
 {
 	int	len;
 
@@ -26,12 +26,12 @@ int	is_file_extension_valid(const char *filename)
 	return (TRUE);
 }
 
-void	parse_cubfile(t_info *info, const char *filename)
+void	parse_file(t_info *info, const char *filename)
 {
 	int		fd;
 	char	*line;
 
-	if (!is_file_extension_valid(filename))
+	if (!is_cub_file(filename))
 		error("Invalid file extension");
 	fd = open(filename, O_RDONLY);
 	if (fd == ERROR)
@@ -52,6 +52,6 @@ int	main(int argc, char *argv[])
 {
 	t_info	info;
 
-	parse_cubfile(&info, argv[1]);
+	parse_file(&info, argv[1]);
 	return (0);
 }
