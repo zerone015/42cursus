@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:04:52 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/17 23:30:51 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/11 05:40:42 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*ft_itoa(int n)
 	int			len;
 
 	len = get_digit_len(n);
-	digit_str = (char *) malloc(sizeof(char) * (len + 1));
+	digit_str = (char *)malloc(sizeof(char) * (len + 1));
 	if (!digit_str)
 		return (NULL);
 	digit_str = get_digit_str(digit_str, n, len);
