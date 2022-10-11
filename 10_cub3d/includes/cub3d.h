@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 17:05:57 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/19 22:02:19 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/21 11:56:17 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ enum e_direction
 	NO,
 	SO,
 	WE,
-	EA,
+	EA
 };
 
 typedef struct s_color
@@ -37,5 +37,7 @@ typedef struct s_info
 	t_color	color;
 	char	*map;
 }	t_info;
+
+void	parse_file(t_info *info, const char *filename);
 
 #endif

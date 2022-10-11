@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:15:57 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/16 21:50:00 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/11 05:42:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	**get_str_array(char **str_array, char const *str, char sep)
 			tmp = str;
 			while (*str && is_word(*str, sep))
 				str++;
-			str_array[i] = (char *) malloc(sizeof(char) * (str - tmp + 1));
+			str_array[i] = (char *)malloc(sizeof(char) * (str - tmp + 1));
 			if (!str_array[i])
 				return (free_all(str_array, i));
 			ft_strlcpy(str_array[i++], tmp, str - tmp + 1);
@@ -83,7 +83,7 @@ char	**ft_split(char const *str, char sep)
 {
 	char		**str_array;
 
-	str_array = (char **) malloc(sizeof(char *) * (get_size(str, sep) + 1));
+	str_array = (char **)malloc(sizeof(char *) * (get_size(str, sep) + 1));
 	if (!str_array)
 		return (NULL);
 	str_array = get_str_array(str_array, str, sep);

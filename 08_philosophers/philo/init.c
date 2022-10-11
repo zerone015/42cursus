@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 21:01:12 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/16 00:45:41 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/17 02:15:40 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	*init_mutex(t_info *info)
 		if (pthread_mutex_init(&info->fork[i], NULL) != 0)
 			return (print_err("Mutex initialization failed"));
 	}
-	if (pthread_mutex_init(&info->mutex, NULL) != 0)
+	if (pthread_mutex_init(&info->print, NULL) != 0)
 		return (print_err("Mutex initialization failed"));
 	return ((void *)1);
 }

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/16 21:36:53 by yoson            ###   ########.fr       */
+/*   Updated: 2022/09/17 02:16:22 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ void	monitor(t_info *info)
 		i = -1;
 		while (++i < info->num_of_philo)
 		{
-			pthread_mutex_lock(&info->mutex);
+			pthread_mutex_lock(&info->print);
 			if (info->must_eat && (info->eat_cnt == info->num_of_philo))
 			{
-				pthread_mutex_unlock(&info->mutex);
+				pthread_mutex_unlock(&info->print);
 				return ;
 			}
 			now_time = timestamp_in_ms(info->start_time);
@@ -51,10 +51,10 @@ void	monitor(t_info *info)
 			{
 				printf("%zu %d died\n", now_time, info->philo[i].id);
 				info->dead = 1;
-				pthread_mutex_unlock(&info->mutex);
+				pthread_mutex_unlock(&info->print);
 				return ;
 			}
-			pthread_mutex_unlock(&info->mutex);
+			pthread_mutex_unlock(&info->print);
 		}
 	}
 }
