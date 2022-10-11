@@ -3,72 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:04:52 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/11 05:40:42 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/11 19:10:37 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-static int	get_digit_len(int digit)
+static int	find_len(int n)
 {
 	int	len;
 
 	len = 0;
-	if (digit <= 0)
+	if (n <= 0)
 		len++;
-	while (digit)
+	while (n)
 	{
-		digit /= 10;
+		n /= 10;
 		len++;
 	}
 	return (len);
 }
 
-static long long	get_abs(int digit)
+static long long	ft_abs(int n)
 {
-	long long	tmp;
+	long long	ret;
 
-	tmp = digit;
-	if (digit < 0)
-		tmp *= -1;
-	return (tmp);
+	ret = n;
+	if (n < 0)
+		ret *= -1;
+	return (ret);
 }
 
-static char	*get_digit_str(char *digit_str, int digit, int len)
+static char	*integer_to_ascii(char *ret, int n, int len)
 {
-	long long	tmp;
+	long long	abs_val;
 
-	if (!digit)
+	if (n == 0)
 	{
-		digit_str[0] = '0';
-		digit_str[1] = '\0';
-		return (digit_str);
+		ret[0] = '0';
+		ret[1] = '\0';
+		return (ret);
 	}
-	tmp = get_abs(digit);
-	digit_str[len--] = '\0';
-	while (tmp)
+	abs_val = ft_abs(n);
+	ret[len--] = '\0';
+	while (abs_val)
 	{
-		digit_str[len--] = tmp % 10 + '0';
-		tmp /= 10;
+		ret[len--] = abs_val % 10 + '0';
+		abs_val /= 10;
 	}
-	return (digit_str);
+	return (ret);
 }
 
 char	*ft_itoa(int n)
 {
-	char		*digit_str;
+	char		*ret;
 	int			len;
 
-	len = get_digit_len(n);
-	digit_str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!digit_str)
+	len = find_len(n);
+	ret = (char *)malloc(sizeof(char) * (len + 1));
+	if (!ret)
 		return (NULL);
-	digit_str = get_digit_str(digit_str, n, len);
+	ret = integer_to_ascii(ret, n, len);
 	if (n < 0)
-		digit_str[0] = '-';
-	return (digit_str);
+		ret[0] = '-';
+	return (ret);
 }

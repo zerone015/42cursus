@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 15:20:42 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/16 21:49:26 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/11 19:55:04 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*tmp;
-	t_list	*new_lst;
+	t_list	*ret;
+	t_list	*new;
 
-	tmp = NULL;
+	ret = NULL;
 	while (lst)
 	{
-		new_lst = ft_lstnew(f(lst->content));
-		if (!new_lst)
+		new = ft_lstnew(f(lst->content));
+		if (!new)
 		{
-			ft_lstclear(&tmp, del);
+			ft_lstclear(&ret, del);
 			return (NULL);
 		}
-		ft_lstadd_back(&tmp, new_lst);
+		ft_lstadd_back(&ret, new);
 		lst = lst->next;
 	}
-	return (tmp);
+	return (ret);
 }
