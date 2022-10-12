@@ -6,24 +6,13 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 19:06:24 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/12 17:18:59 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/13 00:51:40 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 #include <unistd.h>
 #include <limits.h>
-
-static	char	*remove_first(t_list *list)
-{
-	t_list	*temp;
-
-	free(list->next->backup);
-	temp = list->next->next;
-	free(list->next);
-	list->next = temp;
-	return (NULL);
-}
 
 static char	*read_line(t_list *list, char *buffer)
 {
@@ -46,6 +35,9 @@ static char	*read_line(t_list *list, char *buffer)
 		if (ft_strchr(list->next->backup, '\n'))
 			break ;
 	}
+	if ((list->next->backup)[0] == '\0')
+		return (NULL);
+	free(buffer);
 	return (list->next->backup);
 }
 
@@ -57,8 +49,6 @@ static char	*extract(t_list *list)
 	int		i;
 
 	buffer = list->next->backup;
-	if (buffer[0] == '\0')
-		return (remove_first(list));
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
@@ -79,7 +69,7 @@ static char	*extract(t_list *list)
 	return (line);
 }
 
-int	target_to_first(t_list *list, int fd)
+static int	target_to_first(t_list *list, int fd)
 {
 	t_list	*target;
 	t_list	*prev;
@@ -104,7 +94,7 @@ int	target_to_first(t_list *list, int fd)
 	return (0);
 }
 
-int	add_first(t_list *list, int fd)
+static int	add_first(t_list *list, int fd)
 {
 	t_list	*new;
 
@@ -138,8 +128,10 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (remove_first(list));
 	if (!read_line(&list, buffer))
-		return (NULL);
-	free(buffer);
+	{
+		free(buffer);
+		return (remove_first(list));
+	}
 	line = extract(&list);
 	return (line);
 }

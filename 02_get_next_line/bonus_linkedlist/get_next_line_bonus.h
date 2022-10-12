@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 19:06:04 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/12 14:57:20 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/13 00:58:09 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_list
 }	t_list;
 
 char	*get_next_line(int fd);
-size_t	ft_strlen(const char *str);
+char	*remove_first(t_list *list);
 char	*ft_strdup(const char *src);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
