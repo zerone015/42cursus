@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 19:06:24 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/13 02:13:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/13 02:54:21 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,18 @@ static int	add_first(t_list *list, int fd)
 static char	*substring(t_list *list)
 {
 	char	*line;
-	char	*buffer;
+	char	*backup;
 	char	*temp;
 	int		i;
 
-	buffer = list->next->backup;
+	backup = list->next->backup;
 	i = 0;
-	while (buffer[i] != '\n' && buffer[i] != '\0')
+	while (backup[i] != '\n' && backup[i] != '\0')
 		i++;
-	line = ft_substr(buffer, 0, i + 1);
-	if (line && buffer[i] == '\n')
+	line = ft_substr(backup, 0, i + 1);
+	if (line && backup[i] == '\n')
 	{
-		temp = ft_substr(buffer, i + 1, ft_strlen(buffer) - i - 1);
+		temp = ft_substr(backup, i + 1, ft_strlen(backup) - i - 1);
 		if (!temp)
 		{
 			free(line);
@@ -90,25 +90,25 @@ static char	*read_line(t_list *list, char *buffer)
 
 static int	target_to_first(t_list *list, int fd)
 {
-	t_list	*target;
+	t_list	*cur;
 	t_list	*prev;
 
 	prev = NULL;
-	target = list->next;
-	while (target)
+	cur = list->next;
+	while (cur)
 	{
-		if (target->fd == fd)
+		if (cur->fd == fd)
 			break ;
-		prev = target;
-		target = target->next;
+		prev = cur;
+		cur = cur->next;
 	}
-	if (!target)
+	if (!cur)
 		return (-1);
 	if (prev)
 	{
-		prev->next = target->next;
-		target->next = list->next;
-		list->next = target;
+		prev->next = cur->next;
+		cur->next = list->next;
+		list->next = cur;
 	}
 	return (0);
 }
