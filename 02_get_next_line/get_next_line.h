@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:07:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/01 20:32:52 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/13 01:54:05 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
+# else
+#  if BUFFER_SIZE < 1
+#   error INVALID BUFFER_SIZE!
+#  endif
 # endif
 
 char	*get_next_line(int fd);

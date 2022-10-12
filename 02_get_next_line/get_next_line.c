@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:06:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/20 01:19:10 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/13 02:30:12 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ static char	*read_line(int fd, char *buffer, char *backup)
 	int		read_size;
 	char	*temp;
 
-	read_size = 1;
-	while (read_size)
+	while (1)
 	{
 		read_size = read(fd, buffer, BUFFER_SIZE);
 		if (read_size == 0)
@@ -41,57 +40,44 @@ static char	*read_line(int fd, char *buffer, char *backup)
 		if (ft_strchr(backup, '\n'))
 			break ;
 	}
+	if (backup[0] == '\0')
+		return (ft_free(backup));
+	free(buffer);
 	return (backup);
 }
 
-static char	*substr_one_line(char *temp)
+static char	*substring(char **backup)
 {
 	char	*line;
+	char	*temp;
 	int		i;
 
-	if (temp == NULL || temp[0] == '\0')
-		return (NULL);
 	i = 0;
-	while (temp[i] != '\n' && temp[i] != '\0')
+	while ((*backup)[i] != '\n' && (*backup)[i] != '\0')
 		i++;
-	line = ft_substr(temp, 0, i + 1);
-	return (line);
-}
-
-static char	*substr_backup(char *temp, char **line)
-{
-	char	*backup;
-	int		i;
-
-	if (temp == NULL)
-		return (NULL);
-	if (temp[0] == '\0')
-		return (ft_free(temp));
-	i = 0;
-	while (temp[i] != '\n' && temp[i] != '\0')
-		i++;
-	if (temp[i] == '\0')
-		return (ft_free(temp));
-	backup = ft_substr(temp, i + 1, ft_strlen(temp) - i - 1);
-	if (!backup)
+	line = ft_substr(*backup, 0, i + 1);
+	if (line && (*backup)[i] == '\n')
 	{
-		free(*line);
-		*line = NULL;
-		return (ft_free(temp));
+		temp = *backup;
+		*backup = ft_substr(*backup, i + 1, ft_strlen(*backup) - i - 1);
+		free(temp);
+		if (!*backup)
+			return (ft_free(line));
 	}
-	free(temp);
-	return (backup);
+	else
+	{
+		free(*backup);
+		*backup = NULL;
+	}
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
 	char		*buffer;
-	char		*temp;
 	char		*line;
 	static char	*backup;
 
-	if (BUFFER_SIZE < 1)
-		return (NULL);
 	buffer = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
@@ -101,9 +87,9 @@ char	*get_next_line(int fd)
 		if (!backup)
 			return (ft_free(buffer));
 	}
-	temp = read_line(fd, buffer, backup);
-	free(buffer);
-	line = substr_one_line(temp);
-	backup = substr_backup(temp, &line);
+	backup = read_line(fd, buffer, backup);
+	if (!backup)
+		return (ft_free(buffer));
+	line = substring(&backup);
 	return (line);
 }
