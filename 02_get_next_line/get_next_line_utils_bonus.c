@@ -6,20 +6,24 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:07:26 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/13 01:23:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/14 05:28:53 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*remove_first(t_list *list)
+char	*remove_fd(t_list *list)
 {
-	t_list	*temp;
-
-	free(list->next->backup);
-	temp = list->next->next;
-	free(list->next);
-	list->next = temp;
+	free(list->cur->backup);
+	list->before->next = list->cur->next;
+	if (list->tail == list->cur)
+		list->tail = list->before;
+	free(list->cur);
+	if (list->num_of_fd == 1)
+		list->tail = NULL;
+	else
+		list->cur = list->before->next;
+	(list->num_of_fd)--;
 	return (NULL);
 }
 

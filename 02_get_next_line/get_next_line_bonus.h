@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 19:06:04 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/13 01:53:39 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/14 04:58:40 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,23 @@
 #  endif
 # endif
 
-typedef struct s_list
+typedef struct s_node
 {
 	int				fd;
 	char			*backup;
-	struct s_list	*next;
+	struct s_node	*next;
+}	t_node;
+
+typedef struct s_list
+{
+	t_node	*tail;
+	t_node	*cur;
+	t_node	*before;
+	int		num_of_fd;
 }	t_list;
 
 char	*get_next_line(int fd);
-char	*remove_first(t_list *list);
+char	*remove_fd(t_list *list);
 size_t	ft_strlen(const char *str);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strjoin(char const *s1, char const *s2);

@@ -6,32 +6,12 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 19:06:24 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/13 02:54:21 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/14 05:02:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 #include <unistd.h>
-
-static int	add_first(t_list *list, int fd)
-{
-	t_list	*new;
-
-	new = (t_list *)malloc(sizeof(t_list));
-	if (!new)
-		return (-1);
-	new->fd = fd;
-	new->backup = (char *)malloc(1);
-	if (!new->backup)
-	{
-		free(new);
-		return (-1);
-	}
-	*new->backup = '\0';
-	new->next = list->next;
-	list->next = new;
-	return (0);
-}
 
 static char	*substring(t_list *list)
 {
@@ -40,7 +20,7 @@ static char	*substring(t_list *list)
 	char	*temp;
 	int		i;
 
-	backup = list->next->backup;
+	backup = list->cur->backup;
 	i = 0;
 	while (backup[i] != '\n' && backup[i] != '\0')
 		i++;
@@ -51,13 +31,13 @@ static char	*substring(t_list *list)
 		if (!temp)
 		{
 			free(line);
-			return (remove_first(list));
+			return (remove_fd(list));
 		}
-		free(list->next->backup);
-		list->next->backup = temp;
+		free(list->cur->backup);
+		list->cur->backup = temp;
 	}
 	else
-		remove_first(list);
+		remove_fd(list);
 	return (line);
 }
 
@@ -68,48 +48,69 @@ static char	*read_line(t_list *list, char *buffer)
 
 	while (1)
 	{
-		read_size = read(list->next->fd, buffer, BUFFER_SIZE);
+		read_size = read(list->cur->fd, buffer, BUFFER_SIZE);
 		if (read_size == 0)
 			break ;
 		if (read_size == -1)
 			return (NULL);
 		buffer[read_size] = '\0';
-		temp = list->next->backup;
-		list->next->backup = ft_strjoin(list->next->backup, buffer);
+		temp = list->cur->backup;
+		list->cur->backup = ft_strjoin(list->cur->backup, buffer);
 		free(temp);
-		if (!list->next->backup)
+		if (!list->cur->backup)
 			return (NULL);
-		if (ft_strchr(list->next->backup, '\n'))
+		if (ft_strchr(list->cur->backup, '\n'))
 			break ;
 	}
-	if ((list->next->backup)[0] == '\0')
+	if ((list->cur->backup)[0] == '\0')
 		return (NULL);
 	free(buffer);
-	return (list->next->backup);
+	return (list->cur->backup);
 }
 
-static int	target_to_first(t_list *list, int fd)
+static t_node	*find_fd(t_list *list, int fd)
 {
-	t_list	*cur;
-	t_list	*prev;
+	int	i;
 
-	prev = NULL;
-	cur = list->next;
-	while (cur)
+	if (!list->tail)
+		return (NULL);
+	i = -1;
+	while (++i < list->num_of_fd)
 	{
-		if (cur->fd == fd)
-			break ;
-		prev = cur;
-		cur = cur->next;
+		if (list->cur->fd == fd)
+			return (list->cur);
+		list->before = list->cur;
+		list->cur = list->cur->next;
 	}
-	if (!cur)
+	return (NULL);
+}
+
+static int	add_fd(t_list *list, int fd)
+{
+	t_node	*new;
+
+	new = (t_node *)malloc(sizeof(t_node));
+	if (!new)
 		return (-1);
-	if (prev)
+	new->fd = fd;
+	new->backup = malloc(1);
+	if (!new->backup)
 	{
-		prev->next = cur->next;
-		cur->next = list->next;
-		list->next = cur;
+		free(new);
+		return (-1);
 	}
+	*new->backup = '\0';
+	if (!list->tail)
+	{
+		list->tail = new;
+		new->next = new;
+	}
+	new->next = list->tail->next;
+	list->tail->next = new;
+	list->before = list->tail;
+	list->tail = new;
+	list->cur = new;
+	(list->num_of_fd)++;
 	return (0);
 }
 
@@ -119,18 +120,18 @@ char	*get_next_line(int fd)
 	char			*line;
 	static t_list	list;
 
-	if (target_to_first(&list, fd) == -1)
+	if (!find_fd(&list, fd))
 	{
-		if (add_first(&list, fd) == -1)
+		if (add_fd(&list, fd) == -1)
 			return (NULL);
 	}
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
-		return (remove_first(&list));
+		return (remove_fd(&list));
 	if (!read_line(&list, buffer))
 	{
 		free(buffer);
-		return (remove_first(&list));
+		return (remove_fd(&list));
 	}
 	line = substring(&list);
 	return (line);
