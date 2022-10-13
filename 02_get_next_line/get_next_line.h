@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:07:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/13 01:54:05 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/13 14:12:31 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #  define BUFFER_SIZE 42
 # else
 #  if BUFFER_SIZE < 1
-#   error INVALID BUFFER_SIZE!
+#   error INVALID BUFFER_SIZE
 #  endif
 # endif
 
