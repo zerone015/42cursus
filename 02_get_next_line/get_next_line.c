@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:06:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/13 02:30:12 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/14 06:01:03 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,18 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*backup;
 
-	buffer = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buffer)
-		return (NULL);
 	if (!backup)
 	{
 		backup = ft_strdup("");
 		if (!backup)
-			return (ft_free(buffer));
+			return (NULL);
+	}
+	buffer = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+	{
+		free(backup);
+		backup = NULL;
+		return (NULL);
 	}
 	backup = read_line(fd, buffer, backup);
 	if (!backup)
