@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 19:06:24 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/14 05:02:27 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/14 15:04:44 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*substring(t_list *list)
 	while (backup[i] != '\n' && backup[i] != '\0')
 		i++;
 	line = ft_substr(backup, 0, i + 1);
-	if (line && backup[i] == '\n')
+	if (line && backup[i] == '\n' && backup[i + 1] != '\0')
 	{
 		temp = ft_substr(backup, i + 1, ft_strlen(backup) - i - 1);
 		if (!temp)

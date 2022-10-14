@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:06:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/14 06:01:03 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/14 15:02:34 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*substring(char **backup)
 	while ((*backup)[i] != '\n' && (*backup)[i] != '\0')
 		i++;
 	line = ft_substr(*backup, 0, i + 1);
-	if (line && (*backup)[i] == '\n')
+	if (line && (*backup)[i] == '\n' && (*backup)[i + 1] != '\0')
 	{
 		temp = *backup;
 		*backup = ft_substr(*backup, i + 1, ft_strlen(*backup) - i - 1);
@@ -84,7 +84,7 @@ char	*get_next_line(int fd)
 		if (!backup)
 			return (NULL);
 	}
-	buffer = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 	{
 		free(backup);
