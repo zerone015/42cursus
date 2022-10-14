@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:06:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/14 15:02:34 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/15 07:09:36 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static	char	*ft_free(char *ptr)
 	return (NULL);
 }
 
-static char	*read_line(int fd, char *buffer, char *backup)
+static char	*read_file(int fd, char *buffer, char *backup)
 {
 	int		read_size;
 	char	*temp;
@@ -91,7 +91,7 @@ char	*get_next_line(int fd)
 		backup = NULL;
 		return (NULL);
 	}
-	backup = read_line(fd, buffer, backup);
+	backup = read_file(fd, buffer, backup);
 	if (!backup)
 		return (ft_free(buffer));
 	line = substring(&backup);

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 19:06:24 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/14 15:04:44 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/15 07:09:50 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*substring(t_list *list)
 	return (line);
 }
 
-static char	*read_line(t_list *list, char *buffer)
+static char	*read_file(t_list *list, char *buffer)
 {
 	char	*temp;
 	int		read_size;
@@ -128,7 +128,7 @@ char	*get_next_line(int fd)
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (remove_fd(&list));
-	if (!read_line(&list, buffer))
+	if (!read_file(&list, buffer))
 	{
 		free(buffer);
 		return (remove_fd(&list));
