@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 19:06:59 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 17:20:42 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/19 16:56:41 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	print_str(va_list ap, t_info *info)
 	int			print_len;
 	size_t		str_len;
 
+	if (info->width >= INT_MAX)
+		return (ERROR);
 	str = va_arg(ap, char *);
 	if (!str)
 		str = "(null)";

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:52:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/22 11:41:08 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/19 17:25:00 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ int		is_flag(char c);
 int		get_max(int a, int b);
 int		putnchar(char c, int n);
 size_t	ft_strlen(const char *str);
+void	*ft_memset(void *dest, int c, size_t n);
 
 #endif

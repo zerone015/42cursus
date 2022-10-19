@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 01:00:42 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 17:18:07 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/19 17:24:53 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,14 @@ int	putnchar(char c, int n)
 	while (n-- > 0)
 		print_len += write(1, &c, 1);
 	return (print_len);
+}
+
+void	*ft_memset(void *dest, int c, size_t n)
+{
+	unsigned char	*temp;
+
+	temp = (unsigned char *)dest;
+	while (n--)
+		*temp++ = (unsigned char)c;
+	return (dest);
 }

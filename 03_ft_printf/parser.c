@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:29:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/22 11:41:31 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/19 17:01:56 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@ void	parse_flag(t_info *info, const char **format)
 
 void	parse_width(t_info *info, const char **format)
 {
-	int	count;
+	int	len;
 
-	count = 0;
-	while (ft_isdigit(**format) && count < INT_MAX_LEN)
+	len = 0;
+	while (ft_isdigit(**format) && len < INT_MAX_LEN)
 	{
 		info->width *= 10;
 		info->width += **format - '0';
 		(*format)++;
-		count++;
+		len++;
 	}
 	while (ft_isdigit(**format))
 		(*format)++;
@@ -94,7 +94,7 @@ int	parse_format(va_list ap, const char *format)
 {
 	t_info	info;
 	int		print_len;
-	int		temp;
+	int		result;
 
 	print_len = 0;
 	while (*format)
@@ -106,10 +106,10 @@ int	parse_format(va_list ap, const char *format)
 			parse_flag(&info, &format);
 			parse_width(&info, &format);
 			parse_precision(&info, &format);
-			temp = parse_type(&info, ap, *format);
-			if (temp == ERROR)
+			result = parse_type(&info, ap, *format);
+			if (result == ERROR)
 				return (ERROR);
-			print_len += temp;
+			print_len += result;
 		}
 		else
 			print_len += write(1, format, 1);
