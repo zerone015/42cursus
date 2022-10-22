@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:40:54 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 17:20:57 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/23 02:53:23 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	print_unbr(va_list ap, t_info *info)
 		return (ERROR);
 	nbr = va_arg(ap, int);
 	nbr_len = get_nbrlen(nbr, info);
-	info->width -= get_max(info->precision, nbr_len);
+	info->width -= find_max(info->precision, nbr_len);
 	print_len = 0;
 	if (info->minus == DISABLE && info->zero == DISABLE)
 		print_len += putnchar(' ', info->width);

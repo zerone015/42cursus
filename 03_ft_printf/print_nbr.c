@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:33:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 17:17:01 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/23 02:53:01 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	print_nbr(va_list ap, t_info *info)
 	if (info->width >= INT_MAX)
 		return (ERROR);
 	nbr = va_arg(ap, int);
-	info->width -= get_max(info->precision, get_nbrlen(nbr, info)) + \
+	info->width -= find_max(info->precision, get_nbrlen(nbr, info)) + \
 		sign_exists(info, nbr);
 	print_len = 0;
 	if (info->minus == DISABLE && info->zero == DISABLE)

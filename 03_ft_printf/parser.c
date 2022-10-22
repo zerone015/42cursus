@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:29:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/19 17:01:56 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/22 20:45:45 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,20 @@ void	parse_width(t_info *info, const char **format)
 
 void	parse_precision(t_info *info, const char **format)
 {
+	int	len;
+
 	if (**format == '.')
 	{
 		info->zero = DISABLE;
 		info->dot = ENABLE;
 		(*format)++;
-		while (ft_isdigit(**format))
+		len = 0;
+		while (ft_isdigit(**format) && len < INT_MAX_LEN)
 		{
 			info->precision *= 10;
 			info->precision += **format - '0';
 			(*format)++;
+			len++;
 		}
 	}
 }

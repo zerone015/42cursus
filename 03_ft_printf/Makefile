@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/10 18:10:46 by yoson             #+#    #+#              #
-#    Updated: 2022/07/15 22:06:09 by yoson            ###   ########.fr        #
+#    Updated: 2022/10/23 02:55:07 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS = ft_printf.c \
 	   init.c \
 	   parser.c \
 	   util.c \
+	   util2.c \
 	   print_char.c \
 	   print_hex_address.c \
 	   print_hex_lower.c \

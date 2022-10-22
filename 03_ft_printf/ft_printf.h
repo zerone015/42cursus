@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:52:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/19 17:25:00 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/23 02:51:39 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stddef.h>
 # include <stdarg.h>
+# include <unistd.h>
 
 # define ERROR -1
 # define ENABLE 1
@@ -32,7 +33,7 @@ typedef struct s_info
 	int			sharp;
 	int			minus;
 	int			dot;
-	int			precision;
+	long long	precision;
 }	t_info;
 
 int		ft_printf(const char *format, ...);
@@ -54,11 +55,14 @@ int		print_percent(t_info *info);
 int		print_str(va_list ap, t_info *info);
 int		print_unbr(va_list ap, t_info *info);
 
-int		ft_isdigit(char c);
 int		is_flag(char c);
-int		get_max(int a, int b);
-int		putnchar(char c, int n);
+int		ft_isdigit(char c);
 size_t	ft_strlen(const char *str);
 void	*ft_memset(void *dest, int c, size_t n);
+void	ft_strncpy(char *dest, const char *src, size_t n);
+void	ft_itoa(char *buf, uintptr_t n, int radix, const char *base);
+int		find_max(int a, int b);
+int		find_len(size_t	n, int radix);
+int		putnchar(char c, int n);
 
 #endif
