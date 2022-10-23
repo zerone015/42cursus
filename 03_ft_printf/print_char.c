@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 01:39:41 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/22 17:54:45 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/23 19:14:07 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	print_with_width(t_info *info, char c)
 	char	*buf;
 	int		print_len;
 
-	buf = (char *)malloc(info->width + 1);
+	buf = (char *)malloc(info->width);
 	if (!buf)
 		return (ERROR);
 	if (info->minus == DISABLE)
@@ -33,7 +33,6 @@ static int	print_with_width(t_info *info, char c)
 		buf[0] = c;
 		ft_memset(buf + 1, ' ', info->width - 1);
 	}
-		buf[info->width] = '\0';
 	print_len = write(1, buf, info->width);
 	free(buf);
 	return (print_len);
