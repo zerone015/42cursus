@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:33:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/24 22:33:24 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 02:14:51 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@ static void	set_buf_with_minus(char *buf, int n, int len, t_info *info)
 	}
 	ft_memset(buf, '0', info->precision - len);
 	buf += info->precision - len;
-	ft_itoa(buf, ft_abs(n), 10, "0123456789");
-	buf += len;
+	if (len)
+	{
+		ft_itoa(buf, ft_abs(n), 10, "0123456789");
+		buf += len;
+	}
 	ft_memset(buf, ' ', info->width);
 }
 
@@ -39,7 +42,6 @@ static void	set_buf(char *buf, int n, int len, t_info *info)
 			buf++;
 		ft_memset(buf, '0', info->precision - len);
 		buf += info->precision - len;
-		ft_itoa(buf, ft_abs(n), 10, "0123456789");
 	}
 	else
 	{
@@ -47,8 +49,9 @@ static void	set_buf(char *buf, int n, int len, t_info *info)
 			buf++;
 		ft_memset(buf, '0', info->width + info->precision - len);
 		buf += info->width + info->precision - len;
-		ft_itoa(buf, ft_abs(n), 10, "0123456789");
 	}
+	if (len)
+		ft_itoa(buf, ft_abs(n), 10, "0123456789");
 }
 
 static int	print_with_width(int n, int len, t_info *info)
@@ -99,6 +102,8 @@ int	print_nbr(va_list ap, t_info *info)
 	else
 		len = find_len(n, 10);
 	info->width -= find_max(info->precision, len) + sign_exists(info, n);
+	if (info->width < 0)
+		info->width = 0;
 	if (info->width > 0 || info->precision - len > 0)
 	{
 		if (info->precision - len < 0)
