@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:29:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 04:14:40 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 04:20:21 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static void	parse_precision(t_info *info, const char **format)
 			(*format)++;
 			len++;
 		}
+		while (ft_isdigit(**format))
+			(*format)++;
 	}
 }
 
