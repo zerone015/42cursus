@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_hex_upper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 04:23:14 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/23 03:25:49 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/24 21:39:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	set_buf(char *buf, unsigned int n, int len, t_info *info)
 		if (info->sharp == ENABLE)
 			ft_strncpy(buf + info->width, "0X", 2);
 	}
-	else if (info->zero == ENABLE)
+	else
 	{
 		if (info->sharp == ENABLE)
 		{
@@ -60,7 +60,6 @@ static void	set_buf(char *buf, unsigned int n, int len, t_info *info)
 		ft_itoa(buf, n, 16, "0123456789ABCDEF");
 		buf += len;
 	}
-	*buf = '\0';
 }
 
 static void	set_buf_with_minus(char *buf, unsigned int n, int len, t_info *info)
@@ -79,7 +78,6 @@ static void	set_buf_with_minus(char *buf, unsigned int n, int len, t_info *info)
 	}
 	ft_memset(buf, ' ', info->width);
 	buf += info->width;
-	*buf = '\0';
 }
 
 static int	print_with_width(unsigned int n, int len, t_info *info)
@@ -89,14 +87,14 @@ static int	print_with_width(unsigned int n, int len, t_info *info)
 	int		print_len;
 
 	size = info->width + find_max(info->precision, len) + info->sharp * 2;
-	buf = malloc(size + 1);
+	buf = malloc(size);
 	if (!buf)
 		return (ERROR);
 	if (info->minus == DISABLE)
 		set_buf(buf, n, len, info);
 	else
 		set_buf_with_minus(buf, n, len, info);
-	print_len = write(1, buf, ft_strlen(buf));
+	print_len = write(1, buf, size);
 	free(buf);
 	return (print_len);
 }

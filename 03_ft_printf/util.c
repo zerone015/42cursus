@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 01:00:42 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/23 03:10:00 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/24 20:34:34 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,6 @@ int	ft_isdigit(char c)
 		return (FALSE);
 }
 
-int	is_flag(char c)
-{
-	if (c == ' ' || c == '+' || c == '#' || c == '-' || c == '0')
-		return (TRUE);
-	return (FALSE);
-}
-
 size_t	ft_strlen(const char *str)
 {
 	size_t	len;
@@ -36,6 +29,20 @@ size_t	ft_strlen(const char *str)
 	while (str[len])
 		len++;
 	return (len);
+}
+
+void	ft_itoa(char *buf, uintptr_t n, int radix, const char *base)
+{
+	int	len;
+
+	len = find_len(n, radix);
+	if (n == 0)
+		buf[0] = base[0];
+	while (n)
+	{
+		buf[--len] = base[n % radix];
+		n /= radix;
+	}
 }
 
 void	*ft_memset(void *dest, int c, size_t n)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_percent.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 02:12:54 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/23 22:49:26 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/24 20:11:01 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ static int	print_with_width(t_info *info)
 	return (print_len);
 }
 
-int	print_percent(t_info *info)
+int	print_percent(va_list ap, t_info *info)
 {
+	(void)ap;
 	if (info->width >= INT_MAX)
 		return (ERROR);
 	if (info->width)

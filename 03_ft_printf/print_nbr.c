@@ -3,103 +3,108 @@
 /*                                                        :::      ::::::::   */
 /*   print_nbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:33:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/23 02:53:01 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/24 22:33:24 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
 
-static int	print_sign(t_info *info, int nbr)
+static void	set_buf_with_minus(char *buf, int n, int len, t_info *info)
 {
-	int	print_len;
+	if (info->zero == DISABLE)
+	{
+		if (set_sign(buf, n, info) == 0)
+			buf++;
+	}
+	ft_memset(buf, '0', info->precision - len);
+	buf += info->precision - len;
+	ft_itoa(buf, ft_abs(n), 10, "0123456789");
+	buf += len;
+	ft_memset(buf, ' ', info->width);
+}
 
-	print_len = 0;
-	if (info->plus == ENABLE && nbr >= 0)
-		print_len += write(1, "+", 1);
-	else if (info->space == ENABLE && nbr >= 0)
-		print_len += write(1, " ", 1);
-	else if (nbr < 0)
-		print_len += write(1, "-", 1);
+static void	set_buf(char *buf, int n, int len, t_info *info)
+{
+	if (info->zero == DISABLE)
+	{
+		ft_memset(buf, ' ', info->width);
+		buf += info->width;
+		if (set_sign(buf, n, info) == 0)
+			buf++;
+		ft_memset(buf, '0', info->precision - len);
+		buf += info->precision - len;
+		ft_itoa(buf, ft_abs(n), 10, "0123456789");
+	}
+	else
+	{
+		if (set_sign(buf, n, info) == 0)
+			buf++;
+		ft_memset(buf, '0', info->width + info->precision - len);
+		buf += info->width + info->precision - len;
+		ft_itoa(buf, ft_abs(n), 10, "0123456789");
+	}
+}
+
+static int	print_with_width(int n, int len, t_info *info)
+{
+	char	*buf;
+	int		size;
+	int		print_len;
+
+	size = info->width + find_max(info->precision, len) + sign_exists(info, n);
+	buf = malloc(size);
+	if (!buf)
+		return (ERROR);
+	if (info->minus == DISABLE)
+		set_buf(buf, n, len, info);
+	else
+		set_buf_with_minus(buf, n, len, info);
+	print_len = write(1, buf, size);
+	free(buf);
 	return (print_len);
 }
 
-static int	sign_exists(t_info *info, int nbr)
+static int	print(int n, int len, t_info *info)
 {
-	if (info->space == ENABLE && nbr >= 0)
-		return (TRUE);
-	if (info->plus == ENABLE || nbr < 0)
-		return (TRUE);
-	return (FALSE);
-}
+	char	buf[11];
+	int		i;
 
-static int	get_nbrlen(int nbr, t_info *info)
-{
-	int	len;
-
-	if (info->dot == ENABLE && info->precision == 0 && nbr == 0)
-		return (0);
-	len = 0;
-	if (nbr == 0)
-		len++;
-	while (nbr != 0)
+	i = 0;
+	if (set_sign(buf, n, info) == 0)
+		i++;
+	if (len)
 	{
-		len++;
-		nbr /= 10;
+		ft_itoa(buf + i, ft_abs(n), 10, "0123456789");
+		i += len;
 	}
-	return (len);
-}
-
-static int	print(char nbr_arr[], int n, int len)
-{
-	int	print_len;
-
-	if (n == -2147483648)
-		return (write(1, "2147483648", 10));
-	if (len == 0)
-		return (0);
-	if (n < 0)
-		n *= -1;
-	nbr_arr[len--] = '\0';
-	if (n == 0)
-		nbr_arr[len] = '0';
-	while (n > 0)
-	{
-		nbr_arr[len--] = n % 10 + '0';
-		n /= 10;
-	}
-	print_len = write(1, nbr_arr, ft_strlen(nbr_arr));
-	return (print_len);
+	return (write(1, buf, i));
 }
 
 int	print_nbr(va_list ap, t_info *info)
 {
-	char		nbr_arr[11];
-	int			nbr;
-	int			print_len;
+	int	n;
+	int	len;
 
-	if (info->width >= INT_MAX)
+	if (info->width >= INT_MAX || info->precision >= INT_MAX)
 		return (ERROR);
-	nbr = va_arg(ap, int);
-	info->width -= find_max(info->precision, get_nbrlen(nbr, info)) + \
-		sign_exists(info, nbr);
-	print_len = 0;
-	if (info->minus == DISABLE && info->zero == DISABLE)
-		print_len += putnchar(' ', info->width);
-	else if (info->minus == DISABLE && info->zero == ENABLE)
+	n = va_arg(ap, int);
+	if (info->dot == ENABLE && info->precision == 0 && n == 0)
+		len = 0;
+	else
+		len = find_len(n, 10);
+	info->width -= find_max(info->precision, len) + sign_exists(info, n);
+	if (info->width > 0 || info->precision - len > 0)
 	{
-		print_len += print_sign(info, nbr);
-		print_len += putnchar('0', info->width);
+		if (info->precision - len < 0)
+			info->precision = len;
+		return (print_with_width(n, len, info));
 	}
-	if (info->zero == DISABLE)
-		print_len += print_sign(info, nbr);
-	print_len += putnchar('0', info->precision - get_nbrlen(nbr, info));
-	print_len += print(nbr_arr, nbr, get_nbrlen(nbr, info));
-	if (info->minus == ENABLE)
-		print_len += putnchar(' ', info->width);
-	return (print_len);
+	else
+		return (print(n, len, info));
 }

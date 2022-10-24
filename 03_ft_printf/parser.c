@@ -6,34 +6,26 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:29:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/22 20:45:45 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/24 21:10:28 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <unistd.h>
 
-void	parse_flag(t_info *info, const char **format)
+static void	parse_flag(t_info *info, const char **format)
 {
-	while (is_flag(**format))
+	(*format)++;
+	while (info->flag_addr[(unsigned char)**format])
 	{
-		if (**format == '0')
-			info->zero = ENABLE;
-		else if (**format == ' ')
-			info->space = ENABLE;
-		else if (**format == '+')
-			info->plus = ENABLE;
-		else if (**format == '-')
-			info->minus = ENABLE;
-		else if (**format == '#')
-			info->sharp = ENABLE;
+		*info->flag_addr[(unsigned char)**format] = ENABLE;
 		(*format)++;
 	}
 	if (info->plus == ENABLE && info->space == ENABLE)
 		info->space = DISABLE;
 }
 
-void	parse_width(t_info *info, const char **format)
+static void	parse_width(t_info *info, const char **format)
 {
 	int	len;
 
@@ -49,7 +41,7 @@ void	parse_width(t_info *info, const char **format)
 		(*format)++;
 }
 
-void	parse_precision(t_info *info, const char **format)
+static void	parse_precision(t_info *info, const char **format)
 {
 	int	len;
 
@@ -69,55 +61,39 @@ void	parse_precision(t_info *info, const char **format)
 	}
 }
 
-int	parse_type(t_info *info, va_list ap, char type)
+static int	parse_type(t_info *info, va_list ap, unsigned char type)
 {
-	int	print_len;
-
-	if (type == 'c')
-		print_len = print_char(ap, info);
-	else if (type == 's')
-		print_len = print_str(ap, info);
-	else if (type == 'p')
-		print_len = print_hex_address(ap, info);
-	else if (type == 'd' || type == 'i')
-		print_len = print_nbr(ap, info);
-	else if (type == 'u')
-		print_len = print_unbr(ap, info);
-	else if (type == 'x')
-		print_len = print_hex_lower(ap, info);
-	else if (type == 'X')
-		print_len = print_hex_upper(ap, info);
-	else if (type == '%')
-		print_len = print_percent(info);
+	if (info->functions[type])
+		return ((info->functions[type](ap, info)));
 	else
-		print_len = 0;
-	return (print_len);
+		return (0);
 }
 
-int	parse_format(va_list ap, const char *format)
+int	parse_format(va_list ap, const char *format, t_info *info)
 {
-	t_info	info;
 	int		print_len;
-	int		result;
+	int		temp;
 
 	print_len = 0;
 	while (*format)
 	{
 		if (*format == '%')
 		{
-			struct_init(&info);
-			format++;
-			parse_flag(&info, &format);
-			parse_width(&info, &format);
-			parse_precision(&info, &format);
-			result = parse_type(&info, ap, *format);
-			if (result == ERROR)
+			init_info(info);
+			parse_flag(info, &format);
+			parse_width(info, &format);
+			parse_precision(info, &format);
+			temp = parse_type(info, ap, *format++);
+			if (temp == ERROR)
 				return (ERROR);
-			print_len += result;
+			print_len += temp;
 		}
 		else
-			print_len += write(1, format, 1);
-		format++;
+		{
+			if (write(1, format++, 1) == ERROR)
+				return (ERROR);
+			print_len += 1;
+		}
 	}
 	return (print_len);
 }

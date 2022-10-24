@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:50:41 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/21 17:21:42 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/24 22:31:40 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ int	ft_printf(const char *format, ...)
 {
 	va_list	ap;
 	int		print_len;
+	t_info	info;
 
 	va_start(ap, format);
-	print_len = parse_format(ap, format);
+	init_array(&info);
+	print_len = parse_format(ap, format, &info);
 	va_end(ap);
 	return (print_len);
 }
