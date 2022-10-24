@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:52:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 02:36:45 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 04:09:05 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ void	init_info(t_info *info);
 int		parse_format(va_list ap, const char *format, t_info *info);
 
 int		print_char(va_list ap, t_info *info);
-int		print_hex_address(va_list ap, t_info *info);
+int		print_address(va_list ap, t_info *info);
 int		print_hex_lower(va_list ap, t_info *info);
 int		print_hex_upper(va_list ap, t_info *info);
-int		print_nbr(va_list ap, t_info *info);
+int		print_decimal(va_list ap, t_info *info);
 int		print_percent(va_list ap, t_info *info);
 int		print_str(va_list ap, t_info *info);
-int		print_unbr(va_list ap, t_info *info);
+int		print_u_decimal(va_list ap, t_info *info);
 
 int		is_flag(char c);
 int		ft_isdigit(char c);

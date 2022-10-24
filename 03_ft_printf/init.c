@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:45:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 02:38:53 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 04:09:34 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	init_address(t_info *info)
 		info->type[i++] = NULL;
 	info->type['c'] = print_char;
 	info->type['s'] = print_str;
-	info->type['p'] = print_hex_address;
-	info->type['d'] = print_nbr;
-	info->type['i'] = print_nbr;
-	info->type['u'] = print_unbr;
+	info->type['p'] = print_address;
+	info->type['d'] = print_decimal;
+	info->type['i'] = print_decimal;
+	info->type['u'] = print_u_decimal;
 	info->type['x'] = print_hex_lower;
 	info->type['X'] = print_hex_upper;
 	info->type['%'] = print_percent;

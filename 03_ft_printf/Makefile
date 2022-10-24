@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/10 18:10:46 by yoson             #+#    #+#              #
-#    Updated: 2022/10/23 02:55:07 by yoson            ###   ########.fr        #
+#    Updated: 2022/10/25 04:10:59 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,11 @@ SRCS = ft_printf.c \
 	   util.c \
 	   util2.c \
 	   print_char.c \
-	   print_hex_address.c \
+	   print_address.c \
 	   print_hex_lower.c \
 	   print_hex_upper.c \
-	   print_nbr.c \
-	   print_unbr.c \
+	   print_decimal.c \
+	   print_u_decimal.c \
 	   print_percent.c \
 	   print_str.c
 OBJS = $(SRCS:%.c=%.o)

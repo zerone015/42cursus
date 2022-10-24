@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_hex_address.c                                :+:      :+:    :+:   */
+/*   print_address.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 01:41:00 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 03:42:21 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 04:06:31 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	print(uintptr_t address, int len)
 	return (write(1, buf, len + 2));
 }
 
-int	print_hex_address(va_list ap, t_info *info)
+int	print_address(va_list ap, t_info *info)
 {
 	uintptr_t	address;
 	int			len;

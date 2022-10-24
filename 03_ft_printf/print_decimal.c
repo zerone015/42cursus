@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_nbr.c                                        :+:      :+:    :+:   */
+/*   print_decimal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:33:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 03:28:35 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 04:05:30 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int	print_with_width(int n, int len, t_info *info)
 	return (print_len);
 }
 
-int	print_nbr(va_list ap, t_info *info)
+int	print_decimal(va_list ap, t_info *info)
 {
 	int	n;
 	int	len;
