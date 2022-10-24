@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 04:23:14 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/24 21:39:57 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 03:40:37 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ static void	set_buf(char *buf, unsigned int n, int len, t_info *info)
 			ft_memset(buf, '0', info->width);
 	}
 	buf += info->width + info->sharp * 2;
-	ft_memset(buf, '0', info->precision - len);
-	buf += info->precision - len;
 	if (len)
 	{
+		ft_memset(buf, '0', info->precision - len);
+		buf += info->precision - len;
 		ft_itoa(buf, n, 16, "0123456789ABCDEF");
 		buf += len;
 	}
@@ -69,10 +69,10 @@ static void	set_buf_with_minus(char *buf, unsigned int n, int len, t_info *info)
 		ft_strncpy(buf, "0X", 2);
 		buf += 2;
 	}
-	ft_memset(buf, '0', info->precision - len);
-	buf += info->precision - len;
 	if (len)
 	{
+		ft_memset(buf, '0', info->precision - len);
+		buf += info->precision - len;
 		ft_itoa(buf, n, 16, "0123456789ABCDEF");
 		buf += len;
 	}
@@ -114,12 +114,12 @@ int	print_hex_upper(va_list ap, t_info *info)
 	else
 		len = find_len(n, 16);
 	info->width -= find_max(info->precision, len) + info->sharp * 2;
-	if (info->width < 0)
-		info->width = 0;
 	if (info->width > 0 || info->precision - len > 0)
 	{
 		if (info->precision - len < 0)
 			info->precision = len;
+		if (info->width < 0)
+			info->width = 0;
 		return (print_with_width(n, len, info));
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 01:39:41 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/23 19:14:07 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 03:43:09 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	print_char(va_list ap, t_info *info)
 	if (info->width >= INT_MAX)
 		return (ERROR);
 	c = va_arg(ap, int);
-	if (info->width)
+	if (info->width > 1)
 		return (print_with_width(info, c));
 	else
 		return (write(1, &c, 1));

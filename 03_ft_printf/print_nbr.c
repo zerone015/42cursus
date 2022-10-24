@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:33:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 02:14:51 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 03:28:35 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,30 @@
 #include <unistd.h>
 #include <limits.h>
 
-static void	set_buf_with_minus(char *buf, int n, int len, t_info *info)
+static int	print(int n, int len, t_info *info)
 {
-	if (info->zero == DISABLE)
-	{
-		if (set_sign(buf, n, info) == 0)
-			buf++;
-	}
-	ft_memset(buf, '0', info->precision - len);
-	buf += info->precision - len;
+	char	buf[11];
+	int		i;
+
+	i = 0;
+	if (set_sign(buf, n, info) == 0)
+		i++;
 	if (len)
 	{
+		ft_itoa(buf + i, ft_abs(n), 10, "0123456789");
+		i += len;
+	}
+	return (write(1, buf, i));
+}
+
+static void	set_buf_with_minus(char *buf, int n, int len, t_info *info)
+{
+	if (set_sign(buf, n, info) == 0)
+		buf++;
+	if (len)
+	{
+		ft_memset(buf, '0', info->precision - len);
+		buf += info->precision - len;
 		ft_itoa(buf, ft_abs(n), 10, "0123456789");
 		buf += len;
 	}
@@ -40,18 +53,20 @@ static void	set_buf(char *buf, int n, int len, t_info *info)
 		buf += info->width;
 		if (set_sign(buf, n, info) == 0)
 			buf++;
-		ft_memset(buf, '0', info->precision - len);
-		buf += info->precision - len;
 	}
 	else
 	{
 		if (set_sign(buf, n, info) == 0)
 			buf++;
-		ft_memset(buf, '0', info->width + info->precision - len);
-		buf += info->width + info->precision - len;
+		ft_memset(buf, '0', info->width);
+		buf += info->width;
 	}
 	if (len)
+	{
+		ft_memset(buf, '0', info->precision - len);
+		buf += info->precision - len;
 		ft_itoa(buf, ft_abs(n), 10, "0123456789");
+	}
 }
 
 static int	print_with_width(int n, int len, t_info *info)
@@ -73,22 +88,6 @@ static int	print_with_width(int n, int len, t_info *info)
 	return (print_len);
 }
 
-static int	print(int n, int len, t_info *info)
-{
-	char	buf[11];
-	int		i;
-
-	i = 0;
-	if (set_sign(buf, n, info) == 0)
-		i++;
-	if (len)
-	{
-		ft_itoa(buf + i, ft_abs(n), 10, "0123456789");
-		i += len;
-	}
-	return (write(1, buf, i));
-}
-
 int	print_nbr(va_list ap, t_info *info)
 {
 	int	n;
@@ -102,12 +101,12 @@ int	print_nbr(va_list ap, t_info *info)
 	else
 		len = find_len(n, 10);
 	info->width -= find_max(info->precision, len) + sign_exists(info, n);
-	if (info->width < 0)
-		info->width = 0;
 	if (info->width > 0 || info->precision - len > 0)
 	{
 		if (info->precision - len < 0)
 			info->precision = len;
+		if (info->width < 0)
+			info->width = 0;
 		return (print_with_width(n, len, info));
 	}
 	else

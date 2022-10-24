@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:29:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 02:43:39 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 03:19:04 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static void	parse_flag(t_info *info, const char **format)
 	}
 	if (info->plus == ENABLE && info->space == ENABLE)
 		info->space = DISABLE;
+	if (info->minus == ENABLE)
+		info->zero = DISABLE;
 }
 
 static void	parse_width(t_info *info, const char **format)

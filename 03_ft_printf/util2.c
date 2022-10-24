@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 23:50:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/24 22:31:37 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 03:44:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ int	ft_abs(int n)
 	return (ret);
 }
 
+int	sign_exists(t_info *info, int n)
+{
+	if (info->space == ENABLE && n >= 0)
+		return (TRUE);
+	if (info->plus == ENABLE || n < 0)
+		return (TRUE);
+	return (FALSE);
+}
+
 int	set_sign(char *buf, int n, t_info *info)
 {
 	if (info->plus == ENABLE && n >= 0)
@@ -33,25 +42,6 @@ int	set_sign(char *buf, int n, t_info *info)
 	else
 		return (ERROR);
 	return (0);
-}
-
-int	sign_exists(t_info *info, int n)
-{
-	if (info->space == ENABLE && n >= 0)
-		return (TRUE);
-	if (info->plus == ENABLE || n < 0)
-		return (TRUE);
-	return (FALSE);
-}
-
-int	putnchar(char c, int n)
-{
-	int	print_len;
-
-	print_len = 0;
-	while (n-- > 0)
-		print_len += write(1, &c, 1);
-	return (print_len);
 }
 
 int	find_max(int a, int b)

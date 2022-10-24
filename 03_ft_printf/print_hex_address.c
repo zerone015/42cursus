@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 01:41:00 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/23 02:50:34 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 03:42:21 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	print_hex_address(va_list ap, t_info *info)
 		return (ERROR);
 	address = va_arg(ap, uintptr_t);
 	len = find_len(address, 16);
-	if (info->width && info->width > len + 2)
+	if (info->width > len + 2)
 		return (print_with_width(address, len, info));
 	else
 		return (print(address, len));
