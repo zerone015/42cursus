@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:33:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 04:08:30 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 04:15:11 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <limits.h>
 
-static int	print(unsigned int n, int len, t_info *info)
+static int	print(unsigned int n, int len)
 {
 	char	buf[10];
 
@@ -99,5 +99,5 @@ int	print_u_decimal(va_list ap, t_info *info)
 		return (print_with_width(n, len, info));
 	}
 	else
-		return (print(n, len, info));
+		return (print(n, len));
 }

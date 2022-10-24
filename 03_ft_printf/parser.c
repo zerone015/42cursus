@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:29:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 03:19:04 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 04:14:40 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	parse_type(t_info *info, va_list ap, int type)
 		return (0);
 }
 
-int	parse_format(va_list ap, const char *format, t_info *info, t_addr *addr)
+int	parse_format(va_list ap, const char *format, t_info *info)
 {
 	int		print_len;
 	int		temp;

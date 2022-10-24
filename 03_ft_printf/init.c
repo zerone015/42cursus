@@ -6,14 +6,14 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:45:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 04:09:34 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 04:13:21 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <limits.h>
 
-void	init_address(t_info *info)
+void	init_array(t_info *info)
 {
 	unsigned int	i;
 

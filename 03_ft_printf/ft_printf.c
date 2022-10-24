@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:50:41 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 02:39:42 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 04:13:17 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_printf(const char *format, ...)
 	va_list	ap;
 	int		print_len;
 
-	init_address(&info);
+	init_array(&info);
 	va_start(ap, format);
 	print_len = parse_format(ap, format, &info);
 	va_end(ap);
