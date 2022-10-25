@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:52:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 21:49:53 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/26 01:00:38 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 
 int			ft_printf(const char *format, ...);
 
-void		init_array(int (*t[])(va_list));
+void		init_array(int (*types[])(va_list));
 
-int			parse_format(va_list ap, const char *format, int (*t[])(va_list));
+int			parse_format(va_list ap, const char *format);
 
 int			print_char(va_list ap);
 int			print_address(va_list ap);
