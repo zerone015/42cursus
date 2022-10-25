@@ -1,7 +1,7 @@
 ## 42seoul
 이 곳은 42seoul에서 학습한 내용들이 담겨있으며 과제별로 설명과 관련 지식을 정리한 블로그 링크들이 정리되어 있습니다.
 
-### 과제 목록
+### Read me
 - [첫 번째 과제 libft](https://github.com/zerone015/42seoul/tree/master/01_libft)
 
 - [두 번째 과제 get_next_line](https://github.com/zerone015/42seoul/tree/master/02_get_next_line)
