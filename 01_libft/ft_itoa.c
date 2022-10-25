@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:04:52 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/11 19:10:37 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 19:58:50 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static long long	ft_abs(int n)
 
 static char	*integer_to_ascii(char *ret, int n, int len)
 {
-	long long	abs_val;
+	long long	abs;
 
 	if (n == 0)
 	{
@@ -48,12 +48,12 @@ static char	*integer_to_ascii(char *ret, int n, int len)
 		ret[1] = '\0';
 		return (ret);
 	}
-	abs_val = ft_abs(n);
+	abs = ft_abs(n);
 	ret[len--] = '\0';
-	while (abs_val)
+	while (abs)
 	{
-		ret[len--] = abs_val % 10 + '0';
-		abs_val /= 10;
+		ret[len--] = abs % 10 + '0';
+		abs /= 10;
 	}
 	return (ret);
 }
