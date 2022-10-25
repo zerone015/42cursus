@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:29:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 20:03:30 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 22:08:18 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 static void	parse_flag(t_info *info, const char **format)
 {
 	(*format)++;
-	while (info->flag[(unsigned char)**format])
+	while (info->flags[(unsigned char)**format])
 	{
-		*info->flag[(unsigned char)**format] = ENABLE;
+		*info->flags[(unsigned char)**format] = ENABLE;
 		(*format)++;
 	}
 	if (info->plus == ENABLE && info->space == ENABLE)
@@ -67,8 +67,8 @@ static void	parse_precision(t_info *info, const char **format)
 
 static int	parse_type(t_info *info, va_list ap, int type)
 {
-	if (info->type[(unsigned char)type])
-		return ((info->type[(unsigned char)type](ap, info)));
+	if (info->types[(unsigned char)type])
+		return ((info->types[(unsigned char)type](ap, info)));
 	else
 		return (0);
 }

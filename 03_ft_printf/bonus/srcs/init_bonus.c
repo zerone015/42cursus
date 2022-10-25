@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:45:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 20:03:15 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 22:07:48 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,25 @@ void	init_array(t_info *info)
 	unsigned int	i;
 
 	i = 0;
-	while (i < sizeof(info->flag) / sizeof(intptr_t))
-		info->flag[i++] = NULL;
-	info->flag['0'] = &info->zero;
-	info->flag[' '] = &info->space;
-	info->flag['+'] = &info->plus;
-	info->flag['-'] = &info->minus;
-	info->flag['#'] = &info->sharp;
+	while (i < sizeof(info->flags) / sizeof(intptr_t))
+		info->flags[i++] = NULL;
+	info->flags['0'] = &info->zero;
+	info->flags[' '] = &info->space;
+	info->flags['+'] = &info->plus;
+	info->flags['-'] = &info->minus;
+	info->flags['#'] = &info->sharp;
 	i = 0;
-	while (i < sizeof(info->type) / sizeof(intptr_t))
-		info->type[i++] = NULL;
-	info->type['c'] = print_char;
-	info->type['s'] = print_str;
-	info->type['p'] = print_address;
-	info->type['d'] = print_decimal;
-	info->type['i'] = print_decimal;
-	info->type['u'] = print_u_decimal;
-	info->type['x'] = print_hex_lower;
-	info->type['X'] = print_hex_upper;
-	info->type['%'] = print_percent;
+	while (i < sizeof(info->types) / sizeof(intptr_t))
+		info->types[i++] = NULL;
+	info->types['c'] = print_char;
+	info->types['s'] = print_str;
+	info->types['p'] = print_address;
+	info->types['d'] = print_decimal;
+	info->types['i'] = print_decimal;
+	info->types['u'] = print_u_decimal;
+	info->types['x'] = print_hex_lower;
+	info->types['X'] = print_hex_upper;
+	info->types['%'] = print_percent;
 }
 
 void	init_info(t_info *info)

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:52:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 20:57:09 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 22:07:07 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ typedef struct s_info
 	int			minus;
 	int			dot;
 	long long	precision;
-	int			*flag[256];
-	int			(*type[256])(va_list, struct s_info *);
+	int			*flags[256];
+	int			(*types[256])(va_list, struct s_info *);
 }	t_info;
 
 int			ft_printf(const char *format, ...);
