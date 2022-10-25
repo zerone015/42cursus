@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:33:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 20:05:40 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/26 01:06:53 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	print_u_decimal(va_list ap, t_info *info)
 	if (info->dot == ENABLE && info->precision == 0 && n == 0)
 		len = 0;
 	else
-		len = ft_nbrlen(ft_abs(n), 10);
+		len = ft_nbrlen(n, 10);
 	info->width -= find_max(info->precision, len);
 	if (info->width > 0 || info->precision - len > 0)
 	{

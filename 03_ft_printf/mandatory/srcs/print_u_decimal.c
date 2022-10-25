@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:33:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 21:40:51 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/26 01:07:04 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int	print_u_decimal(va_list ap)
 	int				len;
 
 	n = va_arg(ap, int);
-	len = ft_nbrlen(ft_abs(n), 10);
+	len = ft_nbrlen(n, 10);
 	return (print(n, len));
 }
