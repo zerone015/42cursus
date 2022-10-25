@@ -6,20 +6,17 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 23:50:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 03:44:57 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/25 17:18:37 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_abs(int n)
+long long	ft_abs(long long n)
 {
-	long long	ret;
-
-	ret = n;
 	if (n < 0)
-		ret *= -1;
-	return (ret);
+		n *= -1;
+	return (n);
 }
 
 int	sign_exists(t_info *info, int n)
