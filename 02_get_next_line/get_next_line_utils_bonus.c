@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:07:26 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/14 05:28:53 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/28 04:43:45 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ char	*remove_fd(t_list *list)
 	if (list->tail == list->cur)
 		list->tail = list->before;
 	free(list->cur);
-	if (list->num_of_fd == 1)
+	(list->num_of_fd)--;
+	if (list->num_of_fd == 0)
 		list->tail = NULL;
 	else
 		list->cur = list->before->next;
-	(list->num_of_fd)--;
 	return (NULL);
 }
 
