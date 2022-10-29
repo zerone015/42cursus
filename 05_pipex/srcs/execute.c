@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 06:21:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/05 01:50:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/30 08:12:16 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,23 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-char	*slash_ignore(char *argv)
+static char	*remove_directory_path(char *arg)
 {
-	int	head;
-	int	i;
+	char	*ret;
 
-	head = -1;
-	i = 0;
-	while (argv[i] && argv[i] != ' ')
+	ret = arg;
+	while (*arg && *arg != ' ')
 	{
-		if (argv[i] == '/')
-			head = i;
-		i++;
+		if (*arg == '/')
+			ret = ++arg;
+		else
+			arg++;
 	}
-	head++;
-	return (argv + head);
+	return (ret);
 }
 
-char	**parse_envp(char *envp[])
+static char	**parse_envp(char *envp[])
 {
-	char	**paths;
 	int		i;
 
 	i = 0;
@@ -41,11 +38,10 @@ char	**parse_envp(char *envp[])
 		i++;
 	if (!envp[i])
 		return (NULL);
-	paths = ft_split(envp[i] + 5, ':');
-	return (paths);
+	return (ft_split(envp[i] + 5, ':'));
 }
 
-char	*find_path(char *cmd, char *envp[])
+static char	*find_path(char *cmd, char *envp[])
 {
 	char	**paths;
 	char	*path;
@@ -73,18 +69,18 @@ char	*find_path(char *cmd, char *envp[])
 	return (NULL);
 }
 
-void	execute(char *argv, char **envp)
+void	execute(char *arg, char **envp)
 {
-	char	**cmd;
+	char	**argv;
 	char	*path;
 
-	argv = slash_ignore(argv);
-	cmd = ft_split(argv, ' ');
-	if (!cmd)
-		error(0, 0, EXIT_FAILURE);
-	path = find_path(cmd[0], envp);
+	arg = remove_directory_path(arg);
+	argv = ft_split(arg, ' ');
+	if (!argv)
+		ft_perror();
+	path = find_path(argv[0], envp);
 	if (!path)
-		error(cmd[0], "command not found", 127);
-	if (execve(path, cmd, envp) == -1)
-		error(0, 0, EXIT_FAILURE);
+		ft_error("Error: command not found", 127);
+	if (execve(path, argv, envp) == -1)
+		ft_perror();
 }

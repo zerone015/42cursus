@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/29 05:17:02 by yoson             #+#    #+#              #
-#    Updated: 2022/08/01 08:38:25 by yoson            ###   ########.fr        #
+#    Updated: 2022/10/30 04:47:08 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC    = cc
 FLAGS = -Wall -Wextra -Werror
 BSRCS  = srcs/main_bonus.c srcs/pipex_bonus.c srcs/execute_bonus.c srcs/error_bonus.c \
 		 srcs/get_next_line_bonus.c 
-SRCS  = srcs/main.c srcs/pipex.c srcs/execute.c srcs/error.c
+SRCS  = srcs/pipex.c srcs/execute.c srcs/error.c
 OBJS  = $(SRCS:%.c=%.o)
 BOBJS = $(BSRCS:%.c=%.o)
 ifdef WITH_BONUS

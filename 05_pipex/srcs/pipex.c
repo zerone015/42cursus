@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/01 06:18:11 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/30 08:05:56 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,75 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <fcntl.h>
-#include <string.h>
-#include <errno.h>
 #include <stdlib.h>
 
-void	child_process(char *argv[], char *envp[], int fd[])
+static void	child_process(char *argv[], char *envp[], int fd[], int i)
 {
-	int		infile;
+	int	outfile;
 
-	infile = open(argv[1], O_RDONLY);
-	if (infile == -1)
-		error(argv[1], strerror(errno), EXIT_FAILURE);
-	dup2(fd[1], STDOUT_FILENO);
-	dup2(infile, STDIN_FILENO);
-	close(fd[0]);
-	execute(argv[2], envp);
+	if (i == 3)
+	{
+		outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 00644);
+		if (outfile == -1)
+			ft_perror();
+		dup2(outfile, STDOUT_FILENO);
+		close(fd[1]);
+	}
+	else
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[0]);
+	}
+	execute(argv[i], envp);
 }
 
-void	parent_process(char *argv[], char *envp[], int fd[])
+static void	parent_process(int fd[])
 {
-	int		outfile;
-
-	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 00644);
-	if (outfile == -1)
-		error(argv[4], strerror(errno), EXIT_FAILURE);
 	dup2(fd[0], STDIN_FILENO);
-	dup2(outfile, STDOUT_FILENO);
+	close(fd[0]);
 	close(fd[1]);
-	execute(argv[3], envp);
 }
 
 void	pipex(char *argv[], char *envp[])
 {
-	int		fd[2];
 	pid_t	pid;
+	int		infile;
+	int		fd[2];
+	int		i;
 
-	if (pipe(fd) == -1)
-		error(0, 0, EXIT_FAILURE);
-	pid = fork();
-	if (pid == -1)
-		error(0, 0, EXIT_FAILURE);
-	if (pid == 0)
-		child_process(argv, envp, fd);
-	waitpid(pid, NULL, WNOHANG);
-	parent_process(argv, envp, fd);
+	infile = open(argv[1], O_RDONLY);
+	if (infile == -1)
+		ft_perror();
+	dup2(infile, STDIN_FILENO);
+	close(infile);
+	i = 1;
+	while (++i < 4)
+	{
+		if (pipe(fd) == -1)
+			ft_strerror();
+		pid = fork();
+		if (pid == -1)
+			ft_strerror();
+		else if (pid == 0)
+			child_process(argv, envp, fd, i);
+		parent_process(fd);
+	}
+	while (wait(0) != -1)
+		;
+}
+
+int	main(int argc, char *argv[], char *envp[])
+{
+	if (argc > 5)
+	{
+		ft_putendl_fd("Error: Too many arguments", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	if (argc < 5)
+	{
+		ft_putendl_fd("Error: Too few arguments", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	pipex(argv, envp);
+	return (0);
 }
