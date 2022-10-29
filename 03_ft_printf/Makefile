@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/10 18:10:46 by yoson             #+#    #+#              #
-#    Updated: 2022/10/25 21:42:25 by yoson            ###   ########.fr        #
+#    Updated: 2022/10/29 23:18:16 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ FLAGS 		= -Wall -Wextra -Werror
 SRC_DIR		= ./mandatory/srcs/
 BSRC_DIR	= ./bonus/srcs/
 LIB_DIR		= ./libft/
-LIB_NAME	= ./libft/libft.a
+LIB_NAME	= libft.a
 
 SRC 		= 	ft_printf.c \
 	   	  	  	init.c \
@@ -45,7 +45,6 @@ BSRC		=	ft_printf_bonus.c \
 	      		print_str_bonus.c
 SRCS		=	$(addprefix $(SRC_DIR), $(SRC))
 BSRCS		=	$(addprefix $(BSRC_DIR), $(BSRC))
-LIBS		=	$(addprefix $(LIB_DIR), $(LIB_NAME))
 OBJS		=	$(SRCS:%.c=%.o)
 BOBJS 		= 	$(BSRCS:%.c=%.o)
 
@@ -67,7 +66,8 @@ bonus :
 	
 $(NAME) : $(OBJ_FILES)
 	make -C $(LIB_DIR)
-	ar rcs $@ $^ $(LIB_DIR)*.o
+	cp $(LIB_DIR)$(LIB_NAME) $(NAME)
+	ar rcs $@ $^
 
 clean :
 	make -C $(LIB_DIR) clean
