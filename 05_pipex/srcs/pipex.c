@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/30 08:05:56 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/30 08:59:30 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	child_process(char *argv[], char *envp[], int fd[], int i)
 		if (outfile == -1)
 			ft_perror();
 		dup2(outfile, STDOUT_FILENO);
-		close(fd[1]);
 	}
 	else
 	{
@@ -39,8 +38,8 @@ static void	child_process(char *argv[], char *envp[], int fd[], int i)
 static void	parent_process(int fd[])
 {
 	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
 	close(fd[1]);
+	close(fd[0]);
 }
 
 void	pipex(char *argv[], char *envp[])
