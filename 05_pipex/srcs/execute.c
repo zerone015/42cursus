@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 06:21:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/30 08:12:16 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/30 19:15:52 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,12 @@ static char	*remove_directory_path(char *arg)
 	return (ret);
 }
 
-static char	**parse_envp(char *envp[])
+static char	*find_path(char *cmd, char *paths[])
 {
-	int		i;
-
-	i = 0;
-	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
-		i++;
-	if (!envp[i])
-		return (NULL);
-	return (ft_split(envp[i] + 5, ':'));
-}
-
-static char	*find_path(char *cmd, char *envp[])
-{
-	char	**paths;
 	char	*path;
 	char	*temp;
 	int		i;
 
-	paths = parse_envp(envp);
-	if (!paths)
-		return (NULL);
 	i = 0;
 	while (paths[i])
 	{
@@ -69,7 +53,7 @@ static char	*find_path(char *cmd, char *envp[])
 	return (NULL);
 }
 
-void	execute(char *arg, char **envp)
+void	execute(char *arg, char *envp[], char *paths[])
 {
 	char	**argv;
 	char	*path;
@@ -78,7 +62,7 @@ void	execute(char *arg, char **envp)
 	argv = ft_split(arg, ' ');
 	if (!argv)
 		ft_perror();
-	path = find_path(argv[0], envp);
+	path = find_path(argv[0], paths);
 	if (!path)
 		ft_error("Error: command not found", 127);
 	if (execve(path, argv, envp) == -1)
