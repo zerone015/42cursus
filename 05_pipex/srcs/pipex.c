@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/30 09:20:30 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/30 09:27:14 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-static void	child_process(char *argv[], char *envp[], int fd[], int i, int argc)
+static void	child_process(char *argv[], char *envp[], int fd[], int i)
 {
 	int	outfile;
 
-	if (i == argc - 2)
+	if (i == 3)
 	{
-		outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 00644);
+		outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 00644);
 		if (outfile == -1)
 			ft_perror();
 		dup2(outfile, STDOUT_FILENO);
@@ -40,7 +40,7 @@ static void	parent_process(int fd[])
 	close(fd[0]);
 }
 
-void	pipex(char *argv[], char *envp[], int argc)
+void	pipex(char *argv[], char *envp[])
 {
 	pid_t	pid;
 	int		infile;
@@ -53,7 +53,7 @@ void	pipex(char *argv[], char *envp[], int argc)
 	dup2(infile, STDIN_FILENO);
 	close(infile);
 	i = 1;
-	while (++i < argc - 1)
+	while (++i < 4)
 	{
 		if (pipe(fd) == -1)
 			ft_strerror();
@@ -61,7 +61,7 @@ void	pipex(char *argv[], char *envp[], int argc)
 		if (pid == -1)
 			ft_strerror();
 		else if (pid == 0)
-			child_process(argv, envp, fd, i, argc);
+			child_process(argv, envp, fd, i);
 		parent_process(fd);
 	}
 	while (wait(0) != -1)
@@ -70,16 +70,16 @@ void	pipex(char *argv[], char *envp[], int argc)
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	/*if (argc > 5)
-	{
-		ft_putendl_fd("Error: Too many arguments", STDERR_FILENO);
-		return (EXIT_FAILURE);
-	}*/
 	if (argc < 5)
 	{
 		ft_putendl_fd("Error: Too few arguments", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
-	pipex(argv, envp, argc);
+	if (argc > 5)
+	{
+		ft_putendl_fd("Error: Too many arguments", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	pipex(argv, envp);
 	return (0);
 }
