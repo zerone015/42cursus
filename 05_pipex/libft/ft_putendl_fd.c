@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 00:42:36 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/16 21:49:50 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/12 13:04:22 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	write(fd, s, ft_strlen(s));
+	ft_putstr_fd(s, fd);
 	write(fd, "\n", 1);
 }

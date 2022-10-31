@@ -5,39 +5,69 @@
 #                                                     +:+ +:+         +:+      #
 #    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/07/29 05:17:02 by yoson             #+#    #+#              #
-#    Updated: 2022/10/31 23:59:28 by yoson            ###   ########.fr        #
+#    Created: 2022/11/01 02:12:51 by yoson             #+#    #+#              #
+#    Updated: 2022/11/01 02:18:22 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME  = pipex
-CC    = cc
-FLAGS = -Wall -Wextra -Werror
-BSRCS  = srcs/pipex_bonus.c srcs/execute_bonus.c srcs/error_bonus.c \
-		 srcs/get_next_line_bonus.c 
-SRCS  = srcs/pipex.c srcs/execute.c srcs/error.c
-OBJS  = $(SRCS:%.c=%.o)
-BOBJS = $(BSRCS:%.c=%.o)
-ifdef WITH_BONUS
+NAME 		= pipex
+
+CC 			= cc
+FLAGS 		= -Wall -Wextra -Werror
+
+SRC_DIR		= ./mandatory/srcs/
+BSRC_DIR	= ./bonus/srcs/
+LIB_DIR		= ./libft/
+LIB_NAME	= libft.a
+
+SRC 		= 	pipex.c \
+				execute.c \
+				error.c 
+BSRC		=	pipex_bonus.c \
+				execute_bonus.c \
+				error_bonus.c \
+				utils_bonus.c
+SRCS		=	$(addprefix $(SRC_DIR), $(SRC))
+BSRCS		=	$(addprefix $(BSRC_DIR), $(BSRC))
+OBJS		=	$(SRCS:%.c=%.o)
+BOBJS 		= 	$(BSRCS:%.c=%.o)
+
+ifdef PIPEX_WITH_BONUS
+	INC_DIR = ./bonus/includes/
     OBJ_FILES = $(BOBJS)
 else
+	INC_DIR = ./mandatory/includes/
     OBJ_FILES = $(OBJS)
 endif
 
-all: $(NAME)
-bonus:
-	make WITH_BONUS=1 all
-%.o: %.c
-	$(CC) $(FLAGS) -c $< -o $@
-$(NAME): $(OBJ_FILES)
-	make re -C ./libft
-	$(CC) $^ -Llibft -lft -o $@
-clean: 
-	make clean -C ./libft
-	rm -f $(OBJS) $(BOBJS)
-fclean: clean
-	make fclean -C ./libft
+%.o : %.c
+	$(CC) $(FLAGS) -c $< -o $@ -I $(INC_DIR) -I $(LIB_DIR)
+
+all : $(NAME)
+
+bonus :
+	make PIPEX_WITH_BONUS=1 all
+	
+$(NAME) : $(OBJ_FILES)
+	make -C $(LIB_DIR)
+	cp $(LIB_DIR)$(LIB_NAME) $(NAME)
+	$(CC) $(FLAGS) $^ -Llibft -lft -o $@
+
+clean :
+	make -C $(LIB_DIR) clean
+	rm -f $(OBJS)
+	rm -f $(BOBJS)
+
+fclean : clean
+	make -C $(LIB_DIR) fclean
 	rm -f $(NAME)
-re: fclean all
-re_bonus: fclean bonus
-.PHONY: all bonus clean fclean re re_bonus
+
+re : 
+	make fclean
+	make all
+
+bre :
+	make fclean
+	make bonus 
+
+.PHONY: all bonus clean fclean re bre

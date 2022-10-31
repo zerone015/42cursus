@@ -6,11 +6,11 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 00:17:06 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/01 01:51:28 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "pipex.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>

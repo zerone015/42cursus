@@ -6,17 +6,13 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 16:21:12 by yoson             #+#    #+#             */
-/*   Updated: 2022/07/12 21:58:38 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/11 02:52:22 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
-void	ft_bzero(void *str, size_t size)
+void	ft_bzero(void *dest, size_t n)
 {
-	unsigned char	*str_tmp;
-
-	str_tmp = (unsigned char *) str;
-	while (size--)
-		*str_tmp++ = 0;
+	while (n--)
+		*(unsigned char *)dest++ = 0;
 }
