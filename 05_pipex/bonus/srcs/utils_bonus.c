@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:47:35 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 02:16:46 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/01 03:27:19 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	redirection_stdin(char *argv[])
 {
 	char	*limiter;
 	int		fd;
-	int		ret;
+	int		idx;
 
 	if (is_heredoc(argv[1]))
 	{
@@ -76,16 +76,16 @@ int	redirection_stdin(char *argv[])
 			ft_perror(NULL, EXIT_FAILURE);
 		here_doc(limiter);
 		free(limiter);
-		ret = 2;
+		idx = 3;
 	}
 	else
 	{
 		fd = open(argv[1], O_RDONLY);
 		if (fd == -1)
 			ft_perror(argv[1], EXIT_FAILURE);
-		ret = 1;
+		idx = 2;
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
-	return (ret);
+	return (idx);
 }

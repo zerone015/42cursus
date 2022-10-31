@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 01:51:35 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/01 03:27:21 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	pipex(int argc, char *argv[], char *envp[], char *paths[])
 	int		fd[2];
 	int		i;
 
-	i = redirection_stdin(argv);
-	while (++i < argc - 2)
+	i = 0;
+	while (++i < argc - 1)
 	{
 		if (pipe(fd) == -1)
 			ft_strerror();
@@ -61,12 +61,15 @@ void	pipex(int argc, char *argv[], char *envp[], char *paths[])
 		if (pid == -1)
 			ft_strerror();
 		else if (pid == 0)
+		{
+			if (i == 1)
+				i = redirection_stdin(argv);
+			if (i == argc - 2)
+				last_child_process(argv, argc, envp, paths);
 			child_process(argv[i], envp, fd, paths);
+		}
 		parent_process(fd);
 	}
-	last_child_process(argv, argc, envp, paths);
-	close(fd[0]);
-	close(fd[1]);
 	while (wait(NULL) != -1)
 		;
 	unlink("/tmp/.here_doc");
