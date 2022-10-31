@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/31 22:48:43 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/01 00:17:06 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	child_process1(char *argv[], char *envp[], int fd[], char *paths[])
 
 	infile = open(argv[1], O_RDONLY);
 	if (infile == -1)
-		ft_perror(argv[1], 127);
+		ft_perror(argv[1], EXIT_FAILURE);
 	dup2(infile, STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
@@ -36,7 +36,7 @@ static void	child_process2(char *argv[], char *envp[], int fd[], char *paths[])
 
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 00644);
 	if (outfile == -1)
-		ft_perror(argv[4], 127);
+		ft_perror(argv[4], EXIT_FAILURE);
 	dup2(outfile, STDOUT_FILENO);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[1]);
@@ -86,12 +86,12 @@ int	main(int argc, char *argv[], char *envp[])
 
 	if (argc < 5)
 	{
-		ft_putendl_fd("pipex: Too few arguments", STDERR_FILENO);
+		ft_putstr_fd("pipex: Too few arguments\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	if (argc > 5)
 	{
-		ft_putendl_fd("pipex: Too many arguments", STDERR_FILENO);
+		ft_putstr_fd("pipex: Too many arguments\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	paths = parse_paths(envp);

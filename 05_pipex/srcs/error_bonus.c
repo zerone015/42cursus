@@ -3,30 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   error_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 06:12:26 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/01 08:50:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/31 23:57:28 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex_bonus.h"
+#include <errno.h>
+#include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
+#include <stdlib.h>
 
-void	error(char *name, char *content, int status)
+void	command_not_found(char *cmd)
 {
-	if (name)
+	ft_putstr_fd("pipex: ", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd("command not found", STDERR_FILENO);
+	exit(127);
+}
+
+void	ft_perror(char *input, int exit_code)
+{
+	if (input)
 	{
-		ft_putstr_fd("pipex: ", 2);
-		ft_putstr_fd(name, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putendl_fd(content, 2);
+		ft_putstr_fd("pipex: ", STDERR_FILENO);
+		ft_putstr_fd(input, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		perror(NULL);
 	}
 	else
-	{
-		perror("Error");
-	}
-	exit(status);
+		perror("pipex: ");
+	exit(exit_code);
+}
+
+void	ft_strerror(void)
+{
+	char	*err_msg;
+
+	err_msg = strerror(errno);
+	while (wait(NULL) != -1)
+		;
+	ft_putstr_fd("pipex: ", STDERR_FILENO);
+	ft_putendl_fd(err_msg, STDERR_FILENO);
+	exit(EXIT_FAILURE);
 }

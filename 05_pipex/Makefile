@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+         #
+#    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/29 05:17:02 by yoson             #+#    #+#              #
-#    Updated: 2022/10/30 04:47:08 by yoson            ###   ########.fr        #
+#    Updated: 2022/10/31 23:59:28 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME  = pipex
 CC    = cc
 FLAGS = -Wall -Wextra -Werror
-BSRCS  = srcs/main_bonus.c srcs/pipex_bonus.c srcs/execute_bonus.c srcs/error_bonus.c \
+BSRCS  = srcs/pipex_bonus.c srcs/execute_bonus.c srcs/error_bonus.c \
 		 srcs/get_next_line_bonus.c 
 SRCS  = srcs/pipex.c srcs/execute.c srcs/error.c
 OBJS  = $(SRCS:%.c=%.o)
