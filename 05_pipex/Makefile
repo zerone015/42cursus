@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 02:12:51 by yoson             #+#    #+#              #
-#    Updated: 2022/11/01 04:54:26 by yoson            ###   ########.fr        #
+#    Updated: 2022/11/01 05:07:02 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,6 @@ bonus :
 	
 $(NAME) : $(OBJ_FILES)
 	make -C $(LIB_DIR)
-	cp $(LIB_DIR)$(LIB_NAME) $(NAME)
 	$(CC) $(FLAGS) $^ -Llibft -lft -o $@
 
 clean :
