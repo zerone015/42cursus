@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 03:27:21 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/01 04:12:09 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,35 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <stdlib.h>
+
+void	first_child_process(char *argv[], char *envp[], int fd[], char *paths[])
+{
+	char	*limiter;
+	int		infile;
+	int		i;
+
+	if (is_heredoc(argv[1]))
+	{
+		limiter = ft_strjoin(argv[2], "\n");
+		if (!limiter)
+			ft_perror(NULL, EXIT_FAILURE);
+		here_doc(limiter);
+		free(limiter);
+		i = 3;
+	}
+	else
+	{
+		infile = open(argv[1], O_RDONLY);
+		if (infile == -1)
+			ft_perror(argv[1], EXIT_FAILURE);
+		i = 2;
+		dup2(infile, STDIN_FILENO);
+		close(infile);
+	}
+	dup2(fd[1], STDOUT_FILENO);
+	close(fd[0]);
+	execute(argv[i], envp, paths);
+}
 
 void	last_child_process(char *argv[], int argc, char *envp[], char *paths[])
 {
@@ -32,14 +61,14 @@ void	last_child_process(char *argv[], int argc, char *envp[], char *paths[])
 	execute(argv[argc - 2], envp, paths);
 }
 
-static void	child_process(char *arg, char *envp[], int fd[], char *paths[])
+void	child_process(char *arg, char *envp[], int fd[], char *paths[])
 {
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	execute(arg, envp, paths);
 }
 
-static void	parent_process(int fd[])
+void	parent_process(int fd[])
 {
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
@@ -52,7 +81,7 @@ void	pipex(int argc, char *argv[], char *envp[], char *paths[])
 	int		fd[2];
 	int		i;
 
-	i = 0;
+	i = 1 + is_heredoc(argv[1]);
 	while (++i < argc - 1)
 	{
 		if (pipe(fd) == -1)
@@ -62,8 +91,8 @@ void	pipex(int argc, char *argv[], char *envp[], char *paths[])
 			ft_strerror();
 		else if (pid == 0)
 		{
-			if (i == 1)
-				i = redirection_stdin(argv);
+			if (i == 2 || (is_heredoc(argv[1]) && i == 3))
+				first_child_process(argv, envp, fd, paths);
 			if (i == argc - 2)
 				last_child_process(argv, argc, envp, paths);
 			child_process(argv[i], envp, fd, paths);
@@ -73,23 +102,4 @@ void	pipex(int argc, char *argv[], char *envp[], char *paths[])
 	while (wait(NULL) != -1)
 		;
 	unlink("/tmp/.here_doc");
-}
-
-int	main(int argc, char *argv[], char *envp[])
-{
-	char	**paths;
-
-	if (argc < 5 || (is_heredoc(argv[1]) && argc < 6))
-	{
-		ft_putstr_fd("Error: Too few arguments\n", STDERR_FILENO);
-		return (EXIT_FAILURE);
-	}
-	paths = parse_paths(envp);
-	if (!paths)
-	{
-		perror("pipex: ");
-		return (EXIT_FAILURE);
-	}
-	pipex(argc, argv, envp, paths);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 18:58:31 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 02:12:42 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/01 04:10:35 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	execute(char *arg, char *envp[], char *paths[]);
 char	**parse_paths(char *envp[]);
 int		is_heredoc(char *arg);
 void	here_doc(char *limiter);
-int		redirection_stdin(char *argv[]);
 char	*get_next_line(int fd);
 
 void	command_not_found(char *cmd);

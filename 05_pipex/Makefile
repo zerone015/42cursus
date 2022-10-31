@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 02:12:51 by yoson             #+#    #+#              #
-#    Updated: 2022/11/01 02:18:22 by yoson            ###   ########.fr        #
+#    Updated: 2022/11/01 04:10:18 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ LIB_NAME	= libft.a
 SRC 		= 	pipex.c \
 				execute.c \
 				error.c 
-BSRC		=	pipex_bonus.c \
+BSRC		=	main_bonus.c \
+				pipex_bonus.c \
 				execute_bonus.c \
 				error_bonus.c \
 				utils_bonus.c
