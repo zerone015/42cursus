@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/30 19:18:25 by yoson            ###   ########.fr       */
+/*   Updated: 2022/10/31 22:48:43 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	child_process1(char *argv[], char *envp[], int fd[], char *paths[])
 
 	infile = open(argv[1], O_RDONLY);
 	if (infile == -1)
-		ft_perror();
+		ft_perror(argv[1], 127);
 	dup2(infile, STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
@@ -36,7 +36,7 @@ static void	child_process2(char *argv[], char *envp[], int fd[], char *paths[])
 
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 00644);
 	if (outfile == -1)
-		ft_perror();
+		ft_perror(argv[4], 127);
 	dup2(outfile, STDOUT_FILENO);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[1]);
@@ -62,7 +62,7 @@ void	pipex(char *argv[], char *envp[], char *paths[])
 	int		i;
 
 	if (pipe(fd) == -1)
-		ft_perror();
+		ft_perror(NULL, EXIT_FAILURE);
 	i = 1;
 	while (++i < 4)
 	{
@@ -76,7 +76,7 @@ void	pipex(char *argv[], char *envp[], char *paths[])
 	}
 	close(fd[0]);
 	close(fd[1]);
-	while (wait(0) != -1)
+	while (wait(NULL) != -1)
 		;
 }
 
@@ -86,18 +86,18 @@ int	main(int argc, char *argv[], char *envp[])
 
 	if (argc < 5)
 	{
-		ft_putendl_fd("Error: Too few arguments", STDERR_FILENO);
+		ft_putendl_fd("pipex: Too few arguments", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	if (argc > 5)
 	{
-		ft_putendl_fd("Error: Too many arguments", STDERR_FILENO);
+		ft_putendl_fd("pipex: Too many arguments", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	paths = parse_paths(envp);
 	if (!paths)
 	{
-		perror("Error: ");
+		perror("pipex: ");
 		return (EXIT_FAILURE);
 	}
 	pipex(argv, envp, paths);
