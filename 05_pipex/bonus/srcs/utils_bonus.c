@@ -6,14 +6,14 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:47:35 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 04:10:26 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/01 05:03:17 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 #include <fcntl.h>
-#include <unistd.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 
 char	**parse_paths(char *envp[])
 {
@@ -61,4 +61,20 @@ void	here_doc(char *limiter)
 		ft_perror("here_doc", EXIT_FAILURE);
 	}
 	dup2(fd, STDIN_FILENO);
+}
+
+int	wait_all(pid_t last_pid)
+{
+	pid_t	pid;
+	int		temp;
+	int		status;
+
+	pid = 1;
+	while (pid != -1)
+	{
+		pid = wait(&temp);
+		if (pid == last_pid)
+			status = temp;
+	}
+	return (status);
 }

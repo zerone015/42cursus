@@ -6,17 +6,17 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 04:06:27 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 04:11:14 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/01 05:04:49 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 int	main(int argc, char *argv[], char *envp[])
 {
+	int		status;
 	char	**paths;
 
 	if (argc < 5 || (is_heredoc(argv[1]) && argc < 6))
@@ -30,6 +30,7 @@ int	main(int argc, char *argv[], char *envp[])
 		perror("pipex: ");
 		return (EXIT_FAILURE);
 	}
-	pipex(argc, argv, envp, paths);
-	return (0);
+	status = pipex(argc, argv, envp, paths);
+	unlink("/tmp/.here_doc");
+	return (status >> 8);
 }

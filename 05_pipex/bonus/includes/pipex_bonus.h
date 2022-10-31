@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 18:58:31 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 04:10:35 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/01 05:03:07 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@
 # define TRUE	1
 # define FALSE	0
 
+# include <unistd.h>
 # include "libft.h"
 
-void	pipex(int argc, char *argv[], char *envp[], char *paths[]);
+int		pipex(int argc, char *argv[], char *envp[], char *paths[]);
 void	execute(char *arg, char *envp[], char *paths[]);
 
 char	**parse_paths(char *envp[]);
 int		is_heredoc(char *arg);
 void	here_doc(char *limiter);
+int		wait_all(pid_t last_pid);
 char	*get_next_line(int fd);
 
 void	command_not_found(char *cmd);

@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/28 18:58:31 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 04:58:28 by yoson            ###   ########.fr       */
+/*   Created: 2022/11/01 04:46:06 by yoson             #+#    #+#             */
+/*   Updated: 2022/11/01 04:59:43 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "pipex.h"
+#include <sys/wait.h>
 
-# define TRUE	1
-# define FALSE	0
+int	wait_all(pid_t last_pid)
+{
+	pid_t	pid;
+	int		temp;
+	int		status;
 
-# include <unistd.h>
-# include "libft.h"
-
-int		pipex(char *argv[], char *envp[], char *paths[]);
-void	execute(char *arg, char *envp[], char *paths[]);
-int		wait_all(pid_t last_pid);
-void	command_not_found(char *input);
-void	ft_perror(char *input, int exit_code);
-void	ft_strerror(void);
-
-#endif
+	pid = 1;
+	while (pid != -1)
+	{
+		pid = wait(&temp);
+		if (pid == last_pid)
+			status = temp;
+	}
+	return (status);
+}

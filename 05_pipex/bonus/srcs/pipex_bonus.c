@@ -6,13 +6,12 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 04:12:09 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/01 05:04:30 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 #include <stdio.h>
-#include <unistd.h>
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <stdlib.h>
@@ -75,7 +74,7 @@ void	parent_process(int fd[])
 	close(fd[1]);
 }
 
-void	pipex(int argc, char *argv[], char *envp[], char *paths[])
+int	pipex(int argc, char *argv[], char *envp[], char *paths[])
 {
 	pid_t	pid;
 	int		fd[2];
@@ -99,7 +98,5 @@ void	pipex(int argc, char *argv[], char *envp[], char *paths[])
 		}
 		parent_process(fd);
 	}
-	while (wait(NULL) != -1)
-		;
-	unlink("/tmp/.here_doc");
+	return (wait_all(pid));
 }

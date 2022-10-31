@@ -6,14 +6,12 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 01:51:28 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/01 05:02:26 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <stdio.h>
-#include <unistd.h>
-#include <sys/wait.h>
 #include <fcntl.h>
 #include <stdlib.h>
 
@@ -55,7 +53,7 @@ static char	**parse_paths(char *envp[])
 	return (ft_split(envp[i] + 5, ':'));
 }
 
-void	pipex(char *argv[], char *envp[], char *paths[])
+int	pipex(char *argv[], char *envp[], char *paths[])
 {
 	pid_t	pid;
 	int		fd[2];
@@ -76,12 +74,12 @@ void	pipex(char *argv[], char *envp[], char *paths[])
 	}
 	close(fd[0]);
 	close(fd[1]);
-	while (wait(NULL) != -1)
-		;
+	return (wait_all(pid));
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
+	int		status;
 	char	**paths;
 
 	if (argc < 5)
@@ -100,6 +98,6 @@ int	main(int argc, char *argv[], char *envp[])
 		perror("pipex: ");
 		return (EXIT_FAILURE);
 	}
-	pipex(argv, envp, paths);
-	return (0);
+	status = pipex(argv, envp, paths);
+	return (status >> 8);
 }

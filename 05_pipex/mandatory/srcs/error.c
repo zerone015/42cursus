@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 06:12:26 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 01:51:56 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/01 04:58:47 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
 
 void	command_not_found(char *cmd)
