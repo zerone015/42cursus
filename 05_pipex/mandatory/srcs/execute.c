@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 06:21:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 04:58:44 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/01 06:15:09 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*find_path(char *cmd, char *paths[])
 	return (NULL);
 }
 
-static int	is_slash_contain(char *str)
+static int	is_slash_contains(char *str)
 {
 	while (*str)
 	{
@@ -71,7 +71,7 @@ static void	error_handler(char *cmd)
 {
 	int	exit_code;
 
-	if (!is_slash_contain(cmd))
+	if (!is_slash_contains(cmd))
 		command_not_found(cmd);
 	open(cmd, O_RDWR);
 	if (errno == ENOENT)
