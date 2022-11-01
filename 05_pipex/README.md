@@ -32,7 +32,7 @@ bonus part에서는 시스템에 한정된 max user processes만큼의 파이프
 - 1인
 ### 사용 언어
 - C언어
-### 빌드
+### 실행
 ```shell
 # Download
 $ git clone https://github.com/zerone015/42seoul.git pipex
