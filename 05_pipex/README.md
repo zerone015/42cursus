@@ -19,11 +19,11 @@ mandatory part에서는 두 개의 프로세스의 파이프를 통한 통신, �
 
 < file1 cmd1 | cmd2 | cmd3 ... | cmdn > file2
 
-./pipex here_doc limitString cmd1 cmd2 cmd3 ... cmdn file2
+./pipex here_doc LIMITER cmd1 cmd2 cmd3 ... cmdn file2
 
 위의 명령어는 다음에 상응해야 합니다.
 
-<< limitString cmd1 | cmd2 | cmd3 ... | cmdn >> file
+<< LIMITER cmd1 | cmd2 | cmd3 ... | cmdn >> file
 ```  
 bonus part에서는 시스템에 한정된 max user processes만큼의 파이프를 통한 통신을 처리할 수 있어야 하며 here document, >> 리다이렉션을 추가로 구현해야 합니다.  
 [관련 지식을 정리한 블로그](https://velog.io/@zerone015/series/pipex)  
