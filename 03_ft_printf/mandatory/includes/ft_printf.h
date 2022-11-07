@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 13:52:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/07 11:33:53 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/07 11:52:59 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 int			ft_printf(const char *format, ...);
 
-void		init_table(int (*types[])(va_list));
+void		init_parse_table(int (*types[])(va_list));
 
 int			parse_format(va_list ap, const char *format);
 

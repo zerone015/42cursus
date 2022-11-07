@@ -6,14 +6,14 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:45:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/07 11:43:56 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/07 11:53:50 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "ft_printf_bonus.h"
 
-void	init_table(t_info *info)
+void	init_parse_table(t_info *info)
 {
 	unsigned int	i;
 

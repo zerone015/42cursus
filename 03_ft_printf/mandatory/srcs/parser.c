@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:29:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/07 11:31:50 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/07 11:53:22 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	parse_format(va_list ap, const char *format)
 	int		print_len;
 	int		temp;
 
-	init_table(types);
+	init_parse_table(types);
 	print_len = 0;
 	while (*format)
 	{
