@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 06:21:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/07 12:05:28 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/07 16:48:23 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,6 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdlib.h>
-
-static char	*remove_directory_path(char *cmd)
-{
-	char	*ret;
-
-	ret = cmd;
-	while (*cmd && *cmd != ' ')
-	{
-		if (*cmd == '/')
-			ret = ++cmd;
-		else
-			cmd++;
-	}
-	return (ret);
-}
 
 static char	*find_path(char *cmd, char *paths[])
 {
@@ -93,7 +78,7 @@ void	execute(char *arg, char *envp[], char *paths[])
 		ft_perror(NULL, EXIT_FAILURE);
 	if (execve(argv[0], argv, envp) == -1)
 	{
-		path = find_path(remove_directory_path(argv[0]), paths);
+		path = find_path(argv[0], paths);
 		if (!path)
 			error_handler(argv[0]);
 	}
