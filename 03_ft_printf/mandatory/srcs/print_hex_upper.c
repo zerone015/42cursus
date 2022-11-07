@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 04:23:14 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 21:36:28 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/07 11:32:33 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	print(unsigned int n, int len)
 {
 	char	buf[8];
 
-	ft_ntoa(buf, n, 16, "0123456789ABCDEF");
+	number_to_string(buf, n, 16, "0123456789ABCDEF");
 	return (write(1, buf, len));
 }
 

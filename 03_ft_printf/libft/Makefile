@@ -6,7 +6,7 @@
 #    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/10 18:10:46 by yoson             #+#    #+#              #
-#    Updated: 2022/10/25 20:46:48 by yoson            ###   ########.fr        #
+#    Updated: 2022/11/07 11:42:14 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRCS = ft_memcmp.c ft_memmove.c ft_bzero.c ft_memchr.c ft_memcpy.c \
        ft_tolower.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c \
        ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c \
        ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
-       ft_abs.c ft_ntoa.c ft_nbrlen.c
+       ft_abs.c number_to_string.c ft_nbrlen.c
 OBJS = $(SRCS:%.c=%.o)
 BOBJS = $(BSRCS:%.c=%.o)
 ifdef LIBFT_WITH_BONUS

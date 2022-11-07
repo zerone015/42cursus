@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ntoa.c                                          :+:      :+:    :+:   */
+/*   number_to_string.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 17:55:38 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 17:58:23 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/07 11:34:51 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "libft.h"
 
-void	ft_ntoa(char *buf, uintptr_t n, int radix, const char *base)
+void	number_to_string(char *buf, uintptr_t n, int radix, const char *base)
 {
 	int	len;
 

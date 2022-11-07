@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 01:41:00 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 20:03:49 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/07 11:37:15 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ static int	print_with_width(uintptr_t n, int len, t_info *info)
 	{
 		ft_memset(buf, ' ', info->width - len - 2);
 		ft_strncpy(buf + info->width - len - 2, "0x", 2);
-		ft_ntoa(buf + info->width - len, n, 16, "0123456789abcdef");
+		number_to_string(buf + info->width - len, n, 16, "0123456789abcdef");
 	}
 	else
 	{
 		ft_strncpy(buf, "0x", 2);
-		ft_ntoa(buf + 2, n, 16, "0123456789abcdef");
+		number_to_string(buf + 2, n, 16, "0123456789abcdef");
 		ft_memset(buf + len + 2, ' ', info->width - len - 2);
 	}
 	print_len = write(1, buf, info->width);
@@ -42,10 +42,10 @@ static int	print_with_width(uintptr_t n, int len, t_info *info)
 
 static int	print(uintptr_t n, int len)
 {
-	char	buf[19];
+	char	buf[18];
 
 	ft_strncpy(buf, "0x", 2);
-	ft_ntoa(buf + 2, n, 16, "0123456789abcdef");
+	number_to_string(buf + 2, n, 16, "0123456789abcdef");
 	return (write(1, buf, len + 2));
 }
 

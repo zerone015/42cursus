@@ -6,14 +6,14 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 16:45:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 22:10:17 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/07 11:31:33 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <limits.h>
 
-void	init_array(int (*types[])(va_list))
+void	init_table(int (*types[])(va_list))
 {
 	unsigned int	i;
 

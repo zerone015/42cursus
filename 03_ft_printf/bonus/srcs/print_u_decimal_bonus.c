@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 20:33:34 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/26 01:06:53 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/07 11:40:50 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ static int	print(unsigned int n, int len)
 	char	buf[10];
 
 	if (len)
-	{
-		ft_ntoa(buf, n, 10, "0123456789");
-	}
+		number_to_string(buf, n, 10, "0123456789");
 	return (write(1, buf, len));
 }
 
@@ -32,7 +30,7 @@ static void	set_buf_with_minus(char *buf, unsigned int n, int len, t_info *info)
 	{
 		ft_memset(buf, '0', info->precision - len);
 		buf += info->precision - len;
-		ft_ntoa(buf, n, 10, "0123456789");
+		number_to_string(buf, n, 10, "0123456789");
 		buf += len;
 	}
 	ft_memset(buf, ' ', info->width);
@@ -54,7 +52,7 @@ static void	set_buf(char *buf, unsigned int n, int len, t_info *info)
 	{
 		ft_memset(buf, '0', info->precision - len);
 		buf += info->precision - len;
-		ft_ntoa(buf, n, 10, "0123456789");
+		number_to_string(buf, n, 10, "0123456789");
 	}
 }
 

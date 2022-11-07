@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:35:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 19:49:16 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/07 11:34:30 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		ft_toupper(int c);
 int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
 
-void	ft_ntoa(char *buf, uintptr_t n, int radix, const char *base);
+void	number_to_string(char *buf, uintptr_t n, int radix, const char *base);
 int		ft_nbrlen(size_t n, int radix);
 ssize_t	ft_abs(ssize_t n);
 

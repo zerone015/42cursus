@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 04:23:14 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 20:04:36 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/07 11:39:50 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	print(unsigned int n, int len, t_info *info)
 	}
 	if (len)
 	{
-		ft_ntoa(buf + i, n, 16, "0123456789ABCDEF");
+		number_to_string(buf + i, n, 16, "0123456789ABCDEF");
 		i += len;
 	}
 	return (write(1, buf, i));
@@ -57,7 +57,7 @@ static void	set_buf(char *buf, unsigned int n, int len, t_info *info)
 	{
 		ft_memset(buf, '0', info->precision - len);
 		buf += info->precision - len;
-		ft_ntoa(buf, n, 16, "0123456789ABCDEF");
+		number_to_string(buf, n, 16, "0123456789ABCDEF");
 		buf += len;
 	}
 }
@@ -73,7 +73,7 @@ static void	set_buf_with_minus(char *buf, unsigned int n, int len, t_info *info)
 	{
 		ft_memset(buf, '0', info->precision - len);
 		buf += info->precision - len;
-		ft_ntoa(buf, n, 16, "0123456789ABCDEF");
+		number_to_string(buf, n, 16, "0123456789ABCDEF");
 		buf += len;
 	}
 	ft_memset(buf, ' ', info->width);
