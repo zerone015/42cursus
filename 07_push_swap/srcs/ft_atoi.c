@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 03:38:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 21:16:32 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/10 23:47:35 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_atoi(const char *str)
 	while (*str == '0')
 		str++;
 	i = -1;
-	while (str[++i] != '\0' && i <= INT_MAX_LEN + 1)
+	while (str[++i] != '\0' && i <= INT_MAX_LEN)
 	{
 		if (!ft_isdigit(str[i]))
 			error("Error");
