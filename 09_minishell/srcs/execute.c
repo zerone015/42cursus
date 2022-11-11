@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:57 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 03:32:32 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 04:02:48 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ int	find_path_execve(char *cmd, char *argv[], char *envp[])
 		temp = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(temp, cmd);
 		free(temp);
+		if (ft_strnstr(path, "//", ft_strlen(path)))
+		{
+			free(path);
+			return (ERROR);
+		}
 		execve(path, argv, envp);
 		free(path);
 	}

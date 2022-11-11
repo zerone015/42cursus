@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 03:32:11 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 03:51:45 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ char	**preprocess(t_token *token, int fd[]);
 void	execute(char **argv, char **envp);
 t_token	*parse_token(t_token *tokens);
 int		is_builtin(t_token *token);
-int		is_directory(char *cmd);
-int		is_executable(char *cmd);
 void	set_signal(int status);
 void	safe_signal(int signum, void (*handler)(int));
 void	echoctl(int flag);
