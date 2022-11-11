@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:20:26 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 03:51:15 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 04:41:52 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	is_builtin(t_token *token)
 		free(temp);
 		node = node->next;
 	}
-	temp = ft_strnstr(builtin, cmd, 35);
+	temp = strnstr_strict(builtin, cmd, 35);
 	free(cmd);
 	if (!temp)
 		return (FALSE);
