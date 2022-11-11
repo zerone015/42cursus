@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 23:44:46 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/16 21:36:05 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/11 15:02:54 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ void	philosophers(t_info *info, t_monitor *mon)
 	{
 		mon->pid[i] = fork();
 		if (mon->pid[i] == -1)
-			avoid_orphan_kill(mon, i, "fork() failed");
+		{
+			philo_kill(mon);
+			error("fork() failed");
+		}
 		if (mon->pid[i] == 0)
 			action(&mon->philo[i]);
 	}

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:14:33 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/16 16:28:28 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/11 15:01:45 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	smart_sleep(time_t time);
 
 void	init_struct(t_info *info, t_monitor *monitor, char *argv[]);
 void	monitor(t_monitor *mon, int must_eat);
-void	avoid_orphan_kill(t_monitor *monitor, int size, char *msg);
 void	philo_kill(t_monitor *monitor);
 void	action(t_philo *philo);
 

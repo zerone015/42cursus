@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 23:53:32 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/16 21:48:23 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/11 15:06:07 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ void	monitor(t_monitor *mon, int must_eat)
 	if (must_eat)
 	{
 		if (pthread_create(&tid, NULL, (void *)monitor_all_eat, mon) != 0)
-			avoid_orphan_kill(mon, mon->num_of_philo, "pthread_create failed");
+		{
+			philo_kill(mon);
+			error("pthread_create failed");
+		}
 		pthread_detach(tid);
 	}
 	monitor_dead(mon);
