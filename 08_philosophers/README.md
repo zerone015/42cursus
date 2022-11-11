@@ -34,9 +34,9 @@ $ make bonus      # bonus
 ### 학습 내용
 - process, thread
 - PCB
-- Context switch
-- Race condition
-- Critical section
+- context switch
+- race condition
+- critical section
 - Mutex, Semaphore
 - Deadlock
 - CPU scheduling
