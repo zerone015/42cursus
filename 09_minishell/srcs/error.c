@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:10:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 00:17:47 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/12 03:31:50 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 #include <errno.h>
 #include "../includes/minishell.h"
 
-int	error(t_env *env, char *err_msg, int status)
+int	error(t_env *env, char *err_msg, int exit_code)
 {
 	if (!err_msg)
 		err_msg = strerror(errno);
 	ft_putstr_fd("minishell: ", 2);
 	ft_putendl_fd(err_msg, 2);
-	env->exit_code = status;
+	env->exit_code = exit_code;
 	return (ERROR);
 }
 
-void	child_error(char *err_msg, char *cmd, int status)
+void	child_error(char *err_msg, char *cmd, int exit_code)
 {
 	if (!err_msg)
 		err_msg = strerror(errno);
@@ -33,5 +33,5 @@ void	child_error(char *err_msg, char *cmd, int status)
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(err_msg, STDERR_FILENO);
-	exit(status);
+	exit(exit_code);
 }

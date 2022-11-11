@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:20:26 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 00:17:08 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/12 02:22:33 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	is_builtin(t_token *token)
 
 	node = token->head->next;
 	cmd = ft_strdup("");
+	while (node && node->type == PIPE)
+		node = node->next;
 	while (node && node->type == WORD)
 	{
 		temp = cmd;

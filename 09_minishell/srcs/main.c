@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/11 22:30:59 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 03:07:26 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,11 @@ void	exit_program(void)
 }
 
 void	child_process(t_token *token, t_env *env, int fd[], int std_fd[])
-{	
+{
 	if (is_builtin(token))
 		builtin_process(token, env, fd, std_fd);
-	external_process(token, env, fd, std_fd);
+	else
+		external_process(token, env, fd, std_fd);
 }
 
 void	parent_process(t_token *token, int fd[], int std_fd[])
@@ -83,11 +84,45 @@ int	wait_all(pid_t last_pid)
 	return (ret);
 }
 
-int	check_exit(t_token *tokens)
+int	shell_exit(int argc, char *argv[], t_env *env)
 {
-	//이거하고, 에러처리 바바꾸꾸면  오오ㅘㅘㄴ료
-	if (ft_strncmp(first))
-	exit();
+	if (argc >= 2 && !is_number(argv[1]))
+	{
+		builtin_error(env, "exit", argv[1], "numeric argument required");
+		exit(255);
+	}
+	if (argc > 2)
+		return (builtin_error(env, "exit", NULL, "too many arguments"));
+	env->exit_code = 0;
+	if (argc == 2)
+	{
+		if (is_number(argv[1]))
+			env->exit_code = ft_atoi(argv[1]) & 255;
+	}
+	ft_putendl_fd("exit", 1);
+	exit(env->exit_code);
+	return (0);
+}
+
+int	check_exit(t_token *tokens, t_env *env)
+{
+	char	*first;
+	char	**argv;
+	int		argc;
+	int		fd[2];
+
+	first = tokens->head->next->str;
+	if (ft_strncmp(first, "exit", ft_strlen(first)) == 0 && !has_pipe(tokens))
+	{
+		fd[0] = -1;
+		argv = preprocess(tokens, fd);
+		argc = 0;
+		while (argv[argc])
+			argc++;
+		shell_exit(argc, argv, env);
+		return (1);
+	}
+	return (0);
 }
 
 void	execute_command(char *input, t_env *env, int std_fd[])
@@ -99,9 +134,10 @@ void	execute_command(char *input, t_env *env, int std_fd[])
 
 	safe_signal(SIGINT, SIG_IGN);
 	tokens = tokenize(input, env);
-	check_exit(tokens);
+	if (check_exit(tokens, env))
+		return ;
 	while (first_type(tokens) != ERROR)
-	{
+	{	
 		token = parse_token(tokens);
 		if (pipe(fd) == -1)
 			error(env, NULL, 1);

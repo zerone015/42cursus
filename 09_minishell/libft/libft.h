@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:35:50 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/02 20:52:41 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 03:09:54 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int		ft_isascii(int c);
 int		ft_isdigit(int c);
 int		ft_isprint(int c);
 int		ft_isblank(int c);
+int		is_number(char *str);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 

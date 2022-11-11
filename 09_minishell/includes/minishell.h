@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 12:33:05 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/12 03:32:11 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ enum e_signal
 char	*get_prompt(t_env *env);
 int		syntax_check(char **input, t_env *env);
 t_token	*tokenize(char *input, t_env *env);
-void	external_process(t_token *token, t_env *env, int fd[], int oldfd[]);
+void	external_process(t_token *token, t_env *env, int fd[], int std_fd[]);
 char	**preprocess(t_token *token, int fd[]);
 void	execute(char **argv, char **envp);
 t_token	*parse_token(t_token *tokens);
@@ -64,7 +64,7 @@ int		tokenize_redirect(char *input, t_token *token);
 int		is_normal(char c);
 int		tokenize_normal(char *input, t_token *token);
 
-int		error(t_env *env, char *err_msg, int status);
-void	child_error(char *err_msg, char *cmd, int status);
+int		error(t_env *env, char *err_msg, int exit_code);
+void	child_error(char *err_msg, char *cmd, int exit_code);
 
 #endif

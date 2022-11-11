@@ -6,21 +6,11 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:47:56 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 17:51:09 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/12 03:08:00 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	is_number(char *str)
-{
-	while (*str)
-	{
-		if (!ft_isdigit(*str++))
-			return (FALSE);
-	}
-	return (TRUE);
-}
 
 int	builtin_exit(int argc, char *argv[], t_env *env)
 {
@@ -37,7 +27,6 @@ int	builtin_exit(int argc, char *argv[], t_env *env)
 		if (is_number(argv[1]))
 			env->exit_code = ft_atoi(argv[1]) & 255;
 	}
-	ft_putendl_fd("exit", STDOUT_FILENO);
 	exit(env->exit_code);
 	return (0);
 }

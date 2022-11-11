@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:40 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 00:14:37 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/11 23:41:30 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <errno.h>
 #include "../../includes/minishell.h"
 
-int	is_pipe(t_token *token)
+int	has_pipe(t_token *token)
 {
 	t_tnode	*node;
 

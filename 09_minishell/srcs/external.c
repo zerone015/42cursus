@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/11 21:53:26 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 01:51:18 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,6 @@ int	is_heredoc(t_token *token)
 		node = node->next;
 	}
 	return (FALSE);
-}
-
-static void	child_process(t_token *token, int fd[], char *envp[])
-{
-	char	**argv;
-
-	if (first_type(token) == PIPE)
-		free(remove_first(token));
-	argv = preprocess(token, fd);
-	execute(argv, envp);
 }
 
 char	**convert_env(t_env *env)
@@ -62,13 +52,17 @@ char	**convert_env(t_env *env)
 	return (envp);
 }
 
-void	external_process(t_token *token, t_env *env, int fd[], int oldfd[])
+void	external_process(t_token *token, t_env *env, int fd[], int std_fd[])
 {
+	char	**argv;
 	char	**envp;
 
 	set_signal(CHILD);
 	envp = convert_env(env);
 	if (is_heredoc(token))
-		dup2(oldfd[0], STDIN_FILENO);
-	child_process(token, fd, envp);
+		dup2(std_fd[0], STDIN_FILENO);
+	if (first_type(token) == PIPE)
+		free(remove_first(token));
+	argv = preprocess(token, fd);
+	execute(argv, envp);
 }

@@ -6,33 +6,15 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:57 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 00:15:07 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/12 03:32:32 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <errno.h>
 #include "../includes/minishell.h"
-
-char	*parse_cmd(char *argv)
-{
-	int	head;
-	int	i;
-
-	if (argv[ft_strlen(argv) - 1] == '/')
-		return (argv);
-	head = -1;
-	i = 0;
-	while (argv[i])
-	{
-		if (argv[i] == '/')
-			head = i;
-		i++;
-	}
-	head++;
-	return (argv + head);
-}
 
 char	**parse_envp(char *envp[])
 {
@@ -48,55 +30,51 @@ char	**parse_envp(char *envp[])
 	return (paths);
 }
 
-char	*find_path(char *cmd, char *envp[])
+int	find_path_execve(char *cmd, char *argv[], char *envp[])
 {
 	char	**paths;
 	char	*path;
 	char	*temp;
 	int		i;
-	int		fd;
 
 	paths = parse_envp(envp);
-	if (!paths)
-		return (NULL);
 	i = -1;
 	while (paths[++i])
 	{
 		temp = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(temp, cmd);
 		free(temp);
-		fd = open(path, O_RDONLY);
-		if (fd != ERROR)
-		{
-			close(fd);
-			return (path);
-		}
+		execve(path, argv, envp);
 		free(path);
 	}
-	return (NULL);
+	return (ERROR);
 }
 
-void	execute(char **argv, char **envp)
+static void	error_handler(char *cmd)
+{
+	int	exit_code;
+
+	if (!ft_strchr(cmd, '/'))
+		child_error("command not found", cmd, 127);
+	open(cmd, O_RDWR);
+	if (errno == ENOENT)
+		exit_code = 127;
+	else if (errno == EISDIR)
+		exit_code = 126;
+	else
+		exit_code = EXIT_FAILURE;
+	child_error(NULL, cmd, exit_code);
+}
+
+void	execute(char *argv[], char *envp[])
 {
 	char	*path;
-	char	*cmd;
 
-	cmd = argv[0];
-	argv[0] = parse_cmd(argv[0]);
-	path = find_path(argv[0], envp);
-	if (is_directory(cmd))
-		child_error("is a directory", cmd, 126);
-	if (!path)
+	if (execve(argv[0], argv, envp) == ERROR)
 	{
-		if (is_executable(cmd))
-			path = cmd;
-		else if (ft_strchr(cmd, '/'))
-			child_error("No such file or directory", cmd, 127);
-		else
-			child_error("command not found", cmd, 127);
+		if (find_path_execve(argv[0], argv, envp) == ERROR)
+			error_handler(argv[0]);
 	}
-	if (ft_strchr(cmd, '/') && !is_executable(cmd))
-		child_error("No such file or directory", cmd, 127);
-	if (execve(path, argv, envp) == -1)
-		child_error(NULL, cmd, 1);
+	if (execve(path, argv, envp) == ERROR)
+		child_error(NULL, argv[0], EXIT_FAILURE);
 }

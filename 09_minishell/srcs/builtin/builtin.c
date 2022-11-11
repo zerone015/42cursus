@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:04 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/11 22:06:56 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 01:41:43 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	init_table(void *f[])
 	f[_UNSET] = builtin_unset;
 }
 
-void	execute_builtin(char **argv, t_env *env, int is_child)
+void	execute_builtin(char **argv, t_env *env)
 {
 	int			argc;
 	void		*f[30];
@@ -41,14 +41,13 @@ void	execute_builtin(char **argv, t_env *env, int is_child)
 	init_table(f);
 	func = f[ft_strnstr(builtin, argv[0], 35) - builtin];
 	argc = -func(argc, argv, env);
-	ft_free(argv);
-	if (is_child)
-		exit(argc);
+	exit(argc);
 }
 
-void	builtin_process(t_token *token, t_env *env, int fd[], int oldfd[])
+void	builtin_process(t_token *token, t_env *env, int fd[], int std_fd[])
 {
 	if (first_type(token) == PIPE)
 		free(remove_first(token));
-	execute_builtin(preprocess(token, fd), env, FALSE);
+	dup2(std_fd[0], STDIN_FILENO);
+	execute_builtin(preprocess(token, fd), env);
 }
