@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 06:21:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/12 03:36:57 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 04:12:35 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ static char	*find_path(char *cmd, char *paths[])
 		free(temp);
 		if (!path)
 			ft_perror(NULL, EXIT_FAILURE);
+		if (ft_strnstr(path, "//", ft_strlen(path)))
+		{
+			free(path);
+			return (NULL);
+		}
 		if (access(path, F_OK) == 0)
 			return (path);
 		free(path);
