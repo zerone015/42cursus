@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 06:21:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/10 17:21:59 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 03:36:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ static char	*find_path(char *cmd, char *paths[])
 	char	*temp;
 	int		i;
 
-	if (*cmd == '\0')
-		return (NULL);
 	i = 0;
 	while (paths[i])
 	{
