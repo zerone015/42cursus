@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:04 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 12:31:51 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/11 22:06:56 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,48 +46,9 @@ void	execute_builtin(char **argv, t_env *env, int is_child)
 		exit(argc);
 }
 
-void	child_builtin(t_token *token, int fd[], t_env *env)
-{
-	char	**argv;
-
-	if (first_type(token) == PIPE)
-		free(remove_first(token));
-	argv = preprocess(token, fd);
-	execute_builtin(argv, env, TRUE);
-}
-
-int	parent_builtin(t_token *token, int fd[], pid_t pid, int oldfd)
-{
-	int		status;
-
-	waitpid(pid, &status, 0);
-	unlink("./.heredoc");
-	close(fd[1]);
-	if (last_type(token) == PIPE)
-		dup2(fd[0], STDIN_FILENO);
-	else
-		dup2(oldfd, STDIN_FILENO);
-	close(fd[0]);
-	return (status >> 8);
-}
-
 void	builtin_process(t_token *token, t_env *env, int fd[], int oldfd[])
 {
-	pid_t	pid;
-
-	if (is_pipe(token))
-	{
-		pid = fork();
-		if (pid == ERROR)
-			error(env, NULL, 1);
-		if (pid == 0)
-			child_builtin(token, fd, env);
-		else
-			env->exit_code = parent_builtin(token, fd, pid, oldfd[0]);
-	}
-	else
-	{
-		execute_builtin(preprocess(token, fd), env, FALSE);
-		dup2(oldfd[1], STDOUT_FILENO);
-	}
+	if (first_type(token) == PIPE)
+		free(remove_first(token));
+	execute_builtin(preprocess(token, fd), env, FALSE);
 }
