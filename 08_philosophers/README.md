@@ -32,13 +32,12 @@ $ make bonus      # bonus
 - 멀티 스레드
 - 멀티 프로세스
 ### 학습 내용
-- 프로세스, 스레드
-- process management
+- process, thread
 - PCB
-- context switch
-- race condition
-- critical section
-- deadlock
-- process synchronization
+- Context switch
+- Race condition
+- Critical section
+- Mutex, Semaphore
+- Deadlock
 - CPU scheduling
 - busy waiting, block/wakeup
