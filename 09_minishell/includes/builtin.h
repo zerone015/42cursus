@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 21:42:39 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 01:41:09 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 04:27:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ enum e_builtin
 	_UNSET = 29
 };
 
+char	*strnstr_strict(const char *str, const char *to_find, size_t len);
 int		has_pipe(t_token *token);
 int		is_essential(char *arg);
 int		builtin_error(t_env *env, char *cmd, char *arg, char *err_msg);

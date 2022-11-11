@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:40 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/11 23:41:30 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 04:27:06 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,23 @@ int	builtin_error(t_env *env, char *cmd, char *arg, char *err_msg)
 	ft_putendl_fd(err_msg, STDERR_FILENO);
 	env->exit_code = 1;
 	return (ERROR);
+}
+
+char	*strnstr_strict(const char *str, const char *to_find, size_t len)
+{
+	size_t	i;
+
+	while (*to_find && len--)
+	{
+		i = 0;
+		while ((const unsigned char)str[i] == (const unsigned char)to_find[i])
+		{
+			if (*(str - 1))
+				break ;
+			if (!to_find[i++])
+				return ((char *)str);
+		}
+		str++;
+	}
+	return (NULL);
 }

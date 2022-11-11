@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:04 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 01:41:43 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 04:27:51 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	execute_builtin(char **argv, t_env *env)
 		argc++;
 	ft_memset(f, 0, sizeof(f));
 	init_table(f);
-	func = f[ft_strnstr(builtin, argv[0], 35) - builtin];
+	func = f[strnstr_strict(builtin, argv[0], 35) - builtin];
 	argc = -func(argc, argv, env);
 	exit(argc);
 }
