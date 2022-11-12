@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/12 20:10:39 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 21:32:34 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,21 @@ void	exit_program(int exit_code)
 	exit(exit_code);
 }
 
-
 void	child_builtin(t_exec *exec)
 {
+	char	**argv;
+	int		out_redirection;
+	
+	dup2(exec->std_fd[0], STDIN_FILENO);
+	close(exec->pipe_fd[0]);
 	if (first_type(exec->token) == PIPE)
 		free(remove_first(exec->token));
-	dup2(exec->std_fd[0], STDIN_FILENO);
-	execute_builtin(make_argv(exec->token, NULL), exec->env, TRUE);
+	out_redirection = 0;
+	argv = make_argv(exec->token, &out_redirection);
+	if (!out_redirection && first_type(exec->token) == PIPE)
+		dup2(exec->pipe_fd[1], STDOUT_FILENO);
+	close(exec->pipe_fd[1]);
+	execute_builtin(argv, exec->env, TRUE);
 }
 
 int	is_builtin(t_token *token)
