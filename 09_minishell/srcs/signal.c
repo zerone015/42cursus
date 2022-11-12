@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 14:31:54 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 18:14:47 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 19:07:33 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handler(int signum)
 	if (signum == SIGINT)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		//rl_replace_line("", 1);
+		rl_replace_line("", 1);
 		if (rl_on_new_line() == -1)
 			ft_perror(NULL);
 		rl_redisplay();
