@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:11:32 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 00:25:04 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/12 16:43:34 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	**make_argv(t_token *token, int size, int *flag)
 
 	argv = safe_malloc(sizeof(char *) * (size + 1));
 	i = 0;
-	while (first_type(token) != ERROR && first_type(token) != PIPE)
+	while (first_type(token) != -1 && first_type(token) != PIPE)
 	{
 		if (first_type(token) == REDIRECT)
 			redirection(token, flag);
@@ -63,15 +63,15 @@ char	**make_argv(t_token *token, int size, int *flag)
 	return (argv);
 }
 
-char	**preprocess(t_token *token, int fd[])
+char	**preprocess(t_token *token, int pipe_fd[])
 {
 	int		out_redirection;
 	char	**argv;
 
 	out_redirection = 0;
 	argv = make_argv(token, find_argv_size(token), &out_redirection);
-	close(fd[0]);
+	close(pipe_fd[0]);
 	if (!out_redirection && first_type(token) == PIPE)
-		dup2(fd[1], STDOUT_FILENO);
+		dup2(pipe_fd[1], STDOUT_FILENO);
 	return (argv);
 }

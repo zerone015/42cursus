@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:04 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 04:27:51 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 18:12:33 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	init_table(void *f[])
 	f[_UNSET] = builtin_unset;
 }
 
-void	execute_builtin(char **argv, t_env *env)
+void	execute_builtin(char **argv, t_env *env, int is_child)
 {
 	int			argc;
 	void		*f[30];
@@ -41,13 +41,6 @@ void	execute_builtin(char **argv, t_env *env)
 	init_table(f);
 	func = f[strnstr_strict(builtin, argv[0], 35) - builtin];
 	argc = -func(argc, argv, env);
-	exit(argc);
-}
-
-void	builtin_process(t_token *token, t_env *env, int fd[], int std_fd[])
-{
-	if (first_type(token) == PIPE)
-		free(remove_first(token));
-	dup2(std_fd[0], STDIN_FILENO);
-	execute_builtin(preprocess(token, fd), env);
+	if (is_child)
+		exit(argc);
 }

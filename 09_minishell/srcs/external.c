@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 01:51:18 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 18:54:18 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <sys/wait.h>
 #include "../includes/minishell.h"
 
-int	is_heredoc(t_token *token)
+static int	is_heredoc(t_token *token)
 {
 	t_tnode	*node;
 
@@ -29,7 +29,7 @@ int	is_heredoc(t_token *token)
 	return (FALSE);
 }
 
-char	**convert_env(t_env *env)
+static char	**convert_env(t_env *env)
 {
 	char	**envp;
 	t_enode	*node;
@@ -52,17 +52,17 @@ char	**convert_env(t_env *env)
 	return (envp);
 }
 
-void	external_process(t_token *token, t_env *env, int fd[], int std_fd[])
+void	child_external(t_exec *exec)
 {
 	char	**argv;
 	char	**envp;
 
 	set_signal(CHILD);
-	envp = convert_env(env);
-	if (is_heredoc(token))
-		dup2(std_fd[0], STDIN_FILENO);
-	if (first_type(token) == PIPE)
-		free(remove_first(token));
-	argv = preprocess(token, fd);
+	envp = convert_env(exec->env);
+	if (is_heredoc(exec->token))
+		dup2(exec->std_fd[0], STDIN_FILENO);
+	if (first_type(exec->token) == PIPE)
+		free(remove_first(exec->token));
+	argv = preprocess(exec->token, exec->pipe_fd);
 	execute(argv, envp);
 }

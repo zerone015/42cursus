@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/12 03:07:26 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 18:51:10 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,6 @@
 #include <readline/history.h>
 #include "../includes/minishell.h"
 
-t_env	*init_envp(char *envp[])
-{
-	t_env	*env;
-	int		i;
-
-	env = init_env();
-	while (*envp)
-	{
-		i = ft_strchr(*envp, '=') - *envp;
-		add_enode(env, ft_substr(*envp, 0, i), \
-						ft_substr(*envp, i + 1, ft_strlen(*envp)));
-		envp++;
-	}
-	return (env);
-}
-
 char	*safe_readline(char *prompt)
 {
 	char	*input;
@@ -42,30 +26,39 @@ char	*safe_readline(char *prompt)
 	return (input);
 }
 
-void	exit_program(void)
+void	exit_program(int exit_code)
 {
 	ft_putendl_fd("exit", STDOUT_FILENO);
-	exit(0);
+	exit(exit_code);
 }
 
-void	child_process(t_token *token, t_env *env, int fd[], int std_fd[])
+
+void	child_builtin(t_exec *exec)
 {
-	if (is_builtin(token))
-		builtin_process(token, env, fd, std_fd);
-	else
-		external_process(token, env, fd, std_fd);
+	if (first_type(exec->token) == PIPE)
+		free(remove_first(exec->token));
+	dup2(exec->std_fd[0], STDIN_FILENO);
+	execute_builtin(preprocess(exec->token, exec->pipe_fd), exec->env, TRUE);
 }
 
-void	parent_process(t_token *token, int fd[], int std_fd[])
+void	child_process(t_exec *exec)
 {
-	if (last_type(token) == PIPE)
-		dup2(fd[0], STDIN_FILENO);
+	if (is_builtin(exec->token))
+		child_builtin(exec);
 	else
-		dup2(std_fd[0], STDIN_FILENO);
-	close(fd[0]);
-	close(fd[1]);
-	dup2(std_fd[1], STDOUT_FILENO);
-	clear_token(token);
+		child_external(exec);
+}
+
+void	parent_process(t_exec *exec)
+{
+	if (last_type(exec->token) == PIPE)
+		dup2(exec->pipe_fd[0], STDIN_FILENO);
+	else
+		dup2(exec->std_fd[0], STDIN_FILENO);
+	close(exec->pipe_fd[0]);
+	close(exec->pipe_fd[1]);
+	dup2(exec->std_fd[1], STDOUT_FILENO);
+	clear_token(exec->token);
 }
 
 int	wait_all(pid_t last_pid)
@@ -99,86 +92,118 @@ int	shell_exit(int argc, char *argv[], t_env *env)
 		if (is_number(argv[1]))
 			env->exit_code = ft_atoi(argv[1]) & 255;
 	}
-	ft_putendl_fd("exit", 1);
-	exit(env->exit_code);
+	exit_program(env->exit_code);
 	return (0);
 }
 
-int	check_exit(t_token *tokens, t_env *env)
+int	execute_exit(t_token *tokens, t_exec *exec)
 {
 	char	*first;
 	char	**argv;
 	int		argc;
-	int		fd[2];
 
 	first = tokens->head->next->str;
-	if (ft_strncmp(first, "exit", ft_strlen(first)) == 0 && !has_pipe(tokens))
+	if (ft_strncmp(first, "exit", 5) == 0 && !has_pipe(tokens))
 	{
-		fd[0] = -1;
-		argv = preprocess(tokens, fd);
+		argv = preprocess(tokens, exec->pipe_fd);
 		argc = 0;
 		while (argv[argc])
 			argc++;
-		shell_exit(argc, argv, env);
-		return (1);
+		shell_exit(argc, argv, exec->env);
+		clear_token(tokens);
+		unlink("./.heredoc");
+		return (0);
 	}
-	return (0);
+	return (-1);
 }
 
-void	execute_command(char *input, t_env *env, int std_fd[])
+void	execute_with_fork(t_token *tokens, t_exec *exec)
+{
+	pid_t	pid;
+	
+	while (first_type(tokens) != -1)
+	{	
+		exec->token = parse_token(tokens);
+		if (pipe(exec->pipe_fd) == -1)
+		{
+			error(exec->env, NULL, 1);
+			exit(EXIT_FAILURE);
+		}
+		pid = fork();
+		if (pid == -1)
+		{
+			error(exec->env, NULL, 1);
+			exit(EXIT_FAILURE);
+		}
+		else if (pid == 0)
+			child_process(exec);
+		else if (pid > 0)
+			parent_process(exec);
+	}
+	exec->env->exit_code = wait_all(pid);
+}
+
+void	execute_command(char *input, t_exec *exec)
 {
 	t_token	*tokens;
-	t_token	*token;
-	int		fd[2];
-	pid_t	pid;
 
 	safe_signal(SIGINT, SIG_IGN);
-	tokens = tokenize(input, env);
-	if (check_exit(tokens, env))
+	tokens = tokenize(input, exec->env);
+	if (execute_exit(tokens, exec) == 0)
 		return ;
-	while (first_type(tokens) != ERROR)
-	{	
-		token = parse_token(tokens);
-		if (pipe(fd) == -1)
-			error(env, NULL, 1);
-		pid = fork();
-		if (pid == ERROR)
-			error(env, NULL, 1);
-		else if (pid == 0)
-			child_process(token, env, fd, std_fd);
-		else if (pid > 0)
-			parent_process(token, fd, std_fd);
-	}
-	env->exit_code = wait_all(pid);
+	if (is_builtin(tokens) && !has_pipe(tokens))
+		execute_builtin(preprocess(tokens, exec->pipe_fd), exec->env, FALSE);
+	else
+		execute_with_fork(tokens, exec);
 	clear_token(tokens);
 	unlink("./.heredoc");
 }
 
+void	parse_envp(t_env *env, char *envp[])
+{
+	int		i;
+
+	while (*envp)
+	{
+		i = ft_strchr(*envp, '=') - *envp;
+		add_enode(env, ft_substr(*envp, 0, i), \
+						ft_substr(*envp, i + 1, ft_strlen(*envp)));
+		envp++;
+	}
+}
+
+void	init_exec(t_exec *exec, char *envp[])
+{
+	exec->std_fd[0] = dup(STDIN_FILENO);
+	exec->std_fd[1] = dup(STDOUT_FILENO);
+	exec->pipe_fd[0] = -1;
+	exec->pipe_fd[1] = -1;
+	exec->env = init_env();
+	parse_envp(exec->env, envp);
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
-	t_env	*env;
+	t_exec	exec;
 	char	*input;
 	int		is_error;
-	int		std_fd[2];
 
-	env = init_envp(envp);
-	std_fd[0] = dup(STDIN_FILENO);
-	std_fd[1] = dup(STDOUT_FILENO);
+	init_exec(&exec, envp);
 	while (argc || argv)
 	{
 		set_signal(PARENT);
-		input = safe_readline(get_prompt(env));
+		input = safe_readline(get_prompt(exec.env));
 		if (input)
 		{
-			is_error = syntax_check(&input, env);
+			is_error = syntax_check(&input, exec.env);
 			if (*input)
 				add_history(input);
 			if (!is_error)
-				execute_command(input, env, std_fd);
+				execute_command(input, &exec);
 			free(input);
 		}
 		else
-			exit_program();
+			exit_program(EXIT_SUCCESS);
 	}
 	return (0);
 }

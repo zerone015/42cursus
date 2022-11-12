@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:57 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 04:02:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 18:40:41 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <errno.h>
 #include "../includes/minishell.h"
 
-char	**parse_envp(char *envp[])
+static char	**parse_envp(char *envp[])
 {
 	char	**paths;
 	int		i;
@@ -30,7 +30,7 @@ char	**parse_envp(char *envp[])
 	return (paths);
 }
 
-int	find_path_execve(char *cmd, char *argv[], char *envp[])
+static int	find_path_execve(char *cmd, char *argv[], char *envp[])
 {
 	char	**paths;
 	char	*path;
@@ -38,6 +38,8 @@ int	find_path_execve(char *cmd, char *argv[], char *envp[])
 	int		i;
 
 	paths = parse_envp(envp);
+	if (!paths)
+		return (ERROR);
 	i = -1;
 	while (paths[++i])
 	{
