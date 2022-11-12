@@ -20,7 +20,7 @@ $ make
 
 # example
 ./minishell
-09_minishell$ env | grep PATH | echo -n > outfile
+09_minishell$ env | grep PATH | cat -e > outfile
 09_minishell$ export PATH=$PATH:$PWD
 09_minishell$ < /dev/urandom cat | head -1 >> outfile
 09_minishell$ exit | exit
