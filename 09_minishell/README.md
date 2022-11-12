@@ -17,9 +17,22 @@ $ make
 
 # execute
 ./minishell
+
+# example
+./minishell
+09_minishell$ env | grep PATH | echo -n > outfile
+09_minishell$ export PATH=$PATH:$PWD
+09_minishell$ < /dev/urandom cat | head -1 >> outfile
+09_minishell$ exit | exit
+09_minishell$ exit
 ```
 ### 구현 내용
-- 셸 프로그램
+- 실행파일 실행 (cat, ls, grep, wc, head, tail, cut, ...)
+- builtins (echo, cd, pwd, export, unset, env, exit)
+- 싱글 쿼터('') 및 더블 쿼터("")
+- 파이프, 시그널, 리다이렉션
+- 환경 변수($)
+- $? (최근 실행한 명령어의 종료 상태를 가진 변수)
 ### 학습 내용
 - 협업
 - 셸 구조
