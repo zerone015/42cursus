@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:25:06 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 00:24:28 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/12 19:22:38 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	redirect_check(char *input)
 			while (ft_isblank(*input))
 				input++;
 			if (*input == '\0')
-				return (ERROR);
+				return (-1);
 			else if (ft_isredirect(input))
-				return (ERROR);
+				return (-1);
 		}
 		else
 			input++;
@@ -50,13 +50,13 @@ int	pipe_check(char **input)
 			while (j >= 0 && ft_isblank((*input)[j]))
 				j--;
 			if (j == -1)
-				return (ERROR);
+				return (-1);
 			else if ((*input)[j] == '|')
-				return (ERROR);
+				return (-1);
 			else if (ft_isredirect(*input + j))
-				return (ERROR);
+				return (-1);
 			else if (j != 0 && get_abs(ft_isredirect(*input + j - 1) == 2))
-				return (ERROR);
+				return (-1);
 		}
 	}
 	return (0);
@@ -96,7 +96,7 @@ int	last_pipe_check(char **input)
 	char	*join;
 	char	*temp;
 
-	if (pipe_check(input) == ERROR)
+	if (pipe_check(input) == -1)
 		return (0);
 	if (!is_stdin(*input))
 		return (0);
@@ -105,7 +105,7 @@ int	last_pipe_check(char **input)
 	if (eof == TRUE)
 	{
 		free(join);
-		return (ERROR);
+		return (-1);
 	}
 	temp = *input;
 	*input = ft_strjoin(*input, join);
@@ -117,12 +117,12 @@ int	last_pipe_check(char **input)
 int	syntax_check(char **input, t_env *env)
 {
 	if (**input == '\0' || is_input_blank(*input))
-		return (ERROR);
-	if (last_pipe_check(input) == ERROR)
+		return (-1);
+	if (last_pipe_check(input) == -1)
 		return (error(env, "syntax error: unexpected end of file", 258));
-	if (redirect_check(*input) == ERROR)
+	if (redirect_check(*input) == -1)
 		return (error(env, "syntax error near unexpected token", 258));
-	if (pipe_check(input) == ERROR)
+	if (pipe_check(input) == -1)
 		return (error(env, "syntax error near unexpected token", 258));
 	return (0);
 }

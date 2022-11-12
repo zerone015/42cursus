@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:57 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 18:40:41 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 19:19:53 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	find_path_execve(char *cmd, char *argv[], char *envp[])
 
 	paths = parse_envp(envp);
 	if (!paths)
-		return (ERROR);
+		return (-1);
 	i = -1;
 	while (paths[++i])
 	{
@@ -49,12 +49,12 @@ static int	find_path_execve(char *cmd, char *argv[], char *envp[])
 		if (ft_strnstr(path, "//", ft_strlen(path)))
 		{
 			free(path);
-			return (ERROR);
+			return (-1);
 		}
 		execve(path, argv, envp);
 		free(path);
 	}
-	return (ERROR);
+	return (-1);
 }
 
 static void	error_handler(char *cmd)
@@ -77,11 +77,11 @@ void	execute(char *argv[], char *envp[])
 {
 	char	*path;
 
-	if (execve(argv[0], argv, envp) == ERROR)
+	if (execve(argv[0], argv, envp) == -1)
 	{
-		if (find_path_execve(argv[0], argv, envp) == ERROR)
+		if (find_path_execve(argv[0], argv, envp) == -1)
 			error_handler(argv[0]);
 	}
-	if (execve(path, argv, envp) == ERROR)
+	if (execve(path, argv, envp) == -1)
 		child_error(NULL, argv[0], EXIT_FAILURE);
 }

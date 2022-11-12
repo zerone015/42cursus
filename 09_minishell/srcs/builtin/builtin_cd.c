@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:47:50 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 18:19:28 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/12 19:23:04 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	builtin_cd(int argc, char *argv[], t_env *env)
 	char	*path;
 
 	path = get_path(argc, argv, env);
-	if (chdir(path) == ERROR)
+	if (chdir(path) == -1)
 	{
 		if (argc == 1)
 			return (error(env, NULL, 1));

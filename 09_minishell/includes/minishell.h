@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 18:10:02 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 19:24:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # define TRUE	1
 # define FALSE	0
-# define ERROR	-1
 
 # include <unistd.h>
 # include "env.h"

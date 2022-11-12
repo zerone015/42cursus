@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:20:26 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 04:41:52 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 19:20:12 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_token	*parse_token(t_token *tokens)
 	if (first_type(tokens) == BLANK)
 		free(remove_first(tokens));
 	type = first_type(tokens);
-	while (type != PIPE && type != ERROR)
+	while (type != PIPE && type != -1)
 	{
 		add_last(token, type, remove_first(tokens));
 		type = first_type(tokens);

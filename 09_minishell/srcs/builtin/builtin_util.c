@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:40 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 04:27:06 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 19:23:39 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	builtin_error(t_env *env, char *cmd, char *arg, char *err_msg)
 	}
 	ft_putendl_fd(err_msg, STDERR_FILENO);
 	env->exit_code = 1;
-	return (ERROR);
+	return (-1);
 }
 
 char	*strnstr_strict(const char *str, const char *to_find, size_t len)
