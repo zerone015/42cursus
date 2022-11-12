@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:13:56 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 17:01:41 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/12 20:13:31 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../libft/libft.h"
 #include "../includes/minishell.h"
 
-int	tokenize_envp(char *input, t_token *token, t_env *env)
+static int	tokenize_envp(char *input, t_token *token, t_env *env)
 {
 	int		i;
 	char	*key;
@@ -42,7 +42,7 @@ int	tokenize_envp(char *input, t_token *token, t_env *env)
 	return (i);
 }
 
-int	tokenize_dquotes(char *input, t_token *token, t_env *env)
+static int	tokenize_dquotes(char *input, t_token *token, t_env *env)
 {
 	char	*word[2];
 	char	*envp;
@@ -71,7 +71,7 @@ int	tokenize_dquotes(char *input, t_token *token, t_env *env)
 	return (free_dquotes(word[0]));
 }
 
-int	tokenize_squotes(char *input, t_token *token)
+static int	tokenize_squotes(char *input, t_token *token)
 {
 	char	*word;
 
@@ -85,7 +85,7 @@ int	tokenize_squotes(char *input, t_token *token)
 	return (ft_strlen(word) + 1);
 }
 
-int	tokenize_space(char *input, t_token *token)
+static int	tokenize_space(char *input, t_token *token)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 18:54:18 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 19:54:44 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,62 @@ static char	**convert_env(t_env *env)
 	return (envp);
 }
 
+int	find_argv_size(t_token *token)
+{
+	int		size;
+	t_tnode	*node;
+
+	size = 0;
+	node = token->head->next;
+	while (node)
+	{
+		if (node->type == REDIRECT)
+		{
+			node = node->next;
+			if (node && node->type == BLANK)
+				node = node->next;
+			while (node && node->type != WORD)
+				node = node->next;
+		}
+		else if (node->type == WORD)
+		{
+			size++;
+			while (node && node->type == WORD)
+				node = node->next;
+		}
+		else
+			node = node->next;
+	}
+	return (size);
+}
+
+char	**make_argv(t_token *token, int *flag)
+{
+	int		i;
+	int		size;
+	char	**argv;
+
+	size = find_argv_size(token);
+	argv = safe_malloc(sizeof(char *) * (size + 1));
+	i = 0;
+	while (first_type(token) != -1 && first_type(token) != PIPE)
+	{
+		if (first_type(token) == REDIRECT)
+			redirection(token, flag);
+		if (first_type(token) == BLANK)
+			free(remove_first(token));
+		if (first_type(token) == WORD)
+			argv[i++] = merge_word(token);
+	}
+	argv[i] = NULL;
+	return (argv);
+}
+
 void	child_external(t_exec *exec)
 {
 	char	**argv;
 	char	**envp;
+	int		out_redirection;
 
 	set_signal(CHILD);
 	envp = convert_env(exec->env);
@@ -63,6 +115,10 @@ void	child_external(t_exec *exec)
 		dup2(exec->std_fd[0], STDIN_FILENO);
 	if (first_type(exec->token) == PIPE)
 		free(remove_first(exec->token));
-	argv = preprocess(exec->token, exec->pipe_fd);
+	out_redirection = 0;
+	argv = make_argv(exec->token, &out_redirection);
+	close(exec->pipe_fd[0]);
+	if (!out_redirection && first_type(exec->token) == PIPE)
+		dup2(exec->pipe_fd[1], STDOUT_FILENO);
 	execute(argv, envp);
 }

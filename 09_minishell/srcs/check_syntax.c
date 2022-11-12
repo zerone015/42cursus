@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate.c                                         :+:      :+:    :+:   */
+/*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:25:06 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 19:22:38 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 20:10:13 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "../includes/minishell.h"
 
-int	redirect_check(char *input)
+static int	redirect_check(char *input)
 {
 	int	result;
 
@@ -36,7 +36,7 @@ int	redirect_check(char *input)
 	return (0);
 }
 
-int	pipe_check(char **input)
+static int	pipe_check(char **input)
 {
 	int	i;
 	int	j;
@@ -62,7 +62,7 @@ int	pipe_check(char **input)
 	return (0);
 }
 
-char	*read_line(int *eof, char *line)
+static char	*read_line(int *eof, char *line)
 {
 	char	*temp;
 	char	*join;
@@ -90,7 +90,7 @@ char	*read_line(int *eof, char *line)
 	return (join);
 }
 
-int	last_pipe_check(char **input)
+static int	last_pipe_check(char **input)
 {
 	int		eof;
 	char	*join;
@@ -114,7 +114,7 @@ int	last_pipe_check(char **input)
 	return (0);
 }
 
-int	syntax_check(char **input, t_env *env)
+int	check_syntax(char **input, t_env *env)
 {
 	if (**input == '\0' || is_input_blank(*input))
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 19:24:27 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 20:11:20 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,11 @@ typedef struct s_exec
 }	t_exec;
 
 char	*get_prompt(t_env *env);
-int		syntax_check(char **input, t_env *env);
+int		check_syntax(char **input, t_env *env);
 t_token	*tokenize(char *input, t_env *env);
 void	child_external(t_exec *exec);
-char	**preprocess(t_token *token, int fd[]);
+int		find_argv_size(t_token *token);
+char	**make_argv(t_token *token, int *flag);
 void	execute(char **argv, char **envp);
 t_token	*parse_token(t_token *tokens);
 int		is_builtin(t_token *token);

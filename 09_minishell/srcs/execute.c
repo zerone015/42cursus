@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:57 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 19:19:53 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 20:12:01 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,9 @@ static void	error_handler(char *cmd)
 
 void	execute(char *argv[], char *envp[])
 {
-	char	*path;
-
 	if (execve(argv[0], argv, envp) == -1)
 	{
 		if (find_path_execve(argv[0], argv, envp) == -1)
 			error_handler(argv[0]);
 	}
-	if (execve(path, argv, envp) == -1)
-		child_error(NULL, argv[0], EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:14:09 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 02:39:02 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 20:07:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <errno.h>
 #include "../includes/minishell.h"
 
-void	overwrite_output(char *filename, int *flag)
+static void	overwrite_output(char *filename, int *flag)
 {
 	int	fd;
 
@@ -24,10 +24,11 @@ void	overwrite_output(char *filename, int *flag)
 	if (fd == -1)
 		child_error(NULL, filename, 1);
 	dup2(fd, STDOUT_FILENO);
-	*flag = 1;
+	if (flag)
+		*flag = 1;
 }
 
-void	append_output(char *filename, int *flag)
+static void	append_output(char *filename, int *flag)
 {
 	int	fd;
 
@@ -35,10 +36,11 @@ void	append_output(char *filename, int *flag)
 	if (fd == -1)
 		child_error(NULL, filename, 1);
 	dup2(fd, STDOUT_FILENO);
-	*flag = 1;
+	if (flag)
+		*flag = 1;
 }
 
-void	overwrite_input(char *filename)
+static void	overwrite_input(char *filename)
 {
 	int	fd;
 
@@ -53,13 +55,13 @@ void	overwrite_input(char *filename)
 	dup2(fd, STDIN_FILENO);
 }
 
-void	append_input(char *limiter)
+static void	append_input(char *limiter)
 {
 	char	*line;
 	int		fd;
 
 	echoctl(FALSE);
-	fd = open("./.heredoc", O_WRONLY | O_CREAT | O_TRUNC, 00644);
+	fd = open("/tmp/.heredoc", O_WRONLY | O_CREAT | O_TRUNC, 00644);
 	if (fd == -1)
 		child_error(NULL, ".heredoc", 1);
 	while (1)
@@ -75,7 +77,7 @@ void	append_input(char *limiter)
 		free(line);
 	}
 	close(fd);
-	fd = open("./.heredoc", O_RDONLY);
+	fd = open("/tmp/.heredoc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 }
 

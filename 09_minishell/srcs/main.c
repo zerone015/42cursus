@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/12 18:51:10 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 20:10:39 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,32 @@ void	child_builtin(t_exec *exec)
 	if (first_type(exec->token) == PIPE)
 		free(remove_first(exec->token));
 	dup2(exec->std_fd[0], STDIN_FILENO);
-	execute_builtin(preprocess(exec->token, exec->pipe_fd), exec->env, TRUE);
+	execute_builtin(make_argv(exec->token, NULL), exec->env, TRUE);
+}
+
+int	is_builtin(t_token *token)
+{
+	t_tnode		*node;
+	char		*cmd;
+	char		*temp;
+	const char	*builtin = "\0cd\0echo\0env\0exit\0export\0pwd\0unset";
+
+	node = token->head->next;
+	cmd = ft_strdup("");
+	while (node && node->type == PIPE)
+		node = node->next;
+	while (node && node->type == WORD)
+	{
+		temp = cmd;
+		cmd = ft_strjoin(cmd, node->str);
+		free(temp);
+		node = node->next;
+	}
+	temp = strnstr_strict(builtin, cmd, 35);
+	free(cmd);
+	if (!temp)
+		return (FALSE);
+	return (TRUE);
 }
 
 void	child_process(t_exec *exec)
@@ -85,7 +110,10 @@ int	shell_exit(int argc, char *argv[], t_env *env)
 		exit(255);
 	}
 	if (argc > 2)
+	{
+		ft_free(argv);
 		return (builtin_error(env, "exit", NULL, "too many arguments"));
+	}
 	env->exit_code = 0;
 	if (argc == 2)
 	{
@@ -99,22 +127,38 @@ int	shell_exit(int argc, char *argv[], t_env *env)
 int	execute_exit(t_token *tokens, t_exec *exec)
 {
 	char	*first;
-	char	**argv;
-	int		argc;
 
 	first = tokens->head->next->str;
 	if (ft_strncmp(first, "exit", 5) == 0 && !has_pipe(tokens))
 	{
-		argv = preprocess(tokens, exec->pipe_fd);
-		argc = 0;
-		while (argv[argc])
-			argc++;
-		shell_exit(argc, argv, exec->env);
+		shell_exit(find_argv_size(tokens), make_argv(tokens, NULL), exec->env);
 		clear_token(tokens);
-		unlink("./.heredoc");
+		unlink("/tmp/.heredoc");
 		return (0);
 	}
 	return (-1);
+}
+
+t_token	*parse_token(t_token *tokens)
+{
+	t_token	*token;
+	int		type;
+
+	token = init_token();
+	if (first_type(tokens) == PIPE)
+		add_last(token, PIPE, remove_first(tokens));
+	if (first_type(tokens) == BLANK)
+		free(remove_first(tokens));
+	type = first_type(tokens);
+	while (type != PIPE && type != -1)
+	{
+		add_last(token, type, remove_first(tokens));
+		type = first_type(tokens);
+	}
+	redirect_to_last(token);
+	if (type == PIPE)
+		add_last(token, PIPE, ft_strdup("|"));
+	return (token);
 }
 
 void	execute_with_fork(t_token *tokens, t_exec *exec)
@@ -152,11 +196,11 @@ void	execute_command(char *input, t_exec *exec)
 	if (execute_exit(tokens, exec) == 0)
 		return ;
 	if (is_builtin(tokens) && !has_pipe(tokens))
-		execute_builtin(preprocess(tokens, exec->pipe_fd), exec->env, FALSE);
+		execute_builtin(make_argv(tokens, NULL), exec->env, FALSE);
 	else
 		execute_with_fork(tokens, exec);
 	clear_token(tokens);
-	unlink("./.heredoc");
+	unlink("/tmp/.heredoc");
 }
 
 void	parse_envp(t_env *env, char *envp[])
@@ -195,7 +239,7 @@ int	main(int argc, char *argv[], char *envp[])
 		input = safe_readline(get_prompt(exec.env));
 		if (input)
 		{
-			is_error = syntax_check(&input, exec.env);
+			is_error = check_syntax(&input, exec.env);
 			if (*input)
 				add_history(input);
 			if (!is_error)
