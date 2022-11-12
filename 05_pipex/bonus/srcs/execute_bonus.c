@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 06:21:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/12 04:12:35 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/12 20:28:07 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-static char	*find_path(char *cmd, char *paths[])
+static int	find_path_execve(char *cmd, char *paths[], char *argv[], char *envp[])
 {
 	char	*path;
 	char	*temp;
@@ -34,14 +34,13 @@ static char	*find_path(char *cmd, char *paths[])
 		if (ft_strnstr(path, "//", ft_strlen(path)))
 		{
 			free(path);
-			return (NULL);
+			return (-1);
 		}
-		if (access(path, F_OK) == 0)
-			return (path);
+		execve(path, argv, envp);
 		free(path);
 		i++;
 	}
-	return (NULL);
+	return (-1);
 }
 
 static void	error_handler(char *cmd)
@@ -63,17 +62,13 @@ static void	error_handler(char *cmd)
 void	execute(char *arg, char *envp[], char *paths[])
 {
 	char	**argv;
-	char	*path;
 
 	argv = ft_split(arg, ' ');
 	if (!argv)
 		ft_perror(NULL, EXIT_FAILURE);
 	if (execve(argv[0], argv, envp) == -1)
 	{
-		path = find_path(argv[0], paths);
-		if (!path)
+		if (find_path_execve(argv[0], paths, argv, envp) == -1)
 			error_handler(argv[0]);
 	}
-	if (execve(path, argv, envp) == -1)
-		ft_perror(argv[0], EXIT_FAILURE);
 }
