@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/12 21:32:34 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/14 21:12:10 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,9 @@ int	wait_all(pid_t last_pid)
 	return (ret);
 }
 
-int	shell_exit(int argc, char *argv[], t_env *env)
+int	builtin_exit_shell(int argc, char *argv[], t_env *env)
 {
+	unlink("/tmp/.heredoc");
 	if (argc >= 2 && !is_number(argv[1]))
 	{
 		builtin_error(env, "exit", argv[1], "numeric argument required");
@@ -132,19 +133,14 @@ int	shell_exit(int argc, char *argv[], t_env *env)
 	return (0);
 }
 
-int	execute_exit(t_token *tokens, t_exec *exec)
+int	is_exit(t_token *tokens)
 {
 	char	*first;
 
 	first = tokens->head->next->str;
-	if (ft_strncmp(first, "exit", 5) == 0 && !has_pipe(tokens))
-	{
-		shell_exit(find_argv_size(tokens), make_argv(tokens, NULL), exec->env);
-		clear_token(tokens);
-		unlink("/tmp/.heredoc");
-		return (0);
-	}
-	return (-1);
+	if (ft_strncmp(first, "exit", 5) == 0)
+		return (TRUE);
+	return (FALSE);
 }
 
 t_token	*parse_token(t_token *tokens)
@@ -201,9 +197,9 @@ void	execute_command(char *input, t_exec *exec)
 
 	safe_signal(SIGINT, SIG_IGN);
 	tokens = tokenize(input, exec->env);
-	if (execute_exit(tokens, exec) == 0)
-		return ;
-	if (is_builtin(tokens) && !has_pipe(tokens))
+	if (is_exit(tokens) && !has_pipe(tokens))
+		builtin_exit_shell(find_argv_size(tokens), make_argv(tokens, 0), exec->env);
+	else if (is_builtin(tokens) && !has_pipe(tokens))
 		execute_builtin(make_argv(tokens, NULL), exec->env, FALSE);
 	else
 		execute_with_fork(tokens, exec);
