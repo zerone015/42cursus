@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/14 21:12:10 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/14 21:33:11 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@ char	*safe_readline(char *prompt)
 	input = readline(prompt);
 	free(prompt);
 	return (input);
-}
-
-void	exit_program(int exit_code)
-{
-	ft_putendl_fd("exit", STDOUT_FILENO);
-	exit(exit_code);
 }
 
 void	child_builtin(t_exec *exec)
@@ -110,8 +104,13 @@ int	wait_all(pid_t last_pid)
 	return (ret);
 }
 
-int	builtin_exit_shell(int argc, char *argv[], t_env *env)
+int	exit_program(t_token *tokens, t_env *env)
 {
+	int		argc;
+	char	**argv;
+
+	argc = find_argv_size(tokens);
+	argv = make_argv(tokens, NULL);
 	unlink("/tmp/.heredoc");
 	if (argc >= 2 && !is_number(argv[1]))
 	{
@@ -129,7 +128,8 @@ int	builtin_exit_shell(int argc, char *argv[], t_env *env)
 		if (is_number(argv[1]))
 			env->exit_code = ft_atoi(argv[1]) & 255;
 	}
-	exit_program(env->exit_code);
+	ft_putendl_fd("exit", STDOUT_FILENO);
+	exit(env->exit_code);
 	return (0);
 }
 
@@ -198,7 +198,7 @@ void	execute_command(char *input, t_exec *exec)
 	safe_signal(SIGINT, SIG_IGN);
 	tokens = tokenize(input, exec->env);
 	if (is_exit(tokens) && !has_pipe(tokens))
-		builtin_exit_shell(find_argv_size(tokens), make_argv(tokens, 0), exec->env);
+		exit_program(tokens, exec->env);
 	else if (is_builtin(tokens) && !has_pipe(tokens))
 		execute_builtin(make_argv(tokens, NULL), exec->env, FALSE);
 	else
@@ -251,7 +251,10 @@ int	main(int argc, char *argv[], char *envp[])
 			free(input);
 		}
 		else
-			exit_program(EXIT_SUCCESS);
+		{
+			ft_putendl_fd("exit", STDOUT_FILENO);
+			exit(EXIT_SUCCESS);
+		}
 	}
 	return (0);
 }
