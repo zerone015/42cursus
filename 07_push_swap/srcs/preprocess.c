@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:04:11 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/27 22:46:59 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/15 12:29:32 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	insert_numbers_to_temp(int temp[], t_list *list_a)
 	}
 }
 
-static int	duplicate_number_exists(int temp[], int len)
+static int	has_duplicate_number(int temp[], int len)
 {
 	int	i;
 
@@ -61,7 +61,7 @@ void	preprocess(t_list *list_a)
 		error("Error");
 	insert_numbers_to_temp(temp, list_a);
 	quick_sort(temp, 0, list_a->size - 1);
-	if (duplicate_number_exists(temp, list_a->size) == TRUE)
+	if (has_duplicate_number(temp, list_a->size) == TRUE)
 		error("Error");
 	indexing(temp, list_a);
 	free(temp);

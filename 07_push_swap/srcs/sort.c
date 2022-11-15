@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 23:25:37 by yoson             #+#    #+#             */
-/*   Updated: 2022/08/28 22:48:32 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/15 12:30:16 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	is_already_sorted(t_list *list_a)
 	return (TRUE);
 }
 
-void	sort_three(t_list *list)
+void	three_sort(t_list *list)
 {
 	int	top;
 	int	mid;
@@ -108,7 +108,7 @@ void	sort(t_list *list_a)
 	t_list	*list_b;
 
 	if (list_a->size == 3)
-		sort_three(list_a);
+		three_sort(list_a);
 	if (is_already_sorted(list_a) == TRUE)
 		return ;
 	list_init(&list_b);
@@ -121,7 +121,7 @@ void	sort(t_list *list_a)
 			sa(list_a);
 	}
 	if (list_a->size == 3)
-		sort_three(list_a);
+		three_sort(list_a);
 	list_a->min = list_a->head->next->data;
 	list_a->max = list_a->tail->prev->data;
 	while (list_b->size > 0)
