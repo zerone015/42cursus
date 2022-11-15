@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:06:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/10/25 22:22:35 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/15 17:58:19 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <unistd.h>
+#include "../includes/get_next_line.h"
+#include "../libft/libft.h"
 
 static	char	*ft_free(char *ptr)
 {
@@ -19,12 +19,13 @@ static	char	*ft_free(char *ptr)
 	return (NULL);
 }
 
-static char	*read_file(int fd, char *buffer, char *backup)
+static char	*read_line(int fd, char *buffer, char *backup)
 {
 	int		read_size;
 	char	*temp;
 
-	while (1)
+	read_size = 1;
+	while (read_size)
 	{
 		read_size = read(fd, buffer, BUFFER_SIZE);
 		if (read_size == 0)
@@ -40,60 +41,67 @@ static char	*read_file(int fd, char *buffer, char *backup)
 		if (ft_strchr(backup, '\n'))
 			break ;
 	}
-	if (backup[0] == '\0')
-		return (ft_free(backup));
-	free(buffer);
 	return (backup);
 }
 
-static char	*substring(char **backup)
+static char	*substr_one_line(char *temp)
 {
 	char	*line;
-	char	*temp;
 	int		i;
 
+	if (temp == NULL || temp[0] == '\0')
+		return (NULL);
 	i = 0;
-	while ((*backup)[i] != '\n' && (*backup)[i] != '\0')
+	while (temp[i] != '\n' && temp[i] != '\0')
 		i++;
-	line = ft_substr(*backup, 0, i + 1);
-	if (line && (*backup)[i] == '\n' && (*backup)[i + 1] != '\0')
-	{
-		temp = *backup;
-		*backup = ft_substr(*backup, i + 1, ft_strlen(*backup) - i - 1);
-		free(temp);
-		if (!*backup)
-			return (ft_free(line));
-	}
-	else
-	{
-		free(*backup);
-		*backup = NULL;
-	}
+	line = ft_substr(temp, 0, i);
 	return (line);
 }
 
-char	*get_next_line(int fd)
+static char	*substr_backup(char *temp, char **line)
+{
+	char	*backup;
+	int		i;
+
+	if (temp == NULL)
+		return (NULL);
+	if (temp[0] == '\0')
+		return (ft_free(temp));
+	i = 0;
+	while (temp[i] != '\n' && temp[i] != '\0')
+		i++;
+	if (temp[i] == '\0')
+		return (ft_free(temp));
+	backup = ft_substr(temp, i + 1, ft_strlen(temp) - i - 1);
+	if (!backup)
+	{
+		free(*line);
+		*line = NULL;
+		return (ft_free(temp));
+	}
+	free(temp);
+	return (backup);
+}
+
+char	*get_next_line_without_nl(int fd)
 {
 	char		*buffer;
+	char		*temp;
 	char		*line;
 	static char	*backup;
 
+	if (BUFFER_SIZE < 1)
+		return (NULL);
+	buffer = safe_malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!backup)
 	{
 		backup = ft_strdup("");
 		if (!backup)
-			return (NULL);
+			return (ft_free(buffer));
 	}
-	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buffer)
-	{
-		free(backup);
-		backup = NULL;
-		return (NULL);
-	}
-	backup = read_file(fd, buffer, backup);
-	if (!backup)
-		return (ft_free(buffer));
-	line = substring(&backup);
+	temp = read_line(fd, buffer, backup);
+	free(buffer);
+	line = substr_one_line(temp);
+	backup = substr_backup(temp, &line);
 	return (line);
 }

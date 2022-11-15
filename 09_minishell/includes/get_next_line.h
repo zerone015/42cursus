@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:07:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/04 13:41:15 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/15 18:00:11 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # endif
 
 char	*get_next_line(int fd);
+char	*get_next_line_without_nl(int fd);
 int		ft_strlen(const char *str);
 char	*ft_strdup(const char *src);
 char	*ft_strchr(const char *str, int c);

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/14 21:33:11 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/15 21:01:20 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../includes/minishell.h"
-
+#include <fcntl.h>//지워야함 나중에 
 char	*safe_readline(char *prompt)
 {
 	char	*input;
@@ -133,12 +133,9 @@ int	exit_program(t_token *tokens, t_env *env)
 	return (0);
 }
 
-int	is_exit(t_token *tokens)
+int	is_exit(t_tnode *first)
 {
-	char	*first;
-
-	first = tokens->head->next->str;
-	if (ft_strncmp(first, "exit", 5) == 0)
+	if (ft_strncmp(first->str, "exit", 5) == 0)
 		return (TRUE);
 	return (FALSE);
 }
@@ -191,20 +188,215 @@ void	execute_with_fork(t_token *tokens, t_exec *exec)
 	exec->env->exit_code = wait_all(pid);
 }
 
+int	is_heredoc(t_tnode *node)
+{
+	if (node->type == REDIRECT && ft_strcmp(node->str, "<<") == 0)
+		return (TRUE);
+	return (FALSE);
+}
+
+int	has_heredoc(t_token *token)
+{
+	t_tnode	*node;
+
+	node = token->head->next;
+	while (node)
+	{
+		if (is_heredoc(node))
+			return (TRUE);
+		node = node->next;
+	}
+	return (FALSE);
+}
+
+t_tnode	*skip_blank(t_tnode *node)
+{
+	while (node->type == BLANK)
+		node = node->next;
+	return (node);
+}
+
+t_tnode	*find_heredoc_limiter(t_tnode *node)
+{
+	while (node)
+	{
+		if (is_heredoc(node))
+			return (skip_blank(node->next));
+		node = node->next;
+	}
+	return (NULL);
+}
+
+char	*join_number(char *dest, int src)
+{
+	char	*str_src;
+	char	*ret;
+
+	str_src = ft_itoa(src);
+	ret = ft_strjoin(dest, str_src);
+	free(str_src);
+	return (ret);
+}
+
+char *read_input(char *limiter)
+{
+	char	*line;
+	char	*join;
+	char	*temp;
+
+	echoctl(FALSE);
+	join = ft_strdup("");
+	while (1)
+	{
+		ft_putstr_fd("> ", 2);
+		line = get_next_line(STDIN_FILENO);
+		if (line == NULL || ft_strcmp(line, limiter) == 0)
+			break ;
+		temp = join;
+		join = ft_strjoin(join, line);
+		free(temp);
+	}
+	return (join);
+}
+
+void	input_to_file(char *input, char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 00644);
+	if (fd == -1)
+		child_error(NULL, "heredoc", 1);
+	write(fd, input, ft_strlen(input));
+	close(fd);
+}
+
+int	find_heredocs_size(t_token *token)
+{
+	int		ret;
+	t_tnode	*cur;
+
+	ret = 0;
+	cur = token->head->next;
+	while (cur)
+	{
+		if (is_heredoc(cur))
+			ret++;
+		cur = cur->next;
+	}
+	return (ret);
+}
+
+void	set_heredocs(t_token *token, t_exec *exec)
+{
+	int	size;
+	int	i;
+
+	size = find_heredocs_size(token);
+	exec->heredocs = safe_malloc(sizeof(char *) * (size + 1));
+	i = -1;
+	while (++i < size)
+		(exec->heredocs)[i] = join_number("/tmp/.heredoc", i);
+	(exec->heredocs)[i] = NULL;
+}
+
+void	child_heredoc(t_token *token, char **heredocs)
+{
+	t_tnode	*cur;
+	char	*input;
+
+	cur = find_heredoc_limiter(token->head->next);
+	while (cur)
+	{
+		input = read_input(ft_strjoin(cur->str, "\n"));
+		input_to_file(input, *heredocs++);
+		free(input);
+		cur = find_heredoc_limiter(cur);
+	}
+	exit(EXIT_SUCCESS);
+}
+
+int	parent_heredoc(t_token *token, t_exec *exec)
+{
+	t_tnode	*cur;
+	int		status;
+	int		i;
+
+	wait(&status);
+	if (status && status >> 8 == 0)
+	{
+		exec->env->exit_code = EXIT_FAILURE;
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		return (-1);
+	}
+	cur = find_heredoc_limiter(token->head->next);
+	i = 0;
+	while (cur)
+	{
+		free(cur->str);
+		cur->str = ft_strdup((exec->heredocs)[i++]);
+		cur = find_heredoc_limiter(cur);
+	}
+	return (0);
+}
+
+int	heredoc(t_token *token, t_exec *exec)
+{
+	pid_t	pid;
+	int		ret;
+
+	set_heredocs(token, exec);
+	pid = fork();
+	if (pid == -1)
+	{
+		error(exec->env, NULL, 1);
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{
+		set_signal(CHILD);
+		child_heredoc(token, exec->heredocs);
+	}
+	ret = parent_heredoc(token, exec);
+	return (ret);
+}
+
+void	remove_heredocs(t_exec *exec)
+{
+	int	i;
+
+	i = 0;
+	if (!exec->heredocs)
+		return ;
+	while (exec->heredocs[i])
+	{
+		unlink(exec->heredocs[i]);
+		free(exec->heredocs[i++]);
+	}
+	free(exec->heredocs);
+	exec->heredocs = NULL;
+}
+
 void	execute_command(char *input, t_exec *exec)
 {
 	t_token	*tokens;
+	int		is_error;
 
+	is_error = FALSE;
 	safe_signal(SIGINT, SIG_IGN);
 	tokens = tokenize(input, exec->env);
-	if (is_exit(tokens) && !has_pipe(tokens))
-		exit_program(tokens, exec->env);
-	else if (is_builtin(tokens) && !has_pipe(tokens))
-		execute_builtin(make_argv(tokens, NULL), exec->env, FALSE);
-	else
-		execute_with_fork(tokens, exec);
+	if (has_heredoc(tokens))
+		is_error = heredoc(tokens, exec);
+	if (is_error == FALSE)
+	{
+		if (is_exit(tokens->head->next) && !has_pipe(tokens))
+			exit_program(tokens, exec->env);
+		else if (is_builtin(tokens) && !has_pipe(tokens))
+			execute_builtin(make_argv(tokens, NULL), exec->env, FALSE);
+		else
+			execute_with_fork(tokens, exec);
+	}
 	clear_token(tokens);
-	unlink("/tmp/.heredoc");
+	remove_heredocs(exec);
 }
 
 void	parse_envp(t_env *env, char *envp[])
@@ -222,6 +414,7 @@ void	parse_envp(t_env *env, char *envp[])
 
 void	init_exec(t_exec *exec, char *envp[])
 {
+	exec->heredocs = NULL;
 	exec->std_fd[0] = dup(STDIN_FILENO);
 	exec->std_fd[1] = dup(STDOUT_FILENO);
 	exec->pipe_fd[0] = -1;

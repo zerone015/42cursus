@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:25:06 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 20:10:13 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/15 17:02:49 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static char	*read_line(int *eof, char *line)
 	while (line)
 	{
 		ft_putstr_fd("> ", 1);
-		line = get_next_line(STDIN_FILENO);
+		line = get_next_line_without_nl(STDIN_FILENO);
 		if (!line)
 		{
 			*eof = TRUE;

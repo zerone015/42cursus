@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 20:11:20 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/15 18:01:44 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_exec
 	int	pipe_fd[2];
 	t_env	*env;
 	t_token	*token;
+	char	**heredocs;
 }	t_exec;
 
 char	*get_prompt(t_env *env);
@@ -53,6 +54,7 @@ int		find_argv_size(t_token *token);
 char	**make_argv(t_token *token, int *flag);
 void	execute(char **argv, char **envp);
 t_token	*parse_token(t_token *tokens);
+int		has_heredoc(t_token *token);
 int		is_builtin(t_token *token);
 void	set_signal(int status);
 void	safe_signal(int signum, void (*handler)(int));

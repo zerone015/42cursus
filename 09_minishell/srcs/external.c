@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 21:33:07 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/15 15:05:47 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,6 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include "../includes/minishell.h"
-
-static int	is_heredoc(t_token *token)
-{
-	t_tnode	*node;
-
-	node = token->head->next;
-	while (node)
-	{
-		if (node->type == REDIRECT && ft_strcmp(node->str, "<<") == 0)
-			return (TRUE);
-		node = node->next;
-	}
-	return (FALSE);
-}
 
 static char	**convert_env(t_env *env)
 {
@@ -111,7 +97,7 @@ void	child_external(t_exec *exec)
 
 	set_signal(CHILD);
 	envp = convert_env(exec->env);
-	if (is_heredoc(exec->token))
+	if (has_heredoc(exec->token))
 		dup2(exec->std_fd[0], STDIN_FILENO);
 	if (first_type(exec->token) == PIPE)
 		free(remove_first(exec->token));
