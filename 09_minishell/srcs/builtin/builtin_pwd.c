@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:00 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 13:40:04 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/15 21:11:40 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ int	builtin_pwd(int argc, char *argv[], t_env *env)
 		ft_putendl_fd(buf, STDOUT_FILENO);
 	else
 		return (error(env, NULL, 1));
+	env->exit_code = EXIT_SUCCESS;
 	return (0);
 }

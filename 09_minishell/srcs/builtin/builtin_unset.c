@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:02 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/04 18:36:00 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/15 21:12:06 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int	builtin_unset(int argc, char *argv[], t_env *env)
 			prev = curr;
 		}
 	}
+	env->exit_code = EXIT_SUCCESS;
 	return (0);
 }

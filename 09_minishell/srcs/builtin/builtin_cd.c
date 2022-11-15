@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:47:50 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 19:23:04 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/15 21:07:59 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ int	builtin_cd(int argc, char *argv[], t_env *env)
 	}
 	if (argc > 1 && ft_strcmp(argv[1], "-") == 0)
 		ft_putendl_fd(path, STDOUT_FILENO);
+	env->exit_code = EXIT_SUCCESS;
 	return (0);
 }
