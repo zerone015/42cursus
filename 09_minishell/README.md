@@ -24,6 +24,7 @@ $ make
 09_minishell$ export PATH=$PATH:$PWD
 09_minishell$ echo $PATH
 09_minishell$ < /dev/urandom cat | head -1 >> outfile
+09_minishell$ << hi cat | sleep 5 | << EOF cat
 09_minishell$ exit | exit
 09_minishell$ exit
 ```
@@ -31,7 +32,7 @@ $ make
 - 실행파일 실행 (cat, ls, grep, wc, head, tail, cut, ...)
 - builtins (echo, cd, pwd, export, unset, env, exit)
 - 싱글 쿼터('') 및 더블 쿼터("")
-- 파이프, 시그널, 리다이렉션
+- 파이프, 시그널, 리다이렉션, here document
 - 환경 변수($)
 - $? (최근 실행한 명령어의 종료 상태를 가진 변수)
 - 에러 처리
