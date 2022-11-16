@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/15 21:13:39 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/16 17:42:01 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,7 +299,7 @@ void	set_heredocs(t_token *token, t_exec *exec)
 	(exec->heredocs)[i] = NULL;
 }
 
-void	child_heredoc(t_token *token, char **heredocs)
+void	make_heredocs(t_token *token, char **heredocs)
 {
 	t_tnode	*cur;
 	char	*input;
@@ -315,19 +315,11 @@ void	child_heredoc(t_token *token, char **heredocs)
 	exit(EXIT_SUCCESS);
 }
 
-int	parent_heredoc(t_token *token, t_exec *exec)
+void	change_limiter_to_filename(t_token *token, t_exec *exec)
 {
 	t_tnode	*cur;
-	int		status;
 	int		i;
 
-	wait(&status);
-	if (status && status >> 8 == 0)
-	{
-		exec->env->exit_code = EXIT_FAILURE;
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		return (-1);
-	}
 	cur = find_heredoc_limiter(token->head->next);
 	i = 0;
 	while (cur)
@@ -336,13 +328,40 @@ int	parent_heredoc(t_token *token, t_exec *exec)
 		cur->str = ft_strdup((exec->heredocs)[i++]);
 		cur = find_heredoc_limiter(cur);
 	}
+}
+
+int	is_normal_terminated(int status)
+{
+	if (status && status >> 8 == 0)
+		return (FALSE);
+	return (TRUE);
+}
+
+void	child_heredoc(t_token *token, char **heredocs)
+{
+	set_signal(CHILD);
+	make_heredocs(token, heredocs);
+}
+
+int	parent_heredoc(t_token *token, t_exec *exec)
+{
+	int		status;
+
+	wait(&status);
+	if (!is_normal_terminated(status))
+	{
+		exec->env->exit_code = EXIT_FAILURE;
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		return (-1);
+	}
+	change_limiter_to_filename(token, exec);
 	return (0);
 }
 
 int	heredoc(t_token *token, t_exec *exec)
 {
 	pid_t	pid;
-	int		ret;
+	int		res;
 
 	set_heredocs(token, exec);
 	pid = fork();
@@ -352,15 +371,12 @@ int	heredoc(t_token *token, t_exec *exec)
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
-	{
-		set_signal(CHILD);
 		child_heredoc(token, exec->heredocs);
-	}
-	ret = parent_heredoc(token, exec);
-	return (ret);
+	res = parent_heredoc(token, exec);
+	return (res);
 }
 
-void	remove_heredocs(t_exec *exec)
+void	clear_heredocs(t_exec *exec)
 {
 	int	i;
 
@@ -379,14 +395,14 @@ void	remove_heredocs(t_exec *exec)
 void	execute_command(char *input, t_exec *exec)
 {
 	t_token	*tokens;
-	int		is_error;
+	int		heredoc_res;
 
-	is_error = FALSE;
+	heredoc_res = 0;
 	safe_signal(SIGINT, SIG_IGN);
 	tokens = tokenize(input, exec->env);
 	if (has_heredoc(tokens))
-		is_error = heredoc(tokens, exec);
-	if (is_error == FALSE)
+		heredoc_res = heredoc(tokens, exec);
+	if (heredoc_res == 0)
 	{
 		if (is_exit(tokens->head->next) && !has_pipe(tokens))
 			exit_program(tokens, exec->env);
@@ -396,7 +412,7 @@ void	execute_command(char *input, t_exec *exec)
 			execute_with_fork(tokens, exec);
 	}
 	clear_token(tokens);
-	remove_heredocs(exec);
+	clear_heredocs(exec);
 }
 
 void	parse_envp(t_env *env, char *envp[])
