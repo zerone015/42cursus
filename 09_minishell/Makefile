@@ -6,7 +6,7 @@
 #    By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/30 16:11:41 by kijsong           #+#    #+#              #
-#    Updated: 2022/11/15 17:58:52 by yoson            ###   ########.fr        #
+#    Updated: 2022/11/16 18:42:57 by yoson            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,9 +25,9 @@ BUILTIN_DIR	= ./srcs/builtin/
 LIB_DIR		= ./libft/
 LIB_NAME	= ./libft/libft.a
 
-SRC			=	env.c error.c execute.c external.c get_next_line.c get_next_line_without_nl.c \
-				main.c prompt.c redirection.c signal.c token_util.c \
-				token.c tokenize_util.c tokenize.c util.c check_syntax.c
+SRC			=	main.c env.c error.c execute.c external.c get_next_line.c get_next_line_without_nl.c \
+				prompt.c redirection.c signal.c heredoc.c heredoc_parent.c heredoc_child.c heredoc_util.c \
+				token.c token_util.c tokenize_util.c tokenize.c util.c check_syntax.c
 BUILTIN		=	builtin.c builtin_cd.c builtin_echo.c builtin_env.c builtin_exit.c \
 				builtin_export.c builtin_pwd.c builtin_unset.c builtin_util.c
 SRCS		=	$(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILTIN_DIR), $(BUILTIN))

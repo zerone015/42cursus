@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/16 17:31:47 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/16 18:41:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,15 @@ int		ft_isredirect(char *input);
 int		tokenize_redirect(char *input, t_token *token);
 int		is_normal(char c);
 int		tokenize_normal(char *input, t_token *token);
+
+int		heredoc(t_token *token, t_exec *exec);
+int		is_heredoc(t_tnode *node);
+int		has_heredoc(t_token *token);
+int		parent_heredoc(t_token *token, t_exec *exec);
+void	child_heredoc(t_token *token, char **heredocs);
+void	clear_heredocs(t_exec *exec);
+t_tnode	*find_heredoc_limiter(t_tnode *node);
+t_tnode	*skip_blank(t_tnode *node);
 
 int		error(t_env *env, char *err_msg, int exit_code);
 void	child_error(char *err_msg, char *cmd, int exit_code);
