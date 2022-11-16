@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/16 17:45:51 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/16 17:47:57 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	wait_all(pid_t last_pid)
 	return (ret);
 }
 
-int	exit_program(t_token *tokens, t_env *env)
+int	exit_minishell(t_token *tokens, t_env *env)
 {
 	int		argc;
 	char	**argv;
@@ -405,7 +405,7 @@ void	execute_command(char *input, t_exec *exec)
 	if (heredoc_res == 0)
 	{
 		if (is_exit(tokens->head->next) && !has_pipe(tokens))
-			exit_program(tokens, exec->env);
+			exit_minishell(tokens, exec->env);
 		else if (is_builtin(tokens) && !has_pipe(tokens))
 			execute_builtin(make_argv(tokens, NULL), exec->env, FALSE);
 		else
