@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/16 17:42:01 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/16 17:45:51 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,7 +312,6 @@ void	make_heredocs(t_token *token, char **heredocs)
 		free(input);
 		cur = find_heredoc_limiter(cur);
 	}
-	exit(EXIT_SUCCESS);
 }
 
 void	change_limiter_to_filename(t_token *token, t_exec *exec)
@@ -341,6 +340,7 @@ void	child_heredoc(t_token *token, char **heredocs)
 {
 	set_signal(CHILD);
 	make_heredocs(token, heredocs);
+	exit(EXIT_SUCCESS);
 }
 
 int	parent_heredoc(t_token *token, t_exec *exec)
