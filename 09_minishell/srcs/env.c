@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 15:11:19 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/12 16:30:57 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 22:48:20 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,14 @@ t_enode	*find_key(t_env *env, char *key)
 	return (NULL);
 }
 
-void	delete_enode(t_enode *node)
+void	delete_enode(t_env *env, t_enode *prev, t_enode *curr)
 {
-	free(node->key);
-	free(node->val);
-	free(node);
+	prev->next = curr->next;
+	if (env->tail == curr)
+		env->tail = prev;
+	free(curr->key);
+	free(curr->val);
+	free(curr);
 }
 
 int	count_env(t_env *env)

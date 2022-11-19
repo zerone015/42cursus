@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:02 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/15 21:12:06 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 22:43:23 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ int	builtin_unset(int argc, char *argv[], t_env *env)
 			curr = prev->next;
 			if (ft_strcmp(argv[i], curr->key) == 0)
 			{
-				prev->next = curr->next;
-				delete_enode(curr);
+				delete_enode(env, prev, curr);
 				break ;
 			}
 			prev = curr;
