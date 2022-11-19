@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/19 14:51:12 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 21:25:03 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../includes/minishell.h"
-#include <fcntl.h>//지워야함 나중에 
 
 static char	*safe_readline(char *prompt)
 {
@@ -43,10 +42,10 @@ static void	parse_envp(t_env *env, char *envp[])
 static void	init_exec(t_exec *exec, char *envp[])
 {
 	exec->heredocs = NULL;
-	exec->std_fd[0] = dup(STDIN_FILENO);
-	exec->std_fd[1] = dup(STDOUT_FILENO);
-	exec->pipe_fd[0] = -1;
-	exec->pipe_fd[1] = -1;
+	exec->std_fd[READ_END] = dup(STDIN_FILENO);
+	exec->std_fd[WRITE_END] = dup(STDOUT_FILENO);
+	exec->pipe_fd[READ_END] = -1;
+	exec->pipe_fd[WRITE_END] = -1;
 	exec->env = init_env();
 	parse_envp(exec->env, envp);
 }

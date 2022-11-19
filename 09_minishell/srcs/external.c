@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/19 14:56:18 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 21:25:03 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,14 @@ void	child_external(t_exec *exec)
 	set_signal(CHILD);
 	envp = convert_env(exec->env);
 	if (has_heredoc(exec->token))
-		dup2(exec->std_fd[0], STDIN_FILENO);
+		dup2(exec->std_fd[READ_END], STDIN_FILENO);
 	if (first_type(exec->token) == PIPE)
 		free(remove_first(exec->token));
 	out_redirection = 0;
 	argv = make_argv(exec->token, &out_redirection);
-	close(exec->pipe_fd[0]);
+	close(exec->pipe_fd[READ_END]);
 	if (!out_redirection && first_type(exec->token) == PIPE)
-		dup2(exec->pipe_fd[1], STDOUT_FILENO);
-	close(exec->pipe_fd[1]);
+		dup2(exec->pipe_fd[WRITE_END], STDOUT_FILENO);
+	close(exec->pipe_fd[WRITE_END]);
 	child_execve(argv, envp);
 }

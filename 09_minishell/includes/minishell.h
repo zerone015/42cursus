@@ -6,15 +6,17 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/19 17:14:59 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 21:24:24 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define TRUE	1
-# define FALSE	0
+# define TRUE		1
+# define FALSE		0
+# define READ_END	0
+# define WRITE_END	1
 
 # include <unistd.h>
 # include "env.h"
