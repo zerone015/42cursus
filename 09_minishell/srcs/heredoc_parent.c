@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_parent.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:18:00 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/16 18:18:28 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 15:23:13 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	change_limiter_to_filename(t_token *token, t_exec *exec)
 	}
 }
 
-static int	is_normal_terminated(int status)
+int	is_normal_terminated(int status)
 {
 	if (status && status >> 8 == 0)
 		return (FALSE);

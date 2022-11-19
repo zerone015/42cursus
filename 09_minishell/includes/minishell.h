@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/19 14:57:38 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 15:09:19 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int		is_builtin(t_token *token);
 int		wait_all(pid_t last_pid);
 int		is_exit(t_tnode *first);
 t_token	*parse_token(t_token *tokens);
+int		is_normal_terminated(int status);
 
 int		ft_isredirect(char *input);
 int		tokenize_redirect(char *input, t_token *token);

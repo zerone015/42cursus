@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:57 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/19 14:58:00 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 16:12:34 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,32 @@ static int	exit_minishell(t_token *tokens, t_env *env)
 	return (0);
 }
 
+int	is_quit(int status)
+{
+	if (!is_normal_terminated(status) && status == 3)
+		return (TRUE);
+	return (FALSE);
+}
+
+int	find_exit_code(int status)
+{
+	int		ret;
+
+	if (is_normal_terminated(status))
+		ret = status >> 8;
+	else
+	{
+		if (is_quit(status))
+		{
+			ft_putstr_fd("Quit: ", 1);
+			ft_putnbr_fd(status, 1);
+		}
+		ret = status + 128;
+		ft_putstr_fd("\n", 1);
+	}
+	return (ret);
+}
+
 static void	execute_with_fork(t_token *tokens, t_exec *exec)
 {
 	pid_t	pid;
@@ -88,7 +114,7 @@ static void	execute_with_fork(t_token *tokens, t_exec *exec)
 		else if (pid > 0)
 			parent_process(exec);
 	}
-	exec->env->exit_code = wait_all(pid);
+	exec->env->exit_code = find_exit_code(wait_all(pid));
 }
 
 void	execute_command(char *input, t_exec *exec)
