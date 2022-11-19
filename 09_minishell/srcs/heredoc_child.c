@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_child.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:13:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/16 18:43:49 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 14:59:12 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include "../includes/minishell.h"
 
-static char *read_input(char *limiter)
+static char	*read_input(char *limiter)
 {
 	char	*line;
 	char	*join;

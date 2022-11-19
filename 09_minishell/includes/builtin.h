@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 21:42:39 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 18:12:12 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 14:57:27 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*strnstr_strict(const char *str, const char *to_find, size_t len);
 int		has_pipe(t_token *token);
 int		is_essential(char *arg);
 int		builtin_error(t_env *env, char *cmd, char *arg, char *err_msg);
-void		execute_builtin(char **argv, t_env *env, int is_child);
+void	execute_builtin(char **argv, t_env *env, int is_child);
 void	add_export(char *str, t_env *env);
 
 int		builtin_cd(int argc, char *argv[], t_env *env);

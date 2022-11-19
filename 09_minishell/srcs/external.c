@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/15 15:05:47 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 14:56:18 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,5 @@ void	child_external(t_exec *exec)
 	if (!out_redirection && first_type(exec->token) == PIPE)
 		dup2(exec->pipe_fd[1], STDOUT_FILENO);
 	close(exec->pipe_fd[1]);
-	execute(argv, envp);
+	child_execve(argv, envp);
 }

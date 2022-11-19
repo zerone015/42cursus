@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:04 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/15 21:08:05 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 14:26:28 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,5 @@ void	execute_builtin(char **argv, t_env *env, int is_child)
 	argc = -func(argc, argv, env);
 	if (is_child)
 		exit(argc);
+	ft_free(argv);
 }

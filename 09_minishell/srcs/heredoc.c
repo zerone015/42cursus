@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:11:51 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/16 18:21:00 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 14:58:12 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,3 @@ int	heredoc(t_token *token, t_exec *exec)
 	res = parent_heredoc(token, exec);
 	return (res);
 }
-

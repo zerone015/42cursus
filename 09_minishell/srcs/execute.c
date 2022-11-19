@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:57 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 20:12:01 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 14:58:00 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,68 +16,100 @@
 #include <errno.h>
 #include "../includes/minishell.h"
 
-static char	**parse_envp(char *envp[])
+static void	child_process(t_exec *exec)
 {
-	char	**paths;
-	int		i;
-
-	i = 0;
-	while (envp[i] && ft_strncmp(envp[i], "PATH", 4))
-		i++;
-	if (!envp[i])
-		return (NULL);
-	paths = ft_split(envp[i] + 5, ':');
-	return (paths);
-}
-
-static int	find_path_execve(char *cmd, char *argv[], char *envp[])
-{
-	char	**paths;
-	char	*path;
-	char	*temp;
-	int		i;
-
-	paths = parse_envp(envp);
-	if (!paths)
-		return (-1);
-	i = -1;
-	while (paths[++i])
-	{
-		temp = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(temp, cmd);
-		free(temp);
-		if (ft_strnstr(path, "//", ft_strlen(path)))
-		{
-			free(path);
-			return (-1);
-		}
-		execve(path, argv, envp);
-		free(path);
-	}
-	return (-1);
-}
-
-static void	error_handler(char *cmd)
-{
-	int	exit_code;
-
-	if (!ft_strchr(cmd, '/'))
-		child_error("command not found", cmd, 127);
-	open(cmd, O_RDWR);
-	if (errno == ENOENT)
-		exit_code = 127;
-	else if (errno == EISDIR)
-		exit_code = 126;
+	if (is_builtin(exec->token))
+		child_builtin(exec);
 	else
-		exit_code = EXIT_FAILURE;
-	child_error(NULL, cmd, exit_code);
+		child_external(exec);
 }
 
-void	execute(char *argv[], char *envp[])
+static void	parent_process(t_exec *exec)
 {
-	if (execve(argv[0], argv, envp) == -1)
+	if (last_type(exec->token) == PIPE)
+		dup2(exec->pipe_fd[0], STDIN_FILENO);
+	else
+		dup2(exec->std_fd[0], STDIN_FILENO);
+	close(exec->pipe_fd[0]);
+	close(exec->pipe_fd[1]);
+	dup2(exec->std_fd[1], STDOUT_FILENO);
+	clear_token(exec->token);
+}
+
+static int	exit_minishell(t_token *tokens, t_env *env)
+{
+	int		argc;
+	char	**argv;
+
+	argc = find_argv_size(tokens);
+	argv = make_argv(tokens, NULL);
+	unlink("/tmp/.heredoc");
+	if (argc >= 2 && !is_number(argv[1]))
 	{
-		if (find_path_execve(argv[0], argv, envp) == -1)
-			error_handler(argv[0]);
+		builtin_error(env, "exit", argv[1], "numeric argument required");
+		exit(255);
 	}
+	if (argc > 2)
+	{
+		ft_free(argv);
+		return (builtin_error(env, "exit", NULL, "too many arguments"));
+	}
+	env->exit_code = 0;
+	if (argc == 2)
+	{
+		if (is_number(argv[1]))
+			env->exit_code = ft_atoi(argv[1]) & 255;
+	}
+	ft_putendl_fd("exit", STDOUT_FILENO);
+	exit(env->exit_code);
+	return (0);
+}
+
+static void	execute_with_fork(t_token *tokens, t_exec *exec)
+{
+	pid_t	pid;
+
+	while (first_type(tokens) != -1)
+	{	
+		exec->token = parse_token(tokens);
+		if (pipe(exec->pipe_fd) == -1)
+		{
+			error(exec->env, NULL, 1);
+			exit(EXIT_FAILURE);
+		}
+		pid = fork();
+		if (pid == -1)
+		{
+			error(exec->env, NULL, 1);
+			exit(EXIT_FAILURE);
+		}
+		else if (pid == 0)
+			child_process(exec);
+		else if (pid > 0)
+			parent_process(exec);
+	}
+	exec->env->exit_code = wait_all(pid);
+}
+
+void	execute_command(char *input, t_exec *exec)
+{
+	t_token	*tokens;
+	int		heredoc_res;
+
+	heredoc_res = 0;
+	safe_signal(SIGINT, SIG_IGN);
+	tokens = tokenize(input, exec->env);
+	if (has_heredoc(tokens))
+		heredoc_res = heredoc(tokens, exec);
+	if (heredoc_res == 0)
+	{
+		if (is_exit(tokens->head->next) && !has_pipe(tokens))
+			exit_minishell(tokens, exec->env);
+		else if (is_builtin(tokens) && !has_pipe(tokens))
+			execute_builtin(make_argv(tokens, NULL), exec->env, FALSE);
+		else
+			execute_with_fork(tokens, exec);
+	}
+	clear_token(tokens);
+	clear_heredocs(exec);
 }

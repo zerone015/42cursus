@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/16 18:41:57 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 14:57:38 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ enum e_signal
 
 typedef struct s_exec
 {
-	int	std_fd[2];
-	int	pipe_fd[2];
+	int		std_fd[2];
+	int		pipe_fd[2];
 	t_env	*env;
 	t_token	*token;
 	char	**heredocs;
@@ -50,6 +50,8 @@ char	*get_prompt(t_env *env);
 int		check_syntax(char **input, t_env *env);
 t_token	*tokenize(char *input, t_env *env);
 void	child_external(t_exec *exec);
+void	child_execve(char *argv[], char *envp[]);
+void	execute_command(char *input, t_exec *exec);
 int		find_argv_size(t_token *token);
 char	**make_argv(t_token *token, int *flag);
 void	execute(char **argv, char **envp);
@@ -60,12 +62,17 @@ void	set_signal(int status);
 void	safe_signal(int signum, void (*handler)(int));
 void	echoctl(int flag);
 void	redirection(t_token *token, int *flag);
-
 char	*merge_word(t_token *token);
 int		is_input_blank(char *input);
 int		get_abs(int num);
 int		is_stdin(char *input);
 void	ft_free(char **argv);
+
+void	child_builtin(t_exec *exec);
+int		is_builtin(t_token *token);
+int		wait_all(pid_t last_pid);
+int		is_exit(t_tnode *first);
+t_token	*parse_token(t_token *tokens);
 
 int		ft_isredirect(char *input);
 int		tokenize_redirect(char *input, t_token *token);

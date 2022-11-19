@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:14:09 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/15 19:03:54 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 14:59:20 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	redirection(t_token *token, int *flag)
 		overwrite_output(filename, flag);
 	else if (ft_strcmp(redirection, ">>") == 0)
 		append_output(filename, flag);
-	else if (ft_strcmp(redirection, "<") == 0 || ft_strcmp(redirection, "<<") == 0)
+	else if (ft_strcmp(redirection, "<") == 0 || \
+			ft_strcmp(redirection, "<<") == 0)
 		input(filename);
 	free(redirection);
 	free(filename);
