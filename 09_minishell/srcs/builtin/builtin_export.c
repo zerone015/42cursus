@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:47:58 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/15 21:11:06 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 17:24:01 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,13 @@ void	print_export(t_env *env)
 	node = env->head->next;
 	while (node)
 	{
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		ft_putstr_fd(node->key, STDOUT_FILENO);
 		if (node->val)
 		{
-			ft_putchar_fd('=', STDOUT_FILENO);
+			ft_putstr_fd("=\"", STDOUT_FILENO);
 			ft_putstr_fd(node->val, STDOUT_FILENO);
+			ft_putchar_fd('"', STDOUT_FILENO);
 		}
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		node = node->next;

@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/19 15:09:19 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 17:14:59 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,12 @@ void	ft_free(char **argv);
 
 void	child_builtin(t_exec *exec);
 int		is_builtin(t_token *token);
-int		wait_all(pid_t last_pid);
+int		wait_all(pid_t last_pid, int *is_sigint);
 int		is_exit(t_tnode *first);
 t_token	*parse_token(t_token *tokens);
 int		is_normal_terminated(int status);
+int		is_quit(int status);
+int		find_exit_code(int status, int is_sigint);
 
 int		ft_isredirect(char *input);
 int		tokenize_redirect(char *input, t_token *token);

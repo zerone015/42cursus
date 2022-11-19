@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 14:31:54 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/19 16:00:48 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 16:27:52 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "../libft/libft.h"
 #include "../includes/minishell.h"
 
-void	handler(int signum)
+static void	handler(int signum)
 {
 	if (signum == SIGINT)
 	{

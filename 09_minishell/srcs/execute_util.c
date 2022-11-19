@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 14:51:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/19 16:12:58 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/19 16:42:03 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	is_builtin(t_token *token)
 	return (TRUE);
 }
 
-int	wait_all(pid_t last_pid, int *flag)
+int	wait_all(pid_t last_pid, int *is_sigint)
 {
 	pid_t	pid;
 	int		status;
@@ -68,6 +68,8 @@ int	wait_all(pid_t last_pid, int *flag)
 	while (pid != -1)
 	{
 		pid = wait(&status);
+		if (!is_normal_terminated(status) && status == 2)
+			*is_sigint = TRUE;
 		if (pid == last_pid)
 			ret = status;
 	}
