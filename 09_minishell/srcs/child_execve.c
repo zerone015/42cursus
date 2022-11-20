@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child_execute.c                                    :+:      :+:    :+:   */
+/*   child_execve.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:57 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/16 18:26:30 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/20 13:33:58 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	error_handler(char *cmd)
 
 void	child_execve(char *argv[], char *envp[])
 {
-	if (execve(argv[0], argv, envp) == -1)
+	if (!ft_strchr(argv[0], '/') || execve(argv[0], argv, envp) == -1)
 	{
 		if (find_path_execve(argv[0], argv, envp) == -1)
 			error_handler(argv[0]);
