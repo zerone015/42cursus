@@ -6,78 +6,12 @@
 /*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:13:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/22 22:15:42 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/11/23 01:29:31 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include "../includes/minishell.h"
-
-char	*find_env_next_address(char *str)
-{
-	if (*str == '$')
-		str++;
-	while (*str)
-	{
-		if (ft_isblank(*str) || (*str != '_' && !ft_isalnum(*str)))
-			return (str);
-		str++;
-	}
-	return (str);
-}
-
-char	*replace_env(char *str, t_env *env)
-{
-	char	*ret;
-	char	*key;
-	t_enode	*node;
-
-	if (!ft_isalpha(str[1]) && str[1] != '_')
-		ret = ft_substr(str, 0, find_env_next_address(str) - str);
-	else if (ft_isdigit(str[1]))
-		ret = ft_strdup("");
-	else
-	{
-		key = ft_substr(str, 1, find_env_next_address(str) - str - 1);
-		node = find_key(env, key);
-		if (node)
-			ret = ft_strdup(node->val);
-		else
-			ret = ft_strdup("");
-		free(key);
-	}
-	return (ret);
-}
-
-char	*parse_input(char *input, t_env *env)
-{
-	char	*temp;
-	char	*join;
-
-	join = ft_strdup("");
-	while (*input)
-	{
-		temp = join;
-		if (*input == '$' && input[1] == '\0')
-			join = ft_strjoin(join, "$");
-		else if (ft_strchr(input, '$'))
-		{
-			join = ft_strjoin(join, ft_substr(input, 0, ft_strchr(input, '$') - input));
-			free(temp);
-			temp = join;
-			input = ft_strchr(input, '$');
-			join = ft_strjoin(join, replace_env(input, env));
-			input = find_env_next_address(input);
-		}
-		else
-		{
-			join = ft_strjoin(join, input);
-			input = ft_strrchr(input, '\0');
-		}
-		free(temp);
-	}
-	return (join);
-}
 
 static char	*read_input(char *limiter, t_env *env)
 {

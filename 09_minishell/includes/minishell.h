@@ -6,7 +6,7 @@
 /*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/22 21:41:16 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/11/23 01:30:23 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int		ft_isredirect(char *input);
 int		tokenize_redirect(char *input, t_token *token);
 int		is_normal(char c);
 int		tokenize_normal(char *input, t_token *token);
-
 int		heredoc(t_token *token, t_exec *exec);
 int		is_heredoc(t_tnode *node);
 int		has_heredoc(t_token *token);
@@ -92,6 +91,7 @@ void	child_heredoc(t_token *token, t_exec *exec);
 void	clear_heredocs(t_exec *exec);
 t_tnode	*find_heredoc_limiter(t_tnode *node);
 t_tnode	*skip_blank(t_tnode *node);
+char	*parse_input(char *input, t_env *env);
 
 int		error(t_env *env, char *err_msg, int exit_code);
 void	child_error(char *err_msg, char *cmd, int exit_code);

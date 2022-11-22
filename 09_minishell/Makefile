@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
+#    By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/30 16:11:41 by kijsong           #+#    #+#              #
-#    Updated: 2022/11/19 17:15:56 by yoson            ###   ########.fr        #
+#    Updated: 2022/11/23 01:31:17 by son-yeong-w      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ LIB_DIR		= ./libft/
 LIB_NAME	= ./libft/libft.a
 
 SRC			=	main.c env.c error.c execute.c execute_util.c external.c get_next_line.c get_next_line_without_nl.c \
-				child_execve.c prompt.c redirection.c signal.c heredoc.c heredoc_parent.c heredoc_child.c heredoc_util.c \
-				token.c token_util.c tokenize_util.c tokenize.c util.c util2.c check_syntax.c
+				prompt.c redirection.c signal.c heredoc.c heredoc_parent.c heredoc_child.c heredoc_child_util.c heredoc_util.c \
+				token.c token_util.c tokenize_util.c tokenize.c util.c util2.c check_syntax.c child_execve.c
 BUILTIN		=	builtin.c builtin_cd.c builtin_echo.c builtin_env.c builtin_exit.c \
 				builtin_export.c builtin_pwd.c builtin_unset.c builtin_util.c
 SRCS		=	$(addprefix $(SRC_DIR), $(SRC)) $(addprefix $(BUILTIN_DIR), $(BUILTIN))
