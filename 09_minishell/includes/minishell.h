@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/19 21:24:24 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/22 21:41:16 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		heredoc(t_token *token, t_exec *exec);
 int		is_heredoc(t_tnode *node);
 int		has_heredoc(t_token *token);
 int		parent_heredoc(t_token *token, t_exec *exec);
-void	child_heredoc(t_token *token, char **heredocs);
+void	child_heredoc(t_token *token, t_exec *exec);
 void	clear_heredocs(t_exec *exec);
 t_tnode	*find_heredoc_limiter(t_tnode *node);
 t_tnode	*skip_blank(t_tnode *node);
