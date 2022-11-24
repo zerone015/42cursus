@@ -6,7 +6,7 @@
 /*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 01:29:07 by son-yeong-w       #+#    #+#             */
-/*   Updated: 2022/11/23 02:19:07 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/11/24 12:16:02 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,7 @@ char	*parse_input(char *input, t_env *env)
 	while (*input)
 	{
 		temp = join;
-		if (*input == '$' && input[1] == '\0')
-			join = ft_strjoin(join, "$");
-		else if (ft_strchr(input, '$'))
+		if (ft_strchr(input, '$'))
 		{
 			join = parse_join(input, join, env);
 			input = find_env_next_address(ft_strchr(input, '$'));
