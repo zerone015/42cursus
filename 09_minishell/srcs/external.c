@@ -6,7 +6,7 @@
 /*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/24 14:12:34 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/11/24 14:25:30 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	**make_argv(t_token *token, int *flag)
 	argv[i] = NULL;
 	return (argv);
 }
-#include <stdio.h>
+
 void	child_external(t_exec *exec)
 {
 	char	**argv;
