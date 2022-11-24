@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/19 21:25:03 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/24 14:12:34 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	**make_argv(t_token *token, int *flag)
 	argv[i] = NULL;
 	return (argv);
 }
-
+#include <stdio.h>
 void	child_external(t_exec *exec)
 {
 	char	**argv;
@@ -97,15 +97,13 @@ void	child_external(t_exec *exec)
 
 	set_signal(CHILD);
 	envp = convert_env(exec->env);
-	if (has_heredoc(exec->token))
-		dup2(exec->std_fd[READ_END], STDIN_FILENO);
 	if (first_type(exec->token) == PIPE)
 		free(remove_first(exec->token));
 	out_redirection = 0;
 	argv = make_argv(exec->token, &out_redirection);
-	close(exec->pipe_fd[READ_END]);
+	close(exec->pipe_fd[READ_FD]);
 	if (!out_redirection && first_type(exec->token) == PIPE)
-		dup2(exec->pipe_fd[WRITE_END], STDOUT_FILENO);
-	close(exec->pipe_fd[WRITE_END]);
+		dup2(exec->pipe_fd[WRITE_FD], STDOUT_FILENO);
+	close(exec->pipe_fd[WRITE_FD]);
 	child_execve(argv, envp);
 }

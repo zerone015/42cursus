@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:14:09 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/19 14:59:20 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/24 14:09:40 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	input(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		if (errno == 2)
+		if (errno == ENOENT)
 			child_error(NULL, filename, 127);
 		else
 			child_error(NULL, filename, 1);

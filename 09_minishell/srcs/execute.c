@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:57 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/19 21:29:29 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/24 14:16:28 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ static void	child_process(t_exec *exec)
 static void	parent_process(t_exec *exec)
 {
 	if (last_type(exec->token) == PIPE)
-		dup2(exec->pipe_fd[READ_END], STDIN_FILENO);
+		dup2(exec->pipe_fd[READ_FD], STDIN_FILENO);
 	else
-		dup2(exec->std_fd[READ_END], STDIN_FILENO);
-	close(exec->pipe_fd[READ_END]);
-	close(exec->pipe_fd[WRITE_END]);
-	dup2(exec->std_fd[WRITE_END], STDOUT_FILENO);
+		dup2(exec->std_fd[READ_FD], STDIN_FILENO);
+	close(exec->pipe_fd[READ_FD]);
+	close(exec->pipe_fd[WRITE_FD]);
+	dup2(exec->std_fd[WRITE_FD], STDOUT_FILENO);
 	clear_token(exec->token);
 }
 
@@ -110,8 +110,8 @@ void	execute_command(char *input, t_exec *exec)
 		else if (is_builtin(tokens) && !has_pipe(tokens))
 		{
 			execute_builtin(make_argv(tokens, NULL), exec->env, FALSE);
-			dup2(exec->std_fd[READ_END], STDIN_FILENO);
-			dup2(exec->std_fd[WRITE_END], STDOUT_FILENO);
+			dup2(exec->std_fd[READ_FD], STDIN_FILENO);
+			dup2(exec->std_fd[WRITE_FD], STDOUT_FILENO);
 		}
 		else
 			execute_with_fork(tokens, exec);

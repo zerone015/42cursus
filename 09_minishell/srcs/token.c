@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 18:57:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/04 23:55:20 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/24 12:45:06 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_token	*init_token(void)
 	token = safe_malloc(sizeof(t_token));
 	token->head = safe_malloc(sizeof(t_tnode));
 	token->head->str = ft_strdup("");
+	token->head->next = NULL;
 	token->tail = token->head;
 	return (token);
 }

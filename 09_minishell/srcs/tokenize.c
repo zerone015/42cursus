@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:13:56 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 20:13:31 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/24 13:08:20 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_token	*tokenize(char *input, t_env *env)
 	while (input[++i])
 	{
 		if (!ft_strncmp(input + i, "''", 2) || !ft_strncmp(input + i, "\"\"", 2))
-			i++;
+			i += tokenize_null(token);
 		else if (input[i] == '"')
 			i += tokenize_dquotes(input + i + 1, token, env);
 		else if (input[i] == '\'')

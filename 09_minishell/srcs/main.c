@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/19 21:25:03 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/24 13:10:52 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ static void	parse_envp(t_env *env, char *envp[])
 static void	init_exec(t_exec *exec, char *envp[])
 {
 	exec->heredocs = NULL;
-	exec->std_fd[READ_END] = dup(STDIN_FILENO);
-	exec->std_fd[WRITE_END] = dup(STDOUT_FILENO);
-	exec->pipe_fd[READ_END] = -1;
-	exec->pipe_fd[WRITE_END] = -1;
+	exec->std_fd[READ_FD] = dup(STDIN_FILENO);
+	exec->std_fd[WRITE_FD] = dup(STDOUT_FILENO);
+	exec->pipe_fd[READ_FD] = -1;
+	exec->pipe_fd[WRITE_FD] = -1;
 	exec->env = init_env();
 	parse_envp(exec->env, envp);
 }

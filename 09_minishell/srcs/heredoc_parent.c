@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_parent.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:18:00 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/19 16:38:31 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/24 13:49:57 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	free_limiters(t_tnode *first)
+{
+	t_tnode	*cur;
+	t_tnode	*temp;
+
+	free(first->str);
+	cur = first->next;
+	while (cur && cur->type == WORD)
+	{
+		free(cur->str);
+		temp = cur;
+		cur = cur->next;
+		free(temp);
+	}
+	first->next = cur;
+}
 
 static void	change_limiter_to_filename(t_token *token, t_exec *exec)
 {
@@ -21,7 +38,7 @@ static void	change_limiter_to_filename(t_token *token, t_exec *exec)
 	i = 0;
 	while (cur)
 	{
-		free(cur->str);
+		free_limiters(cur);
 		cur->str = ft_strdup((exec->heredocs)[i++]);
 		cur = find_heredoc_limiter(cur);
 	}

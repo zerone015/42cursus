@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_execve.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:57 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/20 13:33:58 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/24 14:15:33 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ static void	error_handler(char *cmd)
 
 void	child_execve(char *argv[], char *envp[])
 {
+	if (!argv[0])
+		exit(EXIT_SUCCESS);
 	if (!ft_strchr(argv[0], '/') || execve(argv[0], argv, envp) == -1)
 	{
 		if (find_path_execve(argv[0], argv, envp) == -1)

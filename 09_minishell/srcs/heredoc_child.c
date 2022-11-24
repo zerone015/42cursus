@@ -6,7 +6,7 @@
 /*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:13:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/23 01:29:31 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/11/24 13:57:58 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,38 @@ static void	input_to_file(char *input, char *filename)
 	close(fd);
 }
 
+static char	*merge_limiter(t_tnode *cur)
+{
+	char	*ret;
+	char	*temp;
+
+	ret = ft_strdup("");
+	while (cur && cur->type == WORD)
+	{
+		temp = ret;
+		ret = ft_strjoin(ret, cur->str);
+		free(temp);
+		cur = cur->next;
+	}
+	temp = ret;
+	ret = ft_strjoin(ret, "\n");
+	free(temp);
+	return (ret);
+}
+
 static void	make_heredocs(t_token *token, t_exec *exec)
 {
 	t_tnode	*cur;
 	char	*input;
+	char	*limiter;
 
 	cur = find_heredoc_limiter(token->head->next);
 	while (cur)
 	{
-		input = read_input(ft_strjoin(cur->str, "\n"), exec->env);
+		limiter = merge_limiter(cur);
+		input = read_input(limiter, exec->env);
 		input_to_file(input, *(exec->heredocs)++);
+		free(limiter);
 		free(input);
 		cur = find_heredoc_limiter(cur);
 	}
