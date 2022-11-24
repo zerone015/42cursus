@@ -6,7 +6,7 @@
 /*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:13:53 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/24 13:57:58 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/11/24 18:51:20 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ static char	*read_input(char *limiter, t_env *env)
 		}
 		temp = join;
 		join = ft_strjoin(join, input);
+		free(input);
 		free(temp);
 	}
+	free(input);
 	return (join);
 }
 
@@ -81,8 +83,8 @@ static void	make_heredocs(t_token *token, t_exec *exec)
 	{
 		limiter = merge_limiter(cur);
 		input = read_input(limiter, exec->env);
-		input_to_file(input, *(exec->heredocs)++);
 		free(limiter);
+		input_to_file(input, *(exec->heredocs)++);
 		free(input);
 		cur = find_heredoc_limiter(cur);
 	}
