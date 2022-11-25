@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/24 13:10:10 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/11/25 14:39:32 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int		ft_isredirect(char *input);
 int		tokenize_redirect(char *input, t_token *token);
 int		is_normal(char c);
 int		tokenize_normal(char *input, t_token *token);
-int 	tokenize_null(t_token *token);
+int		tokenize_null(t_token *token);
 int		heredoc(t_token *token, t_exec *exec);
 int		is_heredoc(t_tnode *node);
 int		has_heredoc(t_token *token);

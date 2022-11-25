@@ -6,13 +6,13 @@
 /*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 01:29:07 by son-yeong-w       #+#    #+#             */
-/*   Updated: 2022/11/24 18:50:16 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/11/25 14:40:06 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char *find_env_next_address(char *str)
+static char	*find_env_next_address(char *str)
 {
 	if (*str == '$')
 	{
