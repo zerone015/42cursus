@@ -3,27 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/25 14:39:32 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/30 14:46:44 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define TRUE		1
-# define FALSE		0
-# define READ_FD	0
-# define WRITE_FD	1
+# define TRUE	1
+# define FALSE	0
 
 # include <unistd.h>
 # include "env.h"
 # include "token.h"
 # include "builtin.h"
+# include "wildcard.h"
 # include "get_next_line.h"
 # include "../libft/libft.h"
+
+enum e_fd
+{
+	READ_FD,
+	WRITE_FD
+};
 
 enum e_type
 {

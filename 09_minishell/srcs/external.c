@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/24 14:25:30 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/11/30 16:11:39 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,31 @@ int	find_argv_size(t_token *token)
 	return (size);
 }
 
+static char	**list_to_array(t_lst *list)
+{
+	int		count;
+	int		index;
+	char	**array;
+
+	count = ft_lstsize(list) + 1;
+	array = safe_malloc(count * sizeof(char *));
+	index = 0;
+	while (list)
+	{
+		array[index++] = list->content;
+		list = list->next;
+	}
+	array[index] = NULL;
+	return (array);
+}
+
 char	**make_argv(t_token *token, int *flag)
 {
 	int		i;
-	int		size;
+	t_lst	*argv_list;
 	char	**argv;
 
-	size = find_argv_size(token);
-	argv = safe_malloc(sizeof(char *) * (size + 1));
+	argv_list = NULL;
 	i = 0;
 	while (first_type(token) != -1 && first_type(token) != PIPE)
 	{
@@ -83,9 +100,10 @@ char	**make_argv(t_token *token, int *flag)
 		if (first_type(token) == BLANK)
 			free(remove_first(token));
 		if (first_type(token) == WORD)
-			argv[i++] = merge_word(token);
+			convert_wildcard(merge_word(token), &argv_list);
 	}
-	argv[i] = NULL;
+	argv = list_to_array(argv_list);
+	ft_lstclear(&argv_list, NULL);
 	return (argv);
 }
 

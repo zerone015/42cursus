@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yoson <yoson@student.42.fr>                +#+  +:+       +#+         #
+#    By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/10 18:10:46 by yoson             #+#    #+#              #
-#    Updated: 2022/11/12 03:10:24 by yoson            ###   ########.fr        #
+#    Updated: 2022/11/30 14:37:32 by kijsong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,19 +31,13 @@ SRCS = ft_memcmp.c ft_memmove.c ft_bzero.c ft_memchr.c ft_memcpy.c \
        ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_perror.c is_number.c
 OBJS = $(SRCS:%.c=%.o)
 BOBJS = $(BSRCS:%.c=%.o)
-ifdef WITH_BONUS
-    OBJ_FILES = $(OBJS) $(BOBJS)
-else
-    OBJ_FILES = $(OBJS)
-endif
+OBJ_FILES = $(OBJS) $(BOBJS)
 
 all : $(NAME)
 %.o : %.c
 	$(CC) $(FLAGS) -c $< -o $@
 $(NAME) : $(OBJ_FILES)
 	ar rcs $@ $^
-bonus :
-	make WITH_BONUS=1 all
 clean : 
 	rm -f $(OBJS) $(BOBJS)
 fclean : clean

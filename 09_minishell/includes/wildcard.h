@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   wildcard.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/03 14:48:00 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/30 12:07:41 by kijsong          ###   ########.fr       */
+/*   Created: 2022/11/30 14:26:36 by kijsong           #+#    #+#             */
+/*   Updated: 2022/11/30 16:19:25 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
-#include <unistd.h>
-#include "../../includes/minishell.h"
+#ifndef WILDCARD_H
+# define WILDCARD_H
 
-int	builtin_pwd(int argc, char *argv[], t_env *env)
+# include <dirent.h>
+# include <limits.h>
+# include "../libft/libft.h"
+
+typedef struct s_wildcard
 {
-	char	buf[PATH_MAX];
+	char	*pattern;
+	char	*filename;
+	int		p_len;
+	int		f_len;
+	int		**caches;
+}	t_wildcard;
 
-	(void)argc;
-	(void)argv;
-	getcwd(buf, sizeof(buf));
-	ft_putendl_fd(buf, STDOUT_FILENO);
-	env->exit_code = EXIT_SUCCESS;
-	return (0);
-}
+int		match_wildcard(char *pattern, struct dirent *file);
+void	convert_wildcard(char *word, t_lst **argv);
+
+#endif
