@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:52 by kijsong           #+#    #+#             */
-/*   Updated: 2022/09/05 20:01:07 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/30 17:59:04 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,18 @@ int	tokenize_redirect(char *input, t_token *token)
 	return (i - 1);
 }
 
-int	is_normal(char c)
+int	is_normal(char *input)
 {
+	char	c;
+
+	c = *input;
 	if (c == '|' || c == '"' || c == '\'' || c == '$')
 		return (FALSE);
 	if (ft_isblank(c) || c == '>' || c == '<')
+		return (FALSE);
+	if (!ft_strncmp(input, "&&", 2))
+		return (FALSE);
+	if (c == '(' || c == ')')
 		return (FALSE);
 	return (TRUE);
 }
@@ -49,8 +56,8 @@ int	tokenize_normal(char *input, t_token *token)
 {
 	int	i;
 
-	i = 0;
-	while (input[i] && is_normal(input[i]))
+	i = tokenize_parenthesis(input, token);
+	while (input[i] && is_normal(input + i))
 		i++;
 	add_last(token, WORD, ft_substr(input, 0, i));
 	return (i - 1);

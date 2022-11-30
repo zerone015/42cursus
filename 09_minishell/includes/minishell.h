@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/30 14:46:44 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/11/30 19:03:42 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ enum e_type
 {
 	WORD,
 	BLANK,
+	REDIRECT,
+	LOGICAL,
 	PIPE,
-	REDIRECT
+	PARENTHESIS,
 };
 
 enum e_signal
@@ -86,9 +88,11 @@ int		find_exit_code(int status, int is_sigint);
 
 int		ft_isredirect(char *input);
 int		tokenize_redirect(char *input, t_token *token);
-int		is_normal(char c);
+int		is_normal(char *input);
 int		tokenize_normal(char *input, t_token *token);
 int		tokenize_null(t_token *token);
+int		tokenize_operator(char *input, t_token *token);
+int		tokenize_parenthesis(char *input, t_token *token);
 int		heredoc(t_token *token, t_exec *exec);
 int		is_heredoc(t_tnode *node);
 int		has_heredoc(t_token *token);

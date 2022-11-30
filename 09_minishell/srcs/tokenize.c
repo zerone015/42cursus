@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:13:56 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/24 13:08:20 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/11/30 17:41:36 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ t_token	*tokenize(char *input, t_env *env)
 			i += tokenize_redirect(input + i, token);
 		else if (input[i] == '$')
 			i += tokenize_envp(input + i + 1, token, env);
-		else if (input[i] == '|')
-			add_last(token, PIPE, ft_strdup("|"));
+		else if (input[i] == '|' || input[i] == '&')
+			i += tokenize_operator(input + i, token);
 		else
 			i += tokenize_normal(input + i, token);
 	}

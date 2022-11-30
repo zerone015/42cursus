@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   priority.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/11 01:07:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/30 16:56:40 by kijsong          ###   ########.fr       */
+/*   Created: 2022/11/30 18:44:42 by kijsong           #+#    #+#             */
+/*   Updated: 2022/11/30 19:13:49 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "../includes/minishell.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include "../libft/libft.h"
+int	get_priority(t_tnode *node, int in_stack)
+{
+	if (!ft_strcmp(node->str, "(") && in_stack)
+		return (-1);
+	return (node->type);
+}
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4096
-# endif
+t_token	*infix_to_postfix(t_token *infix)
+{
+	t_tnode	*node;
+	t_token	*postfix;
 
-char	*get_next_line(int fd);
-char	*get_next_line_without_nl(int fd);
-
-#endif
+	node = infix->head;
+	while (node)
+	{
+		if (node->type >= LOGICAL)
+		{
+			
+		}
+		node = node->next;
+	}
+	return (postfix);
+}
