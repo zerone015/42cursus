@@ -11,8 +11,9 @@
 $ git clone https://github.com/zerone015/42seoul.git minishell
 $ cd minishell/09_minishell
 
-# build
 $ brew install readline
+
+# build
 $ make        
 
 # execute
