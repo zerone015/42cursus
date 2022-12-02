@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/30 19:03:42 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/02 13:25:47 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 # define FALSE	0
 
 # include <unistd.h>
-# include "env.h"
-# include "token.h"
 # include "builtin.h"
-# include "wildcard.h"
+# include "env.h"
 # include "get_next_line.h"
+# include "priority.h"
+# include "token.h"
+# include "wildcard.h"
 # include "../libft/libft.h"
 
 enum e_fd

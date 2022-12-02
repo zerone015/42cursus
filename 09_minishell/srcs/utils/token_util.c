@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:28:38 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/02 12:48:26 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/02 13:53:21 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ void	add_first(t_token *token, int type, char *str)
 	new = safe_malloc(sizeof(t_tnode));
 	new->type = type;
 	new->str = str;
-	new->next = token->head->next;
-	token->head->next = new;
-	if (!new->next)
-		token->tail = new;
+	push(new, token);
 }
 
 void	add_last(t_token *token, int type, char *str)
@@ -43,14 +40,11 @@ char	*remove_first(t_token *token)
 	t_tnode	*first;
 	char	*ret;
 
-	if (!token->head->next)
+	first = pop(token);
+	if (!first)
 		return (NULL);
-	first = token->head->next;
 	ret = first->str;
-	token->head->next = first->next;
 	free(first);
-	if (!token->head->next)
-		token->tail = NULL;
 	return (ret);
 }
 

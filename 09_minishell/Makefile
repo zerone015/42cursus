@@ -6,7 +6,7 @@
 #    By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/30 16:11:41 by kijsong           #+#    #+#              #
-#    Updated: 2022/12/02 13:05:15 by kijsong          ###   ########.fr        #
+#    Updated: 2022/12/02 14:06:01 by kijsong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,14 +26,16 @@ BUILTIN_DIR	= ./srcs/builtin/
 LIB_DIR		= ./libft/
 LIB_NAME	= ./libft/libft.a
 
-SRC			=	main.c env.c error.c execute.c external.c get_next_line.c \
-				get_next_line_without_nl.c prompt.c redirection.c signal.c heredoc.c \
-				heredoc_parent.c heredoc_child.c token.c tokenize.c check_syntax.c \
-				child_execve.c wildcard.c
-UTIL		=	execute_util.c heredoc_child_util.c heredoc_util.c token_util.c \
-				tokenize_util.c tokenize_util2.c util.c util2.c wildcard_util.c
-BUILTIN		=	builtin.c builtin_cd.c builtin_echo.c builtin_env.c builtin_exit.c \
-				builtin_export.c builtin_pwd.c builtin_unset.c builtin_util.c
+SRC			=	main.c check_syntax.c child_execve.c env.c error.c execute.c \
+				external.c get_next_line_without_nl.c get_next_line.c \
+				heredoc_child.c heredoc_parent.c heredoc.c priority.c prompt.c \
+				redirection.c signal.c token.c tokenize.c wildcard.c
+UTIL		=	execute_util.c heredoc_child_util.c heredoc_util.c \
+				priority_util.c token_util.c token_util2.c tokenize_util.c \
+				tokenize_util2.c util.c util2.c wildcard_util.c
+BUILTIN		=	builtin.c builtin_cd.c builtin_echo.c builtin_env.c \
+				builtin_exit.c builtin_export.c builtin_pwd.c \
+				builtin_unset.c builtin_util.c
 SRCS		=	$(addprefix $(SRC_DIR), $(SRC)) \
 				$(addprefix $(UTIL_DIR), $(UTIL)) \
 				$(addprefix $(BUILTIN_DIR), $(BUILTIN))
