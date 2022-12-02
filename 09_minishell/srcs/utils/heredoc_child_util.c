@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_child_util.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 01:29:07 by son-yeong-w       #+#    #+#             */
-/*   Updated: 2022/11/25 14:40:06 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/02 12:48:22 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static char	*find_env_next_address(char *str)
 {

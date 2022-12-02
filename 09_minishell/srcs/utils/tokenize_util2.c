@@ -6,11 +6,11 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 13:00:40 by son-yeong-w       #+#    #+#             */
-/*   Updated: 2022/11/30 18:01:02 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/02 12:48:39 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	tokenize_null(t_token *token)
 {

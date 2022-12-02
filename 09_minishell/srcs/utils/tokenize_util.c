@@ -6,12 +6,12 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:52 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/30 17:59:04 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/02 12:48:36 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
-#include "../includes/minishell.h"
+#include "../../libft/libft.h"
+#include "../../includes/minishell.h"
 
 int	ft_isredirect(char *input)
 {

@@ -6,11 +6,11 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:49:01 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/30 16:09:06 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/02 12:48:44 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static void	init_caches(t_wildcard *wc)
 {

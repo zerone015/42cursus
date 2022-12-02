@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:23:51 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/19 16:00:50 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/02 13:00:51 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	ft_free(char **argv)
 {

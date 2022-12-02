@@ -6,12 +6,12 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:28:38 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 19:22:13 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/02 12:48:26 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	add_first(t_token *token, int type, char *str)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 14:51:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/24 13:10:52 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/12/02 12:48:18 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	child_builtin(t_exec *exec)
 {

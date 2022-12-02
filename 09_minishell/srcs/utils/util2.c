@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   util2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 17:13:21 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/19 17:25:12 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/02 12:48:42 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	is_quit(int status)
 {
