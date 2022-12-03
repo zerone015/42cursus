@@ -32,7 +32,7 @@ $ make bonus      # bonus
 - process, thread
 - PCB
 - context switch
-- race condition
+- data race
 - critical section
 - Mutex, Semaphore
 - Deadlock
