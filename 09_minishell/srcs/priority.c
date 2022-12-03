@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priority.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 18:44:42 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/02 14:23:23 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/03 15:45:59 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,24 @@ t_token	*init_infix(void)
 
 	infix = init_token();
 	add_last(infix, PARENTHESIS, ft_strdup("("));
+	add_last(infix, WORD, ft_strdup("9"));
+	add_last(infix, LOGICAL, ft_strdup("||"));
+	add_last(infix, PARENTHESIS, ft_strdup("("));
+	add_last(infix, WORD, ft_strdup("4"));
+	add_last(infix, PIPE, ft_strdup("|"));
+	add_last(infix, WORD, ft_strdup("2"));
+	add_last(infix, LOGICAL, ft_strdup("&&"));
 	add_last(infix, WORD, ft_strdup("1"));
+	add_last(infix, PARENTHESIS, ft_strdup(")"));
+	add_last(infix, PARENTHESIS, ft_strdup(")"));
+	add_last(infix, PIPE, ft_strdup("|"));
+	add_last(infix, PARENTHESIS, ft_strdup("("));
+	add_last(infix, WORD, ft_strdup("5"));
+	add_last(infix, PIPE, ft_strdup("|"));
+	add_last(infix, WORD, ft_strdup("2"));
 	add_last(infix, LOGICAL, ft_strdup("||"));
 	add_last(infix, WORD, ft_strdup("2"));
 	add_last(infix, PARENTHESIS, ft_strdup(")"));
-	add_last(infix, PIPE, ft_strdup("|"));
-	add_last(infix, WORD, ft_strdup("3"));
 	print_token(infix);
 	printf("\nConverting...\n\n");
 	return (infix);
@@ -56,21 +68,25 @@ t_token	*infix_to_postfix(t_token *infix)
 	node = infix->head->next;
 	while (node)
 	{
-		if (node->type >= LOGICAL)
+		if (node->type < LOGICAL)
+			add_first(postfix, node->type, ft_strdup(node->str));
+			// push(node, postfix);
+		else
 		{
 			if (!ft_strcmp(node->str, ")"))
 			{
-				popped = pop(postfix);
-				while (!ft_strcmp(node->str, "("))
+				popped = pop(stack);
+				while (ft_strcmp(popped->str, "("))
 				{
-					push(node, postfix);
-					popped = pop(postfix);
+					push(popped, postfix);
+					popped = pop(stack);
 				}
 			}
 			else
 			{
 				if (!get_stack_size(stack))
-					push(node, stack);
+					add_first(stack, node->type, ft_strdup(node->str));
+					// push(node, stack);
 				else
 				{
 					popped = pop(stack);
@@ -78,14 +94,16 @@ t_token	*infix_to_postfix(t_token *infix)
 						push(popped, postfix);
 					else
 						push(popped, stack);
+					add_first(stack, node->type, ft_strdup(node->str));
+					// push(node, stak);
 				}
 			}
 		}
-		else
-			push(node, postfix);
 		node = node->next;
 	}
 	while (get_stack_size(stack))
 		push(pop(stack), postfix);
-	return (postfix);
+	while (get_stack_size(postfix))
+		push(pop(postfix), stack);
+	return (stack);
 }
