@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/02 13:25:47 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/04 17:50:46 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define TRUE	1
 # define FALSE	0
 
+# include <stdio.h> //test
 # include <unistd.h>
 # include "builtin.h"
 # include "env.h"

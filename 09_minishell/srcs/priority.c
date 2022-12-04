@@ -3,44 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   priority.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 18:44:42 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/03 15:45:59 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/04 16:50:58 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <stdio.h> //test
-
-t_token	*init_infix(void)
-{
-	t_token	*infix;
-
-	infix = init_token();
-	add_last(infix, PARENTHESIS, ft_strdup("("));
-	add_last(infix, WORD, ft_strdup("9"));
-	add_last(infix, LOGICAL, ft_strdup("||"));
-	add_last(infix, PARENTHESIS, ft_strdup("("));
-	add_last(infix, WORD, ft_strdup("4"));
-	add_last(infix, PIPE, ft_strdup("|"));
-	add_last(infix, WORD, ft_strdup("2"));
-	add_last(infix, LOGICAL, ft_strdup("&&"));
-	add_last(infix, WORD, ft_strdup("1"));
-	add_last(infix, PARENTHESIS, ft_strdup(")"));
-	add_last(infix, PARENTHESIS, ft_strdup(")"));
-	add_last(infix, PIPE, ft_strdup("|"));
-	add_last(infix, PARENTHESIS, ft_strdup("("));
-	add_last(infix, WORD, ft_strdup("5"));
-	add_last(infix, PIPE, ft_strdup("|"));
-	add_last(infix, WORD, ft_strdup("2"));
-	add_last(infix, LOGICAL, ft_strdup("||"));
-	add_last(infix, WORD, ft_strdup("2"));
-	add_last(infix, PARENTHESIS, ft_strdup(")"));
-	print_token(infix);
-	printf("\nConverting...\n\n");
-	return (infix);
-}
 
 void	print_token(t_token *token)
 {
@@ -59,51 +29,80 @@ void	print_token(t_token *token)
 t_token	*infix_to_postfix(t_token *infix)
 {
 	t_token	*postfix;
-	t_token	*stack;
+	t_token	*operators;
 	t_tnode	*node;
 	t_tnode	*popped;
 
 	postfix = init_token();
-	stack = init_token();
-	node = infix->head->next;
+	operators = init_token();
+	node = pop(infix);
 	while (node)
 	{
 		if (node->type < LOGICAL)
-			add_first(postfix, node->type, ft_strdup(node->str));
-			// push(node, postfix);
+			push_back(node, postfix);
 		else
 		{
 			if (!ft_strcmp(node->str, ")"))
 			{
-				popped = pop(stack);
+				popped = pop(operators);
 				while (ft_strcmp(popped->str, "("))
 				{
-					push(popped, postfix);
-					popped = pop(stack);
+					push_back(popped, postfix);
+					popped = pop(operators);
 				}
 			}
 			else
 			{
-				if (!get_stack_size(stack))
-					add_first(stack, node->type, ft_strdup(node->str));
-					// push(node, stack);
+				if (!get_stack_size(operators))
+					push(node, operators);
 				else
 				{
-					popped = pop(stack);
+					popped = pop(operators);
 					if (get_priority(popped, TRUE) > get_priority(node, FALSE))
-						push(popped, postfix);
+						push_back(popped, postfix);
 					else
-						push(popped, stack);
-					add_first(stack, node->type, ft_strdup(node->str));
-					// push(node, stak);
+						push(popped, operators);
+					push(node, operators);
 				}
 			}
 		}
-		node = node->next;
+		node = pop(infix);
 	}
-	while (get_stack_size(stack))
-		push(pop(stack), postfix);
-	while (get_stack_size(postfix))
-		push(pop(postfix), stack);
-	return (stack);
+	while (get_stack_size(operators))
+		push_back(pop(operators), postfix);
+	clear_token(infix);
+	clear_token(operators);
+	return (postfix);
+}
+
+t_token *calculate(t_token *postfix)
+{
+	t_token	*result;
+	t_token	*stack;
+	t_tnode	*node;
+	t_tnode	*operand1;
+	t_tnode	*operand2;
+
+	result = init_token();
+	stack = init_token();
+	node = pop(postfix);
+	while (node)
+	{
+		if (node->type < LOGICAL)
+			push(node, stack);
+		else
+		{
+			operand1 = pop(stack);
+			if (!get_stack_size(result))
+			{
+				operand2 = pop(stack);
+				push_back(operand2, result);
+			}
+			push_back(node, result);
+			push_back(operand1, result);
+		}
+		node = pop(postfix);
+	}
+	clear_token(stack);
+	return (result);
 }

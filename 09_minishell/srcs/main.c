@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:09:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/12/02 14:21:52 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/04 15:51:23 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ int	main(int argc, char *argv[], char *envp[])
 	char	*input;
 	int		is_error;
 
-	print_token(infix_to_postfix(init_infix()));
-	return (0);
 	init_exec(&exec, envp);
 	while (argc || argv)
 	{

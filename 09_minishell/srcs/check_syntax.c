@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:25:06 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/15 17:02:49 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/04 15:51:01 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ static int	pipe_check(char **input)
 			while (j >= 0 && ft_isblank((*input)[j]))
 				j--;
 			if (j == -1)
-				return (-1);
-			else if ((*input)[j] == '|')
 				return (-1);
 			else if (ft_isredirect(*input + j))
 				return (-1);

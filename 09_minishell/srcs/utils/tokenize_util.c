@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:52 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/02 12:48:36 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/04 16:59:03 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	is_normal(char *input)
 	char	c;
 
 	c = *input;
+	if (!c)
+		return (FALSE);
 	if (c == '|' || c == '"' || c == '\'' || c == '$')
 		return (FALSE);
 	if (ft_isblank(c) || c == '>' || c == '<')
@@ -54,13 +56,18 @@ int	is_normal(char *input)
 
 int	tokenize_normal(char *input, t_token *token)
 {
-	int	i;
+	int	parenthesis;
+	int	len;
 
-	i = tokenize_parenthesis(input, token);
-	while (input[i] && is_normal(input + i))
-		i++;
-	add_last(token, WORD, ft_substr(input, 0, i));
-	return (i - 1);
+	parenthesis = tokenize_parenthesis(input, token);
+	input += parenthesis;
+	len = 0;
+	while (is_normal(input + len))
+		len++;
+	if (!len)
+		return (0);
+	add_last(token, WORD, ft_substr(input, 0, len));
+	return (parenthesis + len - 1);
 }
 
 int	free_dquotes(char *word)

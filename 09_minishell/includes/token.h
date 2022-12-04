@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 18:39:07 by yoson             #+#    #+#             */
-/*   Updated: 2022/12/02 13:48:55 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/04 15:27:10 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_token
 }	t_token;
 
 void	push(t_tnode *node, t_token *stack);
+void	push_back(t_tnode *node, t_token *stack);
 t_tnode	*pop(t_token *stack);
 void	add_first(t_token *token, int type, char *str);
 void	add_last(t_token *token, int type, char *str);
