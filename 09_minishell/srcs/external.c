@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/30 16:11:39 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/05 13:34:38 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,10 @@ static char	**list_to_array(t_lst *list)
 
 char	**make_argv(t_token *token, int *flag)
 {
-	int		i;
 	t_lst	*argv_list;
 	char	**argv;
 
 	argv_list = NULL;
-	i = 0;
 	while (first_type(token) != -1 && first_type(token) != PIPE)
 	{
 		if (first_type(token) == REDIRECT)

@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   priority_util.c                                    :+:      :+:    :+:   */
+/*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 13:22:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/02 13:58:46 by kijsong          ###   ########.fr       */
+/*   Created: 2022/12/06 15:58:45 by kijsong           #+#    #+#             */
+/*   Updated: 2022/12/06 23:49:14 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/priority.h"
+#ifndef AST_H
+# define AST_H
 
-int	get_priority(t_tnode *node, int in_stack)
+# include "token.h"
+
+typedef struct s_anode
 {
-	if (!ft_strcmp(node->str, "(") && in_stack)
-		return (-1);
-	return (node->type);
-}
+	t_token			*data;
+	struct s_anode	*left;
+	struct s_anode	*right;
+}	t_anode;
 
-int	get_stack_size(t_token *stack)
-{
-	int		size;
-	t_tnode	*node;
+void	print_token(t_token *token); //test
+int		validate_parenthesis(char *input);
+t_token	*get_right(t_token *tokens);
+t_token	*get_operator(t_token *right);
+t_anode	*list_to_ast(t_token *tokens);
 
-	size = 0;
-	node = stack->head->next;
-	while (node)
-	{
-		size++;
-		node = node->next;
-	}
-	return (size);
-}
+#endif

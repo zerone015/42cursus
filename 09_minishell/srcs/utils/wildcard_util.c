@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:49:01 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/02 12:48:44 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/05 13:38:41 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	match_wildcard(char *pattern, struct dirent *file)
 	wc.pattern = pattern;
 	wc.filename = file->d_name;
 	wc.p_len = ft_strlen(pattern);
-	wc.f_len = file->d_namlen;
+	wc.f_len = ft_strlen(file->d_name);
 	init_caches(&wc);
 	return (match(0, 0, &wc));
 }

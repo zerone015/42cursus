@@ -6,13 +6,13 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 09:02:24 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/30 16:16:45 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/06 22:45:11 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	get_execs(t_lst **execs)
+static void	get_execs(t_lst **execs)
 {
 	int				index;
 	char			**paths;
@@ -36,7 +36,7 @@ void	get_execs(t_lst **execs)
 	}
 }
 
-int	is_exec(char *word, t_lst *execs)
+static int	is_exec(char *word, t_lst *execs)
 {
 	while (execs)
 	{

@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/04 17:50:46 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/06 23:18:08 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 
 # include <stdio.h> //test
 # include <unistd.h>
+# include "ast.h"
 # include "builtin.h"
 # include "env.h"
 # include "get_next_line.h"
-# include "priority.h"
 # include "token.h"
 # include "wildcard.h"
 # include "../libft/libft.h"
@@ -34,11 +34,12 @@ enum e_fd
 
 enum e_type
 {
+	DUMMY,
 	WORD,
 	BLANK,
 	REDIRECT,
-	LOGICAL,
 	PIPE,
+	LOGICAL,
 	PARENTHESIS,
 };
 

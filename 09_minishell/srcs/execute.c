@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:57 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/04 17:41:22 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/07 00:11:57 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,9 @@ void	execute_command(char *input, t_exec *exec)
 	int		heredoc_res;
 
 	heredoc_res = 0;
-	safe_signal(SIGINT, SIG_IGN);
+	// safe_signal(SIGINT, SIG_IGN);
 	tokens = tokenize(input, exec->env);
+	list_to_ast(tokens);
 	if (has_heredoc(tokens))
 		heredoc_res = heredoc(tokens, exec);
 	if (heredoc_res == 0)

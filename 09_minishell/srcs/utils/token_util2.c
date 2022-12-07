@@ -6,11 +6,11 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 13:43:13 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/04 15:26:52 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/07 00:51:49 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include <stdlib.h>
 #include "../../includes/token.h"
 
 void	push(t_tnode *node, t_token *stack)
@@ -40,4 +40,11 @@ t_tnode	*pop(t_token *stack)
 		stack->tail = NULL;
 	top->next = NULL;
 	return (top);
+}
+
+void	delete_tnode(t_tnode *prev, t_tnode *curr)
+{
+	prev->next = curr->next;
+	free(curr->str);
+	free(curr);
 }
