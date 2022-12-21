@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 14:51:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/12/02 12:48:18 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/21 17:21:05 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,9 @@
 void	child_builtin(t_exec *exec)
 {
 	char	**argv;
-	int		out_redirection;
 
 	dup2(exec->std_fd[READ_FD], STDIN_FILENO);
-	close(exec->pipe_fd[READ_FD]);
-	if (first_type(exec->token) == PIPE)
-		free(remove_first(exec->token));
-	out_redirection = 0;
-	argv = make_argv(exec->token, &out_redirection);
-	if (!out_redirection && first_type(exec->token) == PIPE)
-		dup2(exec->pipe_fd[WRITE_FD], STDOUT_FILENO);
-	close(exec->pipe_fd[WRITE_FD]);
+	argv = make_argv(exec->token);
 	execute_builtin(argv, exec->env, TRUE);
 }
 

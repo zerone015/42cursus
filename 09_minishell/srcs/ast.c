@@ -6,28 +6,22 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 15:06:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/07 00:57:35 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/21 14:37:39 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	print_token(t_token *token) //test
+static t_token	*get_operator(t_token *right)
 {
-	t_tnode	*node;
-	int		index;
+	t_token	*operator;
 
-	node = token->head->next;
-	index = 1;
-	while (node)
-	{
-		printf("%d:%s$\n", index++, node->str);
-		node = node->next;
-	}
-	printf("\n");
+	operator = init_token();
+	push(pop(right), operator);
+	return (operator);
 }
 
-t_anode	*ast_new(t_token *data)
+static t_anode	*ast_new(t_token *data)
 {
 	t_anode	*node;
 
@@ -38,7 +32,7 @@ t_anode	*ast_new(t_token *data)
 	return (node);
 }
 
-void	ast_insert(t_token *tokens, t_anode **ast_ptr)
+static void	ast_insert(t_token *tokens, t_anode **ast_ptr)
 {
 	t_token	*left;
 	t_token	*right;
@@ -55,22 +49,11 @@ void	ast_insert(t_token *tokens, t_anode **ast_ptr)
 	ast_insert(right, &(*ast_ptr)->right);
 }
 
-void	ast_preorder(t_anode *ast)
-{
-	if (!ast)
-		return ;
-	print_token(ast->data);
-	ast_preorder(ast->left);
-	ast_preorder(ast->right);
-}
-
 t_anode	*list_to_ast(t_token *tokens)
 {
 	t_anode	*ast;
 
 	ast = NULL;
 	ast_insert(tokens, &ast);
-	ast_preorder(ast);
-	exit(0); //test
 	return (ast);
 }

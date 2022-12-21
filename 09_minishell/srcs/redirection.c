@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:14:09 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/24 14:09:40 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/12/21 17:20:16 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <errno.h>
 #include "../includes/minishell.h"
 
-static void	overwrite_output(char *filename, int *flag)
+static void	overwrite_output(char *filename)
 {
 	int	fd;
 
@@ -24,11 +24,9 @@ static void	overwrite_output(char *filename, int *flag)
 	if (fd == -1)
 		child_error(NULL, filename, 1);
 	dup2(fd, STDOUT_FILENO);
-	if (flag)
-		*flag = 1;
 }
 
-static void	append_output(char *filename, int *flag)
+static void	append_output(char *filename)
 {
 	int	fd;
 
@@ -36,8 +34,6 @@ static void	append_output(char *filename, int *flag)
 	if (fd == -1)
 		child_error(NULL, filename, 1);
 	dup2(fd, STDOUT_FILENO);
-	if (flag)
-		*flag = 1;
 }
 
 static void	input(char *filename)
@@ -55,7 +51,7 @@ static void	input(char *filename)
 	dup2(fd, STDIN_FILENO);
 }
 
-void	redirection(t_token *token, int *flag)
+void	redirection(t_token *token)
 {
 	char	*redirection;	
 	char	*filename;
@@ -65,9 +61,9 @@ void	redirection(t_token *token, int *flag)
 		free(remove_first(token));
 	filename = merge_word(token);
 	if (ft_strcmp(redirection, ">") == 0)
-		overwrite_output(filename, flag);
+		overwrite_output(filename);
 	else if (ft_strcmp(redirection, ">>") == 0)
-		append_output(filename, flag);
+		append_output(filename);
 	else if (ft_strcmp(redirection, "<") == 0 || \
 			ft_strcmp(redirection, "<<") == 0)
 		input(filename);

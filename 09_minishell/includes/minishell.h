@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/06 23:18:08 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/21 17:20:30 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ enum e_signal
 typedef struct s_exec
 {
 	int		std_fd[2];
-	int		pipe_fd[2];
+	int		has_pipe;
 	t_env	*env;
 	t_token	*token;
 	char	**heredocs;
@@ -64,8 +64,9 @@ t_token	*tokenize(char *input, t_env *env);
 void	child_external(t_exec *exec);
 void	child_execve(char *argv[], char *envp[]);
 void	execute_command(char *input, t_exec *exec);
+int		execute_core(t_token *tokens, t_exec *exec);
 int		find_argv_size(t_token *token);
-char	**make_argv(t_token *token, int *flag);
+char	**make_argv(t_token *token);
 void	execute(char **argv, char **envp);
 t_token	*parse_token(t_token *tokens);
 int		has_heredoc(t_token *token);
@@ -73,12 +74,16 @@ int		is_builtin(t_token *token);
 void	set_signal(int status);
 void	safe_signal(int signum, void (*handler)(int));
 void	echoctl(int flag);
-void	redirection(t_token *token, int *flag);
+void	redirection(t_token *token);
 char	*merge_word(t_token *token);
 int		is_input_blank(char *input);
 int		get_abs(int num);
 int		is_stdin(char *input);
 void	ft_free(char **argv);
+pid_t	safe_fork(t_exec *exec);
+void	safe_pipe(int pipe_fd[], t_exec *exec);
+
+int		ast_preorder(t_anode *ast, t_exec *exec);
 
 void	child_builtin(t_exec *exec);
 int		is_builtin(t_token *token);

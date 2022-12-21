@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 22:17:03 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/07 00:56:52 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/21 12:29:16 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int	validate_parenthesis(char *input)
 			while (ft_isblank(*++input))
 				;
 			if (*input
-			&& *input != ')'
-			&& *input != '|'
-			&& !ft_isredirect(input)
-			&& ft_strncmp(input, "&&", 2))
+				&& *input != ')'
+				&& *input != '|'
+				&& !ft_isredirect(input)
+				&& ft_strncmp(input, "&&", 2))
 				return (-1);
 			continue ;
 		}
@@ -129,13 +129,4 @@ t_token	*get_right(t_token *tokens)
 	delim->next = NULL;
 	tokens->tail = delim;
 	return (right);
-}
-
-t_token	*get_operator(t_token *right)
-{
-	t_token	*operator;
-
-	operator = init_token();
-	push(pop(right), operator);
-	return (operator);
 }
