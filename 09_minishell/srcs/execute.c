@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:18:57 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/21 18:18:10 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/21 19:23:24 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ void	execute_command(char *input, t_exec *exec)
 	{
 		if (!has_pipe(tokens) && is_exit(tokens->head->next))
 			exit_minishell(tokens, exec->env);
-		execute_core(tokens, exec);
 		ast = list_to_ast(tokens);
-		ast_preorder(ast, exec);
+		exec->env->exit_code = ast_preorder(ast, exec);
 		clear_ast(ast);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 09:02:24 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/06 22:45:11 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/21 19:06:13 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	get_execs(t_lst **execs)
 	DIR				*dir;
 	struct dirent	*file;
 
+	*execs = NULL;
 	paths = ft_split(getenv("PATH"), ':');
 	index = 0;
 	while (paths[index])
@@ -34,6 +35,7 @@ static void	get_execs(t_lst **execs)
 		closedir(dir);
 		index++;
 	}
+	ft_free(paths);
 }
 
 static int	is_exec(char *word, t_lst *execs)
@@ -47,6 +49,12 @@ static int	is_exec(char *word, t_lst *execs)
 	return (FALSE);
 }
 
+static void	clear_wildcard(t_lst *execs, DIR *dir)
+{
+	ft_lstclear(&execs, free);
+	closedir(dir);
+}
+
 void	convert_wildcard(char *word, t_lst **argv)
 {
 	char			cwd[PATH_MAX];
@@ -54,11 +62,11 @@ void	convert_wildcard(char *word, t_lst **argv)
 	DIR				*dir;
 	struct dirent	*file;
 
-	execs = NULL;
 	get_execs(&execs);
 	if (is_exec(word, execs) || !ft_strchr(word, '*'))
 	{
-		ft_lstadd_back(argv, ft_lstnew(word));
+		ft_lstadd_back(argv, ft_lstnew(ft_strdup(word)));
+		ft_lstclear(&execs, free);
 		return ;
 	}
 	getcwd(cwd, sizeof(cwd));
@@ -73,5 +81,5 @@ void	convert_wildcard(char *word, t_lst **argv)
 		if (match_wildcard(word, file))
 			ft_lstadd_back(argv, ft_lstnew(ft_strdup(file->d_name)));
 	}
-	closedir(dir);
+	clear_wildcard(execs, dir);
 }

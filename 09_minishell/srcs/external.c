@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/21 17:19:14 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/21 19:03:14 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ char	**make_argv(t_token *token)
 {
 	t_lst	*argv_list;
 	char	**argv;
+	char	*word;
 
 	argv_list = NULL;
 	while (first_type(token) != -1 && first_type(token) != PIPE)
@@ -98,7 +99,11 @@ char	**make_argv(t_token *token)
 		if (first_type(token) == BLANK)
 			free(remove_first(token));
 		if (first_type(token) == WORD)
-			convert_wildcard(merge_word(token), &argv_list);
+		{
+			word = merge_word(token);
+			convert_wildcard(word, &argv_list);
+			free(word);
+		}
 	}
 	argv = list_to_array(argv_list);
 	ft_lstclear(&argv_list, NULL);
