@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/21 17:20:30 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/21 18:12:56 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # define TRUE	1
 # define FALSE	0
 
-# include <stdio.h> //test
 # include <unistd.h>
 # include "ast.h"
 # include "builtin.h"
@@ -84,6 +83,9 @@ pid_t	safe_fork(t_exec *exec);
 void	safe_pipe(int pipe_fd[], t_exec *exec);
 
 int		ast_preorder(t_anode *ast, t_exec *exec);
+int		ast_pipe(t_anode *ast, t_exec *exec);
+int		ast_logical_and(t_anode *ast, t_exec *exec);
+int		ast_logical_or(t_anode *ast, t_exec *exec);
 
 void	child_builtin(t_exec *exec);
 int		is_builtin(t_token *token);
