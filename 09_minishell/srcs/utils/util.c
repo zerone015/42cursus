@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:23:51 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/19 16:00:50 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/21 12:15:53 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
+
+int	get_abs(int num)
+{
+	if (num < 0)
+		num *= -1;
+	return (num);
+}
 
 void	ft_free(char **argv)
 {
@@ -33,31 +40,6 @@ int	is_input_blank(char *input)
 		return (FALSE);
 }
 
-int	get_abs(int num)
-{
-	if (num < 0)
-		num *= -1;
-	return (num);
-}
-
-char	*merge_word(t_token *token)
-{
-	char	*word;
-	char	*temp;
-	char	*first;
-
-	word = ft_strdup("");
-	while (first_type(token) == WORD)
-	{
-		temp = word;
-		first = remove_first(token);
-		word = ft_strjoin(word, first);
-		free(temp);
-		free(first);
-	}
-	return (word);
-}
-
 int	is_stdin(char *input)
 {
 	int		i;
@@ -73,6 +55,13 @@ int	is_stdin(char *input)
 	c = input[i];
 	free(input);
 	if (i && c == '|')
+		return (TRUE);
+	return (FALSE);
+}
+
+int	is_quit(int status)
+{
+	if (!is_normal_terminated(status) && status == 3)
 		return (TRUE);
 	return (FALSE);
 }

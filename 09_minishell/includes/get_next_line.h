@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:07:10 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/15 18:00:11 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/21 19:23:45 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include "../libft/libft.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 4096
@@ -22,10 +23,5 @@
 
 char	*get_next_line(int fd);
 char	*get_next_line_without_nl(int fd);
-int		ft_strlen(const char *str);
-char	*ft_strdup(const char *src);
-char	*ft_strchr(const char *str, int c);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_substr(char const *src, int start, int len);
 
 #endif

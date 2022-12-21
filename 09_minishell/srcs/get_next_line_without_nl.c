@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_without_nl.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 01:06:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/15 17:58:19 by yoson            ###   ########.fr       */
+/*   Updated: 2022/11/30 16:55:48 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/get_next_line.h"
-#include "../libft/libft.h"
 
-static	char	*ft_free(char *ptr)
+static char	*ft_free(char *ptr)
 {
 	free(ptr);
 	return (NULL);

@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_parent.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:18:00 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/24 13:49:57 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/12/05 13:37:26 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/wait.h>
 #include "../includes/minishell.h"
 
 static void	free_limiters(t_tnode *first)

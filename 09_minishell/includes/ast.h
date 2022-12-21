@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard.h                                         :+:      :+:    :+:   */
+/*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/30 14:26:36 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/21 19:23:49 by kijsong          ###   ########.fr       */
+/*   Created: 2022/12/06 15:58:45 by kijsong           #+#    #+#             */
+/*   Updated: 2022/12/21 19:23:29 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WILDCARD_H
-# define WILDCARD_H
+#ifndef AST_H
+# define AST_H
 
-# include <dirent.h>
-# include <limits.h>
-# include "../libft/libft.h"
+# include "token.h"
 
-typedef struct s_wildcard
+typedef struct s_anode
 {
-	char	*pattern;
-	char	*filename;
-	int		p_len;
-	int		f_len;
-	int		**caches;
-}	t_wildcard;
+	t_token			*data;
+	struct s_anode	*left;
+	struct s_anode	*right;
+}	t_anode;
 
-int		match_wildcard(char *pattern, struct dirent *file);
-void	convert_wildcard(char *word, t_lst **argv);
+int		validate_parenthesis(char *input);
+t_token	*get_right(t_token *tokens);
+t_anode	*list_to_ast(t_token *tokens);
+
+int		is_terminal_node(t_anode *ast);
+void	clear_ast(t_anode *ast);
 
 #endif

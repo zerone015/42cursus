@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/30 16:11:39 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/21 19:03:14 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,22 +85,25 @@ static char	**list_to_array(t_lst *list)
 	return (array);
 }
 
-char	**make_argv(t_token *token, int *flag)
+char	**make_argv(t_token *token)
 {
-	int		i;
 	t_lst	*argv_list;
 	char	**argv;
+	char	*word;
 
 	argv_list = NULL;
-	i = 0;
 	while (first_type(token) != -1 && first_type(token) != PIPE)
 	{
 		if (first_type(token) == REDIRECT)
-			redirection(token, flag);
+			redirection(token);
 		if (first_type(token) == BLANK)
 			free(remove_first(token));
 		if (first_type(token) == WORD)
-			convert_wildcard(merge_word(token), &argv_list);
+		{
+			word = merge_word(token);
+			convert_wildcard(word, &argv_list);
+			free(word);
+		}
 	}
 	argv = list_to_array(argv_list);
 	ft_lstclear(&argv_list, NULL);
@@ -111,17 +114,13 @@ void	child_external(t_exec *exec)
 {
 	char	**argv;
 	char	**envp;
-	int		out_redirection;
+	int		temp_fd;
 
+	temp_fd = dup(STDOUT_FILENO);
+	dup2(exec->std_fd[WRITE_FD], STDOUT_FILENO);
 	set_signal(CHILD);
+	dup2(temp_fd, STDOUT_FILENO);
 	envp = convert_env(exec->env);
-	if (first_type(exec->token) == PIPE)
-		free(remove_first(exec->token));
-	out_redirection = 0;
-	argv = make_argv(exec->token, &out_redirection);
-	close(exec->pipe_fd[READ_FD]);
-	if (!out_redirection && first_type(exec->token) == PIPE)
-		dup2(exec->pipe_fd[WRITE_FD], STDOUT_FILENO);
-	close(exec->pipe_fd[WRITE_FD]);
+	argv = make_argv(exec->token);
 	child_execve(argv, envp);
 }

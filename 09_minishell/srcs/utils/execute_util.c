@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 14:51:23 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/24 13:10:52 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/12/21 19:24:07 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	child_builtin(t_exec *exec)
 {
 	char	**argv;
-	int		out_redirection;
 
 	dup2(exec->std_fd[READ_FD], STDIN_FILENO);
-	close(exec->pipe_fd[READ_FD]);
-	if (first_type(exec->token) == PIPE)
-		free(remove_first(exec->token));
-	out_redirection = 0;
-	argv = make_argv(exec->token, &out_redirection);
-	if (!out_redirection && first_type(exec->token) == PIPE)
-		dup2(exec->pipe_fd[WRITE_FD], STDOUT_FILENO);
-	close(exec->pipe_fd[WRITE_FD]);
+	argv = make_argv(exec->token);
 	execute_builtin(argv, exec->env, TRUE);
 }
 

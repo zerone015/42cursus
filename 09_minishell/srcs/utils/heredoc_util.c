@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:20:13 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/16 18:41:14 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/21 19:24:08 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	clear_heredocs(t_exec *exec)
 {
