@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard.h                                         :+:      :+:    :+:   */
+/*   ast_util2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/30 14:26:36 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/21 19:23:49 by kijsong          ###   ########.fr       */
+/*   Created: 2022/12/21 12:27:08 by kijsong           #+#    #+#             */
+/*   Updated: 2022/12/21 19:24:06 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WILDCARD_H
-# define WILDCARD_H
+#include "../../includes/minishell.h"
 
-# include <dirent.h>
-# include <limits.h>
-# include "../libft/libft.h"
-
-typedef struct s_wildcard
+int	is_terminal_node(t_anode *ast)
 {
-	char	*pattern;
-	char	*filename;
-	int		p_len;
-	int		f_len;
-	int		**caches;
-}	t_wildcard;
+	if (!ast->left && !ast->right)
+		return (TRUE);
+	return (FALSE);
+}
 
-int		match_wildcard(char *pattern, struct dirent *file);
-void	convert_wildcard(char *word, t_lst **argv);
-
-#endif
+void	clear_ast(t_anode *ast)
+{
+	if (!ast)
+		return ;
+	clear_ast(ast->left);
+	clear_ast(ast->right);
+	clear_token(ast->data);
+	free(ast);
+}

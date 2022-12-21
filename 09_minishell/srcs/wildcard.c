@@ -6,19 +6,20 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 09:02:24 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/30 16:16:45 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/21 19:06:13 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	get_execs(t_lst **execs)
+static void	get_execs(t_lst **execs)
 {
 	int				index;
 	char			**paths;
 	DIR				*dir;
 	struct dirent	*file;
 
+	*execs = NULL;
 	paths = ft_split(getenv("PATH"), ':');
 	index = 0;
 	while (paths[index])
@@ -34,9 +35,10 @@ void	get_execs(t_lst **execs)
 		closedir(dir);
 		index++;
 	}
+	ft_free(paths);
 }
 
-int	is_exec(char *word, t_lst *execs)
+static int	is_exec(char *word, t_lst *execs)
 {
 	while (execs)
 	{
@@ -47,6 +49,12 @@ int	is_exec(char *word, t_lst *execs)
 	return (FALSE);
 }
 
+static void	clear_wildcard(t_lst *execs, DIR *dir)
+{
+	ft_lstclear(&execs, free);
+	closedir(dir);
+}
+
 void	convert_wildcard(char *word, t_lst **argv)
 {
 	char			cwd[PATH_MAX];
@@ -54,11 +62,11 @@ void	convert_wildcard(char *word, t_lst **argv)
 	DIR				*dir;
 	struct dirent	*file;
 
-	execs = NULL;
 	get_execs(&execs);
 	if (is_exec(word, execs) || !ft_strchr(word, '*'))
 	{
-		ft_lstadd_back(argv, ft_lstnew(word));
+		ft_lstadd_back(argv, ft_lstnew(ft_strdup(word)));
+		ft_lstclear(&execs, free);
 		return ;
 	}
 	getcwd(cwd, sizeof(cwd));
@@ -73,5 +81,5 @@ void	convert_wildcard(char *word, t_lst **argv)
 		if (match_wildcard(word, file))
 			ft_lstadd_back(argv, ft_lstnew(ft_strdup(file->d_name)));
 	}
-	closedir(dir);
+	clear_wildcard(execs, dir);
 }

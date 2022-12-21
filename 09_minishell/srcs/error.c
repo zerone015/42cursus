@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:10:44 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/12 19:19:11 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/21 12:09:19 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	error(t_env *env, char *err_msg, int exit_code)
 		err_msg = strerror(errno);
 	ft_putstr_fd("minishell: ", 2);
 	ft_putendl_fd(err_msg, 2);
-	env->exit_code = exit_code;
+	if (env)
+		env->exit_code = exit_code;
 	return (-1);
 }
 

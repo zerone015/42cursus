@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
+/*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:11:51 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/22 21:44:50 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/12/21 12:13:32 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,8 @@ int	heredoc(t_token *token, t_exec *exec)
 	int		res;
 
 	set_heredocs(token, exec);
-	pid = fork();
-	if (pid == -1)
-	{
-		error(exec->env, NULL, 1);
-		exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
+	pid = safe_fork(exec);
+	if (pid == 0)
 		child_heredoc(token, exec);
 	res = parent_heredoc(token, exec);
 	return (res);

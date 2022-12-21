@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:13:46 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/30 14:46:44 by kijsong          ###   ########.fr       */
+/*   Updated: 2022/12/21 19:23:47 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 # define FALSE	0
 
 # include <unistd.h>
-# include "env.h"
-# include "token.h"
+# include "ast.h"
 # include "builtin.h"
-# include "wildcard.h"
+# include "env.h"
 # include "get_next_line.h"
+# include "token.h"
+# include "wildcard.h"
 # include "../libft/libft.h"
 
 enum e_fd
@@ -32,10 +33,13 @@ enum e_fd
 
 enum e_type
 {
+	DUMMY,
 	WORD,
 	BLANK,
+	REDIRECT,
 	PIPE,
-	REDIRECT
+	LOGICAL,
+	PARENTHESIS,
 };
 
 enum e_signal
@@ -47,7 +51,7 @@ enum e_signal
 typedef struct s_exec
 {
 	int		std_fd[2];
-	int		pipe_fd[2];
+	int		has_pipe;
 	t_env	*env;
 	t_token	*token;
 	char	**heredocs;
@@ -59,8 +63,9 @@ t_token	*tokenize(char *input, t_env *env);
 void	child_external(t_exec *exec);
 void	child_execve(char *argv[], char *envp[]);
 void	execute_command(char *input, t_exec *exec);
+int		execute_core(t_token *tokens, t_exec *exec);
 int		find_argv_size(t_token *token);
-char	**make_argv(t_token *token, int *flag);
+char	**make_argv(t_token *token);
 void	execute(char **argv, char **envp);
 t_token	*parse_token(t_token *tokens);
 int		has_heredoc(t_token *token);
@@ -68,12 +73,19 @@ int		is_builtin(t_token *token);
 void	set_signal(int status);
 void	safe_signal(int signum, void (*handler)(int));
 void	echoctl(int flag);
-void	redirection(t_token *token, int *flag);
+void	redirection(t_token *token);
 char	*merge_word(t_token *token);
 int		is_input_blank(char *input);
 int		get_abs(int num);
 int		is_stdin(char *input);
 void	ft_free(char **argv);
+pid_t	safe_fork(t_exec *exec);
+void	safe_pipe(int pipe_fd[], t_exec *exec);
+
+int		ast_preorder(t_anode *ast, t_exec *exec);
+int		ast_pipe(t_anode *ast, t_exec *exec);
+int		ast_logical_and(t_anode *ast, t_exec *exec);
+int		ast_logical_or(t_anode *ast, t_exec *exec);
 
 void	child_builtin(t_exec *exec);
 int		is_builtin(t_token *token);
@@ -86,9 +98,11 @@ int		find_exit_code(int status, int is_sigint);
 
 int		ft_isredirect(char *input);
 int		tokenize_redirect(char *input, t_token *token);
-int		is_normal(char c);
+int		is_normal(char *input);
 int		tokenize_normal(char *input, t_token *token);
 int		tokenize_null(t_token *token);
+int		tokenize_operator(char *input, t_token *token);
+int		tokenize_parenthesis(char *input, t_token *token);
 int		heredoc(t_token *token, t_exec *exec);
 int		is_heredoc(t_tnode *node);
 int		has_heredoc(t_token *token);

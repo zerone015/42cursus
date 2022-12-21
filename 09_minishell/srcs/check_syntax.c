@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:25:06 by kijsong           #+#    #+#             */
-/*   Updated: 2022/11/15 17:02:49 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/06 23:52:51 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,24 @@ static int	redirect_check(char *input)
 	return (0);
 }
 
-static int	pipe_check(char **input)
+static int	pipe_check(char *input)
 {
 	int	i;
 	int	j;
 
 	i = -1;
-	while ((*input)[++i])
+	while (input[++i])
 	{
-		if ((*input)[i] == '|')
+		if (input[i] == '|')
 		{
 			j = i - 1;
-			while (j >= 0 && ft_isblank((*input)[j]))
+			while (j >= 0 && ft_isblank(input[j]))
 				j--;
 			if (j == -1)
 				return (-1);
-			else if ((*input)[j] == '|')
+			else if (ft_isredirect(input + j))
 				return (-1);
-			else if (ft_isredirect(*input + j))
-				return (-1);
-			else if (j != 0 && get_abs(ft_isredirect(*input + j - 1) == 2))
+			else if (j != 0 && get_abs(ft_isredirect(input + j - 1) == 2))
 				return (-1);
 		}
 	}
@@ -96,7 +94,7 @@ static int	last_pipe_check(char **input)
 	char	*join;
 	char	*temp;
 
-	if (pipe_check(input) == -1)
+	if (pipe_check(*input) == -1)
 		return (0);
 	if (!is_stdin(*input))
 		return (0);
@@ -122,7 +120,9 @@ int	check_syntax(char **input, t_env *env)
 		return (error(env, "syntax error: unexpected end of file", 258));
 	if (redirect_check(*input) == -1)
 		return (error(env, "syntax error near unexpected token", 258));
-	if (pipe_check(input) == -1)
+	if (pipe_check(*input) == -1)
+		return (error(env, "syntax error near unexpected token", 258));
+	if (validate_parenthesis(*input) == -1)
 		return (error(env, "syntax error near unexpected token", 258));
 	return (0);
 }
