@@ -28,6 +28,10 @@ $ make
 09_minishell$ << hi cat | sleep 5 | << EOF cat
 09_minishell$ exit | exit
 09_minishell$ exit
+09_minishell$ (echo hello && (echo world | cat asdf)) | tr a-z A-Z
+09_minishell$ ls *.c
+09_minishell$ cat notexistsfile || echo hello
+09_minishell$ echo $?
 ```
 ### 구현 내용
 - 실행파일 실행 (cat, ls, grep, wc, head, tail, cut, ...)
@@ -37,11 +41,13 @@ $ make
 - 환경 변수($)
 - $? (최근 실행한 명령어의 종료 상태를 가진 변수)
 - 에러 처리
+- 괄호를 이용해 우선순위를 표현한 &&, ||
+- 와일드카드 *
+
 ### 학습 내용
 - 협업
 - 셸 구조
+- 추상 구문 트리, 토크나이징
 - 멀티 프로세싱
-- 복잡한 문자열 파싱
 - 파일 디스크립터 관리
 - 파이프, 리다이렉션, 시그널, 환경변수
-- 컴파일러 또는 인터프리터 동작 방식
