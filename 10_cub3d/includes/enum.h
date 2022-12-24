@@ -1,31 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   enum.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/19 17:05:57 by yoson             #+#    #+#             */
-/*   Updated: 2022/12/24 15:05:35 by son-yeong-w      ###   ########.fr       */
+/*   Created: 2022/12/24 15:04:20 by son-yeong-w       #+#    #+#             */
+/*   Updated: 2022/12/24 15:05:09 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef ENUM_H
+# define ENUM_H
 
-# define ERROR	-1
-
-# include "enum.h"
-
-typedef struct s_info
+enum e_bool
 {
-	char	*texture[4];
-	int		floor[3];
-	int		ceilling[3];
-	int		resolution[2];
-	char	**map;
-}	t_info;
+	FALSE,
+	TRUE
+};
 
-void	parse_file(t_info *info, const char *filename);
+enum e_direction
+{
+	NO,
+	SO,
+	WE,
+	EA
+};
+
+enum e_resolution
+{
+	WIDTH,
+	HEIGHT
+};
+
+enum e_color
+{
+	R,
+	G,
+	B
+};
 
 #endif
