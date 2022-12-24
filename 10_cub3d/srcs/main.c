@@ -6,7 +6,7 @@
 /*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 20:34:38 by yoson             #+#    #+#             */
-/*   Updated: 2022/09/21 11:54:45 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/23 20:47:44 by yoson            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	init_info(t_info *info)
 {
 	info->color.floor[0] = -1;
 	info->color.ceilling[0] = -1;
+	info->resolution[0] = -1;
+	info->resolution[1] = -1;
 	info->texture[NO] = NULL;
 	info->texture[SO] = NULL;
 	info->texture[WE] = NULL;
