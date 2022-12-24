@@ -6,7 +6,7 @@
 /*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 11:51:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/12/24 14:59:03 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/12/24 15:26:50 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	is_valid_line(char *line)
 	return (TRUE);
 }
 
-static int	set_color(int color[], const char *line)
+static int	set_color(int color[], char *line)
 {
 	char	*trimmed;
 	char	**splitted;
@@ -65,7 +65,7 @@ static int	set_color(int color[], const char *line)
 	return (0);
 }
 
-static int	set_resolution(int resolution[], const char *line)
+static int	set_resolution(int resolution[], char *line)
 {
 	char	**splitted;
 	int		i;
@@ -88,7 +88,7 @@ static int	set_resolution(int resolution[], const char *line)
 	return (0);
 }
 
-static int	parse_line(t_info *info, const char *line, int fd)
+static int	parse_line(t_info *info, char *line, int fd)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0)
 		return (set_texture(&info->texture[NO], line + 3));
@@ -112,7 +112,7 @@ static int	parse_line(t_info *info, const char *line, int fd)
 		return (ERROR);
 }
 
-void	parse_file(t_info *info, const char *filename)
+void	parse_file(t_info *info, char *filename)
 {
 	int		fd;
 	char	*line;
