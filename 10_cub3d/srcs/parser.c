@@ -6,7 +6,7 @@
 /*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 11:51:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/12/24 13:51:13 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/12/24 14:59:03 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,15 +118,15 @@ void	parse_file(t_info *info, const char *filename)
 	char	*line;
 
 	if (!is_cub_file(filename))
-		ft_error(filename, "Invalid file extension");
+		exit(print_error(filename, "Invalid file extension"));
 	fd = open(filename, O_RDONLY);
 	if (fd == ERROR)
-		ft_perror(filename);
+		exit(print_perror(filename));
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (errno)
-			ft_perror(NULL);
+			exit(print_perror(NULL));
 		if (!line)
 			break ;
 		if (parse_line(info, line, fd) == ERROR)

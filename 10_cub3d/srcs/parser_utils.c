@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 11:54:48 by yoson             #+#    #+#             */
-/*   Updated: 2022/12/23 21:18:16 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/24 14:58:21 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ int	set_texture(char **texture, const char *line)
 int	parse_error_handler(const char *filename)
 {
 	if (errno)
-		ft_perror(NULL);
-	else
-		ft_error(filename, "Invalid file content");
+		exit(print_perror(NULL));
+	exit(print_error(filename, "Invalid file content"));
 }
 
 int	is_cub_file(const char *filename)

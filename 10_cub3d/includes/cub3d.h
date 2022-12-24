@@ -6,14 +6,14 @@
 /*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 17:05:57 by yoson             #+#    #+#             */
-/*   Updated: 2022/12/24 13:46:12 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2022/12/24 14:53:57 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define ERROR				-1
+# define ERROR	-1
 
 enum e_bool
 {
