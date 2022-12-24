@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 17:05:57 by yoson             #+#    #+#             */
-/*   Updated: 2022/12/23 20:47:38 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/24 13:46:12 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,11 @@ enum e_direction
 	EA
 };
 
-typedef struct s_color
-{
-	int	floor[3];
-	int	ceilling[3];
-}	t_color;
-
 typedef struct s_info
 {
 	char	*texture[4];
-	t_color	color;
+	int		floor[3];
+	int		ceilling[3];
 	int		resolution[2];
 	char	**map;
 }	t_info;

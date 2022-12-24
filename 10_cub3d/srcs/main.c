@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 20:34:38 by yoson             #+#    #+#             */
-/*   Updated: 2022/12/23 20:47:44 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/24 13:51:30 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,10 @@
 
 static void	init_info(t_info *info)
 {
-	info->color.floor[0] = -1;
-	info->color.ceilling[0] = -1;
-	info->resolution[0] = -1;
-	info->resolution[1] = -1;
-	info->texture[NO] = NULL;
-	info->texture[SO] = NULL;
-	info->texture[WE] = NULL;
-	info->texture[EA] = NULL;
+	ft_memset(info->floor, -1, sizeof(info->floor) / sizeof(int));
+	ft_memset(info->ceilling, -1, sizeof(info->ceilling) / sizeof(int));
+	ft_memset(info->resolution, -1, sizeof(info->resolution) / sizeof(int));
+	ft_memset(info->texture, NULL, sizeof(info->texture) / sizeof(char *));
 	info->map = NULL;
 }
 

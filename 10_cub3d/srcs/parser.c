@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 11:51:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/12/23 21:20:24 by yoson            ###   ########.fr       */
+/*   Updated: 2022/12/24 13:51:13 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ static int	parse_line(t_info *info, const char *line, int fd)
 	else if (ft_strncmp(line, "R ", 2) == 0)
 		return (set_resolution(info->resolution, line + 2));
 	else if (ft_strncmp(line, "F ", 2) == 0)
-		return (set_color(info->color.floor, line + 2));
+		return (set_color(info->floor, line + 2));
 	else if (ft_strncmp(line, "C ", 2) == 0)
-		return (set_color(info->color.ceilling, line + 2));
+		return (set_color(info->ceilling, line + 2));
 	else if (ft_strncmp(skip_blank(line), "\n", 1) == 0)
 		return (0);
 	else if (is_map_line(line))
