@@ -2,7 +2,6 @@
 ![image](https://user-images.githubusercontent.com/84886265/201074999-b040e341-0bb2-4109-83fe-a1ea054fab90.png)
 
 MiniLibX를 사용해서 간단한 2D 게임을 만드는 과제입니다. 이번 과제로 그래픽에 입문하게 되고, MiniLibX 사용법을 익히게 됩니다.  
-[관련 지식을 정리한 블로그](https://velog.io/@zerone015/series/solong)  
 
 ### 인원
 - 1인
