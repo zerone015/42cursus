@@ -4,7 +4,6 @@ int ft_printf(const char *, ...);
 ```
 libc의 printf를 구현하고 이전에 제작했던 libft 라이브러리에 추가하여 향후 과제에서 활용할 수 있게 됩니다.  
 mandatory에서는 서식 지정자만 구현하고 bonus에서 플래그, 폭, 정밀도를 추가로 구현하였습니다.   
-[관련 지식을 정리한 블로그](https://velog.io/@zerone015/series/ftprintf)
 
 ### 인원
 - 1인
