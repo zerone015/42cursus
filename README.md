@@ -20,5 +20,5 @@
 
 - [아홉 번째 과제 minishell](https://github.com/zerone015/42seoul/tree/master/09_minishell)
 
-- [열 번째 과제 minishell](https://github.com/zerone015/42seoul/tree/master/10_cub3d)
+- [열 번째 과제 cub3D](https://github.com/zerone015/42seoul/tree/master/10_cub3d)
 
