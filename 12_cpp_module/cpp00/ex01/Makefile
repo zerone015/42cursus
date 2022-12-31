@@ -1,7 +1,7 @@
-NAME        = megaphone
-CXXFLAGS    = -Wall -Wextra -Werror
+NAME        = phoneBook
+CXXFLAGS    = -Wall -Wextra -Werror -std=c++98
 CPPFLAGS	= -I .
-SRCS		= megaphone.cpp
+SRCS		= # 나중에 다 넣어야 함
 OBJS		= $(SRCS:%.cpp=%.o)
 
 all : $(NAME)
