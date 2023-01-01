@@ -1,7 +1,7 @@
 NAME        = phoneBook
 CXXFLAGS    = -Wall -Wextra -Werror -std=c++98
 CPPFLAGS	= -I .
-SRCS		= # 나중에 다 넣어야 함
+SRCS		= main.cpp Contact.cpp PhoneBook.cpp utils.cpp
 OBJS		= $(SRCS:%.cpp=%.o)
 
 all : $(NAME)
