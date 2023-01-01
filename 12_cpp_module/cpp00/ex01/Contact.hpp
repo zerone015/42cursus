@@ -16,7 +16,6 @@ class Contact
         void        show_short_contact();
         void        show_all_contact();
         std::string get_short_str(std::string str);
-        int         is_valid_str(std::string input);
 };
 
 #endif
