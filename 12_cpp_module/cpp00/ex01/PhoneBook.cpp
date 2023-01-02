@@ -1,6 +1,11 @@
 #include "PhoneBook.hpp"
 #include "utils.hpp"
 
+PhoneBook::PhoneBook(void)
+{
+    num_of_added = 0;
+}
+
 void    PhoneBook::add_contact(void)
 {
     contacts[num_of_added % 8].add_contact();

@@ -10,6 +10,7 @@ class PhoneBook
         Contact contacts[8];
         int     num_of_added;
     public:
+        PhoneBook();
         void    add_contact(void);
         void    search_contact(void);
         void    show_short_contacts(void);
