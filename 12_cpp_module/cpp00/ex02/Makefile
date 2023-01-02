@@ -1,6 +1,5 @@
 NAME        = bank
 CXXFLAGS    = -Wall -Wextra -Werror -std=c++98
-CPPFLAGS	= -I .
 SRCS		= tests.cpp Account.cpp
 OBJS		= $(SRCS:%.cpp=%.o)
 
