@@ -13,7 +13,7 @@ void    HumanB::attack() const
         std::cout << name << " has no weapons" << std::endl;
         return ;
     }
-    std::cout << name << " attacks with his " << (*weapon).getType() << std::endl;
+    std::cout << name << " attacks with their " << (*weapon).getType() << std::endl;
 }
 
 HumanB::HumanB()

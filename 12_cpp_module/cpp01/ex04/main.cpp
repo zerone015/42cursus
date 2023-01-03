@@ -42,23 +42,13 @@ void replaceStr(std::string &str, std::string s1, std::string s2)
     }
 }
 
-bool isValidArguments(int argc, char *argv[])
-{
-    std::string s1 = argv[2];
-    std::string s2 = argv[3];
-
-    if (argc != 4 || s1.empty() || s2.empty())
-        return (false);
-    return (true);
-}
-
 int main(int argc, char *argv[])
 {
     std::ifstream   inputStream;
     std::ofstream   outputStream;
     std::string     str;
 
-    if (!isValidArguments(argc, argv))
+    if (argc != 4)
         return (printError("Invalid arguments"));
     inputStream.open(argv[1], std::ios::in);
     if (inputStream.fail())

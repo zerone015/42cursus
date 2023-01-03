@@ -6,14 +6,24 @@ void    Contact::add_contact(void)
 {
     std::cout << "Please enter your first name" << std::endl;
     first_name = safe_getline();
+    while (first_name.empty())
+        first_name = safe_getline();
     std::cout << "Please enter your last name" << std::endl;
     last_name = safe_getline();
+    while (last_name.empty())
+        last_name = safe_getline();
     std::cout << "Please enter your nick name" << std::endl;
     nick_name = safe_getline();
+    while (nick_name.empty())
+        nick_name = safe_getline();
     std::cout << "Please enter your phone number" << std::endl;
     phone_number = safe_getline();
+    while (phone_number.empty())
+        phone_number = safe_getline();
     std::cout << "Please enter your darkest secret" << std::endl;
     darkest_secret = safe_getline();
+    while (darkest_secret.empty())
+        darkest_secret = safe_getline();
     std::cout << "Added successfully." << std::endl;
 }
 

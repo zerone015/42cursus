@@ -10,6 +10,7 @@ int main(void)
     std::cout << "stringPTR memory address: " << stringPTR << "\n";
     std::cout << "stringREF memory address: " << &stringREF << "\n";
 
+    std::cout << "string value: " << string << "\n";
     std::cout << "stringPTR value: " << *stringPTR << "\n";
     std::cout << "stringREF value: " << stringREF << std::endl;
     return (0);
