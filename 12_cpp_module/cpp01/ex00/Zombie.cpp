@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Zombie.hpp"
 
-void    Zombie::announce(void)
+void    Zombie::announce(void) const
 {
     std::cout << name << " BraiiiiiiinnnzzzZ..." << std::endl;
 }

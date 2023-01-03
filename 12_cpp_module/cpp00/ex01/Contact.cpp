@@ -17,7 +17,7 @@ void    Contact::add_contact(void)
     std::cout << "Added successfully." << std::endl;
 }
 
-std::string Contact::get_short_str(std::string str)
+std::string Contact::get_short_str(std::string str) const
 {
     if (str.length() > 10)
         return (str.substr(0, 9) + ".");
@@ -25,14 +25,14 @@ std::string Contact::get_short_str(std::string str)
         return (std::string(10 - static_cast<int>(str.length()), ' ') + str);
 }
 
-void    Contact::show_short_contact(void)
+void    Contact::show_short_contact(void) const 
 {
     std::cout << get_short_str(first_name) << "|";
     std::cout << get_short_str(last_name) << "|";
     std::cout << get_short_str(nick_name) << "|" << "\n";
 }
 
-void    Contact::show_all_contact(void)
+void    Contact::show_all_contact(void) const
 {
     std::cout << "first name: " << first_name << std::endl;
 	std::cout << "last name: " << last_name << std::endl;

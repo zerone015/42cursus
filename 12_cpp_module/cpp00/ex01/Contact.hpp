@@ -13,9 +13,9 @@ class Contact
         std::string darkest_secret;
     public:
         void        add_contact(void);
-        void        show_short_contact();
-        void        show_all_contact();
-        std::string get_short_str(std::string str);
+        void        show_short_contact() const;
+        void        show_all_contact() const;
+        std::string get_short_str(std::string str) const;
 };
 
 #endif
