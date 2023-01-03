@@ -6,12 +6,15 @@
 class Harl
 {
     private:
-        void    debug();
-        void    info();
-        void    warning();
-        void    error();
+        std::string levels[4];
+        void        (Harl::*funcs[4])();
+        void        debug();
+        void        info();
+        void        warning();
+        void        error();
     public:
         void    complain(std::string level);
+        Harl();
 };
 
 #endif
