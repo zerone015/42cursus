@@ -2,8 +2,11 @@
 
 int main(void)
 {
-    Zombie  stack_zombie = Zombie("stack");
-    Zombie  *heap_zombie = newZombie("heap");
+    Zombie  stack_zombie;
+    Zombie  *heap_zombie;
+
+    stack_zombie.setName("stack");
+    heap_zombie = newZombie("heap");
 
     stack_zombie.announce();
     heap_zombie->announce();
