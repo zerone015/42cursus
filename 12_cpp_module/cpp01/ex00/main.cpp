@@ -2,7 +2,7 @@
 
 int main(void)
 {
-    Zombie  stack_zombie("stack");
+    Zombie  stack_zombie = Zombie("stack");
     Zombie  *heap_zombie = newZombie("heap");
 
     stack_zombie.announce();
