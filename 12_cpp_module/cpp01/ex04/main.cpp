@@ -1,10 +1,11 @@
 #include <fstream>
 #include <iostream>
 #include <cstdio>
+#include <cerrno>
 
-int printPerror()
+int printStrerror()
 {
-    std::perror("");
+    std::cout << std::strerror(errno) << std::endl;
     return (EXIT_FAILURE);
 }
 
@@ -52,10 +53,10 @@ int main(int argc, char *argv[])
         return (printError("Invalid arguments"));
     inputStream.open(argv[1], std::ios::in);
     if (inputStream.fail())
-        return (printPerror());
+        return (printStrerror());
     outputStream.open(std::string(argv[1]) + ".replace", std::ios::out | std::ios::trunc);
     if (outputStream.fail())
-        return (printPerror());
+        return (printStrerror());
     str = readFile(inputStream);
     replaceStr(str, argv[2], argv[3]);
     outputStream << str;
