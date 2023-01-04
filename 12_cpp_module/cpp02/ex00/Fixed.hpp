@@ -1,0 +1,18 @@
+#ifndef FIXED_HPP
+# define FIXED_HPP
+
+class Fixed
+{
+    private:
+        int                 posOfPoint;
+        static const int    numOfBits = 8;
+    public:
+        int     getRawBits() const;
+        void    setRawBits(const int raw);
+        Fixed();
+        Fixed(const Fixed &src);
+        Fixed&  operator=(const Fixed &src);
+        ~Fixed();
+};
+
+#endif
