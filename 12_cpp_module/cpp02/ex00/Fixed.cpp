@@ -4,18 +4,18 @@
 int Fixed::getRawBits() const
 {
     std::cout << "getRawBits member function called" << std::endl;
-    return (posOfPoint);
+    return (value);
 }
 
 void    Fixed::setRawBits(const int raw)
 {
-    posOfPoint = raw;
+    value = raw;
 }
 
 Fixed::Fixed()
 {
     std::cout << "Default constructor called" << std::endl;
-    posOfPoint = 0;
+    value = 0;
 }
 
 Fixed::Fixed(const Fixed &src)
@@ -27,7 +27,7 @@ Fixed::Fixed(const Fixed &src)
 Fixed&  Fixed::operator=(const Fixed &src)
 {
     std::cout << "Copy assignment operator called" << std::endl;
-    posOfPoint = src.getRawBits();
+    value = src.getRawBits();
     return (*this);
 }
 

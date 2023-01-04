@@ -4,7 +4,7 @@
 class Fixed
 {
     private:
-        int                 posOfPoint;
+        int                 value;
         static const int    numOfBits = 8;
     public:
         int     getRawBits() const;
