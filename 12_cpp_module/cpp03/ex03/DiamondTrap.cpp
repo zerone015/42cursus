@@ -14,6 +14,11 @@ void    DiamondTrap::showStatus(void)
     std::cout << "AD: " << this->ad << std::endl;
 }
 
+void	DiamondTrap::attack(const std::string &target)
+{
+	ScavTrap::attack(target);
+}
+
 DiamondTrap::DiamondTrap(void)
 {
     std::cout << "DiamondTrap " << "Default constructor called" << std::endl;
