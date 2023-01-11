@@ -5,12 +5,14 @@ int main()
     ClapTrap    son("son");
     ClapTrap    kim("kim");
 
+    son.setDamage(5);
     son.attack("kim");
-    kim.takeDamage(5);
+    kim.takeDamage(son.getDamage());
     kim.beRepaired(5);
     
+    kim.setDamage(10);
     kim.attack("son");
-    son.takeDamage(10);
+    son.takeDamage(kim.getDamage());
     son.beRepaired(10);
     
     return 0;

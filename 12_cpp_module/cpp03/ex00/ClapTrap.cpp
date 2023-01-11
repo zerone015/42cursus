@@ -36,6 +36,17 @@ void    ClapTrap::beRepaired(unsigned int amount)
     this->ep--;
 }
 
+void    ClapTrap::setDamage(unsigned int amount)
+{
+    std::cout << this->name << " is damage has been set to " << amount << std::endl;
+    this->ad = amount;
+}
+
+unsigned int    ClapTrap::getDamage()
+{
+    return (this->ad);
+}
+
 ClapTrap::ClapTrap()
 {
     std::cout << "Default constructor called" << std::endl;
