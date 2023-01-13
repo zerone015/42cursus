@@ -24,10 +24,21 @@ int main()
     
     me->use(0, *bob);
     me->use(1, *bob);
-    
+
+    Character* son = new Character("son");
+    tmp = src->createMateria("ice");
+    son->equip(tmp);
+    tmp = src->createMateria("cure");
+    son->equip(tmp);
+
+    tmp = son->getInventory(0);
+    son->unequip(0);
+
     delete bob;
     delete me;
     delete src;
+    delete tmp;
+    delete son;
     
     return 0;
 }

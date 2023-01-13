@@ -46,6 +46,13 @@ const std::string&   Character::getName() const
     return this->name;
 }
 
+AMateria*    Character::getInventory(int idx) const
+{
+    if (idx < 0 || idx > 3)
+        return NULL;
+    return this->inventory[idx];
+}
+
 void    Character::equip(AMateria *m)
 {
     for (int i = 0; i < 4; i++)
