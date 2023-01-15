@@ -34,6 +34,7 @@ int main(){
 	c.executeForm(pp);
 	a.executeForm(pp);
 
+	srand(time(NULL));
 	for (int i = 0; i < 10; i++)
 		a.executeForm(rr);
 	a.signForm(pp);

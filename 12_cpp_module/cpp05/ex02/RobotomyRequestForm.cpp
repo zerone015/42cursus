@@ -24,7 +24,6 @@ void    RobotomyRequestForm::execute(const Bureaucrat &executor) const
 {
     checkExecute(executor.getGrade());
     std::cout << "(drill sound...)" << std::endl;
-	srand(time(NULL));
 	if (rand() % 2)
 		std::cout << getName() << " has been successfully robotized." << std::endl;
     else
