@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 #include "Bureaucrat.hpp"
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
