@@ -9,8 +9,8 @@ class Point
         const Fixed x;
         const Fixed y;
     public:
-        Fixed   getX();
-        Fixed   getY();
+        Fixed   getX() const;
+        Fixed   getY() const;
         Point();
         Point(const float x, const float y);
         Point(const Point &src);

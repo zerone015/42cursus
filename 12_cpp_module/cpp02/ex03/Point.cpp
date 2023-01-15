@@ -1,11 +1,11 @@
 #include "Point.hpp"
 
-Fixed   Point::getX()
+Fixed   Point::getX() const
 {
     return (this->x);
 }
 
-Fixed Point::getY()
+Fixed Point::getY() const
 {
     return (this->y);
 }
