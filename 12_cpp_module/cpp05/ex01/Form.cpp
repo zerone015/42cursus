@@ -5,20 +5,41 @@ Form::Form() : name("unknown"), isSigned(false), signGrade(150), executeGrade(15
 
 Form::Form(std::string name, int signGrade, int executeGrade) : name(name), isSigned(false), signGrade(signGrade), executeGrade(executeGrade) 
 {
-    checkGrade(signGrade);
-    checkGrade(executeGrade);
+    try
+    {
+        checkGrade(signGrade);
+        checkGrade(executeGrade);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
 }
 
 Form::Form(const Form &src) : name(src.name), isSigned(src.isSigned), signGrade(src.signGrade), executeGrade(src.executeGrade)
 {
-    checkGrade(signGrade);
-    checkGrade(executeGrade);
+    try
+    {
+        checkGrade(signGrade);
+        checkGrade(executeGrade);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
 }
 
 Form&   Form::operator=(const Form &src)
 {
-    checkGrade(src.signGrade);
-    checkGrade(src.executeGrade);
+    try
+    {
+        checkGrade(src.signGrade);
+        checkGrade(src.executeGrade);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
     const_cast<int&>(this->signGrade) = src.signGrade;
     const_cast<int&>(this->executeGrade) = src.executeGrade;
     const_cast<std::string&>(this->name) = src.name;
@@ -50,31 +71,17 @@ int Form::getExecuteGrade() const
 
 void    Form::beSigned(Bureaucrat &obj)
 {
-    try
-    {
-        if (obj.getGrade() > this->signGrade)
-            throw GradeTooLowException();
-        this->isSigned = true;
-    }
-    catch (std::exception& e)
-    {
-        std::cout << e.what() << std::endl;
-    }
+    if (obj.getGrade() > this->signGrade)
+        throw GradeTooLowException();
+    this->isSigned = true;
 }
 
 void    Form::checkGrade(int grade) const
 {
-    try
-    {
-        if (grade < 1 || grade < 1)
-            throw GradeTooHighException();
-        if (grade > 150 || grade > 150)
-            throw GradeTooLowException();
-    }
-    catch(const std::exception& e)
-    {
-        std::cout << e.what() << std::endl;
-    }
+    if (grade < 1)
+        throw GradeTooHighException();
+    if (grade > 150)
+        throw GradeTooLowException();
 }
 
 const char* Form::GradeTooHighException::what() const throw()

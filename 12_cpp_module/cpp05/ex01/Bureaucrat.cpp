@@ -63,13 +63,15 @@ void    Bureaucrat::decreaseGrade()
 
 void    Bureaucrat::signForm(Form &obj)
 {
-    if (obj.getIsSigned())
-        std::cout << this->name << " couldn’t sign " << obj.getName() << " because already signed." << std::endl;
-    obj.beSigned(*this);
-    if (obj.getIsSigned())
+    try
+    {
+        obj.beSigned(*this);
         std::cout << this->name << " signed " << obj.getName() << std::endl;
-    else
-        std::cout << this->name << " couldn’t sign " << obj.getName() << " because low grade." << std::endl;
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << this->name << " couldn’t sign " << obj.getName() << " because " << e.what() << std::endl;
+    }
 }
 
 const char* Bureaucrat::GradeTooHighException::what() const throw()
