@@ -15,7 +15,7 @@ int main()
         ba.increaseGrade();
     ba.signForm(fa);
 
-    Form    abnormal("abnormal", 151, 151);
+    Form    abnormal("abnormal", 151, 150);
 
     Form    test1("test1", 10, 10);
     Form    test2("test2", 42, 42);
