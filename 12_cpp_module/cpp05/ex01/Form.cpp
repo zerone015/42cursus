@@ -45,12 +45,12 @@ Form&   Form::operator=(const Form &src)
     catch(const std::exception& e)
     {
         std::cout << e.what() << std::endl;
-        return ;
     }
     const_cast<int&>(this->signGrade) = src.signGrade;
     const_cast<int&>(this->executeGrade) = src.executeGrade;
     const_cast<std::string&>(this->name) = src.name;
     this->isSigned = src.isSigned;
+    return *this;
 }
 
 Form::~Form() {}
@@ -104,7 +104,7 @@ std::ostream&   operator<<(std::ostream& outputStream, const Form &obj)
     std::cout << "[ Form informations ]" << "\n";
     std::cout << "Name: " << obj.getName() << "\n";
     std::cout << "signed: " << obj.getIsSigned() << "\n";
-    std::cout << "sign grade: " << obj.getIsSigned() << "\n";
+    std::cout << "sign grade: " << obj.getSignGrade() << "\n";
     std::cout << "execute grade: " << obj.getExecuteGrade() << std::endl;
 
 	return outputStream;
