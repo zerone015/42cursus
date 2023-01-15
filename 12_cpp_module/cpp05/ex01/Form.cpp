@@ -91,7 +91,7 @@ std::ostream&   operator<<(std::ostream& outputStream, const Form &obj)
 {
     std::cout << "[ Form informations ]" << "\n";
     std::cout << "Name: " << obj.getName() << "\n";
-    std::cout << "signed: " << obj.getIsSigned() << "\n";
+    std::cout << "signed: " << std::boolalpha << obj.getIsSigned() << "\n";
     std::cout << "sign grade: " << obj.getSignGrade() << "\n";
     std::cout << "execute grade: " << obj.getExecuteGrade() << std::endl;
 

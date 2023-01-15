@@ -10,10 +10,12 @@ int main()
     std::cout << fa << std::endl;
 
     ba.signForm(fa);
+    std::cout << fa << std::endl;
 
     while (ba.getGrade() != 50)
         ba.increaseGrade();
     ba.signForm(fa);
+    std::cout << fa << std::endl;
 
     Form    abnormal("abnormal", 151, 150);
 
