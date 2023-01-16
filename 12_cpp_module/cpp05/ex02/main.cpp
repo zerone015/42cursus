@@ -5,7 +5,8 @@
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
 
-int main(){
+int main()
+{
 	Bureaucrat a("a", 5);
 	Bureaucrat b("b", 50);
 	Bureaucrat c("c", 150);
