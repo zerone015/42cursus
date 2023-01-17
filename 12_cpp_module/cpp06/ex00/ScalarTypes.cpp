@@ -43,10 +43,7 @@ bool    ScalarTypes::isFractionZero(const std::string &str) const
                 return false;
         }
     }
-    catch(const std::exception& e)
-    {
-
-    }
+    catch(std::exception &){}
     return true;
 }
 
