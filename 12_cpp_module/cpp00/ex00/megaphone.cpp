@@ -1,6 +1,6 @@
 #include <iostream>
 
-static void shout_message(int argc, char *argv[])
+static void display_message(int argc, char *argv[])
 {
     if (argc == 1)
         std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *";
@@ -17,6 +17,6 @@ static void shout_message(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-    shout_message(argc, argv);
+    display_message(argc, argv);
     return (0);
 }

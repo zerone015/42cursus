@@ -2,7 +2,7 @@
 #include "PhoneBook.hpp"
 #include "utils.hpp"
 
-void show_manual(void)
+void display_manual(void)
 {
     std::cout << "**** You can use three commands: [ADD] [SEARCH] [EXIT]" << "\n";
     std::cout << "**** Please enter the command you want to use." << std::endl;
@@ -28,7 +28,7 @@ int main(void)
     std::cout << "**** Welcome to the phone book" << std::endl;
     while (1)
     {
-        show_manual();
+        display_manual();
         command = safe_getline();
         execute_command(&phonebook, str_to_upper(trim_whitespace(command)));
     }
