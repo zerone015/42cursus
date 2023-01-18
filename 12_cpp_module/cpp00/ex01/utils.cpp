@@ -36,13 +36,13 @@ std::string trim_whitespace(std::string str)
 
     for (i = 0; i < str.length(); i++)
     {
-        if (!isspace(str[i]))
+        if (!std::isspace(str[i]))
             break ;
     }
     str.erase(0, i);
     for (i = str.length() - 1; i < str.length(); i--)
     {
-        if (!isspace(str[i]))
+        if (!std::isspace(str[i]))
             break ;
     }
     str.erase(i + 1, str.length() - (i + 1));
