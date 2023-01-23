@@ -70,32 +70,32 @@ Fixed&  Fixed::operator=(const Fixed &src)
 
 bool    Fixed::operator>(const Fixed &obj) const
 {
-	return (bits > obj.getRawBits());
+	return (value > obj.getRawBits());
 }
 
 bool	Fixed::operator<(const Fixed &obj) const
 {
-	return (bits < obj.getRawBits());
+	return (value < obj.getRawBits());
 }
 
 bool	Fixed::operator>=(const Fixed &obj) const
 {
-	return (bits >= obj.getRawBits());
+	return (value >= obj.getRawBits());
 }
 
 bool	Fixed::operator<=(const Fixed &obj) const
 {
-	return (bits <= obj.getRawBits());
+	return (value <= obj.getRawBits());
 }
 
 bool	Fixed::operator==(const Fixed &obj) const
 {
-	return (bits == obj.getRawBits());
+	return (value == obj.getRawBits());
 }
 
 bool	Fixed::operator!=(const Fixed &obj) const
 {
-	return (bits != obj.getRawBits());
+	return (value != obj.getRawBits());
 }
 
 Fixed	Fixed::operator+(const Fixed &obj) const
