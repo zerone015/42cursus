@@ -1,6 +1,12 @@
 #include <fstream>
 #include <iostream>
 
+int displayErrorMsg(std::string errorMsg)
+{
+    std::cout << errorMsg << std::endl;
+    return 1;
+}
+
 std::string readFile(std::ifstream &inputStream)
 {
     std::string buf;
@@ -13,13 +19,15 @@ std::string readFile(std::ifstream &inputStream)
         std::getline(inputStream, buf);
         ret.append(buf);
     }
-    return (ret);
+    return ret;
 }
 
 void replaceStr(std::string &str, std::string s1, std::string s2)
 {
     size_t      idx;
 
+    if (s1.empty())
+        return ;
     idx = str.find(s1);
     while (idx != std::string::npos)
     {
@@ -31,28 +39,22 @@ void replaceStr(std::string &str, std::string s1, std::string s2)
 
 int main(int argc, char *argv[])
 {
-    std::string     filename;
     std::ifstream   inputStream;
     std::ofstream   outputStream;
-    std::string     str;
+    std::string     fileContent;
 
     if (argc != 4)
-    {
-        std::cout << "Invalid arguments" << std::endl;
-        return (1);
-    }
+        return displayErrorMsg("Invalid arguments");
     inputStream.open(argv[1], std::ios::in);
-    filename.append(argv[1]).append(".replace");
-    outputStream.open(filename.c_str(), std::ios::out | std::ios::trunc);
-    if (inputStream.fail() || outputStream.fail())
-    {
-        std::cout << "Failed to open file" << std::endl;
-        return (1);
-    }
-    str = readFile(inputStream);
-    replaceStr(str, argv[2], argv[3]);
-    outputStream << str;
+    if (!inputStream.is_open())
+        return displayErrorMsg("Failed to open file");
+    outputStream.open((std::string(argv[1]) + ".replace").c_str(), std::ios::out | std::ios::trunc);
+    if (!outputStream.is_open())
+        return displayErrorMsg("Failed to open file");
+    fileContent = readFile(inputStream);
+    replaceStr(fileContent, argv[2], argv[3]);
+    outputStream << fileContent;
     inputStream.close();
     outputStream.close();
-    return (0);
+    return 0;
 }
