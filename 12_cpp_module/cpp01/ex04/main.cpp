@@ -1,19 +1,5 @@
 #include <fstream>
 #include <iostream>
-#include <cstdio>
-#include <cerrno>
-
-int printStrerror()
-{
-    std::cout << std::strerror(errno) << std::endl;
-    return (EXIT_FAILURE);
-}
-
-int printError(std::string error_msg)
-{
-    std::cout << error_msg << std::endl;
-    return (EXIT_FAILURE);
-}
 
 std::string readFile(std::ifstream &inputStream)
 {
@@ -23,9 +9,9 @@ std::string readFile(std::ifstream &inputStream)
     std::getline(inputStream, ret);
     while (!inputStream.eof())
     {
-        ret += "\n";
+        ret.append("\n");
         std::getline(inputStream, buf);
-        ret += buf;
+        ret.append(buf);
     }
     return (ret);
 }
@@ -45,20 +31,28 @@ void replaceStr(std::string &str, std::string s1, std::string s2)
 
 int main(int argc, char *argv[])
 {
+    std::string     filename;
     std::ifstream   inputStream;
     std::ofstream   outputStream;
     std::string     str;
 
     if (argc != 4)
-        return (printError("Invalid arguments"));
+    {
+        std::cout << "Invalid arguments" << std::endl;
+        return (1);
+    }
     inputStream.open(argv[1], std::ios::in);
-    if (inputStream.fail())
-        return (printStrerror());
-    outputStream.open(std::string(argv[1]) + ".replace", std::ios::out | std::ios::trunc);
-    if (outputStream.fail())
-        return (printStrerror());
+    filename.append(argv[1]).append(".replace");
+    outputStream.open(filename.c_str(), std::ios::out | std::ios::trunc);
+    if (inputStream.fail() || outputStream.fail())
+    {
+        std::cout << "Failed to open file" << std::endl;
+        return (1);
+    }
     str = readFile(inputStream);
     replaceStr(str, argv[2], argv[3]);
     outputStream << str;
+    inputStream.close();
+    outputStream.close();
     return (0);
 }
