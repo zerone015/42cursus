@@ -38,9 +38,16 @@ Array<T>&   Array<T>::operator=(const Array &src)
 	return *this;
 }
 
+template <typename T>
+T&  Array<T>::operator[](unsigned int idx)
+{
+	if (idx >= this->_size)
+		throw std::out_of_range("out of range.");
+	return this->_array[idx];
+}
 
 template <typename T>
-T&  Array<T>::operator[](unsigned int idx) const
+const T&  Array<T>::operator[](unsigned int idx) const
 {
 	if (idx >= this->_size)
 		throw std::out_of_range("out of range.");
