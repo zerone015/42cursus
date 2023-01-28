@@ -6,6 +6,6 @@ int main()
 
     son.whoAmI();
     son.showStatus();
-
+	son.attack("kim");
     return 0;
 }
