@@ -3,11 +3,15 @@
 
 std::string Brain::getIdea(int index)
 {
+    if (index >= 100 || index < 0)
+        return ("");
     return (this->ideas[index]);
 }
 
 void    Brain::setIdea(int index, std::string idea)
 {
+    if (index >= 100 || index < 0)
+        return ;
     this->ideas[index] = idea;
 }
 
