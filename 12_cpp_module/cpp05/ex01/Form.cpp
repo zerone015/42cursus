@@ -1,18 +1,20 @@
 #include <iostream>
+#include <cstdlib>
 #include "Form.hpp"
 
 Form::Form() : name("unknown"), isSigned(false), signGrade(150), executeGrade(150) {}
 
-Form::Form(std::string name, int signGrade, int executeGrade) : name(name), isSigned(false), signGrade(signGrade), executeGrade(executeGrade) 
+Form::Form(std::string name, int signGrade, int executeGrade) : name(name), isSigned(false), signGrade(signGrade), executeGrade(executeGrade)
 {
     try
     {
-        checkGrade(signGrade);
-        checkGrade(executeGrade);
+        checkGrade(this->signGrade);
+        checkGrade(this->executeGrade);
     }
     catch(const std::exception& e)
     {
         std::cout << e.what() << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 }
 
@@ -20,12 +22,13 @@ Form::Form(const Form &src) : name(src.name), isSigned(src.isSigned), signGrade(
 {
     try
     {
-        checkGrade(signGrade);
-        checkGrade(executeGrade);
+        checkGrade(this->signGrade);
+        checkGrade(this->executeGrade);
     }
     catch(const std::exception& e)
     {
         std::cout << e.what() << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 }
 
@@ -35,15 +38,16 @@ Form&   Form::operator=(const Form &src)
     {
         checkGrade(src.signGrade);
         checkGrade(src.executeGrade);
+        const_cast<int&>(this->signGrade) = src.signGrade;
+        const_cast<int&>(this->executeGrade) = src.executeGrade;
+        const_cast<std::string&>(this->name) = src.name;
+        this->isSigned = src.isSigned;
     }
     catch(const std::exception& e)
     {
         std::cout << e.what() << std::endl;
+        std::exit(EXIT_FAILURE);
     }
-    const_cast<int&>(this->signGrade) = src.signGrade;
-    const_cast<int&>(this->executeGrade) = src.executeGrade;
-    const_cast<std::string&>(this->name) = src.name;
-    this->isSigned = src.isSigned;
     return *this;
 }
 
