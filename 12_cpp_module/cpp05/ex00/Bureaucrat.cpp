@@ -11,7 +11,7 @@ Bureaucrat::Bureaucrat(std::string name, int grade) : name(name), grade(grade)
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
+        std::cout << this->name << ": " << e.what() << std::endl;
     }
 }
 
@@ -30,7 +30,7 @@ Bureaucrat& Bureaucrat::operator=(const Bureaucrat &src)
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
+        std::cout << this->name << ": " << e.what() << std::endl;
     }
     return *this;
 }
@@ -64,7 +64,7 @@ void    Bureaucrat::increaseGrade()
     }
     catch(const std::exception& e)
     {
-        std::cout << "can't increase grade because " << e.what() << std::endl;
+        std::cout << this->name << ": " << "can't increase grade because " << e.what() << std::endl;
     }
 }
 
@@ -77,7 +77,7 @@ void    Bureaucrat::decreaseGrade()
     }
     catch(const std::exception& e)
     {
-        std::cout << "can't decrease grade because " << e.what() << std::endl;
+        std::cout << this->name << ": " << "can't decrease grade because " << e.what() << std::endl;
     }
 }
 
