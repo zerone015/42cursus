@@ -47,7 +47,6 @@ void    Bureaucrat::setGrade(int grade)
         std::cout << "[Exception] " << this->name << ": ";
         std::cout << grade << " ";
         std::cout << e.what() << std::endl;
-        this->grade = 150;
     }
 }
 
