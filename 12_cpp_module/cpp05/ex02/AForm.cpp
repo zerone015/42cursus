@@ -7,12 +7,14 @@ AForm::AForm(std::string name, int signGrade, int executeGrade) : name(name), is
 {
     try
     {
-        checkGrade(signGrade);
-        checkGrade(executeGrade);
+        checkGrade(this->signGrade);
+        checkGrade(this->executeGrade);
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
+        std::cout << e.what() << "\n"
+                  << "exit program" << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 }
 
@@ -20,12 +22,14 @@ AForm::AForm(const AForm &src) : name(src.name), isSigned(src.isSigned), signGra
 {
     try
     {
-        checkGrade(signGrade);
-        checkGrade(executeGrade);
+        checkGrade(this->signGrade);
+        checkGrade(this->executeGrade);
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
+        std::cout << e.what() << "\n"
+                  << "exit program" << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 }
 
@@ -35,15 +39,17 @@ AForm&   AForm::operator=(const AForm &src)
     {
         checkGrade(src.signGrade);
         checkGrade(src.executeGrade);
+        const_cast<int&>(this->signGrade) = src.signGrade;
+        const_cast<int&>(this->executeGrade) = src.executeGrade;
+        const_cast<std::string&>(this->name) = src.name;
+        this->isSigned = src.isSigned;
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
+        std::cout << e.what() << "\n"
+                  << "exit program" << std::endl;
+        std::exit(EXIT_FAILURE);
     }
-    const_cast<int&>(this->signGrade) = src.signGrade;
-    const_cast<int&>(this->executeGrade) = src.executeGrade;
-    const_cast<std::string&>(this->name) = src.name;
-    this->isSigned = src.isSigned;
     return *this;
 }
 
