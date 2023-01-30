@@ -3,7 +3,7 @@
 
 Bureaucrat::Bureaucrat() : name("unknown"), grade(150) {}
 Bureaucrat::Bureaucrat(std::string name) : name(name), grade(150) {}
-Bureaucrat::Bureaucrat(std::string name, int grade) : name(name) 
+Bureaucrat::Bureaucrat(std::string name, int grade) : name(name), grade(150) 
 {
     setGrade(grade);
 }
