@@ -15,7 +15,7 @@ void execute_command(PhoneBook *phonebook, std::string command)
     else if (command == "SEARCH")
         phonebook->search_contact();
     else if (command == "EXIT")
-        exit(EXIT_SUCCESS);
+        std::exit(EXIT_SUCCESS);
     else
         std::cout << "Command not found. Please try again." << std::endl;
 }
