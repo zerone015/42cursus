@@ -7,7 +7,7 @@ Bureaucrat::Bureaucrat(std::string name, int grade) : name(name), grade(grade)
 {
     try
     {
-        checkGrade(grade);
+        checkGrade(this->grade);
     }
     catch(const std::exception& e)
     {
