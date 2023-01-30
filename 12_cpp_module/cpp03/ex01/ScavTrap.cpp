@@ -5,7 +5,7 @@ void    ScavTrap::attack(const std::string& target)
 {
     if (!this->ep || !this->hp)
     {
-        std::cout << "ScavTrap " << this->name << " cannot be attacked." << std::endl;
+        std::cout << "ScavTrap " << this->name << " can't attack." << std::endl;
         return ;
     }
     std::cout << "ScavTrap " << this->name << " attacks " << target << ", causing " << this->ad << " points of damage!" << std::endl;
