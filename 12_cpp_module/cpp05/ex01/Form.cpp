@@ -13,7 +13,8 @@ Form::Form(std::string name, int signGrade, int executeGrade) : name(name), isSi
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
+        std::cout << e.what() << "\n"
+                  << "exit program" << std::endl;
         std::exit(EXIT_FAILURE);
     }
 }
@@ -27,7 +28,8 @@ Form::Form(const Form &src) : name(src.name), isSigned(src.isSigned), signGrade(
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
+        std::cout << e.what() << "\n"
+                  << "exit program" << std::endl;
         std::exit(EXIT_FAILURE);
     }
 }
@@ -45,7 +47,8 @@ Form&   Form::operator=(const Form &src)
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
+        std::cout << e.what() << "\n"
+                  << "exit program" << std::endl;
         std::exit(EXIT_FAILURE);
     }
     return *this;
