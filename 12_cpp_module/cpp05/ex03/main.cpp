@@ -8,7 +8,7 @@ int main()
 	AForm	*a = someRandomIntern.makeForm("robotomy request", "Bender");
 	AForm	*b = someRandomIntern.makeForm("presidential pardon", "son");
 	AForm	*c = someRandomIntern.makeForm("shrubbery creation", "kim");
-	AForm	*d = someRandomIntern.makeForm("not exists", "park");
+	AForm	*d = someRandomIntern.makeForm("asdf", "park");
 
 	delete a;
 	delete b;
