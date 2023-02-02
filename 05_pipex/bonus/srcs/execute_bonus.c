@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 06:21:58 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/12 20:28:07 by yoson            ###   ########.fr       */
+/*   Updated: 2023/02/03 08:25:26 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static int	find_path_execve(char *cmd, char *paths[], char *argv[], char *envp[]
 	char	*temp;
 	int		i;
 
-	i = 0;
-	while (paths[i])
+	i = -1;
+	while (paths[++i])
 	{
 		temp = ft_strjoin(paths[i], "/");
 		if (!temp)
@@ -38,7 +38,6 @@ static int	find_path_execve(char *cmd, char *paths[], char *argv[], char *envp[]
 		}
 		execve(path, argv, envp);
 		free(path);
-		i++;
 	}
 	return (-1);
 }
@@ -66,7 +65,7 @@ void	execute(char *arg, char *envp[], char *paths[])
 	argv = ft_split(arg, ' ');
 	if (!argv)
 		ft_perror(NULL, EXIT_FAILURE);
-	if (execve(argv[0], argv, envp) == -1)
+	if (!ft_strchr(argv[0], '/') || execve(argv[0], argv, envp) == -1)
 	{
 		if (find_path_execve(argv[0], paths, argv, envp) == -1)
 			error_handler(argv[0]);
