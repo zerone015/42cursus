@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include "PhoneBook.hpp"
 #include "utils.hpp"
 
@@ -23,7 +24,7 @@ void    PhoneBook::show_short_contacts(void)
     repeatCount = num_of_added <= 8 ? num_of_added : 8;
     for (int i = 0; i < repeatCount; i++)
     {
-        std::cout << "         " << i << "|";
+        std::cout << std::setw(10) << std::setfill(' ') << i << "|";
         contacts[i].show_short_contact();
     }
     std::cout << "--------------------------------------------" << std::endl;

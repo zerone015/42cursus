@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include "Contact.hpp"
 #include "utils.hpp"
 
@@ -27,19 +28,18 @@ void    Contact::add_contact(void)
     std::cout << "Added successfully." << std::endl;
 }
 
-std::string Contact::get_short_str(std::string str) const
+std::string Contact::fit_str(const std::string &str) const
 {
-    if (str.length() > 10)
-        return (str.substr(0, 9) + ".");
-    else
-        return (std::string(10 - static_cast<int>(str.length()), ' ') + str);
+    if (str.size() > 10)
+        return str.substr(0, 9) + ".";
+    return str;
 }
 
 void    Contact::show_short_contact(void) const 
 {
-    std::cout << get_short_str(first_name) << "|";
-    std::cout << get_short_str(last_name) << "|";
-    std::cout << get_short_str(nick_name) << "|" << "\n";
+    std::cout << std::setfill(' ') << std::setw(10) << fit_str(first_name) << "|";
+    std::cout << std::setw(10) << fit_str(last_name) << "|";
+    std::cout << std::setw(10) << fit_str(nick_name) << "|" << "\n";
 }
 
 void    Contact::show_all_contact(void) const

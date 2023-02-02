@@ -17,8 +17,6 @@ int main()
     ba.signForm(fa);
     std::cout << fa << std::endl;
 
-    Form    abnormal("abnormal", 151, 150);
-
     Form    test1("test1", 10, 10);
     Form    test2("test2", 42, 42);
 
@@ -27,6 +25,8 @@ int main()
 
     Form    test3(test2);
     std::cout << test3 << std::endl;
-    
+
+    Form    abnormal("abnormal", 151, 150);
+
     return 0;
 }

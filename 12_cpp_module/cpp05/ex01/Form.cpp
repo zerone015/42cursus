@@ -1,18 +1,26 @@
 #include <iostream>
+#include <cstdlib>
 #include "Form.hpp"
 
 Form::Form() : name("unknown"), isSigned(false), signGrade(150), executeGrade(150) {}
 
-Form::Form(std::string name, int signGrade, int executeGrade) : name(name), isSigned(false), signGrade(signGrade), executeGrade(executeGrade) 
+Form::Form(std::string name, int signGrade, int executeGrade) : name(name), isSigned(false), signGrade(signGrade), executeGrade(executeGrade)
 {
     try
     {
-        checkGrade(signGrade);
-        checkGrade(executeGrade);
+        checkGrade(this->signGrade);
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
+        std::cout << this->name << ": " << "sign " << e.what() << std::endl;
+    }
+    try
+    {
+        checkGrade(this->executeGrade);
+    } 
+    catch(const std::exception& e)
+    {
+        std::cout << this->name << ": " << "execute " << e.what() << std::endl;
     }
 }
 
@@ -20,30 +28,44 @@ Form::Form(const Form &src) : name(src.name), isSigned(src.isSigned), signGrade(
 {
     try
     {
-        checkGrade(signGrade);
-        checkGrade(executeGrade);
+        checkGrade(this->signGrade);
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
+        std::cout << this->name << ": " << "sign " << e.what() << std::endl;
+    }
+    try
+    {
+        checkGrade(this->executeGrade);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << this->name << ": " << "execute " << e.what() << std::endl;
     }
 }
 
 Form&   Form::operator=(const Form &src)
 {
-    try
-    {
-        checkGrade(src.signGrade);
-        checkGrade(src.executeGrade);
-    }
-    catch(const std::exception& e)
-    {
-        std::cout << e.what() << std::endl;
-    }
     const_cast<int&>(this->signGrade) = src.signGrade;
     const_cast<int&>(this->executeGrade) = src.executeGrade;
     const_cast<std::string&>(this->name) = src.name;
     this->isSigned = src.isSigned;
+    try
+    {
+        checkGrade(this->signGrade);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << this->name << ": " << "sign " << e.what() << std::endl;
+    }
+    try
+    {
+        checkGrade(this->executeGrade);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << this->name << ": " << "execute " << e.what() << std::endl;
+    }
     return *this;
 }
 
@@ -71,6 +93,7 @@ int Form::getExecuteGrade() const
 
 void    Form::beSigned(Bureaucrat &obj)
 {
+    checkGrade(obj.getGrade());
     if (obj.getGrade() > this->signGrade)
         throw GradeTooLowException();
     this->isSigned = true;

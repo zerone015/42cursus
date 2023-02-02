@@ -5,7 +5,7 @@ void    ClapTrap::attack(const std::string &target)
 {
     if (!this->ep || !this->hp)
     {
-        std::cout << "ClapTrap " << this->name << " cannot be attacked." << std::endl;
+        std::cout << "ClapTrap " << this->name << " can't attack." << std::endl;
         return ;
     }
     std::cout << "ClapTrap " << this->name << " attacks " << target << ", causing " << this->ad << " points of damage!" << std::endl;
@@ -28,7 +28,7 @@ void    ClapTrap::beRepaired(unsigned int amount)
 {
     if (!this->hp || !this->ep)
     {
-        std::cout << "ClapTrap " << this->name << " cannot be repaired." << std::endl;
+        std::cout << "ClapTrap " << this->name << " can't repair." << std::endl;
         return ;
     }
     std::cout << this->name << " hp repaired by " << amount << std::endl;
@@ -38,7 +38,7 @@ void    ClapTrap::beRepaired(unsigned int amount)
 
 void    ClapTrap::setDamage(unsigned int amount)
 {
-    std::cout << this->name << " is damage has been set to " << amount << std::endl;
+    std::cout << this->name << " is damage set to " << amount << std::endl;
     this->ad = amount;
 }
 

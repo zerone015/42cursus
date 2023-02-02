@@ -28,7 +28,7 @@ void    ShrubberyCreationForm::execute(const Bureaucrat &executor) const
     std::ofstream fout;
 
     checkExecute(executor.getGrade());
-    fout.open(getName() + "_shrubbery", std::ios::out | std::ios::trunc);
+    fout.open((getName() + "_shrubbery").c_str(), std::ios::out | std::ios::trunc);
 	if (fout.is_open() == false)
         throw FileOpenFailedException();
     fout << getAsciiTrees();

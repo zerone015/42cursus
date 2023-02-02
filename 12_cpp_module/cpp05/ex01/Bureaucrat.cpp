@@ -3,9 +3,16 @@
 
 Bureaucrat::Bureaucrat() : name("unknown"), grade(150) {}
 Bureaucrat::Bureaucrat(std::string name) : name(name), grade(150) {}
-Bureaucrat::Bureaucrat(std::string name, int grade) : name(name) 
+Bureaucrat::Bureaucrat(std::string name, int grade) : name(name), grade(grade) 
 {
-    setGrade(grade);
+    try
+    {
+        checkGrade(this->grade);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << this->name << ": " << e.what() << std::endl;
+    }
 }
 
 Bureaucrat::Bureaucrat(const Bureaucrat &src)
@@ -16,7 +23,15 @@ Bureaucrat::Bureaucrat(const Bureaucrat &src)
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat &src)
 {
     const_cast<std::string&>(this->name) = src.name;
-    setGrade(src.grade);
+    this->grade = src.grade;
+    try
+    {
+        checkGrade(this->grade);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << this->name << ": " << e.what() << std::endl;
+    }
     return *this;
 }
 
@@ -32,33 +47,38 @@ int Bureaucrat::getGrade() const
     return this->grade;
 }
 
-void    Bureaucrat::setGrade(int grade)
+void    Bureaucrat::checkGrade(int grade) const
 {
-    try
-    {
-        if (grade < 1)
-            throw GradeTooHighException();
-        if (grade > 150)
-            throw GradeTooLowException();
-        this->grade = grade;
-    }
-    catch (std::exception& e)
-    {
-        std::cout << "[Exception] " << this->name << ": ";
-        std::cout << grade << " ";
-        std::cout << e.what() << std::endl;
-        this->grade = 150;
-    }
+    if (grade < 1)
+        throw GradeTooHighException();
+    if (grade > 150)
+        throw GradeTooLowException();
 }
 
 void    Bureaucrat::increaseGrade()
 {
-    setGrade(this->grade - 1);
+    try
+    {
+        checkGrade(this->grade - 1);
+        this->grade--;
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << this->name << ": " << "can't increase grade because " << e.what() << std::endl;
+    }
 }
 
 void    Bureaucrat::decreaseGrade()
 {
-    setGrade(this->grade + 1);
+    try
+    {
+        checkGrade(this->grade + 1);
+        this->grade++;
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << this->name << ": " << "can't decrease grade because " << e.what() << std::endl;
+    }
 }
 
 void    Bureaucrat::signForm(Form &obj)

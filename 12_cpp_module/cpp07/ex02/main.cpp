@@ -53,6 +53,20 @@ int main(int, char**)
     Array<int> test1(10);
     for (int i = 0; i < 10; i++)
         std::cout << test1[i] << std::endl;
+    
+    Array<int> test2;
+    
+    try
+    {
+        std::cout << test2[0] << std::endl;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    // const Array<int> test(10);
+    // test[0] = 212121;
+    // std::cout << test[0] << std::endl;
     delete [] mirror;
     return 0;
 }

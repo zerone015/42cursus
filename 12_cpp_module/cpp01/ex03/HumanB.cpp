@@ -18,10 +18,11 @@ void    HumanB::attack() const
 
 HumanB::HumanB()
 {
-    weapon = NULL;
+    this->weapon = NULL;
 }
 
 HumanB::HumanB(std::string name)
 {
     this->name = name;
+    this->weapon = NULL;
 }

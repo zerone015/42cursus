@@ -15,7 +15,7 @@ class Contact
         void        add_contact(void);
         void        show_short_contact() const;
         void        show_all_contact() const;
-        std::string get_short_str(std::string str) const;
+        std::string fit_str(const std::string &str) const;
 };
 
 #endif
