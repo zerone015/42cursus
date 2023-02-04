@@ -12,4 +12,4 @@
 - [05. 예외 처리](https://github.com/zerone015/42seoul/tree/master/12_cpp_module/cpp05)
 - [06. 타입 캐스팅](https://github.com/zerone015/42seoul/tree/master/12_cpp_module/cpp06)
 - [07. 템플릿](https://github.com/zerone015/42seoul/tree/master/12_cpp_module/cpp07)
-- [08. 컨테이너, 반복자, 알고리즘](https://github.com/zerone015/42seoul/tree/master/12_cpp_module/cpp08)
+- [08. 컨테이너, 이터레이터, 알고리즘](https://github.com/zerone015/42seoul/tree/master/12_cpp_module/cpp08)
