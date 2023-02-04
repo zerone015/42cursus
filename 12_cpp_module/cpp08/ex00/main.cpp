@@ -16,7 +16,7 @@ int main()
     }
     catch(const std::exception& e)
     {
-        std::cout << "vector: " << e.what() << "\n";
+        std::cout << e.what() << "\n";
     }
     try
     {
