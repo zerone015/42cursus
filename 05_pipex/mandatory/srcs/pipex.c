@@ -46,7 +46,7 @@ static char	**parse_paths(char *envp[])
 	int		i;
 
 	i = 0;
-	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
+	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == NULL)
 		i++;
 	if (!envp[i])
 		return (NULL);
