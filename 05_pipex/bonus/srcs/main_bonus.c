@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 04:06:27 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 05:04:49 by yoson            ###   ########.fr       */
+/*   Updated: 2023/02/07 02:16:25 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,6 @@ int	main(int argc, char *argv[], char *envp[])
 		return (EXIT_FAILURE);
 	}
 	paths = parse_paths(envp);
-	if (!paths)
-	{
-		perror("pipex: ");
-		return (EXIT_FAILURE);
-	}
 	pipex(argc, argv, envp, paths);
 	unlink("/tmp/.here_doc");
 	return (0);
