@@ -80,9 +80,10 @@ void    ScalarTypes::convertInt() const
 
 void    ScalarTypes::convertFloat()
 {
-    if (!isinf(this->_double) 
+    if (errno == ERANGE 
+        || (!isinf(this->_double) 
         && (FLT_MAX < this->_double
-        || -FLT_MAX > this->_double))
+        || -FLT_MAX > this->_double)))
     {
 		std::cout << "float: impossible" << std::endl;
         return ;
@@ -99,6 +100,11 @@ void    ScalarTypes::convertFloat()
  
 void    ScalarTypes::convertDouble() const
 {
+    if (errno == ERANGE)
+    {
+		std::cout << "float: impossible" << std::endl;
+        return ;
+    }
     std::cout << "double: " << this->_double;
     if (!isnan(this->_double) 
         && !isinf(this->_double)
@@ -110,7 +116,7 @@ void    ScalarTypes::convertDouble() const
 
 void    ScalarTypes::convert()
 {
-    this->_double = std::atof(this->_str.c_str());
+    this->_double = std::strtod(this->_str.c_str(), NULL);
     convertChar();
     convertInt();
     convertFloat();
