@@ -16,7 +16,6 @@
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	int		status;
 	char	**paths;
 
 	if (argc < 5 || (is_heredoc(argv[1]) && argc < 6))
@@ -30,7 +29,7 @@ int	main(int argc, char *argv[], char *envp[])
 		perror("pipex: ");
 		return (EXIT_FAILURE);
 	}
-	status = pipex(argc, argv, envp, paths);
+	pipex(argc, argv, envp, paths);
 	unlink("/tmp/.here_doc");
-	return (status >> 8);
+	return (0);
 }

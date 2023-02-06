@@ -19,13 +19,12 @@
 # include <unistd.h>
 # include "libft.h"
 
-int		pipex(int argc, char *argv[], char *envp[], char *paths[]);
+void	pipex(int argc, char *argv[], char *envp[], char *paths[]);
 void	execute(char *arg, char *envp[], char *paths[]);
 
 char	**parse_paths(char *envp[]);
 int		is_heredoc(char *arg);
 void	here_doc(char *limiter);
-int		wait_all(pid_t last_pid);
 char	*get_next_line(int fd);
 
 void	command_not_found(char *cmd);

@@ -74,7 +74,7 @@ void	parent_process(int fd[])
 	close(fd[1]);
 }
 
-int	pipex(int argc, char *argv[], char *envp[], char *paths[])
+void	pipex(int argc, char *argv[], char *envp[], char *paths[])
 {
 	pid_t	pid;
 	int		fd[2];
@@ -98,5 +98,6 @@ int	pipex(int argc, char *argv[], char *envp[], char *paths[])
 		}
 		parent_process(fd);
 	}
-	return (wait_all(pid));
+	while (wait(NULL) != -1)
+		;
 }

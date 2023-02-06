@@ -62,19 +62,3 @@ void	here_doc(char *limiter)
 	}
 	dup2(fd, STDIN_FILENO);
 }
-
-int	wait_all(pid_t last_pid)
-{
-	pid_t	pid;
-	int		temp;
-	int		status;
-
-	pid = 1;
-	while (pid != -1)
-	{
-		pid = wait(&temp);
-		if (pid == last_pid)
-			status = temp;
-	}
-	return (status);
-}

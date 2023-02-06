@@ -22,8 +22,7 @@ LIB_NAME	= libft.a
 
 SRC 		= 	pipex.c \
 				execute.c \
-				error.c \
-				utils.c
+				error.c
 BSRC		=	main_bonus.c \
 				pipex_bonus.c \
 				execute_bonus.c \

@@ -53,7 +53,7 @@ static char	**parse_paths(char *envp[])
 	return (ft_split(envp[i] + 5, ':'));
 }
 
-int	pipex(char *argv[], char *envp[], char *paths[])
+void	pipex(char *argv[], char *envp[], char *paths[])
 {
 	pid_t	pid;
 	int		fd[2];
@@ -74,12 +74,12 @@ int	pipex(char *argv[], char *envp[], char *paths[])
 	}
 	close(fd[0]);
 	close(fd[1]);
-	return (wait_all(pid));
+	while (wait(NULL) != -1)
+		;
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	int		status;
 	char	**paths;
 
 	if (argc < 5)
@@ -98,6 +98,6 @@ int	main(int argc, char *argv[], char *envp[])
 		perror("pipex: ");
 		return (EXIT_FAILURE);
 	}
-	status = pipex(argv, envp, paths);
-	return (status >> 8);
+	pipex(argv, envp, paths);
+	return (0);
 }

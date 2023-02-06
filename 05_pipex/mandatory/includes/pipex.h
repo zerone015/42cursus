@@ -19,9 +19,8 @@
 # include <unistd.h>
 # include "libft.h"
 
-int		pipex(char *argv[], char *envp[], char *paths[]);
+void	pipex(char *argv[], char *envp[], char *paths[]);
 void	execute(char *arg, char *envp[], char *paths[]);
-int		wait_all(pid_t last_pid);
 void	command_not_found(char *input);
 void	ft_perror(char *input, int exit_code);
 void	ft_strerror(void);
