@@ -6,7 +6,7 @@
 /*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2023/02/07 02:15:49 by son-yeong-w      ###   ########.fr       */
+/*   Updated: 2023/02/07 02:28:29 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,7 @@ void	pipex(int argc, char *argv[], char *envp[], char *paths[])
 	int		fd[2];
 	int		i;
 
-	i = 1;
-	if (is_heredoc(argv[1]))
-		i++;
+	i = 1 + is_heredoc(argv[1]);
 	while (++i < argc - 1)
 	{
 		if (pipe(fd) == -1)
