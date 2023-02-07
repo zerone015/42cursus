@@ -1,4 +1,5 @@
 #include <iostream>
+#include <list>
 #include "Span.hpp"
 
 int main()
@@ -30,6 +31,16 @@ int main()
         std::cout << e.what() << "\n";
     }
     
+    std::list<int> a;
+    a.push_back(1);
+    a.push_back(24);
+    a.push_back(34);
+
+    Span<std::list<int>::iterator> span2(3);
+    span2.addNumber(a.begin(), a.end());
+    std::cout << span2.shortestSpan() << std::endl;
+    std::cout << span2.longestSpan() << std::endl;
+        
     Span test;
     try
     {
