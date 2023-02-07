@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 05:02:26 by yoson            ###   ########.fr       */
+/*   Updated: 2023/02/07 02:22:32 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,17 @@ static void	child_process2(char *argv[], char *envp[], int fd[], char *paths[])
 static char	**parse_paths(char *envp[])
 {
 	int		i;
+	char	**paths;
 
 	i = 0;
 	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == NULL)
 		i++;
 	if (!envp[i])
-		return (NULL);
-	return (ft_split(envp[i] + 5, ':'));
+		ft_perror(NULL, EXIT_FAILURE);
+	paths = ft_split(envp[i] + 5, ':');
+	if (!paths)
+		ft_perror(NULL, EXIT_FAILURE);
+	return (paths);
 }
 
 void	pipex(char *argv[], char *envp[], char *paths[])
@@ -66,7 +70,7 @@ void	pipex(char *argv[], char *envp[], char *paths[])
 	{
 		pid = fork();
 		if (pid == -1)
-			ft_strerror();
+			ft_perror(NULL, EXIT_FAILURE);
 		if (pid == 0 && i == 2)
 			child_process1(argv, envp, fd, paths);
 		if (pid == 0 && i == 3)
@@ -93,11 +97,6 @@ int	main(int argc, char *argv[], char *envp[])
 		return (EXIT_FAILURE);
 	}
 	paths = parse_paths(envp);
-	if (!paths)
-	{
-		perror("pipex: ");
-		return (EXIT_FAILURE);
-	}
 	pipex(argv, envp, paths);
 	return (0);
 }

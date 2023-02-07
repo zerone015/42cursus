@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 06:12:26 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 04:58:47 by yoson            ###   ########.fr       */
+/*   Updated: 2023/02/07 02:21:30 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,4 @@ void	ft_perror(char *input, int exit_code)
 	else
 		perror("pipex: ");
 	exit(exit_code);
-}
-
-void	ft_strerror(void)
-{
-	char	*err_msg;
-
-	err_msg = strerror(errno);
-	while (wait(NULL) != -1)
-		;
-	ft_putstr_fd("pipex: ", STDERR_FILENO);
-	ft_putendl_fd(err_msg, STDERR_FILENO);
-	exit(EXIT_FAILURE);
 }

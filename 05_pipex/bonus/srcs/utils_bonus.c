@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:47:35 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 05:03:17 by yoson            ###   ########.fr       */
+/*   Updated: 2023/02/07 02:21:09 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@
 char	**parse_paths(char *envp[])
 {
 	int		i;
+	char	**paths;
 
 	i = 0;
 	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == NULL)
 		i++;
 	if (!envp[i])
-		return (NULL);
-	return (ft_split(envp[i] + 5, ':'));
+		ft_perror(NULL, EXIT_FAILURE);
+	paths = ft_split(envp[i] + 5, ':');
+	if (!paths)
+		ft_perror(NULL, EXIT_FAILURE);
+	return (paths);
 }
 
 int	is_heredoc(char *arg)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoson <yoson@student.42.fr>                +#+  +:+       +#+        */
+/*   By: son-yeong-won <son-yeong-won@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 03:18:02 by yoson             #+#    #+#             */
-/*   Updated: 2022/11/01 05:04:30 by yoson            ###   ########.fr       */
+/*   Updated: 2023/02/07 02:36:23 by son-yeong-w      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ void	pipex(int argc, char *argv[], char *envp[], char *paths[])
 	while (++i < argc - 1)
 	{
 		if (pipe(fd) == -1)
-			ft_strerror();
+			ft_perror(NULL, EXIT_FAILURE);
 		pid = fork();
 		if (pid == -1)
-			ft_strerror();
+			ft_perror(NULL, EXIT_FAILURE);
 		else if (pid == 0)
 		{
-			if (i == 2 || (is_heredoc(argv[1]) && i == 3))
+			if (i == 2 || (i == 3 && is_heredoc(argv[1])))
 				first_child_process(argv, envp, fd, paths);
 			if (i == argc - 2)
 				last_child_process(argv, argc, envp, paths);
