@@ -9,11 +9,11 @@ class Span
         std::vector<int>    _vector;
     public:
         void    addNumber(int num);
-        template <typename T>
-        void    addNumber(T begin, T end)
+        template <typename InputIt>
+        void    addNumber(InputIt begin, InputIt end)
         {
             int add_size = 0;
-            for (T it = begin; it != end; it++)
+            for (InputIt it = begin; it != end; it++)
                 add_size++;
             if (_vector.size() + add_size > _vector.capacity())
                 throw std::out_of_range("can't store");
