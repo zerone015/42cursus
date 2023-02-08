@@ -2,17 +2,27 @@
 # define SPAN_HPP
 
 # include <vector>
-# include <algorithm>
-# include <iostream>
 
-template <typename InputIt = std::vector<int>::iterator>
 class Span
 {
     private:
         std::vector<int>    _vector;
     public:
         void    addNumber(int num);
-        void    addNumber(InputIt begin, InputIt end);
+        template <typename T>
+        void    addNumber(T begin, T end)
+        {
+            int add_size = 0;
+            for (T it = begin; it != end; it++)
+                add_size++;
+            if (_vector.size() + add_size > _vector.capacity())
+                throw std::out_of_range("can't store");
+            while (begin != end)
+            {
+                _vector.push_back(*begin);
+                begin++;
+            }
+        }
         int     shortestSpan() const;
         int     longestSpan() const;
         Span();
@@ -21,7 +31,5 @@ class Span
         Span&   operator=(const Span &src);
         ~Span();
 };
-
-# include "Span.tpp"
 
 #endif
