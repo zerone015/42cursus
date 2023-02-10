@@ -11,6 +11,21 @@ namespace ft
     struct bidirectional_iterator_tag : public forward_iterator_tag {};
     struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 
+    template <
+        typename Category,
+        typename T,
+        typename Distance = std::ptrdiff_t,
+        typename Pointer = T*,
+        typename Reference = T&
+    > struct iterator
+    {
+        typedef Category    iterator_category;
+        typedef T           value_type;
+        typedef Distance    difference_type;
+        typedef Pointer     pointer;
+        typedef Reference   reference;
+    };
+
     template <typename _Iter>
     struct iterator_traits
     {
@@ -26,7 +41,7 @@ namespace ft
     {
         typedef random_access_iterator_tag  iterator_category;
         typedef T                           value_type;
-        typedef ptrdiff_t                   difference_type;
+        typedef std::ptrdiff_t              difference_type;
         typedef T*                          pointer;
         typedef T&                          reference;
     };
@@ -36,7 +51,7 @@ namespace ft
     {
         typedef random_access_iterator_tag  iterator_category;
         typedef T                           value_type;
-        typedef ptrdiff_t                   difference_type;
+        typedef std::ptrdiff_t              difference_type;
         typedef const T*                    pointer;
         typedef const T&                    reference;
     };
@@ -122,7 +137,7 @@ namespace ft
                 return _base;
             }
     };
-    
+
     template <typename Iterator1, typename Iterator2>
 	bool operator==(const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs) {
 		return (lhs.base() == rhs.base());
