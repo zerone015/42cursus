@@ -60,7 +60,7 @@ namespace ft
     class reverse_iterator
     {
         protected:
-            Iter   _base;
+            Iter   _cur;
         public:
             typedef Iter                                               iterator_type;
             typedef typename iterator_traits<Iter>::iterator_category  iterator_category;
@@ -70,13 +70,13 @@ namespace ft
             typedef typename iterator_traits<Iter>::reference          reference;
 
             reverse_iterator() {}
-            explicit reverse_iterator(iterator_type it) : _base(it) {}
+            explicit reverse_iterator(iterator_type it) : _cur(it) {}
             template <typename U>
-            reverse_iterator(const reverse_iterator<U>& src) : _base(src.base()) {}
+            reverse_iterator(const reverse_iterator<U>& src) : _cur(src.base()) {}
             template <typename V>
             reverse_iterator& operator=(const reverse_iterator<V>& src)
             {
-                _base = src.base();
+                _cur = src.base();
                 return *this;
             }
             reference operator*() const
@@ -94,24 +94,24 @@ namespace ft
             }
             reverse_iterator& operator++()
             {
-                --_base;
+                --_cur;
                 return *this;
             }
             reverse_iterator& operator--()
             {
-                ++_base;
+                ++_cur;
                 return *this;
             }
             reverse_iterator operator++(int)
             {
                 reverse_iterator tmp(*this);
-                --_base;
+                --_cur;
                 return tmp;
             }
             reverse_iterator operator--(int)
             {
                 reverse_iterator tmp(*this);
-                ++_base;
+                ++_cur;
                 return tmp;
             }
             reverse_iterator operator+(difference_type n) const
@@ -124,17 +124,17 @@ namespace ft
             }
             reverse_iterator& operator+=(difference_type n)
             {
-                _base -= n;
+                _cur -= n;
                 return *this;
             }
             reverse_iterator& operator-=(difference_type n)
             {
-                _base += n;
+                _cur += n;
                 return *this;
             }
             iterator_type base() const 
             {
-                return _base;
+                return _cur;
             }
     };
     template <typename Iterator1, typename Iterator2>
@@ -179,7 +179,7 @@ namespace ft
     }
 
     template <typename T>
-    class random_access_iterator
+    class random_access_iterator : public iterator<random_access_iterator_tag, T>
     {
         public:
 			typedef typename iterator<random_access_iterator_tag, T>::iterator_category iterator_category;
@@ -188,72 +188,72 @@ namespace ft
 			typedef typename iterator<random_access_iterator_tag, T>::pointer           pointer;
 			typedef typename iterator<random_access_iterator_tag, T>::reference         reference;
         protected:
-            pointer _ptr;
+            pointer _cur;
         public:
-            random_access_iterator() : _ptr(NULL) {}
-            random_access_iterator(pointer p) : _ptr(p) {}
-            random_access_iterator(const random_access_iterator<T>& src) : _ptr(src._ptr) {}
+            random_access_iterator() : _cur(NULL) {}
+            random_access_iterator(pointer p) : _cur(p) {}
+            random_access_iterator(const random_access_iterator<T>& src) : _cur(src._cur) {}
             random_access_iterator<T>& operator=(const random_access_iterator<T>& src)
             {
-                _ptr = src._ptr;
+                _cur = src._cur;
                 return *this;
             }
             virtual ~random_access_iterator() {}
             pointer base() const
             {
-                return _ptr;
+                return _cur;
             }
             reference operator*() const
             {
-			    return *_ptr;
+			    return *_cur;
 			}
 		    pointer operator->() const 
             {
-			    return _ptr;
+			    return _cur;
 		    }
             random_access_iterator& operator++() 
             {
-			    ++_ptr;
+			    ++_cur;
 			    return *this;
             }
 		    random_access_iterator& operator--()
             {
-			    --_ptr;
+			    --_cur;
 			    return *this;
 		    }
 		    random_access_iterator operator++(int)
             {
 			    random_access_iterator tmp(*this);
-                ++_ptr;
+                ++_cur;
 			    return tmp;
 		    }
 		    random_access_iterator operator--(int) 
             {
 			    random_access_iterator tmp(*this);
-			    --_ptr;
+			    --_cur;
 			    return tmp;
 		    }
             random_access_iterator operator+(difference_type n) const 
             {
-			    return random_access_iterator(_ptr + n);
+			    return random_access_iterator(_cur + n);
 		    }
             random_access_iterator operator-(difference_type n) const 
             {
-			    return random_access_iterator(_ptr - n);
+			    return random_access_iterator(_cur - n);
 		    }
             random_access_iterator& operator+=(difference_type n) 
             {
-			    _ptr += n;
+			    _cur += n;
 			    return *this;
 		    }
 		    random_access_iterator& operator-=(difference_type n)
             {
-			    _ptr -= n;
+			    _cur -= n;
 			    return *this;
 		    }
             reference operator[](difference_type n) const 
             {
-			    return _ptr[n];
+			    return _cur[n];
 		    }
     };
     template <typename T1, typename T2>
