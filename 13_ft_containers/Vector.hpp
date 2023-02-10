@@ -3,18 +3,20 @@
 
 # include <memory>
 
-template <typename T, typename Allocator = std::allocator<T>>
-class Vector 
+namespace ft
 {
-    private:
-        T   *_data;
-        int _capacity;
-        int _length;
+
+template <typename T, typename Allocator = std::allocator<T>>
+class vector 
+{
     public:
-        Vector() : _capacity(1), _length(0) {Allocator<T> allocator; _data = allocator.allocate(1);}
-        Vector(const Vector &src) {*this = src}
-        Vector &operator=(const Vector &src);
-        ~Vector();
+        typedef Allocator                   allocator_type;
+        typedef T                           value_type;
+        typedef allocator_type::size_type   size_type;
+    private:
+        Allocator   allocator;
 };
+
+}
 
 #endif
