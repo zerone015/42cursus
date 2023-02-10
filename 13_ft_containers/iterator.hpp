@@ -179,8 +179,14 @@ namespace ft
     }
 
     template <typename T>
-    class random_access_iterator : public iterator<random_access_iterator_tag, T>
+    class random_access_iterator
     {
+        public:
+			typedef typename iterator<random_access_iterator_tag, T>::iterator_category iterator_category;
+			typedef typename iterator<random_access_iterator_tag, T>::value_type        value_type;
+			typedef typename iterator<random_access_iterator_tag, T>::difference_type   difference_type;
+			typedef typename iterator<random_access_iterator_tag, T>::pointer           pointer;
+			typedef typename iterator<random_access_iterator_tag, T>::reference         reference;
         protected:
             pointer _ptr;
         public:
@@ -192,7 +198,7 @@ namespace ft
                 _ptr = src._ptr;
                 return *this;
             }
-            virtual ~Random_access_iterator() {}
+            virtual ~random_access_iterator() {}
             pointer base() const
             {
                 return _ptr;
