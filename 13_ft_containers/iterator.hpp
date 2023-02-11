@@ -69,7 +69,7 @@ namespace ft
             typedef typename iterator_traits<Iter>::pointer            pointer;
             typedef typename iterator_traits<Iter>::reference          reference;
 
-            reverse_iterator() {}
+            reverse_iterator() : _cur(iterator_type()) {}
             explicit reverse_iterator(iterator_type it) : _cur(it) {}
             template <typename U>
             reverse_iterator(const reverse_iterator<U>& src) : _cur(src.base()) {}
@@ -296,6 +296,15 @@ namespace ft
     {
 		return lhs.base() - rhs.base();
     }
+
+    template <typename InputIt>
+	typename ft::iterator_traits<InputIt>::difference_type distance(InputIt first, InputIt last)
+    {
+		typename ft::iterator_traits<InputIt>::difference_type ret = 0;
+        for (; first != last; first++)
+            ret++;
+		return ret;
+	}
 }
 
 #endif
