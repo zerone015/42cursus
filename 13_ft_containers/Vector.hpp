@@ -165,7 +165,54 @@ class vector
                 _array = new_array;
             }
         }
-
+        
+        // Element access
+        reference operator[](size_type n)
+        {
+            return _array[n];
+        }
+        const_reference operator[] (size_type n) const
+        {
+            return _array[n];
+        }
+        reference at(size_type n)
+        {
+            if (n >= _size)
+                throw std::out_of_range("vector");
+            return operator[](n);
+        }
+        const_reference at(size_type n) const
+        {
+            if (n >= _size)
+                throw std::out_of_range("vector");
+            return operator[](n);
+        }
+        reference front()
+        {
+            return _array[0];
+        }
+        const_reference front() const
+        {
+            return _array[0];
+        }
+        reference back()
+        {
+            return _array[_size - 1];
+        }
+        const_reference back() const
+        {
+            return _array[_size - 1];
+        }
+        value_type* data()
+        {
+            return _array;
+        }
+        const value_type* data() const
+        {
+            return _array;
+        }
+        
+        // Modifiers
         void clear()
         {
             for (iterator it = begin(); it != end(); it++)
