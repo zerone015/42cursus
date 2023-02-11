@@ -31,10 +31,17 @@ class vector
         size_type       _capacity;
         size_type       _size;
 
-        template <class E>
-        void    throw_exception(E e) const
+        void reserve_loop(size_type n)
         {
-            throw e;
+            if (n > this->max_size() - _size)
+                throw std::length_error("vector");
+            while (n > (_capacity - _size))
+                this->reserve(_capacity * 2);
+        }
+        void shift_right(iterator& position, size_type n)
+        {
+            for (iterator it = this->end() - 1; it >= position; it--)
+                *(it + n) = *it;
         }
     public:
         // default constructor
@@ -102,19 +109,19 @@ class vector
 		}
 		reverse_iterator rbegin()
         {
-			return reverse_iterator(end());
+			return reverse_iterator(this->end());
 		}
 		const_reverse_iterator rbegin() const
         {
-			return const_reverse_iterator(end());
+			return const_reverse_iterator(this->end());
 		}
 		reverse_iterator rend()
         {
-			return reverse_iterator(begin());
+			return reverse_iterator(this->begin());
 		}
 		const_reverse_iterator rend() const
         {
-			return const_reverse_iterator(begin());
+			return const_reverse_iterator(this->begin());
 		}
 
         // Capacity
@@ -131,7 +138,7 @@ class vector
             if (n > _size)
             {
                 if (n > this->max_size())
-                    this->throw_exception(std::length_error("vector"));
+                    throw std::length_error("vector");
                 this->insert(this->end(), n - _size, val);
             }
             else if (n < _size)
@@ -152,14 +159,14 @@ class vector
         void reserve(size_type n)
         {
             if (n > this->max_size())
-                this->throw_exception(std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size"));
+                throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
             if (n > _capacity)
             {
                 pointer new_array = _allocator.allocate(n);
                 for (size_type i = 0; i < _size; i++)
                     _allocator.construct(new_array + i, *(_array + i));
-                for (iterator it = begin(); it != end(); it++)
-				    _allocator.destroy(&(*it));
+                for (size_type i = 0; i < _size; i++)
+				    _allocator.destroy(_array + i);
                 _allocator.deallocate(_array, _capacity);
                 _capacity = n;
                 _array = new_array;
@@ -211,8 +218,69 @@ class vector
         {
             return _array;
         }
-        
+
         // Modifiers
+        template <class InputIterator>
+        void assign(InputIterator first, InputIterator last)
+        {
+            this->clear();
+            for (; first != last; first++)
+                this->push_back(*first);
+        }
+        void assign(size_type n, const value_type& val)
+        {
+            this->clear();
+            while (n--)
+                this->push_back(val);
+        }
+        void push_back(const value_type& val)
+        {
+            if (_size == _capacity)
+                _capacity == 0 ? this->reserve(1) : this->reserve(_capacity * 2);
+            _allocator.construct(_array + _size, val);
+            _size++;
+        }
+        void pop_back()
+        {
+            if (!this->empty())
+            {
+                _allocator.destroy(_array + _size - 1);
+                _size--;
+            }
+        }
+        iterator insert(iterator position, const value_type& val)
+        {
+            difference_type pos = ft::distance(this->begin(), position);
+            this->insert(position, 1, val);
+            return iterator(_array + pos);
+        }
+        void insert(iterator position, size_type n, const value_type& val)
+        {
+            difference_type pos = ft::distance(this->begin(), position);
+            this->reserve_loop(n);
+            position = this->begin() + pos;
+            this->shift_right(position, n);
+            for (size_type i = 0; i < n; i++)
+                *(position + i) = val;
+            _size += n;
+        }
+        template <class InputIterator>
+        void insert(iterator position, typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
+        {
+            difference_type pos = ft::distance(this->begin(), position);
+            this->reserve_loop(ft::distance(first, last));
+            position = this->begin() + pos;
+            size_type n = ft::distance(first, last);
+            this->shift_right(position, n);
+            while (first != last)
+            {
+                *position = *first;
+                position++;
+                first++;
+            }
+            this->_size += n;
+        }
+
         void clear()
         {
             for (iterator it = begin(); it != end(); it++)
