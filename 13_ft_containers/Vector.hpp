@@ -132,8 +132,7 @@ class vector
             {
                 if (n > this->max_size())
                     this->throw_exception(std::length_error("vector"));
-                // while (_size < n)
-                //     this->push_back(val);
+                this->insert(this->end(), n - _size, val);
             }
             else if (n < _size)
             {
