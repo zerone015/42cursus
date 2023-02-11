@@ -39,7 +39,8 @@ int main()
     a.push_back(24);
     a.push_back(34);
 
-    Span span2(3);
+    Span span2(4);
+    span2.addNumber(5);
     span2.addNumber(a.begin(), a.end());
     std::cout << span2.shortestSpan() << std::endl;
     std::cout << span2.longestSpan() << std::endl;
@@ -53,12 +54,15 @@ int main()
     }
 
     std::cout << "------ span3 range addNumber ------" << std::endl;
-    Span span3(3);
+    Span span3(4);
+    span3.addNumber(5);
+
     int arr[3];
     arr[0] = 44;
     arr[1] = 55;
-    arr[2] = 66;
+    arr[2] = 100;
     span3.addNumber(arr, arr + 3);
+
     std::cout << span3.shortestSpan() << std::endl;
     std::cout << span3.longestSpan() << std::endl;
     try

@@ -14,8 +14,7 @@ class Span
         {
             if (_vector.size() + std::distance(begin, end) > _vector.capacity())
                 throw std::out_of_range("can't store");
-            for (; begin != end; begin++)
-                _vector.push_back(*begin);
+            _vector.insert(_vector.end(), begin, end);
         }
         int     shortestSpan() const;
         int     longestSpan() const;
