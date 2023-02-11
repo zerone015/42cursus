@@ -141,6 +141,10 @@ class vector
                 _size = n;
             }
         }
+        bool empty() const
+        {
+            return _size == 0 ? true : false;
+        }
         size_type capacity() const
         {
             return _capacity;
