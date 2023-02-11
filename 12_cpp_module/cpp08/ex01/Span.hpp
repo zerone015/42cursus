@@ -12,10 +12,7 @@ class Span
         template <typename InputIt>
         void    addNumber(InputIt begin, InputIt end)
         {
-            int add_size = 0;
-            for (InputIt it = begin; it != end; it++)
-                add_size++;
-            if (_vector.size() + add_size > _vector.capacity())
+            if (_vector.size() + std::distance(begin, end) > _vector.capacity())
                 throw std::out_of_range("can't store");
             for (; begin != end; begin++)
                 _vector.push_back(*begin);
