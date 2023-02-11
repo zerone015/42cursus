@@ -3,7 +3,9 @@
 
 # include <memory>
 # include "iterator.hpp"
-# include <iostream>
+# include "is_integral.hpp"
+# include "enable_if.hpp"
+
 namespace ft
 {
 
@@ -38,21 +40,28 @@ class vector
         // default constructor
         explicit vector(const allocator_type& alloc = allocator_type()) : _allocator(alloc), _array(_allocator.allocate(0)), _capacity(0), _size(0) {}
         // fill constructor
-        explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _array(_allocator.allocate(n)), _capacity(n), _size(n)
+        explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _capacity(n), _size(n)
         {
+            _array = _allocator.allocate(_capacity);
             for (size_type i = 0; i < n; i++)
                 _allocator.construct(_array + i, val);
         }
         // range constructor
         template <typename InputIterator>
-        vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _allocator(alloc), _array(_allocator.allocate(ft::distance(first, last))), _capacity(ft::distance(first, last)), _size(0)
+        vector(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type& alloc = allocator_type()) : _allocator(alloc)
         {
-            this->assign(first, last);
+            _capacity = ft::distance(first, last);
+            _array = _allocator.allocate(_capacity);
+            _size = 0;
+            this->insert(this->end(), first, last);
         }
         // copy constructor
-        vector(const vector& src) : _allocator(src.get_allocator()), _array(_allocator.allocate(src.capacity())), _capacity(src.capacity()), _size(0)
+        vector(const vector& src) : _allocator(allocator_type(src.get_allocator()))
         {
-            this->assign(src.begin(), src.end());
+            _capacity = src.capacity();
+            _array = _allocator.allocate(_capacity);
+            _size = 0;
+            this->insert(this->end(), src.begin(), src.end());
         }
         // destructor
         ~vector()
@@ -63,7 +72,15 @@ class vector
         // copy assignment operator
         vector& operator=(const vector& src)
         {
-            this->assgin(src.begin(), src.end());
+            if (this == &src)
+		        return *this;
+            this->clear();
+            _allocator.deallocate(_array, _capacity);
+            _size = 0;
+            _capacity = src.capacity();
+            _array = _allocator.allocate(_capacity);
+            this->insert(this->end(), src.begin(), src.end());
+            return *this;
         }
 
         // Iterators

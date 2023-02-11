@@ -3,7 +3,7 @@
 #include "vector.hpp"
 int main()
 {
-    ft::vector<int> vector(3U, 96);
+    ft::vector<int> vector(3, 96);
 
     vector.reserve(5);
     std::cout << "size: " << vector.size() << std::endl;
