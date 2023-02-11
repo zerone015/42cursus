@@ -52,6 +52,24 @@ int main()
         std::cout << e.what() << '\n';
     }
 
+    std::cout << "------ span3 range addNumber ------" << std::endl;
+    Span span3(3);
+    int arr[3];
+    arr[0] = 44;
+    arr[1] = 55;
+    arr[2] = 66;
+    span3.addNumber(arr, arr + 3);
+    std::cout << span3.shortestSpan() << std::endl;
+    std::cout << span3.longestSpan() << std::endl;
+    try
+    {
+        span3.addNumber(arr, arr + 3);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << e.what() << '\n';
+    }
+    
     std::cout << "------ capacity 0 test ------" << std::endl;
     Span test;
     try
