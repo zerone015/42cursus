@@ -30,7 +30,7 @@ class vector
         pointer         _array;
         size_type       _capacity;
         size_type       _size;
-
+    private:
         void reserve_loop(size_type n)
         {
             if (n > this->max_size() - _size)
@@ -38,10 +38,27 @@ class vector
             while (n > (_capacity - _size))
                 this->reserve(_capacity * 2);
         }
-        void shift_right(iterator& position, size_type n)
+        void shift_left(iterator position, size_type n)
+        {
+            for (iterator it = position; it != this->end() - n; it++)
+                *it = *(it + n);
+        }
+        void shift_right(iterator position, size_type n)
         {
             for (iterator it = this->end() - 1; it >= position; it--)
                 *(it + n) = *it;
+        }
+        void allocator_destroy(iterator position)
+        {
+            _allocator.destroy(&(*position));
+        }
+        void allocator_destroy(iterator first, iterator last)
+        {
+            while (first != last)
+            {
+                _allocator.destroy(&(*first));
+                first++;
+            }
         }
     public:
         // default constructor
@@ -278,7 +295,22 @@ class vector
                 position++;
                 first++;
             }
-            this->_size += n;
+            _size += n;
+        }
+        iterator erase(iterator position)
+        {
+            this->allocator_destroy(position);
+            this->shift_left(position, 1);
+            _size--;
+            return position;
+        }
+        iterator erase(iterator first, iterator last)
+        {
+            difference_type n = ft::distance(first, last);
+            this->allocator_destroy(first, last);
+            this->shift_left(first, n);
+            _size -= n;
+            return first;
         }
 
         void clear()
