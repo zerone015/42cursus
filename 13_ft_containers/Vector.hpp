@@ -60,6 +60,15 @@ class vector
                 first++;
             }
         }
+        template <typename Type>
+        void	swap(Type &a, Type &b)
+        {
+            Type tmp;
+
+            tmp = a;
+            a = b;
+            b = tmp;
+        }
     public:
         // default constructor
         explicit vector(const allocator_type& alloc = allocator_type()) : _allocator(alloc), _array(_allocator.allocate(0)), _capacity(0), _size(0) {}
@@ -312,15 +321,31 @@ class vector
             _size -= n;
             return first;
         }
-
+        void swap(vector& x)
+        {
+            this->swap(_array, x._array);
+            this->swap(_allocator, x._allocator);
+            this->swap(_capacity, x._capacity);
+            this->swap(_size, x._size);
+        }
         void clear()
         {
-            for (iterator it = begin(); it != end(); it++)
-				_allocator.destroy(&(*it));
+            allocator_destroy(this->begin(), this->end());
 			_size = 0;
         }
-};
 
+        // Allocator
+        allocator_type get_allocator() const
+        {
+            return _allocator;
+        }
+};
+    // Non-member function overloads
+    template <typename T, typename Alloc> 
+    void swap(vector<T, Alloc>& x, vector<T, Alloc>& y)
+    {
+        x.swap(y);
+    }
 }
 
 #endif
