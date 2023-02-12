@@ -5,6 +5,8 @@
 # include "iterator.hpp"
 # include "is_integral.hpp"
 # include "enable_if.hpp"
+# include "equal.hpp"
+# include "lexicographical_compare.hpp"
 
 namespace ft
 {
@@ -341,6 +343,36 @@ class vector
         }
 };
     // Non-member function overloads
+    template <typename T, typename Alloc>
+    bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+    {
+        return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+    }
+    template <typename T, typename Alloc>
+    bool operator!=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+    {
+        return !(lhs == rhs);
+    }
+    template <typename T, typename Alloc>
+    bool operator<(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+    {
+        return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    }
+    template <typename T, typename Alloc>
+    bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+    {
+        return !(rhs < lhs);
+    }
+    template <typename T, typename Alloc>
+    bool operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+    {
+        return rhs < lhs;
+    }
+    template <typename T, typename Alloc>
+    bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+    {
+        return !(lhs < rhs);
+    }
     template <typename T, typename Alloc> 
     void swap(vector<T, Alloc>& x, vector<T, Alloc>& y)
     {
