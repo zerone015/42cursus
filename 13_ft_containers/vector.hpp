@@ -31,7 +31,7 @@ namespace ft
             pointer         _array;
             size_type       _capacity;
             size_type       _size;
-        private:
+
             void reserve_loop(size_type n)
             {
                 if (n > this->max_size() - _size)
