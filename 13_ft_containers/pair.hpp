@@ -26,11 +26,13 @@ namespace ft
             return *this;
         }
     };
+
     template <typename T1, typename T2>
     pair<T1, T2> make_pair(T1 x, T2 y)
     {
         return pair<T1, T2>(x, y);
     }
+    
     template <typename T1, typename T2>
     bool operator==(const pair<T1, T2>& lhs, const pair<T1, T2>& rhs)
     {
