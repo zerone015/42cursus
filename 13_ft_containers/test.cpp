@@ -7,6 +7,9 @@ int main()
     std::vector<int> vector2(3, 11);
 
     std::swap(vector, vector2);
+    std::vector<int> vector3;
+
+    std::cout << vector3.data() << std::endl;
     // ft::vector<int>::iterator a = vector.begin();
     // std::cout << "size: " << vector.size() << std::endl;
     // std::cout << "capacity: " << vector.capacity() << std::endl;

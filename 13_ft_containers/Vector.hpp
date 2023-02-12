@@ -71,7 +71,7 @@ class vector
         }
     public:
         // default constructor
-        explicit vector(const allocator_type& alloc = allocator_type()) : _allocator(alloc), _array(_allocator.allocate(0)), _capacity(0), _size(0) {}
+        explicit vector(const allocator_type& alloc = allocator_type()) : _allocator(alloc), _array(NULL), _capacity(0), _size(0) {}
         // fill constructor
         explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _capacity(n), _size(n)
         {
@@ -330,7 +330,7 @@ class vector
         }
         void clear()
         {
-            allocator_destroy(this->begin(), this->end());
+            this->allocator_destroy(this->begin(), this->end());
 			_size = 0;
         }
 
