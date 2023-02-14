@@ -53,7 +53,7 @@ namespace ft
             typedef typename Allocator::template rebind<node>::other        allocator_type;
             typedef typename allocator_type::size_type                      size_type;
             typedef Compare                                                 key_compare;
-            typedef _node<value_type>                                       _node;
+            typedef ft::_node<value_type>                                   _node;
         private:
             allocator_type  _allocator;
             key_compare     _comp;
@@ -384,6 +384,9 @@ namespace ft
                 fixRemoveRBTree(node);
                 return true;
             }
+
+            class const_iterator;
+
             class iterator
             {
                 public:
@@ -392,6 +395,7 @@ namespace ft
                     typedef std::ptrdiff_t              difference_type;
                     typedef T*                          pointer;
                     typedef T&                          reference;
+                    typedef ft::_node<value_type>       _node;
                 private:
                     pointer _cur;
                     bool    _is_end;
@@ -467,6 +471,96 @@ namespace ft
                         return this->_cur == rhs._cur && this->_is_end == rhs._is_end;
                     }
                     bool operator!=(const iterator& rhs) const
+                    {
+                        return !(*this == rhs);
+                    }
+            }
+
+            class const_iterator
+            {
+                public:
+                    typedef bidirectional_iterator_tag  iterator_category;
+                    typedef const T                     value_type;
+                    typedef std::ptrdiff_t              difference_type;
+                    typedef const T*                    pointer;
+                    typedef const T&                    reference;
+                    typedef ft::_node<value_type>       _node;
+                private:
+                    const pointer   _cur;
+                    bool            _is_end;
+                public:
+                    const_iterator() : _cur(NULL), _is_end(false) {}
+                    const_iterator(_node *node, bool is_end) : _cur(node), _is_end(is_end) {}
+                    const_iterator(const const_iterator& src) : _cur(src._cur), _is_end(src._is_end) {}
+                    const_iterator(const iterator& src) : _cur(src._cur), _is_end(src._is_end) {}
+                    const_iterator& operator=(const const_iterator& src)
+                    {
+                        _cur = src._cur;
+                        _is_end = src._is_end;
+                        return *this;
+                    }
+                    ~const_iterator() {}
+                    reference operator*() const
+                    {
+                        return _cur->data;
+                    }
+                    pointer operator->() const 
+                    {
+                        return &_cur->data;
+                    }
+                    const_iterator& operator++() 
+                    {
+                        if (_is_end)
+                            _is_end = false;
+                        else if (_cur->right)
+                            _cur = _cur->right->minValueNode();
+                        else
+                        {
+                            ptr = _cur;
+                            while (ptr->parent && ptr->parent->right == ptr)
+                                ptr = ptr->parent;
+                            if (ptr->parent == NULL)
+                                _is_end = true;
+                            else
+                                _cur = ptr->parent;
+                        }
+                        return *this;
+                    }
+                    const_iterator& operator--()
+                    {
+                        if (_is_end)
+                            _is_end = false;
+                        else if (_cur->left)
+                            _cur = _cur->left->maxValueNode();
+                        else
+                        {
+                            ptr = _cur;
+                            while (ptr->parent && ptr->parent->left == ptr)
+                                ptr = ptr->parent;
+                            if (ptr->parent == NULL)
+                                _is_end = true;
+                            else
+                                _cur = ptr->parent;
+                        }
+                        return *this;
+                    }
+                    const_iterator operator++(int)
+                    {
+                        const_iterator tmp(*this);
+                        ++*this;
+                        return tmp;
+                    }
+                    const_iterator operator--(int) 
+                    {
+                        const_iterator tmp(*this);
+                        --*this;
+                        return tmp;
+                    }
+                    bool operator==(const const_iterator& rhs) const
+                    {
+                        return this->_cur == rhs._cur && this->_is_end == rhs._is_end;
+                    }
+                    bool operator!=(const const_iterator& rhs) const
                     {
                         return !(*this == rhs);
                     }
