@@ -11,16 +11,6 @@ namespace ft
     struct bidirectional_iterator_tag : public forward_iterator_tag {};
     struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 
-    template <typename Category, typename T, typename Distance = std::ptrdiff_t, typename Pointer = T*, typename Reference = T&> 
-    struct iterator
-    {
-        typedef Category    iterator_category;
-        typedef T           value_type;
-        typedef Distance    difference_type;
-        typedef Pointer     pointer;
-        typedef Reference   reference;
-    };
-
     template <typename _Iter>
     struct iterator_traits
     {
@@ -174,14 +164,14 @@ namespace ft
     }
 
     template <typename T>
-    class random_access_iterator : public iterator<random_access_iterator_tag, T>
+    class random_access_iterator
     {
         public:
-			typedef typename iterator<random_access_iterator_tag, T>::iterator_category iterator_category;
-			typedef typename iterator<random_access_iterator_tag, T>::value_type        value_type;
-			typedef typename iterator<random_access_iterator_tag, T>::difference_type   difference_type;
-			typedef typename iterator<random_access_iterator_tag, T>::pointer           pointer;
-			typedef typename iterator<random_access_iterator_tag, T>::reference         reference;
+			typedef random_access_iterator_tag  iterator_category;
+			typedef T                           value_type;
+			typedef std::ptrdiff_t              difference_type;
+			typedef T*                          pointer;
+			typedef T&                          reference;
         protected:
             pointer _cur;
         public:
@@ -193,7 +183,7 @@ namespace ft
                 _cur = src._cur;
                 return *this;
             }
-            virtual ~random_access_iterator() {}
+            ~random_access_iterator() {}
             pointer base() const
             {
                 return _cur;
