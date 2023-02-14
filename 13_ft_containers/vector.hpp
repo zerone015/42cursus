@@ -2,7 +2,10 @@
 # define VECTOR_HPP
 
 # include <memory>
-# include "iterator.hpp"
+# include "distance.hpp"
+# include "iterator_traits.hpp"
+# include "random_access_iterator.hpp"
+# include "reverse_iterator.hpp"
 # include "is_integral.hpp"
 # include "enable_if.hpp"
 # include "equal.hpp"
