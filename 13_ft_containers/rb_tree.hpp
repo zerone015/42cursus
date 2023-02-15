@@ -366,13 +366,6 @@ namespace ft
                 removeTree(node->right);
                 removeNode(node);
             }
-        public:
-            rb_tree() : _allocator(allocator_type()), _comp(key_compare()), _root(NULL), _size(0) {};
-            rb_tree(allocator_type alloc, key_compare comp) : _allocator(alloc), _comp(comp), _root(NULL), _size(0) {};
-            ~rb_tree()
-            {
-                removeTree(_root);
-            }
             _node *findTarget(_node *cur, const value_type& target)
             {
                 if (cur == NULL)
@@ -383,6 +376,13 @@ namespace ft
                 else if (_comp(cur->data, target)) 
                     cur = findTarget(cur->right, target);
                 return cur;
+            }
+        public:
+            rb_tree() : _allocator(allocator_type()), _comp(key_compare()), _root(NULL), _size(0) {};
+            rb_tree(allocator_type alloc, key_compare comp) : _allocator(alloc), _comp(comp), _root(NULL), _size(0) {};
+            ~rb_tree()
+            {
+                removeTree(_root);
             }
             _node *get(const value_type& target) const
             {
