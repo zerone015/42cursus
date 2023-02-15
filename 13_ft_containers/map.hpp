@@ -41,6 +41,23 @@ namespace ft
                         return comp(lhs.first, rhs.first);
                     }
             };
+            private:
+                allocator_type                                          _allocator;
+                key_compare                                             _comp;
+                ft::rb_tree<value_type, key_compare, allocator_type>    _tree;
+            public:
+                explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _comp(comp), _tree(ft::rb_tree<value_type, key_compare, allocator_type>()) {}
+                template <typename InputIterator>
+                map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _comp(comp), _tree(ft::rb_tree<value_type, key_compare, allocator_type>())
+                {
+                    for (; first != last; first++)
+                        _tree.insert(*first);
+                }
+                map(const map& src) 
+                {
+                    *this = src;
+                }
+
     };
 }
 

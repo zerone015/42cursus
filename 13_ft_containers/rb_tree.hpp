@@ -31,15 +31,15 @@ namespace ft
         }
         _node *minValueNode() const
         {
-            _node node = _root;
-            while (node->left != null)
+            _node *node = this;
+            while (node->left != NULL)
                 node = node->left;
             return node;
         }
         _node *maxValueNode() const
         {
-            _node node = _root;
-            while (node->right != null)
+            _node *node = this;
+            while (node->right != NULL)
                 node = node->right;
             return node;
         }
@@ -49,11 +49,11 @@ namespace ft
     class rb_tree
     {
         public:
-            typedef T                                                       value_type;
-            typedef typename Allocator::template rebind<node>::other        allocator_type;
-            typedef typename allocator_type::size_type                      size_type;
-            typedef Compare                                                 key_compare;
-            typedef ft::_node<value_type>                                   _node;
+            typedef T                                                               value_type;
+            typedef typename Allocator::template rebind<_node<value_type> >::other  allocator_type;
+            typedef typename allocator_type::size_type                              size_type;
+            typedef Compare                                                         key_compare;
+            typedef ft::_node<value_type>                                           _node;
         private:
             allocator_type  _allocator;
             key_compare     _comp;
@@ -70,16 +70,6 @@ namespace ft
             {
                 _allocator.destroy(node);
                 _allocator.deallocate(node, 1);
-            }
-            void removeLeftSubTree(_node *sub_tree)
-            {
-                removeNode(sub_tree->left);
-                sub_tree->left = NULL;
-            }
-            void removeRightSubTree(_node *sub_tree)
-            {
-                removeNode(sub_tree->right);
-                sub_tree->right = NULL;
             }
             bool equal(const value_type& lhs, const value_type& rhs) const
             {
@@ -179,7 +169,7 @@ namespace ft
             {
                 _node *parent = NULL;
                 _node *grandparent = NULL;
-                while (new_node != root && new_node->getColor() == RED && new_node->parent->getColor() == RED) 
+                while (new_node != _root && new_node->getColor() == RED && new_node->parent->getColor() == RED) 
                 {
                     parent = new_node->parent;
                     grandparent = parent->parent;
@@ -208,7 +198,7 @@ namespace ft
                     } 
                     else 
                     {
-                        Node *uncle = grandparent->left;
+                        _node *uncle = grandparent->left;
                         if (uncle->getColor() == RED)
                         {
                             uncle->setColor(BLACK);
@@ -239,7 +229,7 @@ namespace ft
 
                 if (node == _root)
                 {
-                    root = NULL;
+                    _root = NULL;
                     return ;
                 }
 
@@ -270,7 +260,7 @@ namespace ft
                     _node *parent = NULL;
                     _node *ptr = node;
                     ptr->setColor(DOUBLE_BLACK);
-                    while (ptr != root && ptr->getColor() == DOUBLE_BLACK)
+                    while (ptr != _root && ptr->getColor() == DOUBLE_BLACK)
                     {
                         parent = ptr->parent;
                         if (ptr == parent->left)
@@ -353,7 +343,7 @@ namespace ft
                     else
                         node->parent->right = NULL;
                     removeNode(node);
-                    root->setColor(BLACK);
+                    _root->setColor(BLACK);
                 }
             }
         public:
@@ -377,7 +367,7 @@ namespace ft
             }
             bool remove(const value_type& target)
             {
-                _node *node = removeBST(data);
+                _node *node = removeBST(target);
                 if (node == NULL)
                     return false;
                 _size--;
@@ -426,7 +416,7 @@ namespace ft
                             _cur = _cur->right->minValueNode();
                         else
                         {
-                            ptr = _cur;
+                            pointer ptr = _cur;
                             while (ptr->parent && ptr->parent->right == ptr)
                                 ptr = ptr->parent;
                             if (ptr->parent == NULL)
@@ -444,7 +434,7 @@ namespace ft
                             _cur = _cur->left->maxValueNode();
                         else
                         {
-                            ptr = _cur;
+                            pointer ptr = _cur;
                             while (ptr->parent && ptr->parent->left == ptr)
                                 ptr = ptr->parent;
                             if (ptr->parent == NULL)
@@ -474,7 +464,7 @@ namespace ft
                     {
                         return !(*this == rhs);
                     }
-            }
+            };
 
             class const_iterator
             {
@@ -516,7 +506,7 @@ namespace ft
                             _cur = _cur->right->minValueNode();
                         else
                         {
-                            ptr = _cur;
+                            pointer ptr = _cur;
                             while (ptr->parent && ptr->parent->right == ptr)
                                 ptr = ptr->parent;
                             if (ptr->parent == NULL)
@@ -534,7 +524,7 @@ namespace ft
                             _cur = _cur->left->maxValueNode();
                         else
                         {
-                            ptr = _cur;
+                            pointer ptr = _cur;
                             while (ptr->parent && ptr->parent->left == ptr)
                                 ptr = ptr->parent;
                             if (ptr->parent == NULL)
@@ -564,7 +554,7 @@ namespace ft
                     {
                         return !(*this == rhs);
                     }
-            }
+            };
     };
 }
 
