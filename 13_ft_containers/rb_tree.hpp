@@ -2,6 +2,7 @@
 # define RB_TREE_HPP
 
 # include <cstddef>
+# include <memory>
 # include "iterator_tag.hpp"
 
 namespace ft
@@ -49,28 +50,39 @@ namespace ft
         }
     };
 
+    template <typename T>
+    void swap(T& a, T& b)
+    {
+        T temp;
+
+        temp = a;
+        a = b;
+        b = temp;
+    }
+
     template <typename T, typename Compare, typename Allocator>
     class rb_tree
     {
         public:
+            typedef ft::_node<T>                                                    _Node;
+            typedef ft::_node<T>*                                                   _Nodeptr;
             typedef T                                                               value_type;
-            typedef typename Allocator::template rebind<_node<value_type> >::other  allocator_type;
+            typedef typename Allocator::template rebind<_Node>::other               allocator_type;
             typedef typename allocator_type::size_type                              size_type;
             typedef Compare                                                         key_compare;
-            typedef ft::_node<value_type>                                           _node;
         private:
             allocator_type  _allocator;
             key_compare     _comp;
-            _node          *_root;
+            _Nodeptr        _root;
             size_type       _size;
         private:
-            _node *createNode(const value_type& data) const
+            _Nodeptr createNode(const value_type& data)
             {
-                _node   *node = _allocator.allocate(1);
-                _allocator.construct(node, _node(data));
+                _Nodeptr node = _allocator.allocate(1);
+                _allocator.construct(node, _Node(data));
                 return node;
             }
-            void removeNode(_node *node)
+            void removeNode(_Nodeptr node)
             {
                 _allocator.destroy(node);
                 _allocator.deallocate(node, 1);
@@ -81,20 +93,12 @@ namespace ft
                     return true;
                 return false;
             }
-            void switchColor(_node *a, _node *b)
+            bool insertBST(_Nodeptr new_node)
             {
-                enum color temp;
-
-                temp = a->getColor();
-                a->setColor(b->getColor());
-                b->setColor(temp);
-            }
-            bool insertBST(_node *new_node)
-            {
-                _node *cur = _root;
+                _Nodeptr cur = _root;
                 while (1)
                 {
-                    if (this->equal(cur->data, new_node->data, _comp))
+                    if (this->equal(cur->data, new_node->data))
                         return false;
                     if (_comp(new_node->data, cur->data))
                     {
@@ -119,7 +123,7 @@ namespace ft
                 }
                 return true;
             }
-            _node *removeBST(_node *root, const value_type &data)
+            _Nodeptr removeBST(_Nodeptr root, const value_type &data)
             {
                 if (root == NULL)
                     return NULL;
@@ -133,13 +137,13 @@ namespace ft
                 if (root->left == NULL || root->right == NULL)
                     return root;
 
-                _node *temp = root->right->getMinNode();
+                _Nodeptr temp = root->right->getMinNode();
                 root->data = temp->data;
                 return removeBST(root->right, temp->data);
             }
-            void rotateLeft(_node *node)
+            void rotateLeft(_Nodeptr node)
             {
-                _node *right_child = node->right;
+                _Nodeptr right_child = node->right;
                 node->right = right_child->left;
 
                 if (node->right != NULL)
@@ -157,9 +161,9 @@ namespace ft
                 right_child->left = node;
                 node->parent = right_child;
             }
-            void rotateRight(_node *node)
+            void rotateRight(_Nodeptr node)
             {
-                _node *left_child = node->left;
+                _Nodeptr left_child = node->left;
                 node->left = left_child->right;
 
                 if (node->left != NULL)
@@ -177,17 +181,17 @@ namespace ft
                 left_child->right = node;
                 node->parent = left_child;
             }
-            void fixInsertRBTree(_node *new_node)
+            void fixInsertRBTree(_Nodeptr new_node)
             {
-                _node *parent = NULL;
-                _node *grandparent = NULL;
+                _Nodeptr parent = NULL;
+                _Nodeptr grandparent = NULL;
                 while (new_node != _root && new_node->getColor() == RED && new_node->parent->getColor() == RED) 
                 {
                     parent = new_node->parent;
                     grandparent = parent->parent;
                     if (parent == grandparent->left)
                     {
-                        _node *uncle = grandparent->right;
+                        _Nodeptr uncle = grandparent->right;
                         if (uncle->getColor() == RED) 
                         {
                             uncle->setColor(BLACK);
@@ -204,13 +208,13 @@ namespace ft
                                 parent = new_node->parent;
                             }
                             rotateRight(grandparent);
-                            switchColor(parent, grandparent);
+                            ft::swap(parent->color, grandparent->color);
                             new_node = parent;
                         }
                     } 
                     else 
                     {
-                        _node *uncle = grandparent->left;
+                        _Nodeptr uncle = grandparent->left;
                         if (uncle->getColor() == RED)
                         {
                             uncle->setColor(BLACK);
@@ -227,14 +231,14 @@ namespace ft
                                 parent = new_node->parent;
                             }
                             rotateLeft(grandparent);
-                            switchColor(parent, grandparent);
+                            ft::swap(parent->color, grandparent->color);
                             new_node = parent;
                         }
                     }
                 }
                 _root->setColor(BLACK);
             }
-            void fixRemoveRBTree(_node *node)
+            void fixRemoveRBTree(_Nodeptr node)
             {
                 if (node == NULL)
                     return ;
@@ -247,7 +251,7 @@ namespace ft
 
                 if (node->getColor() == RED || node->left->getColor() == RED || node->right->getColor() == RED)
                 {
-                    _node *child = node->left != NULL ? node->left : node->right;
+                    _Nodeptr child = node->left != NULL ? node->left : node->right;
 
                     if (node == node->parent->left)
                     {
@@ -268,9 +272,9 @@ namespace ft
                 } 
                 else 
                 {
-                    _node *sibling = NULL;
-                    _node *parent = NULL;
-                    _node *ptr = node;
+                    _Nodeptr sibling = NULL;
+                    _Nodeptr parent = NULL;
+                    _Nodeptr ptr = node;
                     ptr->setColor(DOUBLE_BLACK);
                     while (ptr != _root && ptr->getColor() == DOUBLE_BLACK)
                     {
@@ -358,7 +362,7 @@ namespace ft
                     _root->setColor(BLACK);
                 }
             }
-            void removeTree(_node *node)
+            void removeTree(_Nodeptr node)
             {
                 if (node == NULL)
                     return ;
@@ -366,7 +370,7 @@ namespace ft
                 removeTree(node->right);
                 removeNode(node);
             }
-            _node *findTarget(_node *cur, const value_type& target)
+            _Nodeptr findTarget(_Nodeptr cur, const value_type& target) const
             {
                 if (cur == NULL)
                     return NULL;
@@ -384,7 +388,7 @@ namespace ft
             {
                 removeTree(_root);
             }
-            _node *get(const value_type& target) const
+            _Nodeptr get(const value_type& target) const
             {
                 return findTarget(_root, target);
             }
@@ -394,10 +398,11 @@ namespace ft
             }
             bool insert(value_type data)
             {
-                _node *new_node = createNode(data);
+                _Nodeptr new_node = createNode(data);
                 if (_root == NULL)
                 {
                     _root = new_node;
+                    _size++;
                     return true;
                 }
                 if (!insertBST(new_node))
@@ -411,7 +416,7 @@ namespace ft
             }
             bool remove(const value_type& target)
             {
-                _node *node = removeBST(target);
+                _Nodeptr node = removeBST(target);
                 if (node == NULL)
                     return false;
                 _size--;
@@ -428,25 +433,18 @@ namespace ft
             {
                 return _size;
             }
-            _node *getMinNode() const
+            _Nodeptr getMinNode() const
             {
                 return _root->getMinNode();
             }
-            _node *getMaxNode() const
+            _Nodeptr getMaxNode() const
             {
                 return _root->getMaxNode();
             }
             void swap(rb_tree<T, Compare, Allocator> &x)
             {
-                _node       *root_temp;
-                size_type   size_temp;
-
-                root_temp = _root;
-                size_temp = _size;
-                _root = x._root;
-                _size = x._size;
-                x._root = root_temp;
-                x._size = size_temp;
+                ft::swap(_root, x._root);
+                ft::swap(_size, x._size);
             }
 
             class const_iterator;
@@ -459,13 +457,14 @@ namespace ft
                     typedef std::ptrdiff_t              difference_type;
                     typedef T*                          pointer;
                     typedef T&                          reference;
-                    typedef ft::_node<value_type>       _node;
+                    typedef ft::_node<value_type>       _Node;
+                    typedef ft::_node<value_type>*      _Nodeptr;
                 private:
-                    pointer _cur;
+                    _Nodeptr _cur;
                     bool    _is_end;
                 public:
                     iterator() : _cur(NULL), _is_end(true) {}
-                    iterator(_node *node, bool is_end) : _cur(node), _is_end(is_end) {}
+                    iterator(_Nodeptr node, bool is_end) : _cur(node), _is_end(is_end) {}
                     iterator(const iterator& src) : _cur(src._cur), _is_end(src._is_end) {}
                     iterator& operator=(const iterator& src)
                     {
@@ -490,7 +489,7 @@ namespace ft
                             _cur = _cur->right->getMinNode();
                         else
                         {
-                            pointer ptr = _cur;
+                            _Nodeptr ptr = _cur;
                             while (ptr->parent && ptr->parent->right == ptr)
                                 ptr = ptr->parent;
                             if (ptr->parent == NULL)
@@ -508,7 +507,7 @@ namespace ft
                             _cur = _cur->left->getMaxNode();
                         else
                         {
-                            pointer ptr = _cur;
+                            _Nodeptr ptr = _cur;
                             while (ptr->parent && ptr->parent->left == ptr)
                                 ptr = ptr->parent;
                             if (ptr->parent == NULL)
@@ -548,13 +547,14 @@ namespace ft
                     typedef std::ptrdiff_t              difference_type;
                     typedef const T*                    pointer;
                     typedef const T&                    reference;
-                    typedef ft::_node<value_type>       _node;
+                    typedef ft::_node<value_type>       _Node;
+                    typedef ft::_node<value_type>*      _Nodeptr;
                 private:
-                    const pointer   _cur;
+                    const _Nodeptr  _cur;
                     bool            _is_end;
                 public:
                     const_iterator() : _cur(NULL), _is_end(false) {}
-                    const_iterator(_node *node, bool is_end) : _cur(node), _is_end(is_end) {}
+                    const_iterator(_Nodeptr *node, bool is_end) : _cur(node), _is_end(is_end) {}
                     const_iterator(const const_iterator& src) : _cur(src._cur), _is_end(src._is_end) {}
                     const_iterator(const iterator& src) : _cur(src._cur), _is_end(src._is_end) {}
                     const_iterator& operator=(const const_iterator& src)
@@ -580,7 +580,7 @@ namespace ft
                             _cur = _cur->right->getMinNode();
                         else
                         {
-                            pointer ptr = _cur;
+                            const _Nodeptr ptr = _cur;
                             while (ptr->parent && ptr->parent->right == ptr)
                                 ptr = ptr->parent;
                             if (ptr->parent == NULL)
@@ -598,7 +598,7 @@ namespace ft
                             _cur = _cur->left->getMaxNode();
                         else
                         {
-                            pointer ptr = _cur;
+                            const _Nodeptr ptr = _cur;
                             while (ptr->parent && ptr->parent->left == ptr)
                                 ptr = ptr->parent;
                             if (ptr->parent == NULL)

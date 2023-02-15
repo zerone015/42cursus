@@ -1,6 +1,7 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
+# include <memory>
 # include <functional>
 # include "pair.hpp"
 # include "lexicographical_compare.hpp"
