@@ -362,22 +362,22 @@ namespace ft
     template <typename T, typename Alloc>
     bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
     {
-        return !(rhs < lhs);
+        return (lhs == rhs) || (lhs < rhs);
     }
     template <typename T, typename Alloc>
     bool operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
     {
-        return rhs < lhs;
+        return !(lhs <= rhs);
     }
     template <typename T, typename Alloc>
     bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
     {
-        return !(lhs < rhs);
+        return (lhs == rhs) || (lhs > rhs);
     }
     template <typename T, typename Alloc> 
-    void swap(vector<T, Alloc>& x, vector<T, Alloc>& y)
+    void swap(vector<T, Alloc>& lhs, vector<T, Alloc>& rhs)
     {
-        x.swap(y);
+        lhs.swap(rhs);
     }
 }
 
