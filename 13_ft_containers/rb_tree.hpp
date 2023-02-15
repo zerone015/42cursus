@@ -29,14 +29,14 @@ namespace ft
         {
             this->color = color;
         }
-        _node *minValueNode() const
+        _node *getMinNode() const
         {
             _node *node = this;
             while (node->left != NULL)
                 node = node->left;
             return node;
         }
-        _node *maxValueNode() const
+        _node *getMaxNode() const
         {
             _node *node = this;
             while (node->right != NULL)
@@ -76,6 +76,14 @@ namespace ft
                 if (!_comp(lhs, rhs) && !_comp(rhs, lhs))
                     return true;
                 return false;
+            }
+            void switchColor(_node *a, _node *b)
+            {
+                enum color temp;
+
+                temp = a->getColor();
+                a->setColor(b->getColor());
+                b->setColor(temp);
             }
             _node *insertBST(_node *new_node)
             {
@@ -121,7 +129,7 @@ namespace ft
                 if (root->left == NULL || root->right == NULL)
                     return root;
 
-                _node *temp = root->right->minValueNode();
+                _node *temp = root->right->getMinNode();
                 root->data = temp->data;
                 return removeBST(root->right, temp->data);
             }
@@ -192,7 +200,7 @@ namespace ft
                                 parent = new_node->parent;
                             }
                             rotateRight(grandparent);
-                            swap(parent->getColor(), grandparent->getColor());
+                            switchColor(parent, grandparent);
                             new_node = parent;
                         }
                     } 
@@ -215,7 +223,7 @@ namespace ft
                                 parent = new_node->parent;
                             }
                             rotateLeft(grandparent);
-                            swap(parent->getColor(), grandparent->getColor());
+                            switchColor(parent, grandparent);
                             new_node = parent;
                         }
                     }
@@ -346,8 +354,21 @@ namespace ft
                     _root->setColor(BLACK);
                 }
             }
+            void removeTree(_node *node)
+            {
+                if (node == NULL)
+                    return ;
+                removeTree(node->left);
+                removeTree(node->right);
+                removeNode(node);
+            }
         public:
             rb_tree() : _allocator(allocator_type()), _comp(key_compare()), _root(NULL), _size(0) {};
+            rb_tree(allocator_type alloc, key_compare comp) : _allocator(alloc), _comp(comp), _root(NULL), _size(0) {};
+            ~rb_tree()
+            {
+                removeTree(_root);
+            }
             _node *insert(value_type data)
             {
                 _node *new_node = createNode(data);
@@ -374,6 +395,24 @@ namespace ft
                 fixRemoveRBTree(node);
                 return true;
             }
+            void clear()
+            {
+                removeTree(_root);
+                _root = NULL;
+                _size = 0;
+            }
+            size_type size() const
+            {
+                return _size;
+            }
+            _node *getMinNode() const
+            {
+                return _root->getMinNode();
+            }
+            _node *getMaxNode() const
+            {
+                return _root->getMaxNode();
+            }
 
             class const_iterator;
 
@@ -390,7 +429,7 @@ namespace ft
                     pointer _cur;
                     bool    _is_end;
                 public:
-                    iterator() : _cur(NULL), _is_end(false) {}
+                    iterator() : _cur(NULL), _is_end(true) {}
                     iterator(_node *node, bool is_end) : _cur(node), _is_end(is_end) {}
                     iterator(const iterator& src) : _cur(src._cur), _is_end(src._is_end) {}
                     iterator& operator=(const iterator& src)
@@ -413,7 +452,7 @@ namespace ft
                         if (_is_end)
                             _is_end = false;
                         else if (_cur->right)
-                            _cur = _cur->right->minValueNode();
+                            _cur = _cur->right->getMinNode();
                         else
                         {
                             pointer ptr = _cur;
@@ -431,7 +470,7 @@ namespace ft
                         if (_is_end)
                             _is_end = false;
                         else if (_cur->left)
-                            _cur = _cur->left->maxValueNode();
+                            _cur = _cur->left->getMaxNode();
                         else
                         {
                             pointer ptr = _cur;
@@ -503,7 +542,7 @@ namespace ft
                         if (_is_end)
                             _is_end = false;
                         else if (_cur->right)
-                            _cur = _cur->right->minValueNode();
+                            _cur = _cur->right->getMinNode();
                         else
                         {
                             pointer ptr = _cur;
@@ -521,7 +560,7 @@ namespace ft
                         if (_is_end)
                             _is_end = false;
                         else if (_cur->left)
-                            _cur = _cur->left->maxValueNode();
+                            _cur = _cur->left->getMaxNode();
                         else
                         {
                             pointer ptr = _cur;
