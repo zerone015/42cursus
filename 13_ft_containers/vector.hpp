@@ -44,12 +44,12 @@ namespace ft
             }
             void shift_left(iterator position, size_type n)
             {
-                for (iterator it = position; it != this->end() - n; it++)
+                for (iterator it = position; it != this->end() - n; ++it)
                     *it = *(it + n);
             }
             void shift_right(iterator position, size_type n)
             {
-                for (iterator it = this->end() - 1; it >= position; it--)
+                for (iterator it = this->end() - 1; it >= position; --it)
                     *(it + n) = *it;
             }
             void allocator_destroy(iterator position)
@@ -61,7 +61,7 @@ namespace ft
                 while (first != last)
                 {
                     _allocator.destroy(&(*first));
-                    first++;
+                    ++first;
                 }
             }
             template <typename Type>
@@ -80,7 +80,7 @@ namespace ft
             explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _capacity(n), _size(n)
             {
                 _array = _allocator.allocate(_capacity);
-                for (size_type i = 0; i < n; i++)
+                for (size_type i = 0; i < n; ++i)
                     _allocator.construct(_array + i, val);
             }
             // range constructor
@@ -173,7 +173,7 @@ namespace ft
                 }
                 else if (n < _size)
                 {
-                    for (size_type i = n; i < _size; i++)
+                    for (size_type i = n; i < _size; ++i)
                         _allocator.destroy(_array + i);
                     _size = n;
                 }
@@ -193,9 +193,9 @@ namespace ft
                 if (n > _capacity)
                 {
                     pointer new_array = _allocator.allocate(n);
-                    for (size_type i = 0; i < _size; i++)
+                    for (size_type i = 0; i < _size; ++i)
                         _allocator.construct(new_array + i, *(_array + i));
-                    for (size_type i = 0; i < _size; i++)
+                    for (size_type i = 0; i < _size; ++i)
                         _allocator.destroy(_array + i);
                     _allocator.deallocate(_array, _capacity);
                     _capacity = n;
@@ -254,7 +254,7 @@ namespace ft
             void assign(InputIterator first, InputIterator last)
             {
                 this->clear();
-                for (; first != last; first++)
+                for (; first != last; ++first)
                     this->push_back(*first);
             }
             void assign(size_type n, const value_type& val)
@@ -290,7 +290,7 @@ namespace ft
                 this->reserve_loop(n);
                 position = this->begin() + pos;
                 this->shift_right(position, n);
-                for (size_type i = 0; i < n; i++)
+                for (size_type i = 0; i < n; ++i)
                     *(position + i) = val;
                 _size += n;
             }
@@ -305,8 +305,8 @@ namespace ft
                 while (first != last)
                 {
                     *position = *first;
-                    position++;
-                    first++;
+                    ++position;
+                    ++first;
                 }
                 _size += n;
             }
@@ -328,7 +328,6 @@ namespace ft
             void swap(vector& x)
             {
                 this->swap(_array, x._array);
-                this->swap(_allocator, x._allocator);
                 this->swap(_capacity, x._capacity);
                 this->swap(_size, x._size);
             }

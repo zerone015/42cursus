@@ -9,8 +9,8 @@ namespace ft
 	typename ft::iterator_traits<InputIt>::difference_type distance(InputIt first, InputIt last)
     {
 		typename ft::iterator_traits<InputIt>::difference_type ret = 0;
-        for (; first != last; first++)
-            ret++;
+        for (; first != last; ++first)
+            ++ret;
 		return ret;
 	}
 }

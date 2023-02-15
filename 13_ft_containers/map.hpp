@@ -44,16 +44,17 @@ namespace ft
             };
             private:
                 allocator_type                                          _allocator;
-                key_compare                                             _comp;
+                key_compare                                             _key_comp;
+                value_compare                                           _val_comp;
                 ft::rb_tree<value_type, value_compare, allocator_type>  _tree;
             public:
                 // default constructor
-                explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _comp(comp), _tree(alloc, value_compare(_comp)) {}
+                explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _key_comp(comp), _val_comp(value_compare(_key_comp)), _tree(alloc, _val_comp) {}
                 // range constructor
                 template <typename InputIterator>
-                map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _comp(comp), _tree(alloc, value_compare(_comp))
+                map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _key_comp(comp), _val_comp(value_compare(_key_comp)), _tree(alloc, _val_comp)
                 {
-                    for (; first != last; first++)
+                    for (; first != last; ++first)
                         _tree.insert(*first);
                 }
                 // copy constructor
@@ -65,9 +66,10 @@ namespace ft
                 map& operator=(const map& src)
                 {
                     _allocator = src._allocator;
-                    _comp = src._comp;
+                    _key_comp = src._key_comp;
+                    _val_comp = src._val_comp;
                     _tree.clear();
-                    for (iterator it = src.begin(); it != src.end(); it++)
+                    for (iterator it = src.begin(); it != src.end(); ++it)
                         _tree.insert(*it);
                     return *this;
                 }
@@ -127,6 +129,69 @@ namespace ft
                     return _allocator.max_size();
                 }
 
+                // Element access
+                mapped_type& operator[](const key_type& key)
+                {
+                    ft::pair<iterator, bool> pair = insert(ft::make_pair(key, mapped_type()));
+                    return pair.first->second;
+                }
+                mapped_type& at(const key_type& key)
+                {
+                    _node<value_type> *node = _tree.get(ft::make_pair(key, mapped_type()));
+                    if (!node)
+                        throw std::out_of_range("ft::map::at:  key not found");
+                    return node->getData().second;
+                }
+                const mapped_type& at(const key_type& key) const
+                {
+                    _node<value_type> *node = _tree.get(ft::make_pair(key, mapped_type()));
+                    if (!node)
+                        throw std::out_of_range("ft::map::at:  key not found");
+                    return node->getData().second;
+                }
+
+                // Modifiers
+                ft::pair<iterator, bool> insert(const value_type& val)
+                {
+                    ft::pair<iterator, bool> ret;
+
+                    ret.second = _tree.insert(val);
+                    ret.first = iterator(_tree.get(val), false);
+                    return ret;
+                }
+                iterator insert(iterator position, const value_type& val)
+                {
+                    static_cast<void>(position);
+                    _tree.insert(val);
+                    return iterator(_tree.get(val), false);
+                }
+                template <typename InputIterator>
+                void insert(InputIterator first, InputIterator last)
+                {
+                    for (; first != last; ++first)
+                        _tree.insert(*first);
+                }
+                void erase(iterator position)
+                {
+                    _tree.remove(*position);
+                }
+                size_type erase(const key_type& key)
+                {
+                    return _tree.remove(ft::make_pair(key, mapped_type()));
+                }
+                void erase(iterator first, iterator last)
+                {
+                    for (; first != last; ++first)
+                        _tree.remove(*first);
+                }
+                void swap(map& x)
+                {
+                    _tree.swap(x._tree);
+                }
+                void clear()
+                {
+                    _tree.clear();
+                }
     };
 }
 

@@ -29,6 +29,10 @@ namespace ft
         {
             this->color = color;
         }
+        value_type getData() const
+        {
+            return data;
+        }
         _node *getMinNode() const
         {
             _node *node = this;
@@ -71,13 +75,13 @@ namespace ft
                 _allocator.destroy(node);
                 _allocator.deallocate(node, 1);
             }
-            bool equal(const value_type& lhs, const value_type& rhs) const
+            bool equal(const value_type& lhs, const value_type& rhs)
             {
                 if (!_comp(lhs, rhs) && !_comp(rhs, lhs))
                     return true;
                 return false;
             }
-            void swapColor(_node *a, _node *b)
+            void switchColor(_node *a, _node *b)
             {
                 enum color temp;
 
@@ -85,13 +89,13 @@ namespace ft
                 a->setColor(b->getColor());
                 b->setColor(temp);
             }
-            _node *insertBST(_node *new_node)
+            bool insertBST(_node *new_node)
             {
                 _node *cur = _root;
                 while (1)
                 {
-                    if (equal(cur->data, new_node->data))
-                        return NULL;
+                    if (this->equal(cur->data, new_node->data, _comp))
+                        return false;
                     if (_comp(new_node->data, cur->data))
                     {
                         if (cur->left == NULL)
@@ -113,7 +117,7 @@ namespace ft
                         cur = cur->right;
                     }
                 }
-                return new_node;
+                return true;
             }
             _node *removeBST(_node *root, const value_type &data)
             {
@@ -200,7 +204,7 @@ namespace ft
                                 parent = new_node->parent;
                             }
                             rotateRight(grandparent);
-                            swapColor(parent, grandparent);
+                            switchColor(parent, grandparent);
                             new_node = parent;
                         }
                     } 
@@ -223,7 +227,7 @@ namespace ft
                                 parent = new_node->parent;
                             }
                             rotateLeft(grandparent);
-                            swapColor(parent, grandparent);
+                            switchColor(parent, grandparent);
                             new_node = parent;
                         }
                     }
@@ -369,22 +373,37 @@ namespace ft
             {
                 removeTree(_root);
             }
-            _node *insert(value_type data)
+            _node *findTarget(_node *cur, const value_type& target)
+            {
+                if (cur == NULL)
+                    return NULL;
+
+                if (_comp(target, cur->data)) 
+                    cur = findTarget(cur->left, target);
+                else if (_comp(cur->data, target)) 
+                    cur = findTarget(cur->right, target);
+                return cur;
+            }
+            _node *get(const value_type& target) const
+            {
+                return findTarget(_root, target);
+            }
+            bool insert(value_type data)
             {
                 _node *new_node = createNode(data);
                 if (_root == NULL)
                 {
                     _root = new_node;
-                    return _root;
+                    return true;
                 }
-                if (insertBST(new_node) == NULL)
+                if (!insertBST(new_node))
                 {
                     removeNode(new_node);
-                    return NULL;
+                    return false;
                 }
                 _size++;
                 fixInsertRBTree(new_node);
-                return new_node;
+                return true;
             }
             bool remove(const value_type& target)
             {
@@ -412,6 +431,18 @@ namespace ft
             _node *getMaxNode() const
             {
                 return _root->getMaxNode();
+            }
+            void swap(rb_tree<T, Compare, Allocator> &x)
+            {
+                _node       *root_temp;
+                size_type   size_temp;
+
+                root_temp = _root;
+                size_temp = _size;
+                _root = x._root;
+                _size = x._size;
+                x._root = root_temp;
+                x._size = size_temp;
             }
 
             class const_iterator;
