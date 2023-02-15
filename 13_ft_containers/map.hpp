@@ -39,12 +39,13 @@ namespace ft
             {
                 protected:
                     Compare comp;
-                public:
                     value_compare(Compare c) : comp(c) {}
+                public:
                     bool operator()(const value_type& lhs, const value_type& rhs) const
                     {
                         return comp(lhs.first, rhs.first);
                     }
+                friend class map;
             };
             private:
                 allocator_type                                          _allocator;
