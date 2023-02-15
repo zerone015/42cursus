@@ -118,6 +118,14 @@ namespace ft
                 {
                     return _tree.size() == 0 ? true : false;
                 }
+                size_type size() const
+                {
+                    return _tree.size();
+                }
+                size_type max_size() const
+                {
+                    return _allocator.max_size();
+                }
 
     };
 }

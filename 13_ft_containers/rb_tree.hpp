@@ -77,7 +77,7 @@ namespace ft
                     return true;
                 return false;
             }
-            void switchColor(_node *a, _node *b)
+            void swapColor(_node *a, _node *b)
             {
                 enum color temp;
 
@@ -200,7 +200,7 @@ namespace ft
                                 parent = new_node->parent;
                             }
                             rotateRight(grandparent);
-                            switchColor(parent, grandparent);
+                            swapColor(parent, grandparent);
                             new_node = parent;
                         }
                     } 
@@ -223,7 +223,7 @@ namespace ft
                                 parent = new_node->parent;
                             }
                             rotateLeft(grandparent);
-                            switchColor(parent, grandparent);
+                            swapColor(parent, grandparent);
                             new_node = parent;
                         }
                     }
