@@ -3,6 +3,7 @@
 
 # include <functional>
 # include "pair.hpp"
+# include "lexicographical_compare.hpp"
 # include "iterator_traits.hpp"
 # include "reverse_iterator.hpp"
 # include "rb_tree.hpp"
