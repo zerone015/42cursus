@@ -30,6 +30,8 @@ namespace ft
             typedef ft::reverse_iterator<const_iterator>                                            const_reverse_iterator;
             typedef typename ft::iterator_traits<iterator>::difference_type                         difference_type;
             typedef typename allocator_type::size_type                                              size_type;
+            typedef _node<value_type>*                                                              _Nodeptr;
+
 
             class value_compare : public std::binary_function<value_type, value_type, bool>
             {
@@ -44,15 +46,14 @@ namespace ft
             };
             private:
                 allocator_type                                          _allocator;
-                key_compare                                             _key_comp;
-                value_compare                                           _val_comp;
+                key_compare                                             _comp;
                 ft::rb_tree<value_type, value_compare, allocator_type>  _tree;
             public:
                 // default constructor
-                explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _key_comp(comp), _val_comp(value_compare(_key_comp)), _tree(alloc, _val_comp) {}
+                explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _comp(comp), _tree(alloc, value_compare(_comp)) {}
                 // range constructor
                 template <typename InputIterator>
-                map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _key_comp(comp), _val_comp(value_compare(_key_comp)), _tree(alloc, _val_comp)
+                map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _comp(comp), _tree(alloc, value_compare(_comp))
                 {
                     for (; first != last; ++first)
                         _tree.insert(*first);
@@ -66,8 +67,7 @@ namespace ft
                 map& operator=(const map& src)
                 {
                     _allocator = src._allocator;
-                    _key_comp = src._key_comp;
-                    _val_comp = src._val_comp;
+                    _comp = src._comp;
                     _tree.clear();
                     for (iterator it = src.begin(); it != src.end(); ++it)
                         _tree.insert(*it);
@@ -137,14 +137,14 @@ namespace ft
                 }
                 mapped_type& at(const key_type& key)
                 {
-                    _node<value_type> *node = _tree.get(ft::make_pair(key, mapped_type()));
+                    _Nodeptr node = _tree.get(ft::make_pair(key, mapped_type()));
                     if (!node)
                         throw std::out_of_range("ft::map::at:  key not found");
                     return node->getData().second;
                 }
                 const mapped_type& at(const key_type& key) const
                 {
-                    _node<value_type> *node = _tree.get(ft::make_pair(key, mapped_type()));
+                    _Nodeptr node = _tree.get(ft::make_pair(key, mapped_type()));
                     if (!node)
                         throw std::out_of_range("ft::map::at:  key not found");
                     return node->getData().second;
@@ -192,7 +192,96 @@ namespace ft
                 {
                     _tree.clear();
                 }
+
+                // Observers
+                key_compare key_comp() const
+                {
+                    return key_compare(_comp);
+                }
+                value_compare value_comp() const
+                {
+                    return value_compare(_comp);
+                }
+
+                // Operations
+                iterator find(const key_type& key)
+                {
+                    _Nodeptr node = _tree.get(ft::make_pair(key, mapped_type()));
+                    if (node == NULL)
+                        return end();
+                    return iterator(node, false);
+                }
+                const_iterator find(const key_type& key) const
+                {
+                    _Nodeptr node = _tree.get(ft::make_pair(key, mapped_type()));
+                    if (node == NULL)
+                        return end();
+                    return const_iterator(node, false);
+                }
+                size_type count(const key_type& key) const
+                {
+                    return _tree.contains(ft::make_pair(key, mapped_type()));
+                }
+                iterator lower_bound(const key_type& key)
+                {
+                    iterator it;
+
+                    for (it = begin(); it != end(); ++it)
+                    {
+                        if (!_comp(it->first, key))
+                            break ;
+                    }
+                    return it;
+                }
+                const_iterator lower_bound(const key_type& key) const
+                {
+                    const_iterator it;
+
+                    for (it = begin(); it != end(); ++it)
+                    {
+                        if (!_comp(it->first, key))
+                            break ;
+                    }
+                    return it;
+                }
+                iterator upper_bound(const key_type& key)
+                {
+                    iterator it;
+
+                    for (it = begin(); it != end(); ++it)
+                    {
+                        if (_comp(key, it->first))
+                            break ;
+                    }
+                    return it;
+                }
+                const_iterator upper_bound(const key_type& key) const
+                {
+                    const_iterator it;
+
+                    for (it = begin(); it != end(); ++it)
+                    {
+                        if (_comp(key, it->first))
+                            break ;
+                    }
+                    return it;
+                }
+                ft::pair<iterator, iterator> equal_range(const key_type& key)
+                {
+                    return ft::make_pair(lower_bound(key), upper_bound(key));
+                }
+                ft::pair<const_iterator, const_iterator> equal_range(const key_type& key) const
+                {
+                    return ft::make_pair(lower_bound(key), upper_bound(key));
+                }
+                
+                // Allocator
+                allocator_type get_allocator() const
+                {
+                    return _allocator;
+                }
     };
+    // Non-member functions
 }
 
 #endif

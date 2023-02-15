@@ -388,6 +388,10 @@ namespace ft
             {
                 return findTarget(_root, target);
             }
+            bool contains(const value_type& target) const
+            {
+                return findTarget(_root, target) != NULL ? true : false;
+            }
             bool insert(value_type data)
             {
                 _node *new_node = createNode(data);
