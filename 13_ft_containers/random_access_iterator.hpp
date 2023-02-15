@@ -20,8 +20,12 @@ namespace ft
         public:
             random_access_iterator() : _cur(NULL) {}
             random_access_iterator(pointer p) : _cur(p) {}
-            random_access_iterator(const random_access_iterator<T>& src) : _cur(src._cur) {}
-            random_access_iterator<T>& operator=(const random_access_iterator<T>& src)
+            random_access_iterator(const random_access_iterator<value_type>& src) : _cur(src._cur) {}
+			operator random_access_iterator<const value_type>() const 
+			{
+				return random_access_iterator<const value_type>(_cur);
+			}
+            random_access_iterator<value_type>& operator=(const random_access_iterator<value_type>& src)
             {
                 _cur = src._cur;
                 return *this;
