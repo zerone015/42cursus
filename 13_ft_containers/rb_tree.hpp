@@ -150,9 +150,6 @@ namespace ft
             }
             _Nodeptr removeBST(const value_type &target)
             {
-                if (_size == 0)
-                    return NULL;
-
                 _Nodeptr del = get(target);
                 if (del == NULL)
                     return NULL;

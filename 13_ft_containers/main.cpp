@@ -125,8 +125,9 @@ int main(int argc, char** argv) {
     	map.insert(ft::pair<int, int>(i, i));
 	}
     std::cout << map.size() << std::endl;
-	for (int i = 1; i < 1002; i++)
-		std::cout << map[i] << std::endl;
+	ft::map<int, int>::iterator it = map.begin();
+	for (int i = 1; i < 1003; i++, it++)
+		std::cout << (*it).first << std::endl;
 	for (int i = 1; i < 1008; i++)
 	{
 		map.erase(i);
