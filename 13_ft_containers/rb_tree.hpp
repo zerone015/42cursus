@@ -120,6 +120,13 @@ namespace ft
             }
             bool insertBST(_Nodeptr new_node)
             {
+                if (_root == NULL)
+                {
+                    _root = new_node;
+                    _root->setColor(BLACK);
+                    return true;
+                }
+
                 _Nodeptr cur = _root;
                 while (1)
                 {
@@ -259,7 +266,7 @@ namespace ft
 
                 _root->parent = dummy;
 
-                while (node->parent && node->parent->getColor() == RED)
+                while (node->parent->getColor() == RED)
                 {
                     uncle = node->getUncle();
                     if (uncle && uncle->getColor() == RED)
@@ -325,6 +332,7 @@ namespace ft
                     cur = findTarget(cur->left, target);
                 else if (_comp(cur->data, target)) 
                     cur = findTarget(cur->right, target);
+
                 return cur;
             }
             void replaceNode(_Nodeptr dest, _Nodeptr src)
@@ -359,13 +367,6 @@ namespace ft
             bool insert(value_type new_data)
             {
                 _Nodeptr new_node = createNode(new_data);
-                if (_root == NULL)
-                {
-                    _root = new_node;
-                    _root->setColor(BLACK);
-                    _size++;
-                    return true;
-                }
                 if (!insertBST(new_node))
                 {
                     removeNode(new_node);
