@@ -148,6 +148,73 @@ namespace ft
                 }
                 return true;
             }
+            _Nodeptr removeBST(const value_type &target)
+            {
+                if (_size == 0)
+                    return NULL;
+
+                _Nodeptr del = get(target);
+                if (del == NULL)
+                    return NULL;
+
+                _Nodeptr dummy = _allocator.allocate(1);
+                dummy->right = _root;
+                _root->parent = dummy;
+
+                if (del->left == NULL && del->right == NULL)
+                {
+                    if (del->isLeftChild())
+                        del->parent->left = NULL;
+                    else
+                        del->parent->right = NULL;
+                }
+                else if (del->left == NULL || del->right == NULL)
+                {
+                    _Nodeptr del_child;
+
+                    if (del->left != NULL)
+                        del_child = del->left;
+                    else
+                        del_child = del->right;
+                        
+                    if (del->isLeftChild())
+                    {
+                        del->parent->left = del_child;
+                        del_child->parent = del->parent;
+                    }
+                    else
+                    {
+                        del->parent->right = del_child;
+                        del_child->parent = del->parent;
+                    }
+                }
+                else
+                {
+                    _Nodeptr replace = del->right->getMinNode();
+
+                    if (replace->isLeftChild())
+                        replace->parent->left = replace->right;
+                    else
+                        replace->parent->right = replace->right;
+                    if (replace->right)
+                        replace->right->parent = replace->parent;
+
+                    replaceNode(del, replace);
+
+                    enum color temp = replace->getColor();
+                    replace->setColor(del->getColor());
+                    del->setColor(temp);
+                }
+
+                if (dummy->right != _root)
+                    _root = dummy->right;
+                if (_root)
+                    _root->parent = NULL;
+
+                _allocator.deallocate(dummy, 1);
+
+                return del;
+            }
             void rotateLeft(_Nodeptr node)
             {
                 _Nodeptr old_right;
@@ -313,67 +380,9 @@ namespace ft
             }
             bool remove(const value_type& target)
             {
-                _Nodeptr del = get(target);
-
-                if (_size == 0 || del == NULL)
+                _Nodeptr del = removeBST(target);
+                if (!del)
                     return false;
-
-                _Nodeptr dummy = _allocator.allocate(1);
-                dummy->right = _root;
-                _root->parent = dummy;
-
-                if (del->left == NULL && del->right == NULL)
-                {
-                    if (del->isLeftChild())
-                        del->parent->left = NULL;
-                    else
-                        del->parent->right = NULL;
-                }
-                else if (del->left == NULL || del->right == NULL)
-                {
-                    _Nodeptr del_child;
-
-                    if (del->left != NULL)
-                        del_child = del->left;
-                    else
-                        del_child = del->right;
-                        
-                    if (del->isLeftChild())
-                    {
-                        del->parent->left = del_child;
-                        del_child->parent = del->parent;
-                    }
-                    else
-                    {
-                        del->parent->right = del_child;
-                        del_child->parent = del->parent;
-                    }
-                }
-                else
-                {
-                    _Nodeptr replace = del->right->getMinNode();
-
-                    if (replace->isLeftChild())
-                        replace->parent->left = replace->right;
-                    else
-                        replace->parent->right = replace->right;
-                    if (replace->right)
-                            replace->right->parent = replace->parent;
-
-                    replaceNode(del, replace);
-
-                    enum color temp = replace->getColor();
-                    replace->setColor(del->getColor());
-                    del->setColor(temp);
-                }
-
-                if (dummy->right != _root)
-                    _root = dummy->right;
-                if (_root)
-                    _root->parent = NULL;
-
-                _allocator.deallocate(dummy, 1);
-
                 // if (del->getColor() == BLACK) 이면 재조정해야함
                 removeNode(del);
                 --_size;
