@@ -383,7 +383,7 @@ namespace ft
                     return false;
                 // if (del->getColor() == BLACK) 이면 재조정해야함
                 removeNode(del);
-                --_size;
+                _size--;
                 return true;
             }
             void clear()
