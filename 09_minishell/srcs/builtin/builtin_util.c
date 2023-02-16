@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:09:40 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/21 19:24:00 by kijsong          ###   ########.fr       */
+/*   Updated: 2023/02/16 19:27:54 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	builtin_error(t_env *env, char *cmd, char *arg, char *err_msg)
 		ft_putstr_fd(": ", STDERR_FILENO);
 	}
 	ft_putendl_fd(err_msg, STDERR_FILENO);
-	env->exit_code = 1;
-	return (-1);
+	env->exit_code = EXIT_FAILURE;
+	return (1);
 }
 
 char	*strnstr_strict(const char *str, const char *to_find, size_t len)

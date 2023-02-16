@@ -6,7 +6,7 @@
 /*   By: kijsong <kijsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:48:04 by kijsong           #+#    #+#             */
-/*   Updated: 2022/12/21 19:24:01 by kijsong          ###   ########.fr       */
+/*   Updated: 2023/02/16 19:33:08 by kijsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	execute_builtin(char **argv, t_env *env, int is_child)
 	ft_memset(f, 0, sizeof(f));
 	init_table(f);
 	func = f[strnstr_strict(builtin, argv[0], 35) - builtin];
-	argc = -func(argc, argv, env);
+	argc = func(argc, argv, env);
+	ft_free(argv);
 	if (is_child)
 		exit(argc);
-	ft_free(argv);
 }
