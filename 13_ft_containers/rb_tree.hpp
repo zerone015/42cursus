@@ -7,18 +7,20 @@
 
 namespace ft
 {
-    enum color {RED, BLACK, DOUBLE_BLACK};
+    enum color {RED, BLACK};
 
     template <typename T>
     struct _node
     {
-        typedef T       value_type;
+        typedef T                   value_type;
+        typedef _node<value_type>   _Node;
+        typedef _node<value_type>*  _Nodeptr;
 
         value_type      data;
         enum color      color;
-        _node           *left;
-        _node           *right;
-        _node           *parent;
+        _Nodeptr        left;
+        _Nodeptr        right;
+        _Nodeptr        parent;
 
         _node() : data(value_type()), color(BLACK), left(NULL), right(NULL), parent(NULL) {}
         _node(value_type data) : data(data), color(RED), left(NULL), right(NULL), parent(NULL) {}
@@ -30,23 +32,46 @@ namespace ft
         {
             this->color = color;
         }
+        void changeColor()
+        {
+            color = color == RED ? BLACK : RED;
+        }
         value_type getData() const
         {
             return data;
         }
-        _node *getMinNode() const
+        _Nodeptr getMinNode()
         {
-            _node *node = this;
+            _Nodeptr node = this;
             while (node->left != NULL)
                 node = node->left;
             return node;
         }
-        _node *getMaxNode() const
+        _Nodeptr getMaxNode()
         {
-            _node *node = this;
+            _Nodeptr node = this;
             while (node->right != NULL)
                 node = node->right;
             return node;
+        }
+        _Nodeptr getUncle() const
+        {
+            _Nodeptr parent = this->parent;
+            if (parent == NULL || parent->parent == NULL)
+                return NULL;
+            return parent->isLeftChild() ? parent->parent->right : parent->parent->left;
+        }
+        bool isLeftChild()
+        {
+            if (this->parent == NULL || this == this->parent->right)
+                return false;
+            return true;
+        }
+        bool isRightChild()
+        {
+            if (this->parent == NULL || this == this->parent->left)
+                return false;
+            return true;
         }
     };
 
@@ -123,244 +148,107 @@ namespace ft
                 }
                 return true;
             }
-            _Nodeptr removeBST(_Nodeptr root, const value_type &data)
+            _Nodeptr removeBST(_Nodeptr del)
             {
-                if (root == NULL)
-                    return NULL;
+                
 
-                if (data < root->data)
-                    return removeBST(root->left, data);
-
-                if (data > root->data)
-                    return removeBST(root->right, data);
-
-                if (root->left == NULL || root->right == NULL)
-                    return root;
-
-                _Nodeptr temp = root->right->getMinNode();
-                root->data = temp->data;
-                return removeBST(root->right, temp->data);
+                return del;
             }
             void rotateLeft(_Nodeptr node)
             {
-                _Nodeptr right_child = node->right;
-                node->right = right_child->left;
+                _Nodeptr old_right;
 
-                if (node->right != NULL)
-                    node->right->parent = node;
-
-                right_child->parent = node->parent;
-
-                if (node->parent == NULL)
-                    _root = right_child;
-                else if (node == node->parent->left)
-                    node->parent->left = right_child;
-                else
-                    node->parent->right = right_child;
-
-                right_child->left = node;
-                node->parent = right_child;
+                if (!node->right)
+                    return ;
+                old_right = node->right;
+                if (node->isLeftChild())
+                    node->parent->left = node->right;
+                else if (node->isRightChild())
+                    node->parent->right = node->right;
+                node->right->parent = node->parent;
+                node->parent = node->right;
+                if (node->right->left)
+                    node->right->left->parent = node;
+                node->right = node->right->left;
+                old_right->left = node;
             }
             void rotateRight(_Nodeptr node)
             {
-                _Nodeptr left_child = node->left;
-                node->left = left_child->right;
+                _Nodeptr old_left;
 
-                if (node->left != NULL)
-                    node->left->parent = node;
-
-                left_child->parent = node->parent;
-
-                if (node->parent == NULL)
-                    _root = left_child;
-                else if (node == node->parent->left)
-                    node->parent->left = left_child;
-                else
-                    node->parent->right = left_child;
-
-                left_child->right = node;
-                node->parent = left_child;
+                if (!node->left)
+                    return ;
+                old_left = node->left;
+                if (node->isLeftChild())
+                    node->parent->left = node->left;
+                else if (node->isRightChild())
+                    node->parent->right = node->left;
+                node->left->parent = node->parent;
+                node->parent = node->left;
+                if (node->left->right)
+                    node->left->right->parent = node;
+                node->left = node->left->right;
+                old_left->right = node;
             }
-            void fixInsertRBTree(_Nodeptr new_node)
+            void fixInsertRBTree(_Nodeptr node)
             {
-                _Nodeptr parent = NULL;
-                _Nodeptr grandparent = NULL;
-                while (new_node != _root && new_node->getColor() == RED && new_node->parent->getColor() == RED) 
+                _Nodeptr dummy;
+                _Nodeptr uncle;
+
+                dummy = _allocator.allocate(1);
+                dummy->setColor(BLACK);
+                dummy->right = _root;
+
+                _root->parent = dummy;
+
+                while (node->parent && node->parent->getColor() == RED)
                 {
-                    parent = new_node->parent;
-                    grandparent = parent->parent;
-                    if (parent == grandparent->left)
+                    uncle = node->getUncle();
+                    if (uncle && uncle->getColor() == RED)
                     {
-                        _Nodeptr uncle = grandparent->right;
-                        if (uncle->getColor() == RED) 
+                        node->parent->changeColor();
+                        uncle->changeColor();
+                        node->parent->parent->changeColor();
+                        node = node->parent->parent;
+                    }
+                    else
+                    {
+                        if (node->parent->isLeftChild())
                         {
-                            uncle->setColor(BLACK);
-                            parent->setColor(BLACK);
-                            grandparent->setColor(RED);
-                            new_node = grandparent;
-                        }
-                        else 
-                        {
-                            if (new_node == parent->right)
+                            if (node->isRightChild())
                             {
-                                rotateLeft(parent);
-                                new_node = parent;
-                                parent = new_node->parent;
+                                node = node->parent;
+                                rotateLeft(node);
                             }
-                            rotateRight(grandparent);
-                            ft::swap(parent->color, grandparent->color);
-                            new_node = parent;
-                        }
-                    } 
-                    else 
-                    {
-                        _Nodeptr uncle = grandparent->left;
-                        if (uncle->getColor() == RED)
-                        {
-                            uncle->setColor(BLACK);
-                            parent->setColor(BLACK);
-                            grandparent->setColor(RED);
-                            new_node = grandparent;
+                            node->parent->changeColor();
+                            node->parent->parent->changeColor();
+                            rotateRight(node->parent->parent);
                         }
                         else
                         {
-                            if (new_node == parent->left)
+                            if (node->isLeftChild())
                             {
-                                rotateRight(parent);
-                                new_node = parent;
-                                parent = new_node->parent;
+                                node = node->parent;
+                                rotateRight(node);
                             }
-                            rotateLeft(grandparent);
-                            ft::swap(parent->color, grandparent->color);
-                            new_node = parent;
+                            node->parent->changeColor();
+                            node->parent->parent->changeColor();
+                            rotateLeft(node->parent->parent);
                         }
                     }
                 }
+
+                if (dummy->right != _root)
+                    _root = dummy->right;
+                _root->parent = NULL;
+                    
+                _allocator.deallocate(dummy, 1);
+
                 _root->setColor(BLACK);
             }
             void fixRemoveRBTree(_Nodeptr node)
             {
-                if (node == NULL)
-                    return ;
-
-                if (node == _root)
-                {
-                    _root = NULL;
-                    return ;
-                }
-
-                if (node->getColor() == RED || node->left->getColor() == RED || node->right->getColor() == RED)
-                {
-                    _Nodeptr child = node->left != NULL ? node->left : node->right;
-
-                    if (node == node->parent->left)
-                    {
-                        node->parent->left = child;
-                        if (child != NULL)
-                            child->parent = node->parent;
-                        child->setColor(BLACK);
-                        removeNode(node);
-                    } 
-                    else 
-                    {
-                        node->parent->right = child;
-                        if (child != NULL)
-                            child->parent = node->parent;
-                        child->setColor(BLACK);
-                        removeNode(node);
-                    }
-                } 
-                else 
-                {
-                    _Nodeptr sibling = NULL;
-                    _Nodeptr parent = NULL;
-                    _Nodeptr ptr = node;
-                    ptr->setColor(DOUBLE_BLACK);
-                    while (ptr != _root && ptr->getColor() == DOUBLE_BLACK)
-                    {
-                        parent = ptr->parent;
-                        if (ptr == parent->left)
-                        {
-                            sibling = parent->right;
-                            if (sibling->getColor() == RED)
-                            {
-                                sibling->setColor(BLACK);
-                                parent->setColor(RED);
-                                rotateLeft(parent);
-                            } 
-                            else
-                            {
-                                if (sibling->left->getColor() == BLACK && sibling->right->getColor() == BLACK)
-                                {
-                                    sibling->setColor(RED);
-                                    if (parent->getColor() == RED)
-                                        parent->setColor(BLACK);
-                                    else
-                                        parent->setColor(DOUBLE_BLACK);
-                                    ptr = parent;
-                                }
-                                else
-                                {
-                                    if (sibling->right->getColor() == BLACK)
-                                    {
-                                        sibling->left->setColor(BLACK);
-                                        sibling->setColor(RED);
-                                        rotateRight(sibling);
-                                        sibling = parent->right;
-                                    }
-                                    sibling->setColor(parent->color);
-                                    parent->setColor(BLACK);
-                                    sibling->right->setColor(BLACK);
-                                    rotateLeft(parent);
-                                    break ;
-                                }
-                            }
-                        } 
-                        else
-                        {
-                            sibling = parent->left;
-                            if (sibling->getColor() == RED)
-                            {
-                                sibling->setColor(BLACK);
-                                parent->setColor(RED);
-                                rotateRight(parent);
-                            } 
-                            else
-                            {
-                                if (sibling->left->getColor() == BLACK && sibling->right->getColor() == BLACK)
-                                {
-                                    sibling->setColor(RED);
-                                    if (parent->getColor() == RED)
-                                        parent->setColor(BLACK);
-                                    else
-                                        parent->setColor(DOUBLE_BLACK);
-                                    ptr = parent;
-                                }
-                                else
-                                {
-                                    if (sibling->left->getColor() == BLACK)
-                                    {
-                                        sibling->right->setColor(BLACK);
-                                        sibling->setColor(RED);
-                                        rotateLeft(sibling);
-                                        sibling = parent->left;
-                                    }
-                                    sibling->setColor(parent->color);
-                                    parent->setColor(BLACK);
-                                    sibling->left->setColor(BLACK);
-                                    rotateRight(parent);
-                                    break ;
-                                }
-                            }
-                        }
-                    }
-                    if (node == node->parent->left)
-                        node->parent->left = NULL;
-                    else
-                        node->parent->right = NULL;
-                    removeNode(node);
-                    _root->setColor(BLACK);
-                }
+                (void) node;
             }
             void removeTree(_Nodeptr node)
             {
@@ -381,6 +269,20 @@ namespace ft
                     cur = findTarget(cur->right, target);
                 return cur;
             }
+            void replaceNode(_Nodeptr dest, _Nodeptr src)
+            {
+                if (dest->left)
+                    dest->left->parent = src;
+                src->left = dest->left;
+                if (dest->right)
+                    dest->right->parent = src;
+                src->right = dest->right;
+                if (dest->isLeftChild())
+                    dest->parent->left = src;
+                else if (dest->isRightChild())
+                    dest->parent->right = src;
+                src->parent = dest->parent;
+            }
         public:
             rb_tree() : _allocator(allocator_type()), _comp(key_compare()), _root(NULL), _size(0) {};
             rb_tree(allocator_type alloc, key_compare comp) : _allocator(alloc), _comp(comp), _root(NULL), _size(0) {};
@@ -396,12 +298,13 @@ namespace ft
             {
                 return findTarget(_root, target) != NULL ? true : false;
             }
-            bool insert(value_type data)
+            bool insert(value_type new_data)
             {
-                _Nodeptr new_node = createNode(data);
+                _Nodeptr new_node = createNode(new_data);
                 if (_root == NULL)
                 {
                     _root = new_node;
+                    _root->setColor(BLACK);
                     _size++;
                     return true;
                 }
@@ -416,11 +319,70 @@ namespace ft
             }
             bool remove(const value_type& target)
             {
-                _Nodeptr node = removeBST(target);
-                if (node == NULL)
+                _Nodeptr del = get(target);
+
+                if (_size == 0 || del == NULL)
                     return false;
-                _size--;
-                fixRemoveRBTree(node);
+
+                _Nodeptr dummy = _allocator.allocate(1);
+                dummy->right = _root;
+                _root->parent = dummy;
+
+                if (del->left == NULL && del->right == NULL)
+                {
+                    if (del->isLeftChild())
+                        del->parent->left = NULL;
+                    else
+                        del->parent->right = NULL;
+                }
+                else if (del->left == NULL || del->right == NULL)
+                {
+                    _Nodeptr del_child;
+
+                    if (del->left != NULL)
+                        del_child = del->left;
+                    else
+                        del_child = del->right;
+                        
+                    if (del->isLeftChild())
+                    {
+                        del->parent->left = del_child;
+                        del_child->parent = del->parent;
+                    }
+                    else
+                    {
+                        del->parent->right = del_child;
+                        del_child->parent = del->parent;
+                    }
+                }
+                else
+                {
+                    _Nodeptr replace = del->right->getMinNode();
+
+                    if (replace->isLeftChild())
+                        replace->parent->left = replace->right;
+                    else
+                        replace->parent->right = replace->right;
+                    if (replace->right)
+                            replace->right->parent = replace->parent;
+
+                    replaceNode(del, replace);
+
+                    enum color temp = replace->getColor();
+                    replace->setColor(del->getColor());
+                    del->setColor(temp);
+                }
+
+                if (dummy->right != _root)
+                    _root = dummy->right;
+                if (_root)
+                    _root->parent = NULL;
+
+                _allocator.deallocate(dummy, 1);
+
+                // if (del->getColor() == BLACK) 이면 재조정해야함
+                removeNode(del);
+                --_size;
                 return true;
             }
             void clear()

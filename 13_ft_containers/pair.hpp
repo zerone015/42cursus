@@ -21,8 +21,8 @@ namespace ft
         {
             if (this == &src)
                 return *this;
-            this->first = src.first;
-            this->second = src.second;
+            first = src.first;
+            second = src.second;
             return *this;
         }
     };
