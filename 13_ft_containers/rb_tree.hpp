@@ -194,19 +194,19 @@ namespace ft
                 }
                 else
                 {
-                    _Nodeptr replace = del->right->getMinNode();
+                    _Nodeptr successor = del->right->getMinNode();
 
-                    if (replace->isLeftChild())
-                        replace->parent->left = replace->right;
+                    if (successor->isLeftChild())
+                        successor->parent->left = successor->right;
                     else
-                        replace->parent->right = replace->right;
-                    if (replace->right)
-                        replace->right->parent = replace->parent;
+                        successor->parent->right = successor->right;
+                    if (successor->right)
+                        successor->right->parent = successor->parent;
 
-                    replaceNode(del, replace);
+                    replaceNode(del, successor);
 
-                    enum color temp = replace->getColor();
-                    replace->setColor(del->getColor());
+                    enum color temp = successor->getColor();
+                    successor->setColor(del->getColor());
                     del->setColor(temp);
                 }
 
