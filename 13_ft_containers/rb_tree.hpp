@@ -148,12 +148,6 @@ namespace ft
                 }
                 return true;
             }
-            _Nodeptr removeBST(_Nodeptr del)
-            {
-                
-
-                return del;
-            }
             void rotateLeft(_Nodeptr node)
             {
                 _Nodeptr old_right;
