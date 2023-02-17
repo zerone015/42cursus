@@ -185,8 +185,14 @@ namespace ft
                 }
                 void erase(iterator first, iterator last)
                 {
-                    for (; first != last; ++first)
-                        _tree.remove(*first);
+                    iterator cur;
+                    
+                    while (first != last)
+                    {
+                        cur = first;
+                        ++first;
+                        _tree.remove(*cur);
+                    }
                 }
                 void swap(map& x)
                 {

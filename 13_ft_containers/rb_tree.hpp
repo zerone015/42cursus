@@ -208,9 +208,8 @@ namespace ft
                     _Nodeptr    successor = del->right->getMinNode();
 
                     if (successor->right == NULL)
-                        replace = &nil;
-                    else
-                        replace = successor->right;
+                        successor->right = &nil;
+                    replace = successor->right;
                     
                     replace->parent = successor->parent;
 
@@ -411,11 +410,6 @@ namespace ft
                 }
                 node->setColor(BLACK);
             }
-            void fixRoot()
-            {
-                while (_root->parent != NULL)
-                    _root = _root->parent;
-            }
             void removeTree(_Nodeptr node)
             {
                 if (node == NULL)
@@ -482,7 +476,6 @@ namespace ft
                     return false;
                 removeNode(del);
                 _size--;
-
                 return true;
             }
             void clear()
@@ -597,7 +590,7 @@ namespace ft
                     }
                     bool operator==(const iterator& rhs) const
                     {
-                        return this->_cur == rhs._cur && this->_is_end == rhs._is_end;
+                        return (this->_cur == rhs._cur || this->_is_end == true) && this->_is_end == rhs._is_end;
                     }
                     bool operator!=(const iterator& rhs) const
                     {
@@ -690,7 +683,7 @@ namespace ft
                     }
                     bool operator==(const const_iterator& rhs) const
                     {
-                        return this->_cur == rhs._cur && this->_is_end == rhs._is_end;
+                        return (this->_cur == rhs._cur || this->_is_end == true) && this->_is_end == rhs._is_end;
                     }
                     bool operator!=(const const_iterator& rhs) const
                     {
