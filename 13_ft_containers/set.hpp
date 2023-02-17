@@ -167,6 +167,16 @@ namespace ft
         {
             _tree.clear();
         }
+
+        // Observers
+        key_compare key_comp() const
+        {
+            return key_compare(_comp);
+        }
+        value_compare value_comp() const
+        {
+            return value_compare(_comp);
+        }
     };
 }
 
