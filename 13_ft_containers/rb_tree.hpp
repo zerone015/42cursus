@@ -572,17 +572,16 @@ namespace ft
                         --*this;
                         return tmp;
                     }
-                    bool operator==(const iterator& rhs) const
+                    bool operator==(const const_iterator& rhs) const
                     {
                         return (this->_cur == rhs._cur || this->_is_end == true) && this->_is_end == rhs._is_end;
                     }
-                    bool operator!=(const iterator& rhs) const
+                    bool operator!=(const const_iterator& rhs) const
                     {
                         return !(*this == rhs);
                     }
                     
                     friend class const_iterator;
-
             };
 
             class const_iterator
@@ -674,7 +673,7 @@ namespace ft
                         return !(*this == rhs);
                     }
                     
-                    friend class const_iterator;
+                    friend class iterator;
             };
     };
 }
