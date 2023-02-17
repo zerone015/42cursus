@@ -130,7 +130,7 @@ namespace ft
                 }
                 size_type max_size() const
                 {
-                    return _allocator.max_size();
+                    return _tree.getMaxSize();
                 }
 
                 // Element access

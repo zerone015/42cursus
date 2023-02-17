@@ -240,7 +240,7 @@ namespace ft
 		            nil.parent->left = NULL;
 	            else if (nil.isRightChild())
 		            nil.parent->right = NULL;
-                
+
                 return del;
             }
             void rotateLeft(_Nodeptr node)
@@ -482,6 +482,7 @@ namespace ft
                     return false;
                 removeNode(del);
                 _size--;
+
                 return true;
             }
             void clear()
@@ -506,6 +507,10 @@ namespace ft
             {
                 ft::swap(_root, x._root);
                 ft::swap(_size, x._size);
+            }
+            size_type getMaxSize() const
+            {
+                return _allocator.max_size();
             }
 
             class const_iterator;
@@ -598,6 +603,9 @@ namespace ft
                     {
                         return !(*this == rhs);
                     }
+                    
+                    friend class const_iterator;
+
             };
 
             class const_iterator
@@ -688,6 +696,8 @@ namespace ft
                     {
                         return !(*this == rhs);
                     }
+                    
+                    friend class const_iterator;
             };
     };
 }
