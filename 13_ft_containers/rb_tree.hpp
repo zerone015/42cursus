@@ -153,11 +153,13 @@ namespace ft
                         cur = cur->right;
                     }
                 }
+                fixInsertRBTree(new_node);
                 return true;
             }
             _Nodeptr removeBST(const value_type &target)
             {
                 _Nodeptr    del = get(target);
+                
                 if (del == NULL)
                     return NULL;
 
@@ -181,7 +183,7 @@ namespace ft
                         del->parent->left = &nil;
                     else
                         del->parent->right = &nil;
-                    nil.parent = del->parent;
+                    replace->parent = del->parent;
                 }
                 else if (del->left == NULL || del->right == NULL)
                 {
@@ -225,13 +227,12 @@ namespace ft
 
                 if (dummy->right != _root)
                     _root = dummy->right;
-                if (_root)
-                    _root->parent = NULL;
-
-                _allocator.deallocate(dummy, 1);
 
                 if (remove_color == BLACK)
-                    fixRemoveRBTree(replace);
+                    fixRemoveRBTree(replace, dummy);
+
+                _root->parent = NULL;
+                _allocator.deallocate(dummy, 1);
 
                 if (&nil == _root)
                     _root = NULL;
@@ -239,24 +240,22 @@ namespace ft
 		            nil.parent->left = NULL;
 	            else if (nil.isRightChild())
 		            nil.parent->right = NULL;
-
+                
                 return del;
             }
             void rotateLeft(_Nodeptr node)
             {
                 _Nodeptr old_right;
 
-                if (!node->right)
-                    return ;
-                old_right = node->right;
+                node->right->parent = node->parent;
                 if (node->isLeftChild())
                     node->parent->left = node->right;
                 else if (node->isRightChild())
                     node->parent->right = node->right;
-                node->right->parent = node->parent;
                 node->parent = node->right;
                 if (node->right->left)
                     node->right->left->parent = node;
+                old_right = node->right;
                 node->right = node->right->left;
                 old_right->left = node;
             }
@@ -264,17 +263,15 @@ namespace ft
             {
                 _Nodeptr old_left;
 
-                if (!node->left)
-                    return ;
-                old_left = node->left;
+                node->left->parent = node->parent;
                 if (node->isLeftChild())
                     node->parent->left = node->left;
                 else if (node->isRightChild())
                     node->parent->right = node->left;
-                node->left->parent = node->parent;
                 node->parent = node->left;
                 if (node->left->right)
                     node->left->right->parent = node;
+                old_left = node->left;
                 node->left = node->left->right;
                 old_left->right = node;
             }
@@ -335,7 +332,7 @@ namespace ft
 
                 _root->setColor(BLACK);
             }
-            void fixRemoveRBTree(_Nodeptr node)
+            void fixRemoveRBTree(_Nodeptr node, _Nodeptr dummy)
             {
                 _Nodeptr sibling;
 
@@ -360,8 +357,7 @@ namespace ft
                         {
                             if (!sibling->right || sibling->right->getColor() == BLACK)
                             {
-                                if (sibling->left)
-                                    sibling->left->setColor(BLACK);
+                                sibling->left->setColor(BLACK);
                                 sibling->setColor(RED);
                                 rotateRight(sibling);
                                 sibling = node->parent->right;
@@ -370,10 +366,11 @@ namespace ft
                             node->parent->setColor(BLACK);
                             sibling->right->setColor(BLACK);
                             rotateLeft(node->parent);
-                            fixRoot();
+
+                            if (dummy->right != _root)
+                                _root = dummy->right;
                             node = _root;
                         }
-                        fixRoot();
                     }
                     else
                     {
@@ -394,8 +391,7 @@ namespace ft
                         {
                             if (!sibling->left || sibling->left->getColor() == BLACK)
                             {
-                                if (sibling->right)
-                                    sibling->right->setColor(BLACK);
+                                sibling->right->setColor(BLACK);
                                 sibling->setColor(RED);
                                 rotateLeft(sibling);
                                 sibling = node->parent->left;
@@ -404,11 +400,14 @@ namespace ft
                             node->parent->setColor(BLACK);
                             sibling->left->setColor(BLACK);
                             rotateRight(node->parent);
-                            fixRoot();
+
+                            if (dummy->right != _root)
+                                _root = dummy->right;
                             node = _root;
                         }
-                        fixRoot();
                     }
+                    if (dummy->right != _root)
+                        _root = dummy->right;
                 }
                 node->setColor(BLACK);
             }
@@ -475,7 +474,6 @@ namespace ft
                     return false;
                 }
                 _size++;
-                fixInsertRBTree(new_node);
                 return true;
             }
             bool remove(const value_type& target)
