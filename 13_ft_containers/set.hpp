@@ -5,6 +5,7 @@
 #include <memory>
 #include "rb_tree.hpp"
 #include "reverse_iterator.hpp"
+#include "pair.hpp"
 
 namespace ft
 {
@@ -116,6 +117,55 @@ namespace ft
         size_type max_size() const
         {
             return _tree.getMaxSize();
+        }
+
+        // Modifiers
+        ft::pair<iterator, bool> insert(const value_type &val)
+        {
+            ft::pair<iterator, bool> ret;
+
+            ret.second = _tree.insert(val);
+            ret.first = iterator(_tree.get(val), false);
+            return ret;
+        }
+        iterator insert(iterator position, const value_type &val)
+        {
+            static_cast<void>(position);
+            _tree.insert(val);
+            return iterator(_tree.get(val), false);
+        }
+        template <typename InputIterator>
+        void insert(InputIterator first, InputIterator last)
+        {
+            for (; first != last; ++first)
+                _tree.insert(*first);
+        }
+        void erase(iterator position)
+        {
+            _tree.remove(*position);
+        }
+        size_type erase(const key_type &key)
+        {
+            return _tree.remove(key_type);
+        }
+        void erase(iterator first, iterator last)
+        {
+            iterator cur;
+
+            while (first != last)
+            {
+                cur = first;
+                ++first;
+                _tree.remove(*cur);
+            }
+        }
+        void swap(map &x)
+        {
+            _tree.swap(x._tree);
+        }
+        void clear()
+        {
+            _tree.clear();
         }
     };
 }
