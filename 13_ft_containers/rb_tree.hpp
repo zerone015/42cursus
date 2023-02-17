@@ -451,7 +451,6 @@ namespace ft
                 src->parent = dest->parent;
             }
         public:
-            rb_tree() : _allocator(allocator_type()), _comp(key_compare()), _root(NULL), _size(0) {};
             rb_tree(allocator_type alloc, key_compare comp) : _allocator(alloc), _comp(comp), _root(NULL), _size(0) {};
             ~rb_tree()
             {
@@ -514,13 +513,13 @@ namespace ft
             class iterator
             {
                 public:
+                    typedef ft::_node<T>                _Node;
+                    typedef ft::_node<T>*               _Nodeptr;
                     typedef bidirectional_iterator_tag  iterator_category;
                     typedef T                           value_type;
                     typedef std::ptrdiff_t              difference_type;
                     typedef T*                          pointer;
                     typedef T&                          reference;
-                    typedef ft::_node<value_type>       _Node;
-                    typedef ft::_node<value_type>*      _Nodeptr;
                 private:
                     _Nodeptr _cur;
                     bool    _is_end;
@@ -604,19 +603,18 @@ namespace ft
             class const_iterator
             {
                 public:
+                    typedef const ft::_node<T>*         _Nodeptr;
                     typedef bidirectional_iterator_tag  iterator_category;
                     typedef const T                     value_type;
                     typedef std::ptrdiff_t              difference_type;
                     typedef const T*                    pointer;
                     typedef const T&                    reference;
-                    typedef ft::_node<value_type>       _Node;
-                    typedef ft::_node<value_type>*      _Nodeptr;
                 private:
-                    const _Nodeptr  _cur;
-                    bool            _is_end;
+                    _Nodeptr    _cur;
+                    bool        _is_end;
                 public:
                     const_iterator() : _cur(NULL), _is_end(false) {}
-                    const_iterator(_Nodeptr *node, bool is_end) : _cur(node), _is_end(is_end) {}
+                    const_iterator(_Nodeptr node, bool is_end) : _cur(node), _is_end(is_end) {}
                     const_iterator(const const_iterator& src) : _cur(src._cur), _is_end(src._is_end) {}
                     const_iterator(const iterator& src) : _cur(src._cur), _is_end(src._is_end) {}
                     const_iterator& operator=(const const_iterator& src)
@@ -642,7 +640,7 @@ namespace ft
                             _cur = _cur->right->getMinNode();
                         else
                         {
-                            const _Nodeptr ptr = _cur;
+                            _Nodeptr ptr = _cur;
                             while (ptr->parent && ptr->parent->right == ptr)
                                 ptr = ptr->parent;
                             if (ptr->parent == NULL)
@@ -660,7 +658,7 @@ namespace ft
                             _cur = _cur->left->getMaxNode();
                         else
                         {
-                            const _Nodeptr ptr = _cur;
+                            _Nodeptr ptr = _cur;
                             while (ptr->parent && ptr->parent->left == ptr)
                                 ptr = ptr->parent;
                             if (ptr->parent == NULL)

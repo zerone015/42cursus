@@ -14,125 +14,63 @@
 
 #include <stdlib.h>
 
-#define MAX_RAM 4294967296
-#define BUFFER_SIZE 4096
-struct Buffer
+#define T_SIZE_TYPE typename ft::vector<T>::size_type
+
+template <typename T>
+void	printSize(ft::vector<T> const &vct, bool print_content = true)
 {
-	int idx;
-	char buff[BUFFER_SIZE];
-};
+	const T_SIZE_TYPE size = vct.size();
+	const T_SIZE_TYPE capacity = vct.capacity();
+	const std::string isCapacityOk = (capacity >= size) ? "OK" : "KO";
+	// Cannot limit capacity's max value because it's implementation dependent
 
-
-#define COUNT (MAX_RAM / (int)sizeof(Buffer))
-
-template<typename T>
-class MutantStack : public ft::stack<T>
-{
-public:
-	MutantStack() {}
-	MutantStack(const MutantStack<T>& src) { *this = src; }
-	MutantStack<T>& operator=(const MutantStack<T>& rhs) 
+	std::cout << "size: " << size << std::endl;
+	std::cout << "capacity: " << isCapacityOk << std::endl;
+	std::cout << "max_size: " << vct.max_size() << std::endl;
+	if (print_content)
 	{
-		this->c = rhs.c;
-		return *this;
+		typename ft::vector<T>::const_iterator it = vct.begin();
+		typename ft::vector<T>::const_iterator ite = vct.end();
+		std::cout << std::endl << "Content is:" << std::endl;
+		for (; it != ite; ++it)
+			std::cout << "- " << *it << std::endl;
 	}
-	~MutantStack() {}
+	std::cout << "###############################################" << std::endl;
+}
 
-	typedef typename ft::stack<T>::container_type::iterator iterator;
+int main() {
+	ft::vector<int> vct(10);
+	ft::vector<int> vct2;
+	ft::vector<int> vct3;
 
-	iterator begin() { return this->c.begin(); }
-	iterator end() { return this->c.end(); }
-};
+	for (unsigned long int i = 0; i < vct.size(); ++i)
+		vct[i] = (vct.size() - i) * 3;
+	printSize(vct);
 
-int main(int argc, char** argv) {
-	// if (argc != 2)
-	// {
-	// 	std::cerr << "Usage: ./test seed" << std::endl;
-	// 	std::cerr << "Provide a seed please" << std::endl;
-	// 	std::cerr << "Count value:" << COUNT << std::endl;
-	// 	return 1;
-	// }
-	// const int seed = atoi(argv[1]);
-	// srand(seed);
+	vct2.insert(vct2.end(), 42);
+	// vct2.insert(vct2.begin(), 2, 21);
+	// printSize(vct2);
 
-	// ft::vector<std::string> vector_str;
-	// ft::vector<int> vector_int;
-	// ft::stack<int> stack_int;
-	// ft::vector<Buffer> vector_buffer;
-	// ft::stack<Buffer, std::deque<Buffer> > stack_deq_buffer;
-	// ft::map<int, int> map_int;
+	// vct2.insert(vct2.end() - 2, 42);
+	// printSize(vct2);
 
-	// for (int i = 0; i < COUNT; i++)
-	// {
-	// 	vector_buffer.push_back(Buffer());
-	// }
-	// for (int i = 0; i < COUNT; i++)
-	// {
-	// 	const int idx = rand() % COUNT;
-	// 	vector_buffer[idx].idx = 5;
-	// }
+	// vct2.insert(vct2.end(), 2, 84);
+	// printSize(vct2);
 
-	// ft::vector<Buffer>().swap(vector_buffer);
-	// try
-	// {
-	// 	for (int i = 0; i < COUNT; i++)
-	// 	{
-	// 		const int idx = rand() % COUNT;
-	// 		vector_buffer.at(idx);
-	// 		std::cerr << "Error: THIS VECTOR SHOULD BE EMPTY!!" <<std::endl;
-	// 	}
-	// }
-	// catch(const std::exception& e)
-	// {
-	// 	//NORMAL ! :P
-	// }
-	
-	// for (int i = 0; i < COUNT; ++i)
-	// {
-	// 	map_int.insert(ft::make_pair(rand(), rand()));
-	// }
+	// vct2.resize(4);
+	// printSize(vct2);
 
-	// int sum = 0;
-	// for (int i = 0; i < 10000; i++)
-	// {
-	// 	int access = rand();
-	// 	sum += map_int[access];
-	// }
-	// std::cout << "should be constant with the same seed: " << sum << std::endl;
+	// vct2.insert(vct2.begin() + 2, vct.begin(), vct.end());
+	// vct.clear();
+	// printSize(vct2);
 
-	// {
-	// 	ft::map<int, int> copy = map_int;
-	// }
-	// MutantStack<char> iterable_stack;
-	// for (char letter = 'a'; letter <= 'z'; letter++)
-	// 	iterable_stack.push(letter);
-	// for (MutantStack<char>::iterator it = iterable_stack.begin(); it != iterable_stack.end(); it++)
-	// {
-	// 	std::cout << *it;
-	// }
-	// std::cout << std::endl;
-	// return (0);
+	// printSize(vct);
 
-	(void) argc;
-	(void) argv;
-	ft::map<int, int> map;
+	// for (int i = 0; i < 5; ++i)
+	// 	vct3.insert(vct3.end(), i);
+	// vct3.insert(vct3.begin() + 1, 2, 111);
+	// printSize(vct3);
 
-
-
-
-	for (int i = 1; i < 1000; i++)
-	{
-    	map.insert(ft::pair<int, int>(i, i));
-	}
-    std::cout << map.size() << std::endl;
-	ft::map<int, int>::iterator it = map.begin();
-	for (int i = 1; i < 1003; i++, it++)
-		std::cout << (*it).first << std::endl;
-	for (int i = 1; i < 1008; i++)
-	{
-		map.erase(i);
-	}
-    std::cout << map.size() << std::endl;
-
+	return (0);
 
 }

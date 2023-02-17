@@ -39,6 +39,8 @@ namespace ft
             {
                 if (n > this->max_size() - _size)
                     throw std::length_error("vector");
+                if (_capacity == 0)
+                    this->reserve(1);
                 while (n > (_capacity - _size))
                     this->reserve(_capacity * 2);
             }
@@ -85,7 +87,7 @@ namespace ft
             }
             // range constructor
             template <typename InputIterator>
-            vector(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type& alloc = allocator_type()) : _allocator(alloc)
+            vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type& alloc = allocator_type()) : _allocator(alloc)
             {
                 _capacity = ft::distance(first, last);
                 _array = _allocator.allocate(_capacity);
@@ -251,7 +253,7 @@ namespace ft
 
             // Modifiers
             template <class InputIterator>
-            void assign(InputIterator first, InputIterator last)
+            void assign(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
             {
                 this->clear();
                 for (; first != last; ++first)
@@ -295,7 +297,7 @@ namespace ft
                 _size += n;
             }
             template <class InputIterator>
-            void insert(iterator position, typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
+            void insert(iterator position, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
             {
                 difference_type pos = ft::distance(this->begin(), position);
                 this->reserve_loop(ft::distance(first, last));
