@@ -103,6 +103,20 @@ namespace ft
         {
             return const_reverse_iterator(begin());
         }
+
+        // Capacity
+        bool empty() const
+        {
+            return _tree.size() == 0 ? true : false;
+        }
+        size_type size() const
+        {
+            return _tree.size();
+        }
+        size_type max_size() const
+        {
+            return _tree.getMaxSize();
+        }
     };
 }
 
