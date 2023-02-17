@@ -156,22 +156,15 @@ namespace ft
                 fixInsertRBTree(new_node);
                 return true;
             }
-            _Nodeptr removeBST(const value_type &target)
+            void removeBST(_Nodeptr del)
             {
-                _Nodeptr    del = get(target);
-                
-                if (del == NULL)
-                    return NULL;
-
-                _Nodeptr    dummy;
+                _Node       dummy;
                 _Nodeptr    replace;
                 _Node       nil;
                 enum color  remove_color;
 
-                dummy = _allocator.allocate(1);
-                dummy->left = NULL;
-                dummy->right = _root;
-                _root->parent = dummy;
+                dummy.right = _root;
+                _root->parent = &dummy;
 
                 remove_color = del->getColor();
                 nil.parent = NULL;
@@ -224,14 +217,13 @@ namespace ft
                     successor->setColor(del->getColor());
                 }
 
-                if (dummy->right != _root)
-                    _root = dummy->right;
+                if (dummy.right != _root)
+                    _root = dummy.right;
 
                 if (remove_color == BLACK)
-                    fixRemoveRBTree(replace, dummy);
+                    fixRemoveRBTree(replace, &dummy);
 
                 _root->parent = NULL;
-                _allocator.deallocate(dummy, 1);
 
                 if (&nil == _root)
                     _root = NULL;
@@ -239,8 +231,8 @@ namespace ft
 		            nil.parent->left = NULL;
 	            else if (nil.isRightChild())
 		            nil.parent->right = NULL;
-
-                return del;
+                
+                removeNode(del);
             }
             void rotateLeft(_Nodeptr node)
             {
@@ -276,15 +268,11 @@ namespace ft
             }
             void fixInsertRBTree(_Nodeptr node)
             {
-                _Nodeptr dummy;
-                _Nodeptr uncle;
+                _Node       dummy;
+                _Nodeptr    uncle;
 
-                dummy = _allocator.allocate(1);
-                dummy->setColor(BLACK);
-                dummy->left = NULL;
-                dummy->right = _root;
-
-                _root->parent = dummy;
+                dummy.right = _root;
+                _root->parent = &dummy;
 
                 while (node->parent->getColor() == RED)
                 {
@@ -323,12 +311,10 @@ namespace ft
                     }
                 }
 
-                if (dummy->right != _root)
-                    _root = dummy->right;
+                if (dummy.right != _root)
+                    _root = dummy.right;
                 _root->parent = NULL;
                     
-                _allocator.deallocate(dummy, 1);
-
                 _root->setColor(BLACK);
             }
             void fixRemoveRBTree(_Nodeptr node, _Nodeptr dummy)
@@ -471,10 +457,10 @@ namespace ft
             }
             bool remove(const value_type& target)
             {
-                _Nodeptr del = removeBST(target);
-                if (del == NULL)
+                _Nodeptr del_node = get(target);
+                if (del_node == NULL)
                     return false;
-                removeNode(del);
+                removeBST(del_node);
                 _size--;
                 return true;
             }
