@@ -600,7 +600,7 @@ namespace ft
                     _Nodeptr    _cur;
                     bool        _is_end;
                 public:
-                    const_iterator() : _cur(NULL), _is_end(false) {}
+                    const_iterator() : _cur(NULL), _is_end(true) {}
                     const_iterator(_Nodeptr node, bool is_end) : _cur(node), _is_end(is_end) {}
                     const_iterator(const const_iterator& src) : _cur(src._cur), _is_end(src._is_end) {}
                     const_iterator(const iterator& src) : _cur(src._cur), _is_end(src._is_end) {}
