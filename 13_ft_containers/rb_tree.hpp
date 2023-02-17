@@ -13,7 +13,6 @@ namespace ft
     struct _node
     {
         typedef T                   value_type;
-        typedef _node<value_type>   _Node;
         typedef _node<value_type>*  _Nodeptr;
 
         value_type      data;
@@ -497,7 +496,6 @@ namespace ft
             class iterator
             {
                 public:
-                    typedef ft::_node<T>                _Node;
                     typedef ft::_node<T>*               _Nodeptr;
                     typedef bidirectional_iterator_tag  iterator_category;
                     typedef T                           value_type;
