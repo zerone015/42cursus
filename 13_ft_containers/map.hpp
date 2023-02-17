@@ -70,6 +70,8 @@ namespace ft
                 // copy assignment operator
                 map& operator=(const map& src)
                 {
+                    if (this = &src)
+                        return *this;
                     _allocator = src._allocator;
                     _comp = src._comp;
                     _tree.clear();
