@@ -100,24 +100,24 @@ namespace ft
             _Nodeptr        _root;
             size_type       _size;
         private:
-            _Nodeptr createNode(const value_type& data)
+            _Nodeptr _createNode(const value_type& data)
             {
                 _Nodeptr node = _allocator.allocate(1);
                 _allocator.construct(node, _Node(data));
                 return node;
             }
-            void removeNode(_Nodeptr node)
+            void _freeNode(_Nodeptr node)
             {
                 _allocator.destroy(node);
                 _allocator.deallocate(node, 1);
             }
-            bool equal(const value_type& lhs, const value_type& rhs)
+            bool _equal(const value_type& lhs, const value_type& rhs)
             {
                 if (!_comp(lhs, rhs) && !_comp(rhs, lhs))
                     return true;
                 return false;
             }
-            bool insertBST(_Nodeptr new_node)
+            bool _insertNode(_Nodeptr new_node)
             {
                 if (_root == NULL)
                 {
@@ -129,7 +129,7 @@ namespace ft
                 _Nodeptr cur = _root;
                 while (1)
                 {
-                    if (this->equal(cur->data, new_node->data))
+                    if (this->_equal(cur->data, new_node->data))
                         return false;
                     if (_comp(new_node->data, cur->data))
                     {
@@ -152,10 +152,10 @@ namespace ft
                         cur = cur->right;
                     }
                 }
-                fixInsertRBTree(new_node);
+                _fixInsertRBTree(new_node);
                 return true;
             }
-            void removeBST(_Nodeptr del)
+            void _removeNode(_Nodeptr del)
             {
                 _Node       dummy;
                 _Nodeptr    replace;
@@ -220,7 +220,7 @@ namespace ft
                     _root = dummy.right;
 
                 if (remove_color == BLACK)
-                    fixRemoveRBTree(replace, &dummy);
+                    _fixRemoveRBTree(replace, &dummy);
 
                 _root->parent = NULL;
 
@@ -231,9 +231,9 @@ namespace ft
 	            else if (nil.isRightChild())
 		            nil.parent->right = NULL;
                 
-                removeNode(del);
+                _freeNode(del);
             }
-            void rotateLeft(_Nodeptr node)
+            void _rotateLeft(_Nodeptr node)
             {
                 _Nodeptr old_right;
 
@@ -249,7 +249,7 @@ namespace ft
                 node->right = node->right->left;
                 old_right->left = node;
             }
-            void rotateRight(_Nodeptr node)
+            void _rotateRight(_Nodeptr node)
             {
                 _Nodeptr old_left;
 
@@ -265,7 +265,7 @@ namespace ft
                 node->left = node->left->right;
                 old_left->right = node;
             }
-            void fixInsertRBTree(_Nodeptr node)
+            void _fixInsertRBTree(_Nodeptr node)
             {
                 _Node       dummy;
                 _Nodeptr    uncle;
@@ -290,22 +290,22 @@ namespace ft
                             if (node->isRightChild())
                             {
                                 node = node->parent;
-                                rotateLeft(node);
+                                _rotateLeft(node);
                             }
                             node->parent->changeColor();
                             node->parent->parent->changeColor();
-                            rotateRight(node->parent->parent);
+                            _rotateRight(node->parent->parent);
                         }
                         else
                         {
                             if (node->isLeftChild())
                             {
                                 node = node->parent;
-                                rotateRight(node);
+                                _rotateRight(node);
                             }
                             node->parent->changeColor();
                             node->parent->parent->changeColor();
-                            rotateLeft(node->parent->parent);
+                            _rotateLeft(node->parent->parent);
                         }
                     }
                 }
@@ -316,7 +316,7 @@ namespace ft
                     
                 _root->setColor(BLACK);
             }
-            void fixRemoveRBTree(_Nodeptr node, _Nodeptr dummy)
+            void _fixRemoveRBTree(_Nodeptr node, _Nodeptr dummy)
             {
                 _Nodeptr sibling;
 
@@ -329,7 +329,7 @@ namespace ft
                         {
                             sibling->setColor(BLACK);
                             node->parent->setColor(RED);
-                            rotateLeft(node->parent);
+                            _rotateLeft(node->parent);
                             sibling = node->parent->right;
                         }
                         if ((!sibling->left || sibling->left->getColor() == BLACK) && (!sibling->right || sibling->right->getColor() == BLACK))
@@ -343,13 +343,13 @@ namespace ft
                             {
                                 sibling->left->setColor(BLACK);
                                 sibling->setColor(RED);
-                                rotateRight(sibling);
+                                _rotateRight(sibling);
                                 sibling = node->parent->right;
                             }
                             sibling->setColor(node->parent->getColor());
                             node->parent->setColor(BLACK);
                             sibling->right->setColor(BLACK);
-                            rotateLeft(node->parent);
+                            _rotateLeft(node->parent);
 
                             if (dummy->right != _root)
                                 _root = dummy->right;
@@ -363,7 +363,7 @@ namespace ft
                         {
                             sibling->setColor(BLACK);
                             node->parent->setColor(RED);
-                            rotateRight(node->parent);
+                            _rotateRight(node->parent);
                             sibling = node->parent->left;
                         }
                         if ((!sibling->right || sibling->right->getColor() == BLACK) && (!sibling->left || sibling->left->getColor() == BLACK))
@@ -377,13 +377,13 @@ namespace ft
                             {
                                 sibling->right->setColor(BLACK);
                                 sibling->setColor(RED);
-                                rotateLeft(sibling);
+                                _rotateLeft(sibling);
                                 sibling = node->parent->left;
                             }
                             sibling->setColor(node->parent->getColor());
                             node->parent->setColor(BLACK);
                             sibling->left->setColor(BLACK);
-                            rotateRight(node->parent);
+                            _rotateRight(node->parent);
 
                             if (dummy->right != _root)
                                 _root = dummy->right;
@@ -395,25 +395,25 @@ namespace ft
                 }
                 node->setColor(BLACK);
             }
-            void removeTree(_Nodeptr node)
+            void _removeRBTree(_Nodeptr node)
             {
                 if (node == NULL)
                     return ;
-                removeTree(node->left);
-                removeTree(node->right);
-                removeNode(node);
+                _removeRBTree(node->left);
+                _removeRBTree(node->right);
+                _freeNode(node);
             }
-            _Nodeptr findTarget(_Nodeptr cur, const value_type& target) const
+            _Nodeptr _findNode(_Nodeptr root, const value_type& target) const
             {
-                if (cur == NULL)
+                if (root == NULL)
                     return NULL;
 
-                if (_comp(target, cur->data)) 
-                    cur = findTarget(cur->left, target);
-                else if (_comp(cur->data, target)) 
-                    cur = findTarget(cur->right, target);
+                if (_comp(target, root->data)) 
+                    root = _findNode(root->left, target);
+                else if (_comp(root->data, target)) 
+                    root = _findNode(root->right, target);
 
-                return cur;
+                return root;
             }
             void replaceNode(_Nodeptr dest, _Nodeptr src)
             {
@@ -433,22 +433,22 @@ namespace ft
             rb_tree(allocator_type alloc, key_compare comp) : _allocator(alloc), _comp(comp), _root(NULL), _size(0) {};
             ~rb_tree()
             {
-                removeTree(_root);
+                _removeRBTree(_root);
             }
             _Nodeptr get(const value_type& target) const
             {
-                return findTarget(_root, target);
+                return _findNode(_root, target);
             }
             bool contains(const value_type& target) const
             {
-                return findTarget(_root, target) != NULL ? true : false;
+                return _findNode(_root, target) != NULL ? true : false;
             }
             bool insert(value_type new_data)
             {
-                _Nodeptr new_node = createNode(new_data);
-                if (!insertBST(new_node))
+                _Nodeptr new_node = _createNode(new_data);
+                if (!_insertNode(new_node))
                 {
-                    removeNode(new_node);
+                    _freeNode(new_node);
                     return false;
                 }
                 _size++;
@@ -459,13 +459,13 @@ namespace ft
                 _Nodeptr del_node = get(target);
                 if (del_node == NULL)
                     return false;
-                removeBST(del_node);
+                _removeNode(del_node);
                 _size--;
                 return true;
             }
             void clear()
             {
-                removeTree(_root);
+                _removeRBTree(_root);
                 _root = NULL;
                 _size = 0;
             }

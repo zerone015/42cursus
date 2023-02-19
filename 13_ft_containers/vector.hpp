@@ -110,7 +110,7 @@ namespace ft
                 this->insert(this->end(), first, last);
             }
             // copy constructor
-            vector(const vector& src) : _allocator(allocator_type(src.get_allocator()))
+            vector(const vector& src) : _allocator(src.get_allocator())
             {
                 _capacity = src.capacity();
                 _array = _allocator.allocate(_capacity);
@@ -131,7 +131,6 @@ namespace ft
 
                 this->clear();
                 this->insert(this->end(), src.begin(), src.end());
-
                 return *this;
             }
 

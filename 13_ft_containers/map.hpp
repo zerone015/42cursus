@@ -62,7 +62,7 @@ namespace ft
                         _tree.insert(*first);
                 }
                 // copy constructor
-                map(const map& src) : _allocator(src._allocator), _comp(src._comp), _tree(_allocator, value_compare(_comp))
+                map(const map& src) : _allocator(src.get_allocator()), _comp(src._comp), _tree(_allocator, value_compare(_comp))
                 {
                     for (const_iterator it = src.begin(); it != src.end(); ++it)
                         _tree.insert(*it);
@@ -72,7 +72,6 @@ namespace ft
                 {
                     if (this == &src)
                         return *this;
-                    _allocator = src._allocator;
                     _comp = src._comp;
                     _tree.clear();
                     for (const_iterator it = src.begin(); it != src.end(); ++it)
