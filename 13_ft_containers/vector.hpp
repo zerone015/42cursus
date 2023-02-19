@@ -35,30 +35,25 @@ namespace ft
             size_type       _capacity;
             size_type       _size;
         private:
-            void reserve_loop(size_type n)
+            void _shiftLeft(iterator position, size_type n)
             {
-                if (n > this->max_size() - _size)
-                    throw std::length_error("vector");
-                if (_capacity == 0)
-                    this->reserve(1);
-                while (n > (_capacity - _size))
-                    this->reserve(_capacity * 2);
-            }
-            void shift_left(iterator position, size_type n)
-            {
+                if (_size == 0)
+                    return ;
                 for (iterator it = position; it != this->end() - n; ++it)
                     *it = *(it + n);
             }
-            void shift_right(iterator position, size_type n)
+            void _shiftRight(iterator position, size_type n)
             {
+                if (_size == 0)
+                    return ;
                 for (iterator it = this->end() - 1; it >= position; --it)
                     *(it + n) = *it;
             }
-            void allocator_destroy(iterator position)
+            void _destroy(iterator position)
             {
                 _allocator.destroy(&(*position));
             }
-            void allocator_destroy(iterator first, iterator last)
+            void _destroy(iterator first, iterator last)
             {
                 while (first != last)
                 {
@@ -67,7 +62,7 @@ namespace ft
                 }
             }
             template <typename Type>
-            void	swap(Type &a, Type &b)
+            void	_swap(Type &a, Type &b)
             {
                 Type tmp;
 
@@ -75,12 +70,32 @@ namespace ft
                 a = b;
                 b = tmp;
             }
+            size_type _findAllocSize(size_type n)
+            {
+                size_type ret = _capacity == 0 ? 1 : _capacity;
+                while (ret < n)
+                    ret = ret << 1;
+                return ret;
+            }
+            void _reserve(size_type n)
+            {
+                pointer new_array = _allocator.allocate(n);
+                for (size_type i = 0; i < _size; ++i)
+                    _allocator.construct(new_array + i, *(_array + i));
+                for (size_type i = 0; i < _size; ++i)
+                    _allocator.destroy(_array + i);
+                _allocator.deallocate(_array, _capacity);
+                _capacity = n;
+                _array = new_array;
+            }
         public:
             // default constructor
             explicit vector(const allocator_type& alloc = allocator_type()) : _allocator(alloc), _array(NULL), _capacity(0), _size(0) {}
             // fill constructor
             explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _allocator(alloc), _capacity(n), _size(n)
             {
+                if (_capacity > this->max_size())
+                        throw std::length_error("vector");
                 _array = _allocator.allocate(_capacity);
                 for (size_type i = 0; i < n; ++i)
                     _allocator.construct(_array + i, val);
@@ -113,12 +128,10 @@ namespace ft
             {
                 if (this == &src)
                     return *this;
+
                 this->clear();
-                _allocator.deallocate(_array, _capacity);
-                _size = 0;
-                _capacity = src.capacity();
-                _array = _allocator.allocate(_capacity);
                 this->insert(this->end(), src.begin(), src.end());
+
                 return *this;
             }
 
@@ -169,8 +182,6 @@ namespace ft
             {
                 if (n > _size)
                 {
-                    if (n > this->max_size())
-                        throw std::length_error("vector");
                     this->insert(this->end(), n - _size, val);
                 }
                 else if (n < _size)
@@ -193,16 +204,7 @@ namespace ft
                 if (n > this->max_size())
                     throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
                 if (n > _capacity)
-                {
-                    pointer new_array = _allocator.allocate(n);
-                    for (size_type i = 0; i < _size; ++i)
-                        _allocator.construct(new_array + i, *(_array + i));
-                    for (size_type i = 0; i < _size; ++i)
-                        _allocator.destroy(_array + i);
-                    _allocator.deallocate(_array, _capacity);
-                    _capacity = n;
-                    _array = new_array;
-                }
+                    this->_reserve(n);
             }
             
             // Element access
@@ -256,19 +258,33 @@ namespace ft
             void assign(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
             {
                 this->clear();
-                for (; first != last; ++first)
-                    this->push_back(*first);
+                
+                size_type n = ft::distance(first, last);
+
+                if (_capacity < n)
+                {
+                    _allocator.deallocate(_array, _capacity);
+                    _array = NULL;
+                    _capacity = 0;
+                }
+                insert(this->end(), first, last);
             }
             void assign(size_type n, const value_type& val)
             {
                 this->clear();
-                while (n--)
-                    this->push_back(val);
+
+                if (_capacity < n)
+                {
+                    _allocator.deallocate(_array, _capacity);
+                    _array = NULL;
+                    _capacity = 0;
+                }
+                this->insert(this->end(), n, val);
             }
             void push_back(const value_type& val)
             {
                 if (_size == _capacity)
-                    _capacity == 0 ? this->reserve(1) : this->reserve(_capacity * 2);
+                    this->_reserve(_findAllocSize(_size + 1));
                 _allocator.construct(_array + _size, val);
                 _size++;
             }
@@ -283,59 +299,79 @@ namespace ft
             iterator insert(iterator position, const value_type& val)
             {
                 difference_type pos = ft::distance(this->begin(), position);
-                this->insert(position, 1, val);
+
+                if (_capacity == _size)
+                    this->_reserve(this->_findAllocSize(_size + 1));
+                
+                position = this->begin() + pos;
+                this->_shiftRight(position, 1);
+                *position = val;
+
+                _size++;
+
                 return iterator(_array + pos);
             }
             void insert(iterator position, size_type n, const value_type& val)
             {
+                if (n > this->max_size() - _size)
+                    throw std::length_error("vector");
+
                 difference_type pos = ft::distance(this->begin(), position);
-                this->reserve_loop(n);
+
+                if (_capacity - _size < n)
+                    this->_reserve(this->_findAllocSize(_size + n));
+
                 position = this->begin() + pos;
-                this->shift_right(position, n);
+                this->_shiftRight(position, n);
                 for (size_type i = 0; i < n; ++i)
                     *(position + i) = val;
+
                 _size += n;
             }
             template <class InputIterator>
             void insert(iterator position, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
             {
+                size_type       n = ft::distance(first, last);
                 difference_type pos = ft::distance(this->begin(), position);
-                this->reserve_loop(ft::distance(first, last));
+
+                if (_capacity - _size < n)
+                    this->_reserve(this->_findAllocSize(_size + n));
+
                 position = this->begin() + pos;
-                size_type n = ft::distance(first, last);
-                this->shift_right(position, n);
+                this->_shiftRight(position, n);
                 while (first != last)
                 {
                     *position = *first;
                     ++position;
                     ++first;
                 }
+                
                 _size += n;
             }
             iterator erase(iterator position)
             {
-                this->allocator_destroy(position);
-                this->shift_left(position, 1);
+                this->_destroy(position);
+                this->_shiftLeft(position, 1);
                 _size--;
                 return position;
             }
             iterator erase(iterator first, iterator last)
             {
                 difference_type n = ft::distance(first, last);
-                this->allocator_destroy(first, last);
-                this->shift_left(first, n);
+                this->_destroy(first, last);
+                this->_shiftLeft(first, n);
                 _size -= n;
                 return first;
             }
             void swap(vector& x)
             {
-                this->swap(_array, x._array);
-                this->swap(_capacity, x._capacity);
-                this->swap(_size, x._size);
+                this->_swap(_array, x._array);
+                this->_swap(_capacity, x._capacity);
+                this->_swap(_size, x._size);
             }
             void clear()
             {
-                this->allocator_destroy(this->begin(), this->end());
+                this->_destroy(this->begin(), this->end());
                 _size = 0;
             }
 
