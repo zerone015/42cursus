@@ -14,6 +14,8 @@ namespace ft
     template <typename Key, typename T, typename Compare = std::less<Key>, typename Allocator = std::allocator<ft::pair<const Key, T> > >
     class map
     {
+        private:
+            typedef _node<ft::pair<const Key, T> >*                                                 _Nodeptr;
         public:
             class   value_compare;
 
@@ -32,8 +34,6 @@ namespace ft
             typedef ft::reverse_iterator<const_iterator>                                            const_reverse_iterator;
             typedef typename ft::iterator_traits<iterator>::difference_type                         difference_type;
             typedef typename allocator_type::size_type                                              size_type;
-            typedef _node<value_type>*                                                              _Nodeptr;
-
 
             class value_compare : public std::binary_function<value_type, value_type, bool>
             {

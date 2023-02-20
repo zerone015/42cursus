@@ -30,12 +30,12 @@ namespace ft
             typedef ft::reverse_iterator<const_iterator>                                            const_reverse_iterator;
             typedef typename ft::iterator_traits<iterator>::difference_type                         difference_type;
             typedef typename allocator_type::size_type                                              size_type;
+        private:
             typedef _node<value_type>*                                                              _Nodeptr;
         private:
             allocator_type _allocator;
             key_compare _comp;
             ft::rb_tree<value_type, key_compare, allocator_type> _tree;
-
         public:
             // default constructor
             explicit set(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()) : _allocator(alloc), _comp(comp), _tree(alloc, value_compare(comp)) {}
