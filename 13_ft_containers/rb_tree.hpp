@@ -210,7 +210,7 @@ namespace ft
                     else
                         successor->parent->right = replace;
 
-                    replaceNode(del, successor);
+                    _replaceNode(del, successor);
 
                     remove_color = successor->getColor();
                     successor->setColor(del->getColor());
@@ -415,7 +415,7 @@ namespace ft
 
                 return root;
             }
-            void replaceNode(_Nodeptr dest, _Nodeptr src)
+            void _replaceNode(_Nodeptr dest, _Nodeptr src)
             {
                 if (dest->left)
                     dest->left->parent = src;
