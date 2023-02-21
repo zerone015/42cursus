@@ -31,10 +31,6 @@ namespace ft
         {
             this->color = color;
         }
-        void changeColor()
-        {
-            color = color == RED ? BLACK : RED;
-        }
         value_type getData() const
         {
             return data;
@@ -278,9 +274,9 @@ namespace ft
                     uncle = node->getUncle();
                     if (uncle && uncle->getColor() == RED)
                     {
-                        node->parent->changeColor();
-                        uncle->changeColor();
-                        node->parent->parent->changeColor();
+                        node->parent->setColor(BLACK);
+                        uncle->setColor(BLACK);
+                        node->parent->parent->setColor(RED);
                         node = node->parent->parent;
                     }
                     else
@@ -292,8 +288,8 @@ namespace ft
                                 node = node->parent;
                                 _rotateLeft(node);
                             }
-                            node->parent->changeColor();
-                            node->parent->parent->changeColor();
+                            node->parent->setColor(BLACK);
+                            node->parent->parent->setColor(RED);
                             _rotateRight(node->parent->parent);
                         }
                         else
@@ -303,8 +299,8 @@ namespace ft
                                 node = node->parent;
                                 _rotateRight(node);
                             }
-                            node->parent->changeColor();
-                            node->parent->parent->changeColor();
+                            node->parent->setColor(BLACK);
+                            node->parent->parent->setColor(RED);
                             _rotateLeft(node->parent->parent);
                         }
                     }
