@@ -399,15 +399,15 @@ namespace ft
                 _removeRBTree(node->right);
                 _freeNode(node);
             }
-            _Nodeptr _findNode(_Nodeptr root, const value_type& target) const
+            _Nodeptr _getNode(_Nodeptr root, const value_type& target) const
             {
                 if (root == NULL)
                     return NULL;
 
                 if (_comp(target, root->data)) 
-                    root = _findNode(root->left, target);
+                    root = _getNode(root->left, target);
                 else if (_comp(root->data, target)) 
-                    root = _findNode(root->right, target);
+                    root = _getNode(root->right, target);
 
                 return root;
             }
@@ -433,11 +433,11 @@ namespace ft
             }
             _Nodeptr get(const value_type& target) const
             {
-                return _findNode(_root, target);
+                return _getNode(_root, target);
             }
             bool contains(const value_type& target) const
             {
-                return _findNode(_root, target) != NULL ? true : false;
+                return _getNode(_root, target) != NULL ? true : false;
             }
             bool insert(value_type new_data)
             {
@@ -502,6 +502,49 @@ namespace ft
                 private:
                     _Nodeptr _cur;
                     bool    _is_end;
+                private:
+                    _Nodeptr _getNextNode()
+                    {
+                        _Nodeptr ret;
+
+                        if (_cur->right)
+                            ret = _cur->right->getMinNode();
+                        else
+                        {
+                            ret = _cur;
+                            while (ret->parent && ret->parent->right == ret)
+                                ret = ret->parent;
+                            if (ret->parent == NULL)
+                            {
+                                _is_end = true;
+                                ret = _cur;
+                            }
+                            else
+                                ret = ret->parent;
+                        }
+                        return ret;
+                    }
+                    _Nodeptr _getPrevNode()
+                    {
+                        _Nodeptr ret;
+
+                        if (_cur->left)
+                            ret = _cur->left->getMaxNode();
+                        else
+                        {
+                            ret = _cur;
+                            while (ret->parent && ret->parent->left == ret)
+                                ret = ret->parent;
+                            if (ret->parent == NULL)
+                            {
+                                _is_end = true;
+                                ret = _cur;
+                            }
+                            else
+                                ret = ret->parent;
+                        }
+                        return ret;
+                    }
                 public:
                     iterator() : _cur(NULL), _is_end(true) {}
                     iterator(_Nodeptr node, bool is_end) : _cur(node), _is_end(is_end) {}
@@ -525,36 +568,16 @@ namespace ft
                     {
                         if (_is_end)
                             _is_end = false;
-                        else if (_cur->right)
-                            _cur = _cur->right->getMinNode();
                         else
-                        {
-                            _Nodeptr ptr = _cur;
-                            while (ptr->parent && ptr->parent->right == ptr)
-                                ptr = ptr->parent;
-                            if (ptr->parent == NULL)
-                                _is_end = true;
-                            else
-                                _cur = ptr->parent;
-                        }
+                            _cur = _getNextNode();
                         return *this;
                     }
                     iterator& operator--()
                     {
                         if (_is_end)
                             _is_end = false;
-                        else if (_cur->left)
-                            _cur = _cur->left->getMaxNode();
                         else
-                        {
-                            _Nodeptr ptr = _cur;
-                            while (ptr->parent && ptr->parent->left == ptr)
-                                ptr = ptr->parent;
-                            if (ptr->parent == NULL)
-                                _is_end = true;
-                            else
-                                _cur = ptr->parent;
-                        }
+                            _cur = _getPrevNode();
                         return *this;
                     }
                     iterator operator++(int)
@@ -594,6 +617,49 @@ namespace ft
                 private:
                     _Nodeptr    _cur;
                     bool        _is_end;
+                private:
+                    _Nodeptr _getNextNode()
+                    {
+                        _Nodeptr ret;
+
+                        if (_cur->right)
+                            ret = _cur->right->getMinNode();
+                        else
+                        {
+                            ret = _cur;
+                            while (ret->parent && ret->parent->right == ret)
+                                ret = ret->parent;
+                            if (ret->parent == NULL)
+                            {
+                                _is_end = true;
+                                ret = _cur;
+                            }
+                            else
+                                ret = ret->parent;
+                        }
+                        return ret;
+                    }
+                    _Nodeptr _getPrevNode()
+                    {
+                        _Nodeptr ret;
+
+                        if (_cur->left)
+                            ret = _cur->left->getMaxNode();
+                        else
+                        {
+                            ret = _cur;
+                            while (ret->parent && ret->parent->left == ret)
+                                ret = ret->parent;
+                            if (ret->parent == NULL)
+                            {
+                                _is_end = true;
+                                ret = _cur;
+                            }
+                            else
+                                ret = ret->parent;
+                        }
+                        return ret;
+                    }
                 public:
                     const_iterator() : _cur(NULL), _is_end(true) {}
                     const_iterator(_Nodeptr node, bool is_end) : _cur(node), _is_end(is_end) {}
@@ -618,36 +684,16 @@ namespace ft
                     {
                         if (_is_end)
                             _is_end = false;
-                        else if (_cur->right)
-                            _cur = _cur->right->getMinNode();
                         else
-                        {
-                            _Nodeptr ptr = _cur;
-                            while (ptr->parent && ptr->parent->right == ptr)
-                                ptr = ptr->parent;
-                            if (ptr->parent == NULL)
-                                _is_end = true;
-                            else
-                                _cur = ptr->parent;
-                        }
+                            _cur = _getNextNode();
                         return *this;
                     }
                     const_iterator& operator--()
                     {
                         if (_is_end)
                             _is_end = false;
-                        else if (_cur->left)
-                            _cur = _cur->left->getMaxNode();
                         else
-                        {
-                            _Nodeptr ptr = _cur;
-                            while (ptr->parent && ptr->parent->left == ptr)
-                                ptr = ptr->parent;
-                            if (ptr->parent == NULL)
-                                _is_end = true;
-                            else
-                                _cur = ptr->parent;
-                        }
+                            _cur = _getPrevNode();
                         return *this;
                     }
                     const_iterator operator++(int)
