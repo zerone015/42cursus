@@ -78,10 +78,12 @@ int main(int argc, char** argv) {
 
 		vector_str.push_back("string");
 		std::cout << vector_str.back() << "\n";
+		std::cout << *(--vector_str.end()) << "\n";
 		std::cout << "-------------------------" << "\n";
 
 		vector_str.pop_back();
 		std::cout << vector_str.back() << "\n";
+		std::cout << *(--vector_str.end()) << "\n";
 		std::cout << "-------------------------" << "\n";
 
 		vector_str.erase(vector_str.begin() + 1, vector_str.end());
