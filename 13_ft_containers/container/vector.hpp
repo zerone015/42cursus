@@ -3,6 +3,7 @@
 
 # include <memory>
 # include "../std_function/distance.hpp"
+# include "../iterator/random_access_iterator.hpp"
 # include "../iterator/iterator_traits.hpp"
 # include "../iterator/reverse_iterator.hpp"
 # include "../std_function/is_integral.hpp"
@@ -22,8 +23,8 @@ namespace ft
             typedef typename allocator_type::const_reference                const_reference;
             typedef typename allocator_type::pointer                        pointer;
             typedef typename allocator_type::const_pointer                  const_pointer;
-            typedef pointer                                                 iterator;
-            typedef const_pointer                                           const_iterator;
+            typedef ft::random_access_iterator<value_type>                  iterator;
+            typedef ft::random_access_iterator<const value_type>            const_iterator;
             typedef ft::reverse_iterator<iterator>                          reverse_iterator;
             typedef ft::reverse_iterator<const_iterator>                    const_reverse_iterator;
             typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
@@ -136,19 +137,19 @@ namespace ft
             // Iterators
             iterator begin()
             {
-                return _array;
+                return iterator(_array);
             }
             const_iterator begin() const
             {
-                return _array;
+                return const_iterator(_array);
             }
             iterator end()
             {
-                return _array + _size;
+                return iterator(_array + _size);
             }
             const_iterator end() const
             {
-                return _array + _size;
+                return const_iterator(_array + _size);
             }
             reverse_iterator rbegin()
             {
