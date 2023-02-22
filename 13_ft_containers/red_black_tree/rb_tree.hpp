@@ -3,7 +3,7 @@
 
 # include <cstddef>
 # include <memory>
-# include "iterator_tag.hpp"
+# include <iterator>
 
 namespace ft
 {
@@ -492,13 +492,13 @@ namespace ft
             class iterator
             {
                 public:
-                    typedef bidirectional_iterator_tag  iterator_category;
-                    typedef T                           value_type;
-                    typedef std::ptrdiff_t              difference_type;
-                    typedef T*                          pointer;
-                    typedef T&                          reference;
+                    typedef std::bidirectional_iterator_tag iterator_category;
+                    typedef T                               value_type;
+                    typedef std::ptrdiff_t                  difference_type;
+                    typedef T*                              pointer;
+                    typedef T&                              reference;
                 private:
-                    typedef ft::_node<T>*               _Nodeptr;
+                    typedef ft::_node<T>*                   _Nodeptr;
                 private:
                     _Nodeptr _cur;
                     bool    _is_end;
@@ -607,13 +607,13 @@ namespace ft
             class const_iterator
             {
                 public:
-                    typedef bidirectional_iterator_tag  iterator_category;
-                    typedef const T                     value_type;
-                    typedef std::ptrdiff_t              difference_type;
-                    typedef const T*                    pointer;
-                    typedef const T&                    reference;
+                    typedef std::bidirectional_iterator_tag iterator_category;
+                    typedef const T                         value_type;
+                    typedef std::ptrdiff_t                  difference_type;
+                    typedef const T*                        pointer;
+                    typedef const T&                        reference;
                 private:
-                    typedef const ft::_node<T>*         _Nodeptr;
+                    typedef const ft::_node<T>*             _Nodeptr;
                 private:
                     _Nodeptr    _cur;
                     bool        _is_end;

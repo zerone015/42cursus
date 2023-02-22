@@ -3,11 +3,11 @@
 
 # include <memory>
 # include <functional>
-# include "pair.hpp"
-# include "lexicographical_compare.hpp"
-# include "iterator_traits.hpp"
-# include "reverse_iterator.hpp"
-# include "rb_tree.hpp"
+# include "../std_function/pair.hpp"
+# include "../std_function/lexicographical_compare.hpp"
+# include "../iterator/iterator_traits.hpp"
+# include "../iterator/reverse_iterator.hpp"
+# include "../red_black_tree/rb_tree.hpp"
 
 namespace ft
 {

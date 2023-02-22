@@ -1,7 +1,7 @@
 #ifndef DISTANCE_HPP
 # define DISTANCE_HPP
 
-# include "iterator_traits.hpp"
+# include "../iterator/iterator_traits.hpp"
 
 namespace ft
 {

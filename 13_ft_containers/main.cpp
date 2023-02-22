@@ -8,10 +8,10 @@
 	#include <set>
 	namespace ft = std;
 #else
-	#include "map.hpp"
-	#include "stack.hpp"
-	#include "vector.hpp"
-	#include "set.hpp"
+	#include "container/map.hpp"
+	#include "container/stack.hpp"
+	#include "container/vector.hpp"
+	#include "container/set.hpp"
 #endif
 
 #include <stdlib.h>
@@ -77,17 +77,23 @@ int main(int argc, char** argv) {
 		std::cout << "-------------------------" << "\n";
 
 		vector_str.push_back("string");
-		std::cout << *(--vector_str.end()) << "\n";
+		std::cout << vector_str.back() << "\n";
 		std::cout << "-------------------------" << "\n";
 
 		vector_str.pop_back();
-		std::cout << *(--vector_str.end()) << "\n";
+		std::cout << vector_str.back() << "\n";
 		std::cout << "-------------------------" << "\n";
 
 		vector_str.erase(vector_str.begin() + 1, vector_str.end());
 		for (unsigned int i = 0; i < vector_str.size(); ++i)
 			std::cout << it[i] << "\n";
 		std::cout << "-------------------------" << "\n";
+
+		ft::vector<std::string>::iterator a = vector_str.begin();
+		ft::vector<std::string>::const_iterator b = vector_str.begin();
+
+		if (a == b)
+			std::cout << "vector success" << "\n";
 	}
 
 	{
@@ -128,6 +134,12 @@ int main(int argc, char** argv) {
 			std::cout << it->second << "\n";
 		map.begin()->second = 42;
 		std::cout << map.begin()->second << "\n";
+
+		ft::map<int, int>::iterator a = map.begin();
+		ft::map<int, int>::const_iterator b = map.begin();
+
+		if (a == b)
+			std::cout << "map success" << "\n";
 	}
 
 	{
