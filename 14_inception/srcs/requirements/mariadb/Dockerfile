@@ -1,17 +1,32 @@
-FROM    alpine:3.16
+FROM alpine:3.16
 
-RUN     apk update && \
-        apk add --no-cache mariadb mariadb-client && \
-        wget -O /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 && \
-		chmod +x /usr/bin/dumb-init && \
-        mkdir -p /var/run/mysqld
+ARG DB_NAME \
+    DB_USER \
+    DB_PASS
 
-COPY    requirements/mariadb/tools/script.sh /tmp/script.sh
+RUN apk update && \
+    apk add --no-cache mariadb mariadb-client && \
+    wget -O /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 && \
+    chmod +x /usr/bin/dumb-init
 
-RUN     chmod +x /tmp/script.sh
+RUN mkdir /var/run/mysqld; \
+    chmod 777 /var/run/mysqld; \
+    { echo '[mysqld]'; \
+      echo 'skip-host-cache'; \
+      echo 'skip-name-resolve'; \
+      echo 'bind-address=0.0.0.0'; \
+    } | tee  /etc/my.cnf.d/docker.cnf; \
+    sed -i "s|skip-networking|skip-networking=0|g" \
+      /etc/my.cnf.d/mariadb-server.cnf
 
-EXPOSE  3306
+RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
-ENTRYPOINT  [ "/usr/bin/dumb-init", "--" ]
+EXPOSE 3306
 
-CMD         [ "sh", "-c", "/tmp/script.sh" ]
+COPY requirements/mariadb/conf/create_db.sh .
+RUN sh create_db.sh && rm create_db.sh
+USER mysql
+
+ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
+
+CMD ["/usr/bin/mysqld", "--skip-log-error"]
