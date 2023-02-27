@@ -6,7 +6,7 @@ RUN     apk update && \
 		chmod +x /usr/bin/dumb-init && \
         mkdir -p /var/run/mysqld
 
-COPY    tools/script.sh /tmp/script.sh
+COPY    requirements/mariadb/tools/script.sh /tmp/script.sh
 
 RUN     chmod +x /tmp/script.sh
 
