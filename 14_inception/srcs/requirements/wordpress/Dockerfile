@@ -37,7 +37,8 @@ RUN wget https://wordpress.org/latest.zip && \
 
 COPY requirements/wordpress/conf/wordpress.sh /usr/local/bin/
 
-RUN wordpress.sh && \
+RUN chmod +x /usr/local/bin/wordpress.sh && \
+    wordpress.sh && \
     chmod -R 777 wp-content/
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
