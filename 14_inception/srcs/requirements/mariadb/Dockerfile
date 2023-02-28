@@ -1,7 +1,11 @@
 FROM alpine:3.16
 
+ARG DB_NAME \
+    DB_USER \
+    DB_PASS
+
 RUN apk update && \
-    apk add --no-cache mariadb mariadb-client && \
+    apk add --no-cache mariadb mariadb-client wget && \
     wget -O /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 && \
     chmod +x /usr/bin/dumb-init
 
