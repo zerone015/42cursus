@@ -80,6 +80,40 @@ services:
      - inception
     restart: always
 
+  adminer:
+    build:
+      context: .
+      dockerfile: requirements/bonus/adminer/Dockerfile
+    container_name: adminer
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:8080"
+    networks:
+     - inception
+    restart: always
+
+  website:
+    build:
+      context: .
+      dockerfile: requirements/bonus/website/Dockerfile
+    container_name: website
+    ports:
+      - "80:80"
+    restart: always
+  
+  portainer:
+    build:
+      context: .
+      dockerfile: requirements/bonus/portainer/Dockerfile
+    container_name: portainer
+    ports:
+      - 9443:9443
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer_data:/data
+
 volumes:
   wp-volume:
     driver_opts:
@@ -92,6 +126,8 @@ volumes:
       o: bind
       type: none
       device: /home/${USER}/data/mariadb
+  
+  portainer_data:
 
 networks:
     inception:

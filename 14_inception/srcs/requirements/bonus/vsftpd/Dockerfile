@@ -4,7 +4,9 @@ ARG FTP_USR \
     FTP_PWD
 
 RUN apk update && \
-    apk add --no-cache vsftpd
+    apk add --no-cache vsftpd wget && \
+    wget -O /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 && \
+    chmod +x /usr/bin/dumb-init
 
 RUN adduser -h /var/www -s /bin/false -D ${FTP_USR} && \
     echo "${FTP_USR}:${FTP_PWD}" | /usr/sbin/chpasswd && \
@@ -22,5 +24,7 @@ RUN echo "allow_writeable_chroot=YES" >> /etc/vsftpd/vsftpd.conf &&\
 WORKDIR /var/www
 
 EXPOSE 21
+
+ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
 
 CMD [ "/usr/sbin/vsftpd", "/etc/vsftpd/vsftpd.conf" ]
