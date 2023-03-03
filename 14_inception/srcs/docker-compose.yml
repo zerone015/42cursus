@@ -101,19 +101,23 @@ services:
     ports:
       - "80:80"
     restart: always
-  
-  portainer:
+
+  cadvisor:
     build:
       context: .
-      dockerfile: requirements/bonus/portainer/Dockerfile
-    container_name: portainer
+      dockerfile: requirements/bonus/cadvisor/Dockerfile
+    container_name: cadvisor
     ports:
-      - 9443:9443
-    restart: always
+      - "8080:8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./portainer_data:/data
-
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - inception
+    restart: always
+  
 volumes:
   wp-volume:
     driver_opts:
@@ -126,8 +130,6 @@ volumes:
       o: bind
       type: none
       device: /home/${USER}/data/mariadb
-  
-  portainer_data:
 
 networks:
     inception:
