@@ -21,10 +21,13 @@ RUN echo "allow_writeable_chroot=YES" >> /etc/vsftpd/vsftpd.conf &&\
     echo 'seccomp_sandbox=NO' >> /etc/vsftpd/vsftpd.conf && \
     echo 'pasv_enable=YES' >> /etc/vsftpd/vsftpd.conf
 
+COPY requirements/bonus/vsftpd/tools/script.sh /tmp/script.sh
+RUN chmod +x /tmp/script.sh
+
 WORKDIR /var/www
 
 EXPOSE 21
 
 ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
 
-CMD [ "/usr/sbin/vsftpd", "/etc/vsftpd/vsftpd.conf" ]
+CMD [ "sh", "/tmp/script.sh" ]

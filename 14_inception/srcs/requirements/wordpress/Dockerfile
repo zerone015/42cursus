@@ -1,8 +1,7 @@
 FROM alpine:3.16
-ARG PHP_VERSION=8 \
-    DB_NAME \
-    DB_USER \
-    DB_PASS
+
+ARG PHP_VERSION=8
+ 
 RUN apk update && \
     apk add --no-cache \
     php${PHP_VERSION} \
@@ -18,28 +17,22 @@ RUN apk update && \
     php${PHP_VERSION}-xml \
     php${PHP_VERSION}-zip \
     php${PHP_VERSION}-redis \
-    wget \
-    unzip && \
-    sed -i "s|listen = 127.0.0.1:9000|listen = 9000|g" \
-      /etc/php8/php-fpm.d/www.conf && \
-    sed -i "s|;listen.owner = nobody|listen.owner = nobody|g" \
-      /etc/php8/php-fpm.d/www.conf && \
-    sed -i "s|;listen.group = nobody|listen.group = nobody|g" \
-      /etc/php8/php-fpm.d/www.conf && \
+    php${PHP_VERSION}-phar \
+    curl \
+    mariadb-client && \
+    mkdir -p /var/www/wordpress && \
+    curl -s -L https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar --output /usr/bin/wp && \
+    chmod +x /usr/bin/wp && \
+    wp core download --version=5.8.1 --path=/var/www/wordpress && \
     rm -f /var/cache/apk/* && \
     wget -O /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 && \
     chmod +x /usr/bin/dumb-init
 
-WORKDIR /var/www
+COPY ./requirements/wordpress/tools/wp-config-create.sh /tmp
+COPY ./requirements/wordpress/conf/wp-config.php /tmp
 
-RUN wget https://wordpress.org/latest.zip && \
-    unzip latest.zip && \
-    cp -rf wordpress/* . && \
-    rm -rf wordpress latest.zip
-COPY ./requirements/wordpress/conf/wp-config-create.sh .
-RUN sh wp-config-create.sh && rm wp-config-create.sh && \
-    chmod -R 0777 wp-content/
+RUN chmod +x /tmp/wp-config-create.sh
 
 ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
 
-CMD ["/usr/sbin/php-fpm8", "-F"]
+CMD ["sh", "/tmp/wp-config-create.sh"]
