@@ -8,23 +8,11 @@ RUN apk update && \
     wget -O /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 && \
     chmod +x /usr/bin/dumb-init
 
-RUN adduser -h /var/www -s /bin/false -D ${FTP_USR} && \
-    echo "${FTP_USR}:${FTP_PWD}" | /usr/sbin/chpasswd && \
-    adduser ${FTP_USR} root
-
-RUN sed -i "s|#chroot_local_user=YES|chroot_local_user=YES|g"  /etc/vsftpd/vsftpd.conf && \
-    sed -i "s|#local_enable=YES|local_enable=YES|g"  /etc/vsftpd/vsftpd.conf && \
-    sed -i "s|#write_enable=YES|write_enable=YES|g"  /etc/vsftpd/vsftpd.conf && \
-    sed -i "s|#local_umask=022|local_umask=007|g"  /etc/vsftpd/vsftpd.conf
-
-RUN echo "allow_writeable_chroot=YES" >> /etc/vsftpd/vsftpd.conf &&\
-    echo 'seccomp_sandbox=NO' >> /etc/vsftpd/vsftpd.conf && \
-    echo 'pasv_enable=YES' >> /etc/vsftpd/vsftpd.conf
+RUN adduser ${FTP_USR} --disabled-password --gecos "" --home /home/${FTP_USR} --shell /bin/false && \
+    echo "${FTP_USR}:${FTP_PWD}" | /usr/sbin/chpasswd
 
 COPY requirements/bonus/vsftpd/tools/script.sh /tmp/script.sh
 RUN chmod +x /tmp/script.sh
-
-WORKDIR /var/www
 
 EXPOSE 21
 

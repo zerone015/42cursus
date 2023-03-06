@@ -8,8 +8,9 @@ echo "env[DB_NAME] = \$DB_NAME" >> /etc/php8/php-fpm.d/www.conf
 
 if [ ! -f "/var/www/wordpress/wp-config.php" ]; then
   cp /tmp/wp-config.php /var/www/wordpress/wp-config.php
+  sleep 5
   if ! mysqladmin -h $DB_HOST -u $DB_USER --password=$DB_PASS --wait=60 ping > /dev/null; then
-    printf "MariaDB Daemon Unreachable\n"
+    printf "MariaDB Error\n"
     exit 1
   fi
   wp core install --url="$DOMAIN_NAME" --title="$WP_TITLE" --admin_user="$WP_ADMIN_USR" --admin_password="$WP_ADMIN_PWD" --admin_email="$WP_ADMIN_EMAIL" --skip-email --path=/var/www/wordpress
