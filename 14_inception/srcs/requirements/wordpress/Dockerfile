@@ -28,11 +28,11 @@ RUN apk update && \
     wget -O /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 && \
     chmod +x /usr/bin/dumb-init
 
-COPY ./requirements/wordpress/tools/wp-config-create.sh /tmp
+COPY ./requirements/wordpress/tools/script.sh /tmp
 COPY ./requirements/wordpress/conf/wp-config.php /tmp
 
-RUN chmod +x /tmp/wp-config-create.sh
+RUN chmod +x /tmp/script.sh
 
 ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
 
-CMD ["sh", "/tmp/wp-config-create.sh"]
+CMD ["sh", "/tmp/script.sh"]

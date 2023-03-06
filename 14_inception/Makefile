@@ -1,6 +1,7 @@
 name = inception
 all:
-	@bash srcs/requirements/wordpress/tools/make_dir.sh
+	@bash init/get_secret.sh
+	@bash init/make_dir.sh
 	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d
 
 re: down
