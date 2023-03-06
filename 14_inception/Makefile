@@ -10,6 +10,7 @@ clean: down
 	@docker system prune -a
 
 fclean:
+	sudo rm -rf ${HOME}/data
 	@docker stop $$(docker ps -qa)
 	@docker system prune --all --force --volumes
 	@docker network prune --force
