@@ -10,5 +10,6 @@ echo "local_root=/var/www/wordpress" >> /etc/vsftpd/vsftpd.conf
 
 sleep 5
 
+chmod -R 777 /var/www/wordpress
 chown -R ftpuser /var/www/wordpress
 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
